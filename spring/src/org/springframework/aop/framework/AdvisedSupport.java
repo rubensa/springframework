@@ -25,6 +25,7 @@ import java.util.Set;
 import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Advisor;
+import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
 import org.springframework.aop.MethodBeforeAdvice;
@@ -215,6 +216,10 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 			throw new AopConfigException("IntroductionInterceptors may only be added as part of IntroductionAdvice");
 		}
 		addAdvisor(pos, new DefaultPointcutAdvisor(interceptor));
+	}
+	
+	public void addAfterReturningAdvice(final AfterReturningAdvice ara) throws AopConfigException {
+		addAdvisor(new DefaultPointcutAdvisor(Pointcut.TRUE, ara));
 	}
 	
 	public void addBeforeAdvice(final MethodBeforeAdvice ba) throws AopConfigException {

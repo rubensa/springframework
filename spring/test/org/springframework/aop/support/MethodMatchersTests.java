@@ -31,20 +31,15 @@ import org.springframework.util.SerializationTestUtils;
  */
 public class MethodMatchersTests extends TestCase {
 
-	final Method EXCEPTION_GETMESSAGE;
+	private final Method EXCEPTION_GETMESSAGE;
 
-	final Method ITESTBEAN_SETAGE;
+	private final Method ITESTBEAN_SETAGE;
 	
-	final Method ITESTBEAN_GETAGE;
+	private final Method ITESTBEAN_GETAGE;
 	
-	final Method IOTHER_ABSQUATULATE;
+	private final Method IOTHER_ABSQUATULATE;
 
-	/**
-	 * Constructor for DefaultMethodMatcherTests.
-	 * @param arg0
-	 */
-	public MethodMatchersTests(String arg0) throws Exception {
-		super(arg0);
+	public MethodMatchersTests() throws Exception {
 		EXCEPTION_GETMESSAGE = Exception.class.getMethod("getMessage", (Class[]) null);
 		ITESTBEAN_GETAGE = ITestBean.class.getMethod("getAge", (Class[]) null);
 		ITESTBEAN_SETAGE = ITestBean.class.getMethod("setAge", new Class[] { int.class });

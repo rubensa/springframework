@@ -9,16 +9,16 @@ import org.apache.velocity.app.VelocityEngine;
 
 /**
  * Interface to be implemented by objects that configure
- * and manage a VelocityEngine.
+ * and manage a VelocityEngine for automatic lookup.
  * @author Rod Johnson
  * @version $Id$
+ * @see VelocityView
  */
 public interface VelocityConfiguration {
 	
 	/**
-	 * 
-	 * @return the VelocityEngine for this web application context.
-	 * May be unique to one servlet, or shared.
+	 * Return the VelocityEngine for this web application context.
+	 * May be unique to one servlet, or shared in the root context.
 	 */
 	VelocityEngine getVelocityEngine();
 

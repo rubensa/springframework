@@ -16,13 +16,16 @@
 
 package org.springframework.beandoc.output;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beandoc.BeanDocException;
 
 
 

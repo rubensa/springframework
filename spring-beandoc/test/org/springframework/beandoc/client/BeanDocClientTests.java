@@ -16,10 +16,6 @@
 
 package org.springframework.beandoc.client;
 
-import java.io.File;
-
-import org.apache.tools.ant.BuildException;
-
 import junit.framework.TestCase;
 
 

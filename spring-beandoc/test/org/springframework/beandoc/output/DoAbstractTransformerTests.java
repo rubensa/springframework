@@ -17,7 +17,6 @@
 package org.springframework.beandoc.output;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +24,6 @@ import junit.framework.TestCase;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beandoc.BeanDocException;
 
 /**
  * 

@@ -21,7 +21,6 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.jdom.Element;
-import org.springframework.beandoc.BeanDocException;
 import org.springframework.beandoc.util.MatchedPatternCallback;
 import org.springframework.beandoc.util.PatternMatcher;
 import org.springframework.util.Assert;

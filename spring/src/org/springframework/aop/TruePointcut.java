@@ -16,6 +16,7 @@
 
 package org.springframework.aop;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 /**
@@ -39,6 +40,16 @@ class TruePointcut implements Pointcut, Serializable {
 
 	public MethodMatcher getMethodMatcher() {
 		return MethodMatcher.TRUE;
+	}
+	
+	/**
+	 * Required to support serialization.
+	 * Replaces with canonical instance on deserialization,
+	 * protecting Singleton pattern. 
+	 * Alternative to overriding equals().
+	 */
+	private Object readResolve() throws ObjectStreamException {
+		return INSTANCE;
 	}
 
 	public String toString() {

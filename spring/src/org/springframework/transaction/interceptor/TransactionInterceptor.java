@@ -10,6 +10,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.NoTransactionException;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -167,7 +168,7 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 			}
 		}
 		if (status != null) {
-			if (status.isDebug()) {
+			if (logger.isDebugEnabled()) {
 				logger.debug("Invoking commit for transaction on method '" + invocation.getMethod().getName() + "'");
 			}
 			this.transactionManager.commit(status);

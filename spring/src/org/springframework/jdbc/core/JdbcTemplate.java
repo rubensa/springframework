@@ -229,6 +229,9 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		return ((Integer) queryForObject(sql, Integer.class)).intValue();
 	}
 
+	public long queryForLong(String sql) throws DataAccessException {
+		return ((Long) queryForObject(sql, Long.class)).longValue();
+	}
 
 	//-------------------------------------------------------------------------
 	// Query methods dealing with prepared statements

@@ -101,10 +101,18 @@ public class DefaultContextProcessor implements ContextProcessor {
      * @param inputFiles
      * @param outputDir
      */
-    public DefaultContextProcessor(Resource[] inputFiles, File outputDir) throws IOException {
+    protected DefaultContextProcessor(Resource[] inputFiles, File outputDir) throws IOException {
         this.inputFiles = inputFiles;
         this.outputDir = outputDir;
 
+        if (logger.isDebugEnabled()) {
+            String resourceNames = "";
+            for (int i = 0; i < inputFiles.length; i++)
+                resourceNames += (inputFiles[i].getFilename() + ",");
+            logger.debug("Attempting to construct with input files [" + 
+                resourceNames + "] and output directory [" + outputDir.getAbsolutePath() + "]");
+        }
+        
         if (!outputDir.canWrite() || !outputDir.isDirectory())
             throw new IOException(
                 "Unable to find or write to output directory [" + outputDir.getAbsolutePath() + "]"

@@ -75,7 +75,7 @@ public abstract class AbstractTransactionAspectTests extends TestCase {
 	 * @return transactional advised object
 	 */
 	protected abstract Object advised(Object target, PlatformTransactionManager ptm,
-	                                  TransactionAttributeSource tas);
+	                                  TransactionAttributeSource tas) throws Exception;
 
 	public void testNoTransaction() throws Exception {
 		MockControl ptxControl = MockControl.createControl(PlatformTransactionManager.class);

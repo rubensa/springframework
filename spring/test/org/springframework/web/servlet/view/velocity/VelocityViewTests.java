@@ -294,7 +294,7 @@ public class VelocityViewTests extends TestCase {
 
 
 	//	Damn thing is a class so we can't mock it
-	private class TestVelocityEngine extends VelocityEngine {
+	static class TestVelocityEngine extends VelocityEngine {
 		private Template t;
 		private String expectedName;
 

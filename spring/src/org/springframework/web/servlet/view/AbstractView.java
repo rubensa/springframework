@@ -107,6 +107,13 @@ public abstract class AbstractView extends WebApplicationObjectSupport implement
 		this.requestContextAttribute = requestContextAttribute;
 	}
 
+    /**
+     * @return Returns the requestContextAttribute if defined
+     */
+    public String getRequestContextAttribute() {
+        return requestContextAttribute;
+    }
+    
 	/**
 	 * Set static attributes as a CSV string.
 	 * Format is: attname0={value1},attname1={value1}

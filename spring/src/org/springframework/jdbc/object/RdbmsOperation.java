@@ -16,6 +16,7 @@
 
 package org.springframework.jdbc.object;
 
+import java.sql.Types;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -229,6 +230,8 @@ public abstract class RdbmsOperation implements InitializingBean {
 			while (iter.hasNext()) {
 				Object param = iter.next();
 				if (!(param instanceof SqlOutParameter) && !(param instanceof SqlReturnResultSet)) {
+					if ((this instanceof BatchSqlUpdate) && (((SqlParameter)param).getSqlType() == Types.CLOB || ((SqlParameter)param).getSqlType() == Types.BLOB))
+						throw new InvalidDataAccessApiUsageException("CLOB or BLOB parameters are not allowed for batch updates.");
 					declaredInParameters++;
 				}
 			}

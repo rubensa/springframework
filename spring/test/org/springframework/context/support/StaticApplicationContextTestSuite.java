@@ -44,7 +44,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		parent.registerPrototype("rod", TestBean.class, new MutablePropertyValues(m));
 		m.put("name", "Albert");
 		parent.registerPrototype("father", TestBean.class, new MutablePropertyValues(m));
-		parent.rebuild();
+		parent.refresh();
 
 		StaticMessageSource parentMessageSource = (StaticMessageSource) parent.getBean("messageSource");
 		parentMessageSource.addMessage("code1", Locale.getDefault(), "message1");
@@ -64,7 +64,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		sac.registerSingleton("aca", ACATest.class, new MutablePropertyValues());
 		sac.registerPrototype("aca-prototype", ACATest.class, new MutablePropertyValues());
 		LBIInit.createTestBeans(sac.getListableBeanFactory());
-		sac.rebuild();
+		sac.refresh();
 
 		StaticMessageSource sacMessageSource = (StaticMessageSource) sac.getBean("messageSource");
 		sacMessageSource.addMessage("code2", Locale.getDefault(), "message2");

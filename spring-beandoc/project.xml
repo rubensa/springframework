@@ -20,9 +20,9 @@
   </repository>
   <versions>
     <version>
-      <id>0.3</id>
-      <name>0.3</name>
-      <tag>ALPHA_0_3</tag>
+      <id>0.4</id>
+      <name>0.4</name>
+      <tag>ALPHA_0_4</tag>
     </version>
   </versions>
   <developers>

@@ -476,11 +476,6 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 		return getBeanFactory().getAliases(name);
 	}
 
-	public void autowireExistingBean(Object existingBean, int autowireMode, boolean dependencyCheck)
-			throws BeansException {
-		getBeanFactory().autowireExistingBean(existingBean, autowireMode, dependencyCheck);
-	}
-
 
 	//---------------------------------------------------------------------
 	// Implementation of ListableBeanFactory
@@ -500,6 +495,24 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 
 	public Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans) throws BeansException {
 		return getBeanFactory().getBeansOfType(type, includePrototypes, includeFactoryBeans);
+	}
+
+
+	//---------------------------------------------------------------------
+	// Implementation of AutowireCapableBeanFactory
+	//---------------------------------------------------------------------
+
+	public Object autowireConstructor(Class beanClass) throws BeansException {
+		return getBeanFactory().autowireConstructor(beanClass);
+	}
+
+	public void autowireExistingBean(Object existingBean, int autowireMode, boolean dependencyCheck)
+			throws BeansException {
+		getBeanFactory().autowireExistingBean(existingBean, autowireMode, dependencyCheck);
+	}
+
+	public Object applyBeanPostProcessors(Object existingBean, String name) throws BeansException {
+		return getBeanFactory().applyBeanPostProcessors(existingBean, name);
 	}
 
 

@@ -94,7 +94,7 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 	}
 	
 	public void testTargetCanGetInvocationWithPrivateClass() throws Throwable {
-		final ContextTestBean expectedTarget = new ContextTestBean() {
+		final ExposedInvocationTestBean expectedTarget = new ExposedInvocationTestBean() {
 			protected void assertions(MethodInvocation invocation) {
 				assertTrue(invocation.getThis() == this);
 				assertTrue("Invocation should be on ITestBean: " + invocation.getMethod(), 

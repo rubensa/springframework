@@ -41,22 +41,27 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 		this.destroyMethodName = destroyMethodName;
 		this.bw = new BeanWrapperImpl(this.clazz);
 	}
+
+	public RootBeanDefinition(Class clazz, PropertyValues pvs, boolean singleton, int autowire) {
+		this(clazz, pvs, singleton, null, null);
+		setAutowire(autowire);
+	}
 	
 	public RootBeanDefinition(Class clazz, PropertyValues pvs, boolean singleton) {
 		this(clazz, pvs, singleton, null, null);
 	}
-	
+
 	/**
 	 * Deep copy constructor.
 	 */
 	public RootBeanDefinition(RootBeanDefinition other) {
 		super(new MutablePropertyValues(other.getPropertyValues()), other.isSingleton());
+		this.setDependencyCheck(other.getDependencyCheck());
+		this.setAutowire(other.getAutowire());
 		this.clazz = other.clazz;
 		this.initMethodName = other.initMethodName;
 		this.destroyMethodName = other.destroyMethodName;
-		this.setDependencyCheck(other.getDependencyCheck());
-		this.setAutowire(other.getAutowire());
-		
+
 		// We'll just use this to look at descriptors, not make changes 
 		this.bw = other.bw;
 	}

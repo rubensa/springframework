@@ -36,7 +36,7 @@ import org.springframework.aop.TargetSource;
 public class HotSwappableTargetSource implements TargetSource, Serializable {
 
 	/** Target cached and invoked using reflection */
-	private Object target;
+	protected Object target;
 
 	/**
 	 * Create a new HotSwappableTargetSource with the initial target.
@@ -61,7 +61,7 @@ public class HotSwappableTargetSource implements TargetSource, Serializable {
 	 * Synchronization around something that takes so little time is fine
 	 * @see org.springframework.aop.TargetSource#getTarget()
 	 */
-	public final synchronized Object getTarget() {
+	public synchronized Object getTarget() {
 		return this.target;
 	}
 

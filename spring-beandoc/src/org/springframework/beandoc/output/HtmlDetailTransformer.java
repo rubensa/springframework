@@ -31,6 +31,10 @@ import org.springframework.util.StringUtils;
  * Specifies a default XSL stylesheet, included in the beandoc tool for generating output.  This value
  * can be overridden in configuration.  The class will provide output filenames that simply replace the
  * file extension of the input file (.xml) with .html
+ * <p>
+ * In addition to the transformation of the DOM inputs, this class will copy other required resources
+ * such as CSS and image files as required to the output directory.  These files are stored in the
+ * beandoc.jar file.
  *
  * @author Darren Davison
  * @since 1.0
@@ -39,24 +43,6 @@ public class HtmlDetailTransformer extends AbstractXslTransformer {
     
     private static final String MEDIA_RESOURCES = 
         "classpath:/org/springframework/beandoc/output/media/*";
-    
-    private static final String DEFAULT_XSL_RESOURCE = 
-        "/org/springframework/beandoc/output/stylesheets/doc.xsl";    
-    
-    /**
-     * default constructor uses the included stylesheet to generate HTML
-     * output.
-     */
-    public HtmlDetailTransformer() {
-        this(DEFAULT_XSL_RESOURCE);
-    }
-    
-    /**
-     * @param templateName
-     */
-    public HtmlDetailTransformer(String templateName) {
-        super(templateName);
-    }
 
     /**
      * Writes the frameset and media files to the output location.

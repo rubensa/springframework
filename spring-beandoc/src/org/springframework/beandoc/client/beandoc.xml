@@ -2,44 +2,72 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <description>Bean factory definition for default beandoc setup</description>
+    <description>
+    	Bean factory definition for default beandoc setup
+    </description>
     
     <bean id="processor" class="org.springframework.beandoc.DefaultContextProcessor">
-    	<description>main processor for generating output</description>
+    	<description>
+    		main processor for generating output
+    	</description>
     	<constructor-arg index="0"><value>${input.files}</value></constructor-arg>
      	<constructor-arg index="1"><value>${output.dir}</value></constructor-arg>
     	<property name="decorators">
     		<list>
     			<ref local="javaDocDecorator"/>
-    			<ref local="graphVizDecorator"/>
-    			<ref local="htmlDecorator"/>
+				<ref local="graphVizDecorator"/>
+    			<ref local="htmlDecorator"/> 
     		</list>
     	</property>
     	<property name="transformers">
     		<list>
-    			<ref local="htmlTransformer"/>
-    			<ref local="htmlNavigationTransformer"/>
     			<ref local="htmlIndexTransformer"/>
-    			<ref local="htmlMainTransformer"/>
-    			<ref local="graphVizTransformer"/>
+				<ref local="htmlNavigationTransformer"/>
+    			<ref local="htmlMainTransformer"/> 
+			    <ref local="htmlDetailTransformer"/>    
+    			<ref local="graphVizTransformer"/>  
     		</list>
     	</property>    	
+    </bean>   
+    
+	<bean id="javaDocDecorator" class="org.springframework.beandoc.output.JavaDocDecorator"/>			    
+			    
+	<bean id="graphVizDecorator" class="org.springframework.beandoc.output.GraphVizDecorator"/>			    
+			    
+	<bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
+    
+    <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+	    <description>
+	    	A consolidated transformer that creates the frameset document and whose stylesheet applies
+	    	the user-configured documentation title
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/index.xsl</value></property>
+    	<property name="outputFileName"><value>index.html</value></property>
     </bean>
     
-    <bean id="javaDocDecorator" class="org.springframework.beandoc.output.JavaDocDecorator"/>
+    <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/nav.xsl</value></property>
+    	<property name="outputFileName"><value>nav.html</value></property>
+    </bean>
     
-    <bean id="graphVizDecorator" class="org.springframework.beandoc.output.GraphVizDecorator"/>
+    <bean id="htmlMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+	    <description>
+	    	Another consolidated transformer generating the main summary page.  Passes an XSL parameter to the
+	    	stylesheet consisting of the current system time (documentation generation time)
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/main.xsl</value></property>
+    	<property name="outputFileName"><value>main.html</value></property>
+    	<property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
+    </bean>
     
-    <bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
-    
-    <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.HtmlNavigationTransformer"/>
-    
-    <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.HtmlIndexTransformer"/>
-    
-    <bean id="htmlMainTransformer" class="org.springframework.beandoc.output.HtmlMainTransformer"/>
-    
-    <bean id="htmlTransformer" class="org.springframework.beandoc.output.HtmlDetailTransformer"/>
-    
-    <bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer"/>
+    <bean id="htmlDetailTransformer" class="org.springframework.beandoc.output.HtmlDetailTransformer">
+    	<description>
+	    	Transformer generating an HTML document for each input DOM.  A summary of beans followed by
+	    	the detailed configuration of each follows.
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/doc.xsl</value></property>
+    </bean>
+      
+	<bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer"/>
     
 </beans>

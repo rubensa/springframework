@@ -24,30 +24,30 @@ import org.jdom.Document;
 
 
 /**
+ * Uses a stylesheet which generates the frameset document and adds the custom title.
+ * 
  * @author Darren Davison
  * @since 1.0
  */
-public class HtmlMainTransformer extends AbstractConsolidatedTransformer {
-
-    private static final String XSLPARAM_GENERATED = "beandocGenerated";
+public class SimpleConsolidatedTransformer extends ConsolidatedTransformer {
     
     private static final String DEFAULT_XSL_RESOURCE = 
-        "/org/springframework/beandoc/output/stylesheets/main.xsl";   
+        "/org/springframework/beandoc/output/stylesheets/index.xsl";   
 
-    private static final String FILENAME_MAIN = "main.html";
+    private static final String FILENAME_INDEX = "index.html";
     
     /**
      * default constructor uses the included stylesheet to generate HTML
      * output.
      */
-    public HtmlMainTransformer() {
+    public SimpleConsolidatedTransformer() {
         this(DEFAULT_XSL_RESOURCE);
     }
     
     /**
      * @param templateName
      */
-    public HtmlMainTransformer(String templateName) {
+    public SimpleConsolidatedTransformer(String templateName) {
         super(templateName);
     }
 
@@ -55,16 +55,7 @@ public class HtmlMainTransformer extends AbstractConsolidatedTransformer {
      * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument
      */
     protected String getOutputForDocument(String inputFileName) {
-        return FILENAME_MAIN;
-    }
-    
-    /**
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#getParameters
-     */
-    protected Map getParameters(Document doc) {
-        Map params = new HashMap();
-        params.put(XSLPARAM_GENERATED, new Date().toString());
-        return params;
+        return FILENAME_INDEX;
     }
 
 }

@@ -30,23 +30,33 @@ import org.jdom.Element;
  * @author Darren Davison
  * @since 1.0
  */
-public abstract class AbstractConsolidatedTransformer extends AbstractXslTransformer {
+public class ConsolidatedTransformer extends AbstractXslTransformer {
 
     private static final String TAG_CONSOLIDATED = "consolidated";
+    
+    private String outputFileName;
     
     protected Document consolidatedDocument;
     
     /**
+     */
+    public ConsolidatedTransformer() {
+    }
+    
+    /**
      * @param templateName
      */
-    public AbstractConsolidatedTransformer(String templateName) {
+    public ConsolidatedTransformer(String templateName) {
         super(templateName);
     }
     
     /**
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform(org.jdom.Document[], java.io.File)
+     * Generates a single <code>Document</code> from the array of input <code>Document</code>s and stores
+     * the reference for later use.
+     * 
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform
      */
-    protected void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
+    protected final void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
         consolidatedDocument = new Document();
         Element root = new Element(TAG_CONSOLIDATED);
         consolidatedDocument.setRootElement(root);
@@ -65,6 +75,27 @@ public abstract class AbstractConsolidatedTransformer extends AbstractXslTransfo
      */
     protected void handleTransform(Document[] contextDocuments, File outputDir) {
         doXslTransform(consolidatedDocument, outputDir);
+    }
+
+    /**
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument(java.lang.String)
+     */
+    protected String getOutputForDocument(String inputFileName) {
+        return outputFileName;
+    }
+
+    /**
+     * @return the filename that will represent the consolidated output of the DOM transformation
+     */
+    public String getOutputFileName() {
+        return outputFileName;
+    }
+
+    /**
+     * @param outputFileName the filename that will represent the consolidated output of the DOM transformation
+     */
+    public void setOutputFileName(String outputFileName) {
+        this.outputFileName = outputFileName;
     }
 
 }

@@ -34,6 +34,20 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
+ * Default implementation of the <code>ContextProcessor</code> interface that generates documentation
+ * in a file system directory.  Input context files can be any resolveable Spring <code>Resource</code>.
+ * <p>
+ * This class maintains a <code>List</code> of <code>Decorator</code> objects and a <code>List</code> of
+ * <code>Transformer</code> objects that it manages and uses to conduct most of the actual output.  Input
+ * resources are verified and loaded into memory before being cleaned of XML comments and extra whitespace.
+ * Bean references are marked with an additional attribute denoting the original name of the file that they
+ * were found in prior to each <code>Decorator</code> being applied in turn.  Following decoration of the
+ * DOM trees, each <code>Transformer</code> is subsequently applied to the array of input DOM's.
+ * <p>
+ * The processor offers the ability to ignore some beans in the context by means of simple pattern matching.
+ * Ignored bean definitions are stripped from the DOM prior to decoration and transformation and will therefore 
+ * not show up in any output.
+ * 
  * @author Darren Davison
  * @since 1.0
  */

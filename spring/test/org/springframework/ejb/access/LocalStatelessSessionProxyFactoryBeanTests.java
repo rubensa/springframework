@@ -13,8 +13,8 @@ import javax.ejb.EJBLocalObject;
 import javax.naming.NamingException;
 
 import junit.framework.TestCase;
-
 import org.easymock.MockControl;
+
 import org.springframework.beans.MethodInvocationException;
 import org.springframework.jndi.JndiTemplate;
 
@@ -137,7 +137,8 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 		fb.setJndiName(jndiName);
 		// Don't set business interface
 		fb.setJndiTemplate(jt);
-	
+		fb.setInContainer(true);
+
 		// Check it's a singleton
 		assertTrue(fb.isSingleton());
 
@@ -156,15 +157,18 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 	
 	
 	public static interface MyHome extends EJBLocalHome {
-		MyBusinessMethods create() throws CreateException;	
+
+		MyBusinessMethods create() throws CreateException;
 	}
-	
+
+
 	public static interface MyBusinessMethods  {
+
 		int getValue();
 	}
-	
+
+
 	public static interface MyEjb extends EJBLocalObject, MyBusinessMethods {
-		
 	}
 
 }

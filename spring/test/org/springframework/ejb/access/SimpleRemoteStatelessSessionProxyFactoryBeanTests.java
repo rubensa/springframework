@@ -63,7 +63,8 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 		fb.setJndiName(jndiName);
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
-		
+		fb.setInContainer(true);
+
 		// Need lifecycle methods
 		fb.afterPropertiesSet();
 
@@ -103,6 +104,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 		fb.setJndiName(jndiName);
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
+		fb.setInContainer(true);
 	
 		// Need lifecycle methods
 		fb.afterPropertiesSet();

@@ -30,7 +30,6 @@ import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
  * cache is not changed for this, since there is no difference in behaviour from remote).
  * 
  * @author colin sampaleanu
- * @version $Id$
  */
 public class SimpleEjbLocalRemoteAndCachedHomeTest extends TestCase {
 

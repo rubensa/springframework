@@ -29,7 +29,6 @@ import org.springframework.dao.DataAccessException;
  * such as Hibernate or JDO. Users can for example expect the loading of an
  * entire objects graph, with lazy semantics to ensure adequate performance.
  * 
- * @version $Revision$
  * @author colin sampaleanu
  */
 public interface Mapper {

@@ -26,7 +26,6 @@ import java.lang.reflect.Method;
  * generic means of inserting crosscutting code: use AOP for that.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class MethodOverride {
 	

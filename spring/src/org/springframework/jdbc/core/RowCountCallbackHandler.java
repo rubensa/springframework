@@ -40,7 +40,6 @@ import java.sql.SQLException;
  *
  * @author Rod Johnson
  * @since May 3, 2001
- * @version $Id$
  */
 public class RowCountCallbackHandler implements RowCallbackHandler {
 

@@ -44,7 +44,6 @@ import org.apache.commons.logging.LogFactory;
  * eliminating a common cause of EJB deployment failure.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class AbstractStatelessSessionBean extends AbstractSessionBean {
 

@@ -31,7 +31,6 @@ import org.springframework.web.portlet.util.PortletUtils;
  * 
  * @author Juergen Hoeller
  * @author William G. Thompson, Jr.
- * @version $Revision$
  */
 public abstract class PortletApplicationObjectSupport extends ApplicationObjectSupport {
 

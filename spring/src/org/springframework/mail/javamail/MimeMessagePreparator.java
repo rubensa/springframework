@@ -34,7 +34,6 @@ import javax.mail.internet.MimeMessage;
  *
  * @author Juergen Hoeller
  * @since 07.10.2003
- * @version $Id$
  * @see JavaMailSender#send(MimeMessagePreparator)
  * @see JavaMailSender#send(MimeMessagePreparator[])
  * @see MimeMessageHelper

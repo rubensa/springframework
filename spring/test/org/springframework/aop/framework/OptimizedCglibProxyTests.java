@@ -30,7 +30,6 @@ import org.springframework.beans.TestBean;
  * TargetSources or do other things that this proxy can't do.
  * @author Rod Johnson
  * @since 13-Mar-2003
- * @version $Id$
  */
 public class OptimizedCglibProxyTests extends CglibProxyTests {
 	

@@ -23,7 +23,6 @@ import org.springframework.beans.factory.dynamic.DynamicObject;
  * Interface to be implemented by dynamic (reloadable)
  * scripts.
  * @author Rod Johnson
- * @version $Id$
  */
 public interface DynamicScript extends DynamicObject, Script {
 

@@ -31,7 +31,6 @@ import org.springframework.web.portlet.PortletLocaleResolver;
  *
  * @author Juergen Hoeller
  * @author William G. Thompson, Jr.
- * @version $Id$
  */
 public class RenderRequestLocaleResolver implements PortletLocaleResolver {
 

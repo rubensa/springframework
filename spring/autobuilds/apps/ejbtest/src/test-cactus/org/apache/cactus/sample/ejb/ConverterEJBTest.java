@@ -68,7 +68,6 @@ import org.apache.cactus.ServletTestCase;
  *
  * @author <a href="mailto:vmassol@apache.org">Vincent Massol</a>
  * 
- * @version $Id$
  */
 public class ConverterEJBTest extends ServletTestCase {
 	/**

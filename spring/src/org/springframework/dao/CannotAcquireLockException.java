@@ -20,7 +20,6 @@ package org.springframework.dao;
  * Exception thrown on failure to aquire a lock during an update i.e select for update statement. 
  * This exception will be thrown either by O/R mapping tools or by custom DAO implementations.
  * @author Rod Johnson
- * @version $Id$
  */
 public class CannotAcquireLockException extends ConcurrencyFailureException {
 

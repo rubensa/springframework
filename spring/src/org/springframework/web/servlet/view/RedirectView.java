@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see javax.servlet.http.HttpServletResponse#sendRedirect
  */
 public class RedirectView extends AbstractUrlBasedView {

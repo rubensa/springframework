@@ -25,7 +25,6 @@ import junit.framework.TestCase;
  * and it appears that JdbcUtils doesn't work exactly as documented.
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  */
 public class JdbcUtilsTests extends TestCase {
 

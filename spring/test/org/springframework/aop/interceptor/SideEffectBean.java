@@ -20,7 +20,6 @@ package org.springframework.aop.interceptor;
  * Bean that changes state on a business invocation, so that
  * we can check whether it's been invoked
  * @author Rod Johnson
- * @version $Id$
  */
 public class SideEffectBean {
 	

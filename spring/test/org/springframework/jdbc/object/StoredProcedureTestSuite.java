@@ -52,7 +52,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * @author Thomas Risberg
  * @author Trevor Cook
  * @author Rod Johnson
- * @version $Id$
  */
 public class StoredProcedureTestSuite extends AbstractJdbcTests {
 

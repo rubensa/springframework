@@ -13,7 +13,6 @@ import org.springframework.benchmark.cmt.server.Benchmark;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class OrderBenchmarkController extends AbstractBenchmarkController {
 

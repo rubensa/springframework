@@ -24,7 +24,6 @@ import javax.ejb.EJBObject;
  * Simple EJB Remote interface
  *
  * @author colin sampaleanu
- * @version $Id$
  */
 public interface SimpleRemote extends EJBObject {
 

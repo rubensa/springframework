@@ -24,7 +24,6 @@ import org.springframework.autobuilds.ejbtest.simple.SimpleService;
  * Simple EJB Local interface
  *
  * @author colin sampaleanu
- * @version $Id$
  */
 public interface SimpleLocal extends EJBLocalObject, SimpleService {
 }

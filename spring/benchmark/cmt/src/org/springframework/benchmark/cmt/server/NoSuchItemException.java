@@ -8,7 +8,6 @@ package org.springframework.benchmark.cmt.server;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class NoSuchItemException extends Exception {
 	

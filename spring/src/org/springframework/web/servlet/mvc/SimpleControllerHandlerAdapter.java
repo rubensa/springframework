@@ -29,7 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
  * <p>This is an SPI class, not used directly by application code.
  *
  * @author Rod Johnson
- * @version $Id$
  * @see org.springframework.web.servlet.DispatcherServlet
  * @see Controller
  * @see LastModified

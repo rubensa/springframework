@@ -25,7 +25,6 @@ import org.springframework.beans.factory.DisposableBean;
 /**
  * Jakarta Commons pooling implementation extending AbstractPoolingInvokerInterceptor
  * @author Rod Johnson
- * @version $Id$
  */
 public class CommonsPoolTargetSource extends AbstractPoolingTargetSource
 				implements PoolableObjectFactory {

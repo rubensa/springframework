@@ -72,7 +72,6 @@ import org.springframework.core.Ordered;
  * @author Juergen Hoeller
  * @author Rod Johnson
  * @since October 13, 2003
- * @version $Id$
  * @see #setInterceptorNames
  * @see BeanNameAutoProxyCreator
  */

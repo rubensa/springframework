@@ -24,7 +24,6 @@ import org.springframework.beans.factory.BeanFactory;
 /**
  * Convenient superclass for TargetSource creators that create pooling TargetSources.
  * @author Rod Johnson
- * @version $Id$
  * @see org.springframework.aop.target.AbstractPoolingTargetSource
  * @see org.springframework.aop.target.CommonsPoolTargetSource
  */

@@ -24,7 +24,6 @@ import java.util.HashMap;
 /**
  * Inherits fallback behaviour from AbstractFallbackTransactionAttributeSource
  * @author Rod Johnson
- * @version $Id$
  */
 public class MapTransactionAttributeSource extends AbstractFallbackTransactionAttributeSource {
 	

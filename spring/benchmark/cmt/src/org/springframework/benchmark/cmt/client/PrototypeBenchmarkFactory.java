@@ -16,7 +16,6 @@ import org.springframework.benchmark.cmt.server.pojo.PojoBenchmark;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class PrototypeBenchmarkFactory implements BenchmarkFactory, BeanFactoryAware {
 	

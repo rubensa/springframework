@@ -27,7 +27,6 @@ import org.springframework.web.servlet.mvc.AbstractController;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  * 
  * @@PathMap("/constructor.cgi")
  */

@@ -97,7 +97,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see HandlerMapping
  * @see HandlerAdapter
  * @see ViewResolver

@@ -77,7 +77,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * @see DataSourceUtils#closeConnectionIfNecessary
  * @see TransactionAwareDataSourceProxy
  * @see org.springframework.jdbc.core.JdbcTemplate
- * @version $Id$
  */
 public class DataSourceTransactionManager extends AbstractPlatformTransactionManager implements InitializingBean {
 

@@ -29,7 +29,6 @@ import org.springframework.web.servlet.ModelAndView;
  * Example: PortletMode.VIEW -> "view"
  * 
  * @author William G. Thompson, Jr.
- * @version $Revision$
  */
 public class PortletModeNameViewController implements PortletController {
 

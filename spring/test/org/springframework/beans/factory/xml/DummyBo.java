@@ -19,7 +19,6 @@ package org.springframework.beans.factory.xml;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface DummyBo {
 	

@@ -24,7 +24,6 @@ import java.util.List;
  * Normally loaded through a BeanFactory
  * implementation. Used by the SQLErrorCodeSQLExceptionTranslator.
  * @author Thomas Risberg
- * @version $Id$
  */
 public class SQLErrorCodes {
 

@@ -25,7 +25,6 @@ import org.springframework.jndi.JndiTemplate;
  * a given object. Very useful for testing. Effectively a mock object.
  * @author Rod Johnson
  * @see org.springframework.jdbc.datasource.DriverManagerDataSource
- * @version $Id$
  */
 public class ExpectedLookupTemplate extends JndiTemplate {
 

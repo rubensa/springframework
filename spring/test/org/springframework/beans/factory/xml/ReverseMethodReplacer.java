@@ -12,7 +12,6 @@ import org.springframework.beans.factory.support.MethodReplacer;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ReverseMethodReplacer implements MethodReplacer {
 

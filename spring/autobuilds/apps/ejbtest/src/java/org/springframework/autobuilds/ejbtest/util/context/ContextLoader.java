@@ -34,7 +34,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * Class used to load a web application definition, including possibly triggering
  * loading of a parent definition through a BeanFactoryLocator instance
  * 
- * @version $Revision$
  * @author colin
  */
 public class ContextLoader

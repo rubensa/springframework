@@ -34,7 +34,6 @@ import org.springframework.jndi.AbstractJndiLocator;
  * In this case, there is no target object.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 		implements MethodInterceptor {

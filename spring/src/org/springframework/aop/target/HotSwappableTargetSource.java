@@ -31,7 +31,6 @@ import org.springframework.aop.TargetSource;
  * at the time of serialization.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class HotSwappableTargetSource implements TargetSource, Serializable {
 

@@ -21,7 +21,6 @@ package org.springframework.transaction;
  * underlying transaction API such as JTA.
  * @author Rod Johnson
  * @since 17-Mar-2003
- * @version $Revision$
  */
 public class CannotCreateTransactionException extends TransactionException {
 

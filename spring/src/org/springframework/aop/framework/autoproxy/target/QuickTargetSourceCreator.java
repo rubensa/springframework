@@ -29,7 +29,6 @@ import org.springframework.beans.factory.BeanFactory;
  * <li>% ThreadLocalTargetSource
  * <li>! PrototypeTargetSource
  * @author Rod Johnson
- * @version $Id$
  * @see org.springframework.aop.target.CommonsPoolTargetSource
  * @see org.springframework.aop.target.ThreadLocalTargetSource
  * @see org.springframework.aop.target.PrototypeTargetSource

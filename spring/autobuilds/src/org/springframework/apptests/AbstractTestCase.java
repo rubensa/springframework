@@ -20,7 +20,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * AbstractTestCase
  * 
  * @author Darren Davison
- * @version $Id$
  */
 public abstract class AbstractTestCase extends TestCase {
 

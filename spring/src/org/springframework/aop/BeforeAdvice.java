@@ -23,7 +23,6 @@ import org.aopalliance.aop.Advice;
  * advice. Although this is unlikely to change, this API is designed to
  * allow field advice in future if desired.
  * @author Rod Johnson
- * @version $Id$
  * @see org.springframework.aop.MethodBeforeAdvice
  */
 public interface BeforeAdvice extends Advice {

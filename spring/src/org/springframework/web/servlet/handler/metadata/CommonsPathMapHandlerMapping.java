@@ -46,7 +46,6 @@ import org.springframework.context.ApplicationContextException;
  * using different middle tier objects, but should understand the implications. All
  * Controllers with attributes will be picked up by each DispatcherServlet's context.
  * @author Rod Johnson
- * @version $Id$
  */
 public class CommonsPathMapHandlerMapping extends AbstractPathMapHandlerMapping {
 	

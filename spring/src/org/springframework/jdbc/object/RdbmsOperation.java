@@ -53,7 +53,6 @@ import org.springframework.jdbc.core.SqlReturnResultSet;
  * The appropriate execute or update method can then be invoked.
  *
  * @author Rod Johnson
- * @version $Id$
  * @see #compile
  * @see org.springframework.dao
  * @see org.springframework.jdbc.core

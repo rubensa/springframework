@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
  * interceptor to do so.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class ProxyConfig implements Serializable {
 	

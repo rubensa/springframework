@@ -11,7 +11,6 @@ package org.springframework.aop;
  * <b>Not currently used.</b> 
  * @author Rod Johnson
  * @since 04-Apr-2003
- * @version $Id$
  */
 public interface Aspect {
 	

@@ -43,7 +43,6 @@ import org.springframework.util.StringUtils;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 16 April 2001
- * @version $Id$
  */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
     implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {

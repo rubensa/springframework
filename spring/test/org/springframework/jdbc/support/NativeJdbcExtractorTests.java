@@ -32,7 +32,6 @@ import org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor;
 
 /**
  * @author Andre Biryukov
- * @version $Id$
  */
 public class NativeJdbcExtractorTests extends TestCase {
 

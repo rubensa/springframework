@@ -34,7 +34,6 @@ package org.springframework.transaction;
  * @see org.springframework.transaction.support.TransactionCallback#doInTransaction
  * @see org.springframework.transaction.interceptor.TransactionInterceptor#currentTransactionStatus
  * @see #setRollbackOnly
- * @version $Id$
  */
 public interface TransactionStatus extends SavepointManager {
 

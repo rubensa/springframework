@@ -19,7 +19,6 @@ package org.springframework.aop.framework.autoproxy;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class NoSetters {
 	

@@ -24,7 +24,6 @@ import org.springframework.aop.ClassFilter;
  * Static methods useful for composing ClassFilters.
  * @author Rod Johnson
  * @since 11-Nov-2003
- * @version $Id$
  */
 public abstract class ClassFilters {
 

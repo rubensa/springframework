@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class ReflectionUtils {
 	

@@ -47,7 +47,6 @@ import org.springframework.dao.DataAccessException;
  * @see JdoTemplate
  * @see JdoInterceptor
  * @see #setFlushEager
- * @version $Id$
  */
 public abstract class JdoAccessor implements InitializingBean {
 

@@ -31,7 +31,6 @@ import org.aopalliance.aop.Advice;
  * which need not be implemented using interception.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public interface Advisor {
 	

@@ -54,7 +54,6 @@ import org.springframework.util.StringUtils;
  * This class is used to hold snapshots of proxies.
  *
  * @author Rod Johnson
- * @version $Id$
  * @see org.springframework.aop.framework.AopProxy
  */
 public class AdvisedSupport extends ProxyConfig implements Advised {

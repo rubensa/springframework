@@ -19,7 +19,6 @@ import HTTPClient.ModuleException;
  * Simple: presently there's no support for query strings etc, although this
  * wouldn't be hard to add.
  * @author Rod Johnson
- * @version $Id$
  */
 public class HttpTest extends AbstractTest {
 

@@ -34,7 +34,6 @@ import org.springframework.jdbc.core.SqlReturnResultSet;
  *
  * @author Rod Johnson
  * @author Thomas Risberg
- * @version $Id$
  */
 public abstract class SqlCall extends RdbmsOperation {
 

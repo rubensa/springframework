@@ -43,7 +43,6 @@ import org.springframework.ejb.support.AbstractStatelessSessionBean;
  * and then XDoclet will not generate its own.</p>
  * 
  * @author colin sampaleanu
- * @version $Id$
  */
 public class SimpleEJB extends AbstractStatelessSessionBean
 		implements SimpleService {

@@ -8,7 +8,6 @@ package org.springframework.benchmark.cmt.web;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class Config {
 	

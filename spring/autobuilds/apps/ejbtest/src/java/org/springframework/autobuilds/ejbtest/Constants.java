@@ -18,7 +18,6 @@ package org.springframework.autobuilds.ejbtest;
 
 /**
  * @author colin sampaleanu
- * @version $Id$
  */
 public class Constants {
 

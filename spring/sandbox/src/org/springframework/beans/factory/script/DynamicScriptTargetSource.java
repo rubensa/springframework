@@ -24,7 +24,6 @@ import org.springframework.beans.factory.dynamic.DynamicBeanTargetSource;
  * Introduction interceptor that provides DynamicScript implementation for all Groovy objects. <br>
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class DynamicScriptTargetSource extends DynamicBeanTargetSource implements DynamicScript {
 

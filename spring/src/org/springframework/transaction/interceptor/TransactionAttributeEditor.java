@@ -37,7 +37,6 @@ import org.springframework.util.StringUtils;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 24-Apr-2003
- * @version $Id$
  * @see org.springframework.transaction.TransactionDefinition
  * @see org.springframework.core.Constants
  */

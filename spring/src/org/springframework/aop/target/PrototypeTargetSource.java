@@ -20,7 +20,6 @@ package org.springframework.aop.target;
  * TargetSource that creates a new instance of the target bean for each request.
  * Can only be used in a bean factory.
  * @author Rod Johnson
- * @version $Id$
  */
 public final class PrototypeTargetSource extends AbstractPrototypeBasedTargetSource {
 

@@ -25,7 +25,6 @@ import org.springframework.validation.DataBinder;
  * Use this class to perform manual data binding from portlett
  * parameters to JavaBeans.
  * @author
- * @version $Id$
  */
 public class PortletRequestDataBinder extends DataBinder {
 

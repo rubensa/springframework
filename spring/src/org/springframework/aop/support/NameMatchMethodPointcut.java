@@ -30,7 +30,6 @@ import java.util.List;
  * @author Rod Johnson
  * @since 11.02.2004
  * @see #isMatch
- * @version $Id$
  */
 public class NameMatchMethodPointcut extends StaticMethodMatcherPointcut implements Serializable {
 

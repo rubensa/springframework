@@ -29,7 +29,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
  *
  * @author Juergen Hoeller
  * @since 26.11.2003
- * @version $Id$
  */
 public interface BeanDefinitionRegistry {
 

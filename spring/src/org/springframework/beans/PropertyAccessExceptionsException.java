@@ -31,7 +31,6 @@ import java.io.PrintWriter;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 18 April 2001
- * @version $Id$
  */
 public class PropertyAccessExceptionsException extends BeansException {
 

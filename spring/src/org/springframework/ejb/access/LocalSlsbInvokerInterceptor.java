@@ -42,7 +42,6 @@ import org.aopalliance.intercept.MethodInvocation;
  * the "lazy-init" attribute.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor {
 

@@ -43,7 +43,6 @@ import java.io.PrintWriter;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see #getMessage
  * @see #printStackTrace
  */

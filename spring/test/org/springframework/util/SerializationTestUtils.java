@@ -24,7 +24,6 @@ import org.springframework.beans.TestBean;
  * Exposes static methods for use in other test cases.
  * Extends TestCase only to test itself.
  * @author Rod Johnson
- * @version $Id$
  */
 public class SerializationTestUtils extends TestCase {
 	

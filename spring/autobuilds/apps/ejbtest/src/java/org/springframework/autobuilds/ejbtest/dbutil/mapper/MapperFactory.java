@@ -19,7 +19,6 @@ package org.springframework.autobuilds.ejbtest.dbutil.mapper;
 /**
  * Interface which defines a mapper factory
  * 
- * @version $Revision$
  * @author colin sampaleanu
  */
 public interface MapperFactory {

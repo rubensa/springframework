@@ -38,7 +38,6 @@ import org.springframework.util.SerializationTestUtils;
 
 /**
  * @author Rod Johnson
- * @version $Id$
  */
 public class AopUtilsTests extends TestCase {
 

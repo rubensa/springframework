@@ -146,7 +146,6 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
  *
  * @author Juergen Hoeller
  * @since 24.03.2003
- * @version $Id$
  * @see #setUserTransactionName
  * @see #setUserTransaction
  * @see #setTransactionManagerName

@@ -27,7 +27,6 @@ import java.util.HashMap;
  *
  * @author Rod Johnson
  * @since 27-May-2003
- * @version $Id$
  * @see ManagedLinkedMap
  * @see java.util.LinkedHashMap
  */

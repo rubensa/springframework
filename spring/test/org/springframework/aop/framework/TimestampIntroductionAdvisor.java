@@ -22,7 +22,6 @@ import org.springframework.aop.support.DefaultIntroductionAdvisor;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class TimestampIntroductionAdvisor extends DefaultIntroductionAdvisor {
 

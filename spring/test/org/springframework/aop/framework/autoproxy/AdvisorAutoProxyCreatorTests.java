@@ -37,7 +37,6 @@ import org.springframework.transaction.CountingTxManager;
 /**
  * Tests for auto proxy creation by advisor recognition.
  * @author Rod Johnson
- * @version $Id$
  */
 public class AdvisorAutoProxyCreatorTests extends TestCase {
 	

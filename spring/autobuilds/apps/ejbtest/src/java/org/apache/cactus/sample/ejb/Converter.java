@@ -66,7 +66,6 @@ import javax.ejb.EJBObject;
  *
  * @author <a href="mailto:vmassol@apache.org">Vincent Massol</a>
  * 
- * @version $Id$
  */
 public interface Converter extends EJBObject {
 	/**

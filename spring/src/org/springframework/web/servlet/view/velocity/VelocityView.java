@@ -70,7 +70,6 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see VelocityConfig
  * @see VelocityConfigurer
  * @see #setUrl

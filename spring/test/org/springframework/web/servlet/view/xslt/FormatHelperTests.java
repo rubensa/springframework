@@ -27,7 +27,6 @@ import org.w3c.dom.Element;
  * @author Rod Johnson
  * @author Darren Davison
  * @since 26-Jul-2003
- * @version $Id$
  */
 public class FormatHelperTests extends TestCase {
 

@@ -10,7 +10,6 @@ import java.io.Serializable;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class Order implements Serializable {
 	

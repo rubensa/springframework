@@ -44,7 +44,6 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 /**
  * @author Rod Johnson
- * @version $Id$
  */
 public class VelocityViewTests extends TestCase {
 

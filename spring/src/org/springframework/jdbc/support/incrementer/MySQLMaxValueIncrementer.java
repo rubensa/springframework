@@ -53,7 +53,6 @@ import org.springframework.jdbc.support.JdbcUtils;
  * @author Isabelle Muszynski
  * @author Jean-Pierre Pawlak
  * @author Thomas Risberg
- * @version $Id$
  */
 
 public class MySQLMaxValueIncrementer extends AbstractDataFieldMaxValueIncrementer {

@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
  * attribute packages and offering a utility method to
  * work out the class name given the attribute packages
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class AbstractAttributeWriter implements AttributeWriter {
 	

@@ -32,7 +32,6 @@ import org.aopalliance.intercept.MethodInvocation;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see TransactionProxyFactoryBean
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see org.springframework.transaction.interceptor.TransactionAspectSupport

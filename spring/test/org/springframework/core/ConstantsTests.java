@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 /**
  * @author Rod Johnson
  * @since 28-Apr-2003
- * @version $Revision$
  */
 public class ConstantsTests extends TestCase {
 

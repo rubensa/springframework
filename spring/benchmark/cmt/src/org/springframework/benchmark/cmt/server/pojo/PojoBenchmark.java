@@ -23,7 +23,6 @@ import org.springframework.benchmark.cmt.server.dao.JdbcBenchmarkDao;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class PojoBenchmark implements Benchmark {
 	

@@ -12,7 +12,6 @@ import org.springframework.benchmark.cmt.server.Benchmark;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface BenchmarkRemote extends EJBObject, Benchmark {
 

@@ -28,7 +28,6 @@ import org.springframework.util.ObjectUtils;
  * <br>This class is Serializable. However, the serializability of a SingletonTargetSource
  * will depend on whether the target is Serializable.
  * @author Rod Johnson
- * @version $Id$
  */
 public final class SingletonTargetSource implements TargetSource, Serializable {
 

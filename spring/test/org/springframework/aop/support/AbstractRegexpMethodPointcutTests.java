@@ -26,7 +26,6 @@ import junit.framework.TestCase;
  * @author Rod Johnson
  * @author Dmitriy Kopylenko
  * @since 1.1
- * @version $Id$
  */
 public abstract class AbstractRegexpMethodPointcutTests extends TestCase {
     

@@ -19,7 +19,6 @@ package org.springframework.beans.factory.groovy;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class DelegatingHello implements Hello {
 	

@@ -64,7 +64,6 @@ import org.springframework.web.servlet.mvc.AbstractFormController;
  * </p>
  *
  * @author William G. Thompson, Jr.
- * @version $Id$
  */
 public interface PortletController {
 

@@ -41,9 +41,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * nor legal to share definitions with SingletonBeanFactoryLocator at the same time.
  * 
  * @author Colin Sampaleanu
- * @version $Revision$
  * @see org.springframework.context.access.DefaultLocatorFactory
- * @version $Id$
  */
 public class ContextSingletonBeanFactoryLocator extends SingletonBeanFactoryLocator {
 

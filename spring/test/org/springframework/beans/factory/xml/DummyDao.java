@@ -21,7 +21,6 @@ import javax.sql.DataSource;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class DummyDao {
 	

@@ -31,7 +31,6 @@ import org.easymock.MockControl;
  * Uses mock objects.
  * @author Rod Johnson
  * @since 27-May-2003
- * @version $Id$
  */
 public class RedirectViewTests extends TestCase {
 

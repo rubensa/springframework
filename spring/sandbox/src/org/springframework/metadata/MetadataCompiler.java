@@ -14,7 +14,6 @@ package org.springframework.metadata;
  * 
  * @author Mark Pollack
  * @since Oct 13, 2003
- * @version $Id$
  */
 public interface MetadataCompiler {
 

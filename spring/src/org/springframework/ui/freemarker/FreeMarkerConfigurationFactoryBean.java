@@ -37,7 +37,6 @@ import org.springframework.context.ResourceLoaderAware;
  *
  * @author Darren Davison
  * @since 3/3/2004
- * @version $Id$
  */
 public class FreeMarkerConfigurationFactoryBean extends FreeMarkerConfigurationFactory
 		implements FactoryBean, InitializingBean, ResourceLoaderAware {

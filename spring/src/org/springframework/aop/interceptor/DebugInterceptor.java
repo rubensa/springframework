@@ -25,7 +25,6 @@ import org.aopalliance.intercept.MethodInvocation;
  * AOP Alliance MethodInterceptor that can be introduced in a chain to display
  * verbose information about intercepted invocations to the console.
  * @author Rod Johnson
- * @version $Id$
  */
 public class DebugInterceptor implements MethodInterceptor, Serializable {
 	

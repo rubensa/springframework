@@ -25,7 +25,6 @@ import org.aopalliance.aop.AspectException;
 /**
  * Miscellaneous utilities for AOP proxies
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class AopProxyUtils {
 	

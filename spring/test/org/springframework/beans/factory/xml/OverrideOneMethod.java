@@ -20,7 +20,6 @@ import org.springframework.beans.TestBean;
 
 /**
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class OverrideOneMethod {
 	

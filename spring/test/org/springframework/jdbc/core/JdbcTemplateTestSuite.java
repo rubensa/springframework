@@ -50,7 +50,6 @@ import org.springframework.jdbc.support.nativejdbc.NativeJdbcExtractor;
 /** 
  * Mock object based tests for JdbcTemplate.
  * @author Rod Johnson
- * @version $Id$
  */
 public class JdbcTemplateTestSuite extends AbstractJdbcTests {
 

@@ -42,7 +42,6 @@ import org.springframework.core.io.Resource;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 15 April 2001
- * @version $Id$
  */
 public class XmlBeanFactory extends DefaultListableBeanFactory {
 

@@ -33,7 +33,6 @@ import org.springframework.core.Ordered;
  * implement custom Advisors.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class DefaultPointcutAdvisor implements PointcutAdvisor, Ordered, Serializable {
 

@@ -26,7 +26,6 @@ import org.springframework.aop.support.AopUtils;
  * AOP proxies in code.
  * @since 14-Mar-2003
  * @author Rod Johnson
- * @version $Id$
  */
 public class ProxyFactory extends AdvisedSupport {
 

@@ -26,7 +26,6 @@ import org.springframework.beans.ITestBean;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class AopProxyUtilsTests extends TestCase {
 	

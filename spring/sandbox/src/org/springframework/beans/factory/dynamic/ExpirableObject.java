@@ -19,7 +19,6 @@ package org.springframework.beans.factory.dynamic;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface ExpirableObject {
 	

@@ -21,7 +21,6 @@ import java.io.IOException;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ScriptNotFoundException extends ScriptException {
 	

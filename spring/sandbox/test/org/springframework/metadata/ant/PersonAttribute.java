@@ -9,7 +9,6 @@ package org.springframework.metadata.ant;
  * 
  * @author Mark Pollack
  * @since Oct 6, 2003
- * @version $Id$
  */
 public class PersonAttribute {
 

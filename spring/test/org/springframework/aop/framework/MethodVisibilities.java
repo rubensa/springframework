@@ -20,7 +20,6 @@ package org.springframework.aop.framework;
  * Test for different method visibilities to
  * test AOP proxying capabilities
  * @author Rod Johnson
- * @version $Id$
  */
 public class MethodVisibilities {
 	

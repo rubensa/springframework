@@ -52,7 +52,6 @@ import org.springframework.metadata.Attributes;
  * list of the attributes implementation.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class CommonsAttributes implements Attributes {
 	

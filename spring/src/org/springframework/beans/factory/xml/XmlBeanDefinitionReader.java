@@ -54,7 +54,6 @@ import org.springframework.core.io.Resource;
  * @author Juergen Hoeller
  * @since 26.11.2003
  * @see #setParserClass
- * @version $Id$
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 

@@ -23,7 +23,6 @@ import org.springframework.aop.framework.adapter.AdvisorAdapter;
 /**
  * 
  * @author Dmitriy Kopylenko
- * @version $Id$
  */
 public class SimpleBeforeAdviceAdapter implements AdvisorAdapter {
 

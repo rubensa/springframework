@@ -22,7 +22,6 @@ import org.springframework.load.BeanFactoryTestSuite;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class SharedApplicationContextTestSuite extends BeanFactoryTestSuite {
 	

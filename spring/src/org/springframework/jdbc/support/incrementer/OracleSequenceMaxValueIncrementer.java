@@ -23,7 +23,6 @@ import javax.sql.DataSource;
  * @author Dmitriy Kopylenko
  * @author Thomas Risberg
  * @author Juergen Hoeller
- * @version $Id$
  */
 public class OracleSequenceMaxValueIncrementer extends AbstractSequenceMaxValueIncrementer {
 

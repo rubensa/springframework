@@ -27,7 +27,6 @@ import org.springframework.aop.MethodMatcher;
  * evaluation dynamically (based on arguments at the time of method invocation).
  * @author Rod Johnson
  * @since 11-Nov-2003
- * @version $Id$
  */
 public abstract class MethodMatchers {
 	

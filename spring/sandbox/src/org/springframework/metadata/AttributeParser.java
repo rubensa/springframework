@@ -13,7 +13,6 @@ import org.springframework.metadata.support.*;
  * JavaBean property values can be easily used to create the attribute.
  *
  * @author Mark Pollack
- * @version $Id$
  * 
  */
 public interface AttributeParser {

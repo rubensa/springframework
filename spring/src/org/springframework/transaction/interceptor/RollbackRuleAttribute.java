@@ -25,7 +25,6 @@ import org.springframework.aop.framework.AopConfigException;
  * cause a rollback. Multiple such rules can be applied to determine whether a
  * transaction should commit or rollback after an exception has been thrown.
  * @since 09-Apr-2003
- * @version $Id$
  * @author Rod Johnson
  * @see NoRollbackRuleAttribute
  */

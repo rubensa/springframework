@@ -31,7 +31,6 @@ import org.springframework.metadata.Attributes;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ModifiableAdvisor extends DefaultIntroductionAdvisor implements InitializingBean {
 

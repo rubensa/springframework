@@ -31,7 +31,6 @@ import org.springframework.core.ControlFlowFactory;
  * normal pointcuts, but they are useful in some cases.
  * @see org.springframework.core.ControlFlow
  * @author Rod Johnson
- * @version $Id$
  */
 public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher, Serializable {
 	

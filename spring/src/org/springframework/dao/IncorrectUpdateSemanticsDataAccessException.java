@@ -22,7 +22,6 @@ package org.springframework.dao;
  * Thrown, for example, when we wanted to update 1 row in an RDBMS but actually
  * updated 3.
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class IncorrectUpdateSemanticsDataAccessException extends InvalidDataAccessResourceUsageException {
 

@@ -36,7 +36,6 @@ import org.springframework.util.StringUtils;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 06-Jan-03
- * @version $Id$
  */
 public class StaticListableBeanFactory implements ListableBeanFactory {
 

@@ -23,7 +23,6 @@ package org.springframework.transaction;
  * This represents an illegal usage of the transaction API.
  * @author Rod Johnson
  * @since 17-Mar-2003
- * @version $Revision$
  */
 public class NoTransactionException extends TransactionUsageException {
 

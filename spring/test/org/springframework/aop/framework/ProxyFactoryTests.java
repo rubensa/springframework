@@ -33,7 +33,6 @@ import org.springframework.util.StringUtils;
  * Also tests AdvisedSupport superclass.
  * @author Rod Johnson
  * @since 14-Mar-2003
- * @version $Id$
  */
 public class ProxyFactoryTests extends TestCase {
 

@@ -30,7 +30,6 @@ import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
  * itself that it has no work to do.
  *
  * @author Rod Johnson
- * @version $Id$
  * @see org.springframework.transaction.interceptor.TransactionInterceptor
  * @see org.springframework.transaction.interceptor.TransactionProxyFactoryBean
  */

@@ -76,7 +76,6 @@ import org.springframework.util.StringUtils;
  * @author Juergen Hoeller
  * @author Jean-Pierre Pawlak
  * @since 15 April 2001
- * @version $Id$
  * @see #registerCustomEditor
  * @see java.beans.PropertyEditorManager
  * @see org.springframework.beans.propertyeditors.ClassEditor

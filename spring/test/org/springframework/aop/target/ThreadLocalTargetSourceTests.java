@@ -25,7 +25,6 @@ import org.springframework.core.io.ClassPathResource;
 
 /**
  * @author Rod Johnson
- * @version $Id$
  */
 public class ThreadLocalTargetSourceTests extends TestCase {
 

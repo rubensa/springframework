@@ -46,7 +46,6 @@ import org.springframework.core.OrderComparator;
  * at the end of the advisor chain in undefined order.
  *
  * @author Rod Johnson
- * @version $Id$
  * @see #findCandidateAdvisors
  */
 public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyCreator {

@@ -19,7 +19,6 @@ package org.springframework.aop;
 /**
  * 
  * @author Dmitriy Kopylenko
- * @version $Id$
  */
 public class SimpleBeforeAdviceImpl implements SimpleBeforeAdvice {
 	

@@ -12,7 +12,6 @@ import junit.framework.TestCase;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ReflectionUtilsTests extends TestCase {
 	

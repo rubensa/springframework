@@ -30,7 +30,6 @@ import org.springframework.benchmark.cmt.server.NoSuchUserException;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class JdbcBenchmarkDao implements BenchmarkDao {
 	

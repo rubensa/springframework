@@ -52,7 +52,6 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author Rod Johnson
  * @author Rob Harrop
- * @version $Id$
  */
 public class Cglib2AopProxy implements AopProxy, Serializable {
 

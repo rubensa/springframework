@@ -34,7 +34,6 @@ import org.springframework.remoting.RemoteAccessException;
  * Tests Business Methods pattern
  * @author Rod Johnson
  * @since 21-May-2003
- * @version $Id$
  */
 public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase {
 

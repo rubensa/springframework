@@ -30,7 +30,6 @@ package org.springframework.jdbc.datasource;
  * @see DataSourceTransactionManager
  * @see ConnectionHolder
  * @see org.springframework.transaction.support.DefaultTransactionStatus
- * @version $Id$
  */
 public class DataSourceTransactionObject extends JdbcTransactionObjectSupport {
 

@@ -25,7 +25,6 @@ import org.springframework.beans.TestBean;
  * @@PrototypeAttribute()
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class PrototypeTestBean extends TestBean {
 

@@ -44,7 +44,6 @@ import org.springframework.util.StringUtils;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see #setJndiName
  * @see #setJndiTemplate
  * @see #setJndiEnvironment

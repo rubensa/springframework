@@ -14,7 +14,6 @@ import org.springframework.metadata.AttributeException;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class CommonsAttributeIndex implements org.springframework.metadata.AttributeIndex {
 	

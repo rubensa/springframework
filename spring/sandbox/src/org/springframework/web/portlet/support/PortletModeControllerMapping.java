@@ -32,7 +32,6 @@ import org.springframework.context.ApplicationContextException;
  * Provides infrastructure for mapping controllers to PortletModes.
  *
  * @author William G. Thompson, Jr.
- * @version $Id$
  */
 public class PortletModeControllerMapping extends AbstractPortletControllerMapping {
 

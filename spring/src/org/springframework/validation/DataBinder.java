@@ -45,7 +45,6 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see #bind
  * @see #getErrors
  * @see org.springframework.web.bind.ServletRequestDataBinder

@@ -25,7 +25,6 @@ import junit.framework.TestCase;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class TransactionAttributeSourceAdvisorTests extends TestCase {
 	

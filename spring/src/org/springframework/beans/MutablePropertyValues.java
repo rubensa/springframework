@@ -32,7 +32,6 @@ import org.springframework.util.StringUtils;
  * to support deep copy and construction from a Map.
  * @author Rod Johnson
  * @since 13 May 2001
- * @version $Id$
  */
 public class MutablePropertyValues implements PropertyValues, Serializable {
 

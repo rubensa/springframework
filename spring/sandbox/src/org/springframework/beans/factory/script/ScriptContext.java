@@ -21,7 +21,6 @@ import org.springframework.core.io.ResourceLoader;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface ScriptContext {
 	

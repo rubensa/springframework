@@ -60,7 +60,6 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see TransactionInterceptor
  * @see #setTransactionAttributes
- * @version $Id$
  */
 public class TransactionProxyFactoryBean extends ProxyConfig implements FactoryBean, InitializingBean {
 

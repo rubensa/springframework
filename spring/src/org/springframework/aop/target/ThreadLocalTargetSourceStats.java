@@ -19,7 +19,6 @@ package org.springframework.aop.target;
 /**
  * Statistics for a ThreadLocal TargetSource.
  * @author Rod Johnson
- * @version $Id$
  */
 public interface ThreadLocalTargetSourceStats {
 	

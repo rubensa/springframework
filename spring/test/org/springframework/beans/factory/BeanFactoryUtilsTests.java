@@ -33,7 +33,6 @@ import org.springframework.web.servlet.HandlerAdapter;
 /**
  * @author Rod Johnson
  * @since 04-Jul-2003
- * @version $Id$
  */
 public class BeanFactoryUtilsTests extends TestCase {
 

@@ -25,7 +25,6 @@ import org.springframework.aop.AfterReturningAdvice;
  * Simple before advice example that we can use for counting checks.
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class CountingAfterReturningAdvice extends MethodCounter implements AfterReturningAdvice {
 	public void afterReturning(Object o, Method m, Object[] args, Object target) throws Throwable {

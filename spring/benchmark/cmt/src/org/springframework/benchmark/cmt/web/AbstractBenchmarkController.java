@@ -26,7 +26,6 @@ import org.springframework.benchmark.cmt.server.Benchmark;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class AbstractBenchmarkController extends AbstractController {
 	

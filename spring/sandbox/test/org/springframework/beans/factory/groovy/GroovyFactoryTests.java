@@ -29,7 +29,6 @@ import org.springframework.core.io.DefaultResourceLoader;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class GroovyFactoryTests extends TestCase {
 	

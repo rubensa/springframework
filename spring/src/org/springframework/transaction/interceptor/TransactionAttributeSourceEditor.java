@@ -46,7 +46,6 @@ import org.springframework.beans.propertyeditors.PropertiesEditor;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 26-Apr-2003
- * @version $Id$
  * @see org.springframework.transaction.interceptor.TransactionAttributeEditor
  */
 public class TransactionAttributeSourceEditor extends PropertyEditorSupport {

@@ -34,7 +34,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 04-Jul-2003
- * @version $Id$
  */
 public abstract class BeanFactoryUtils {
 	

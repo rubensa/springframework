@@ -38,7 +38,6 @@ import java.util.Properties;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see org.springframework.beans.BeanWrapperImpl
  * @see java.util.Properties#load
  */

@@ -58,7 +58,6 @@ import org.springframework.web.servlet.ModelAndView;
  * </p>
  *
  * @author Rod Johnson
- * @version $Id$
  * @see SimpleControllerHandlerAdapter
  */
 public interface Controller {

@@ -29,7 +29,6 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
  *
  * @author Rod Johnson
  * @since May 30, 2001
- * @version $Id$
  */
 public class JdbcHelper {
 

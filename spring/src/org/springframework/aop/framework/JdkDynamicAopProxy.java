@@ -48,7 +48,6 @@ import org.springframework.aop.TargetSource;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see java.lang.reflect.Proxy
  * @see org.springframework.aop.framework.AdvisedSupport
  * @see org.springframework.aop.framework.ProxyFactory

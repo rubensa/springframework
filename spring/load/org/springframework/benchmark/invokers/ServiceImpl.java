@@ -10,7 +10,6 @@ import java.util.Random;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ServiceImpl implements Service {
 	

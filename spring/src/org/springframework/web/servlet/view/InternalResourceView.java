@@ -37,7 +37,6 @@ import org.springframework.web.util.UrlPathHelper;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see javax.servlet.RequestDispatcher#forward
  * @see javax.servlet.RequestDispatcher#include
  */

@@ -24,7 +24,6 @@ import org.springframework.beans.factory.dynamic.ExpirableObject;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface Script extends ExpirableObject {
 	

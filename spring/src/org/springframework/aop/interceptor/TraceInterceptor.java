@@ -21,7 +21,6 @@ import org.apache.commons.logging.LogFactory;
  * intercepted method invocations with method entry and method exit info using Commons Logging at DEBUG level. *
  * 
  * @author Dmitriy Kopylenko
- * @version $Id$
  */
 public class TraceInterceptor implements MethodInterceptor, Serializable {
 

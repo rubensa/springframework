@@ -28,7 +28,6 @@ import org.springframework.aop.Pointcut;
  * OR the MethodMatchers: we need to check that each MethodMatcher's
  * ClassFilter was happy as well.
  * @author Rod Johnson
- * @version $Id$
  */
 class UnionPointcut implements Pointcut, Serializable {
 	

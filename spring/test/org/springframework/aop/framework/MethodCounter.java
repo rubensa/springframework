@@ -25,7 +25,6 @@ import java.util.HashMap;
  * Useful abstract superclass for counting advices etc.
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class MethodCounter implements Serializable {
 	

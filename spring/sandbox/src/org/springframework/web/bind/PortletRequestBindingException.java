@@ -23,7 +23,6 @@ import javax.servlet.ServletException;
  * Fatal binding exception, thrown when we want to
  * treat binding exceptions as unrecoverable.
  * @author
- * @version $Id$
  */
 public class PortletRequestBindingException extends PortletException {
 

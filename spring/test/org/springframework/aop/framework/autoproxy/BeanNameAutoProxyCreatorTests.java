@@ -34,7 +34,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * EnterpriseServices test that ources attributes from source-level metadata.
  * @author Rod Johnson
- * @version $Id$
  */
 public class BeanNameAutoProxyCreatorTests extends TestCase {
 

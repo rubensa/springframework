@@ -20,7 +20,6 @@ package org.springframework.beans;
  * Test for MutablePropertyValues.
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class MutablePropertyValuesTests extends AbstractPropertyValuesTests {
 

@@ -34,7 +34,6 @@ import org.springframework.web.util.WebUtils;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see org.springframework.web.util.WebUtils#getParametersStartingWith
  */
 public class ServletRequestParameterPropertyValues extends MutablePropertyValues {

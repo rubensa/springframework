@@ -34,7 +34,6 @@ import java.util.regex.PatternSyntaxException;
  *
  * @author Dmitriy Kopylenko
  * @since 1.1
- * @version $Id$
  * @see org.springframework.aop.support.AbstractRegexpMethodPointcut
  */
 public class Jdk14RegexpMethodPointcut extends AbstractRegexpMethodPointcut { 

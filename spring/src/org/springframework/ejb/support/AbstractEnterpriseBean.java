@@ -46,7 +46,6 @@ import org.springframework.context.access.ContextJndiBeanFactoryLocator;
  *
  * @author Rod Johnson
  * @author Colin Sampaleanu
- * @version $Id$
  * @see #setBeanFactoryLocator
  * @see org.springframework.context.access.ContextJndiBeanFactoryLocator
  * @see org.springframework.beans.factory.access.JndiBeanFactoryLocator

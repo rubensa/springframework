@@ -30,7 +30,6 @@ import org.springframework.core.io.ClassPathResource;
  * Tests for ObjectFactoryCreatingFactoryBean.
  * @author Colin Sampaleanu
  * @since 2004-05-11
- * @version $Id$
  */
 public class ObjectFactoryCreatingFactoryBeanTests extends TestCase {
 

@@ -26,7 +26,6 @@ import com.meterware.httpunit.WebResponse;
  * makes use of.
  * 
  * @author Darren Davison
- * @version $Id$
  */
 public class AllTests extends TestCase {
 

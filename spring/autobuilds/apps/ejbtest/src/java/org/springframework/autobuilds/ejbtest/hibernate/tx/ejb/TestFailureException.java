@@ -20,7 +20,6 @@ package org.springframework.autobuilds.ejbtest.hibernate.tx.ejb;
  * Used as an Ejb Application exception to indicate that a test failed
  * 
  * @author colin sampaleanu
- * @version $Id$
  */
 public class TestFailureException extends Exception {
 

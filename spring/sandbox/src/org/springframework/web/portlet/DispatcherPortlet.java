@@ -71,7 +71,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author William G. Thompson, Jr.
- * @version $Id$
  * @see PortletControllerMapping
  * @see ViewResolver
  * @see org.springframework.web.portlet.context.PortletApplicationContext

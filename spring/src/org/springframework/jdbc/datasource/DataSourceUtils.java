@@ -49,7 +49,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see #getDataSourceFromJndi
  * @see org.springframework.jndi.JndiObjectFactoryBean
  * @see #getConnection

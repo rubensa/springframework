@@ -30,7 +30,6 @@ import org.springframework.beans.factory.config.ConstructorArgumentValues;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see org.springframework.beans.factory.config.AutowireCapableBeanFactory
  */
 public class RootBeanDefinition extends AbstractBeanDefinition {

@@ -25,7 +25,6 @@ import javax.ejb.EJBHome;
  * Simeple EJB remote home interface
  *
  * @author colin sampaleanu
- * @version $Id$
  */
 public interface SimpleHomeRemote extends EJBHome {
 	

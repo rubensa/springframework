@@ -21,7 +21,6 @@ package org.springframework.dao;
  * Thrown for example on specifying bad SQL when using a RDBMS.
  * Resource-specific subclasses will probably be supplied by data access packages.
  * @author Rod Johnson
- * @version $Id$
  */
 public class InvalidDataAccessResourceUsageException extends DataAccessException {
 	

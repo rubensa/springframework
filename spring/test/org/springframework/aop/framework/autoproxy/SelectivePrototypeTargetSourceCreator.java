@@ -25,7 +25,6 @@ import org.springframework.beans.factory.BeanFactory;
  * Overrides generic PrototypeTargetSourceCreator to create a prototype only for beans
  * with names beginning with "prototype".
  * @author Rod Johnson
- * @version $Id$
  */
 public class SelectivePrototypeTargetSourceCreator extends AbstractPrototypeBasedTargetSourceCreator {
 

@@ -39,7 +39,6 @@ import org.springframework.beans.factory.FactoryBean;
  * @author Rod Johnson
  * @author Colin Sampaleanu
  * @since 09-May-2003
- * @version $Id$
  */
 public class LocalStatelessSessionProxyFactoryBean extends LocalSlsbInvokerInterceptor
     implements FactoryBean {

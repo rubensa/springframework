@@ -11,7 +11,6 @@ import org.springframework.aop.framework.ProxyFactory;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ManyAdviceStaticAopTest extends StaticAopTest {
 

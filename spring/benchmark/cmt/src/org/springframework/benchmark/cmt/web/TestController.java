@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.Controller;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class TestController implements Controller {
 

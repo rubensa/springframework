@@ -26,7 +26,6 @@ import org.springframework.aop.MethodMatcher;
  * advice that requires dynamic method matching.
  * @author Rod Johnson
  * @see 
- * @version $Id$
  */
 class InterceptorAndDynamicMethodMatcher {
 	

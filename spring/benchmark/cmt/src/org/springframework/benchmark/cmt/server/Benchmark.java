@@ -16,7 +16,6 @@ import org.springframework.benchmark.cmt.data.User;
 /**
  * Note: has to throw RemoteException to allow remote EJB
  * @author Rod Johnson
- * @version $Id$
  */
 public interface Benchmark {
 	

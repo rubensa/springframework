@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
  * The interface for adding metadata information to a target class.
  * @author Mark Pollack
  * @since Sep 28, 2003
- * @version $Id$
  */
 public interface AttributeWriter {
 

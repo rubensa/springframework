@@ -33,7 +33,6 @@ import org.springframework.util.StopWatch;
  *
  * @author Rod Johnson
  * @author Dmitriy Kopylenko
- * @version $Id$
  */
 public class PerformanceMonitorInterceptor implements MethodInterceptor, Serializable {
 

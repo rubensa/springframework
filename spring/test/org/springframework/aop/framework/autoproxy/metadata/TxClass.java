@@ -22,7 +22,6 @@ package org.springframework.aop.framework.autoproxy.metadata;
  * not this interface.
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface TxClass {
 	

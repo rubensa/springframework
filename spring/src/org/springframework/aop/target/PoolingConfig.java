@@ -19,7 +19,6 @@ package org.springframework.aop.target;
 /**
  * Config interface for a pooling invoker.
  * @author Rod Johnson
- * @version $Id$
  */
 public interface PoolingConfig {
 	

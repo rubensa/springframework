@@ -21,7 +21,6 @@ package org.springframework.transaction.interceptor;
  * RollbackRule superclass.
  * @author Rod Johnson
  * @since 09-Apr-2003
- * @version $Id$
  */
 public class NoRollbackRuleAttribute extends RollbackRuleAttribute {
 	

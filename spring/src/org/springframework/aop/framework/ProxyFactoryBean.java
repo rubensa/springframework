@@ -76,7 +76,6 @@ import org.springframework.core.OrderComparator;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see #setInterceptorNames
  * @see #setProxyInterfaces
  * @see org.aopalliance.intercept.MethodInterceptor

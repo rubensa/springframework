@@ -67,7 +67,6 @@ import org.springframework.transaction.UnexpectedRollbackException;
  *
  * @author Juergen Hoeller
  * @since 28.03.2003
- * @version $Id$
  * @see #setTransactionSynchronization
  * @see TransactionSynchronizationManager
  * @see org.springframework.transaction.jta.JtaTransactionManager

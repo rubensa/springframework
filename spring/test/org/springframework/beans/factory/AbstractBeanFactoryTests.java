@@ -37,7 +37,6 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
  * Subclasses must implement setUp() to initialize bean factory
  * and any other variables they need.
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class AbstractBeanFactoryTests extends TestCase {
 

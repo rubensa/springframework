@@ -27,7 +27,6 @@ import org.springframework.beans.TestBean;
  * @@ModifiableAttribute()
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class ModifiableTestBean extends TestBean {
 

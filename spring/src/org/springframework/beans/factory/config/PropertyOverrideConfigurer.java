@@ -53,7 +53,6 @@ import org.springframework.beans.FatalBeanException;
  * @author Juergen Hoeller
  * @since 12.03.2003
  * @see PropertyPlaceholderConfigurer
- * @version $Id$
  */
 public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 

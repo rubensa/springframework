@@ -32,7 +32,6 @@ import org.springframework.beans.BeansException;
  * 
  * @author Colin Sampaleanu
  * @since 2004-5-11
- * @version $Id$
  * @see FactoryBean
  */
 public interface ObjectFactory {

@@ -19,7 +19,6 @@ package org.springframework.aop.framework;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface AdvisedSupportListener {
 	

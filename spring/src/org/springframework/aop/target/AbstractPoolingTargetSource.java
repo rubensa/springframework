@@ -40,7 +40,6 @@ import org.springframework.beans.factory.DisposableBean;
  * a destroy() method to close down their pool.
  *
  * @author Rod Johnson
- * @version $Id$
  * @see #getTarget
  * @see #releaseTarget
  * @see #destroy

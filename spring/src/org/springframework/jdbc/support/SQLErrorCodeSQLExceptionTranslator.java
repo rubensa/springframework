@@ -51,7 +51,6 @@ import org.springframework.jdbc.BadSqlGrammarException;
  * 
  * @author Rod Johnson
  * @author Thomas Risberg
- * @version $Id$
  * @see org.springframework.jdbc.support.SQLErrorCodesFactory
  */
 public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslator {

@@ -40,7 +40,6 @@ import java.lang.reflect.Method;
  * 
  * @author Rod Johnson
  * @since 11-Nov-2003
- * @version $Id$
  */
 public interface MethodMatcher {
 	

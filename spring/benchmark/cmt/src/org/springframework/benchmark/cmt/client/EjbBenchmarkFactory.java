@@ -14,7 +14,6 @@ import org.springframework.benchmark.cmt.server.ejb.BenchmarkHome;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class EjbBenchmarkFactory implements BenchmarkFactory {
 	

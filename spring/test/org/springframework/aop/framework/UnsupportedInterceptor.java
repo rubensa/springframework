@@ -22,7 +22,6 @@ import org.aopalliance.intercept.MethodInvocation;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class UnsupportedInterceptor implements MethodInterceptor {
 

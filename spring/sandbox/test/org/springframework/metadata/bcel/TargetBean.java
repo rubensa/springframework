@@ -11,7 +11,6 @@ import java.util.Date;
  * to various program elements.
  * @author Mark Pollack
  * @since Sep 28, 2003
- * @version $Id$
  * 
  */
 public class TargetBean {

@@ -27,7 +27,6 @@ import org.aopalliance.intercept.MethodInterceptor;
  * objects that can achieve many of the goals of multiple inheritance in Java.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public interface IntroductionInterceptor extends MethodInterceptor {
 	

@@ -29,7 +29,6 @@ import org.springframework.aop.AfterReturningAdvice;
  * <p>This involves wrapping these advice types in interceptors.
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 class AfterReturningAdviceAdapter implements AdvisorAdapter {
 

@@ -34,7 +34,6 @@ import org.springframework.util.StringUtils;
  * to override to add Method Injection  support, for example by overriding methods.
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	

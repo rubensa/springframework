@@ -23,7 +23,6 @@ package org.springframework.beans;
  * extends person it breaks quite a few tests
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface ITestBean {
 	

@@ -22,7 +22,6 @@ package org.springframework.dao;
  * than "something went wrong with the underlying resource": for example,
  * a SQLException from JDBC we can't pinpoint more precisely.
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class UncategorizedDataAccessException extends DataAccessException {
 

@@ -22,7 +22,6 @@ import org.springframework.metadata.support.PersonAttribute;
  * 
  * @author Mark Pollack
  * @since Sep 28, 2003
- * @version $Id$
  * 
  */
 public class AttributeWriterTests extends TestCase {

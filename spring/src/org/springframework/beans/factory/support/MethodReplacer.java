@@ -22,7 +22,6 @@ import java.lang.reflect.Method;
  * Interface to be implemented by classes than can override
  * any method on an IoC-managed object.
  * @author Rod Johnson
- * @version $Id$
  */
 public interface MethodReplacer {
 	

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Rob Harrop
  * @since 1.2
- * @version $Id$
  */
 public class MBeanServerFactoryBean implements FactoryBean, InitializingBean {
 

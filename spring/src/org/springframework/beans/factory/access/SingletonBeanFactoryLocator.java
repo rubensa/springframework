@@ -263,7 +263,6 @@ import org.springframework.core.io.UrlResource;
  * </pre>
  *   
  * @author Colin Sampaleanu
- * @version $Revision$
  * @see org.springframework.context.access.DefaultLocatorFactory
  */
 public class SingletonBeanFactoryLocator implements BeanFactoryLocator {

@@ -86,7 +86,6 @@ import org.springframework.jdbc.support.nativejdbc.NativeJdbcExtractor;
  * @author Yann Caroff
  * @author Thomas Risberg
  * @author Isabelle Muszynski
- * @version $Id$
  * @since May 3, 2001
  * @see ResultSetExtractor
  * @see RowCallbackHandler

@@ -30,7 +30,6 @@ import org.springframework.metadata.support.MapAttributes;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class AttributesTransactionAttributeSourceTests extends TestCase {
 

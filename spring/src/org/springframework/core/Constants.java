@@ -37,7 +37,6 @@ import java.util.Set;
  * recognize the same names as the constants themselves, and freeing them
  * from maintaining their own mapping.
  *
- * @version $Id$
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 16-Mar-2003

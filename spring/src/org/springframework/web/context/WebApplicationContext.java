@@ -40,7 +40,6 @@ import org.springframework.ui.context.ThemeSource;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since January 19, 2001
- * @version $Revision$
  * @see ServletContextAware#setServletContext
  */
 public interface WebApplicationContext extends ApplicationContext, ThemeSource {

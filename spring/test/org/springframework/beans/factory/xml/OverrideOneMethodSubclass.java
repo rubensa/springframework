@@ -20,7 +20,6 @@ package org.springframework.beans.factory.xml;
  * Subclass of OverrideOneMethod, to check that overriding is
  * supported for inherited methods.
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class OverrideOneMethodSubclass extends OverrideOneMethod {
 	

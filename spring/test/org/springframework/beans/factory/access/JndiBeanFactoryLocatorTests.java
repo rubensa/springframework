@@ -25,7 +25,6 @@ import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 /**
  * @author Rod Johnson
  * @author Colin Sampaleanu
- * @version $Id$
  */
 public class JndiBeanFactoryLocatorTests extends TestCase {
 	

@@ -21,7 +21,6 @@ package org.springframework.core;
  * the current call stack. Useful in AOP (as in AspectJ cflow concept)
  * but not AOP-specific.
  * @author Rod Johnson
- * @version $Id$
  */
 public interface ControlFlow {
 	

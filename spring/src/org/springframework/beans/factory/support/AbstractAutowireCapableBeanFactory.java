@@ -75,7 +75,6 @@ import org.springframework.core.JdkVersion;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 13.02.2004
- * @version $Id$
  * @see #findMatchingBeans
  * @see DefaultListableBeanFactory
  */

@@ -42,7 +42,6 @@ import java.beans.PropertyEditor;
  * 
  * @author Rod Johnson
  * @since 13 April 2001
- * @version $Id$
  * @see BeanWrapperImpl
  * @see org.springframework.beans.factory.BeanFactory
  * @see org.springframework.validation.DataBinder

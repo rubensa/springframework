@@ -32,7 +32,6 @@ import org.springframework.web.servlet.HandlerExecutionChain;
 
 /**
  * @author Rod Johnson
- * @version $Id$
  */
 public class PathMapHandlerMappingTests extends TestCase {
 	

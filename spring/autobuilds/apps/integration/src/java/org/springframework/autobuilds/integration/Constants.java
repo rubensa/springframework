@@ -18,7 +18,6 @@ package org.springframework.autobuilds.integration;
 
 /**
  * @author colin sampaleanu
- * @version $Id$
  */
 public class Constants {
 

@@ -8,7 +8,6 @@ package org.springframework.benchmark.invokers;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class SynchIncrementer extends ServiceImpl {
 	

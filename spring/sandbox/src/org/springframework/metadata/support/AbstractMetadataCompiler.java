@@ -15,7 +15,6 @@ import org.springframework.metadata.MetadataCompiler;
  * 
  * @author Mark Pollack
  * @since Nov 9, 2003
- * @version $Id$
  */
 public abstract class AbstractMetadataCompiler implements MetadataCompiler {
 

@@ -30,7 +30,6 @@ import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
  * Cactus test for CmtJtaNoSpringTx
  * 
  * @author colin sampaleanu
- * @version $Id$
  */
 public class CmtJtaNoSpringTxTest extends TestCase {
 

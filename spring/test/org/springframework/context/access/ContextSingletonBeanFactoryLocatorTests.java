@@ -30,7 +30,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author Colin Sampaleanu
- * @version $Revision$
  */
 public class ContextSingletonBeanFactoryLocatorTests extends TestCase {
 

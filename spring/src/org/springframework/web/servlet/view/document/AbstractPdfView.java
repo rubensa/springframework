@@ -44,7 +44,6 @@ import org.springframework.web.servlet.view.AbstractView;
  *
  * @author Rod Johnson
  * @author Jean-Pierre Pawlak
- * @version $Id$
  */
 public abstract class AbstractPdfView extends AbstractView {
 	

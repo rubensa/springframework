@@ -54,7 +54,6 @@ import org.springframework.web.servlet.view.AbstractTemplateView;
  * @author Darren Davison
  * @author Juergen Hoeller
  * @since 3/3/2004
- * @version $Id$
  * @see #setUrl
  * @see #setExposeSpringMacroHelpers
  * @see #setEncoding

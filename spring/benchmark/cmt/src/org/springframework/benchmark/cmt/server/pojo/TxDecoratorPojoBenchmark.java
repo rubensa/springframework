@@ -19,7 +19,6 @@ import org.springframework.benchmark.cmt.server.dao.BenchmarkDao;
 /**
  * Transaction decorator, which avoids reliance on EJB or AOP declarative transactions.
  * @author Rod Johnson
- * @version $Id$
  */
 public class TxDecoratorPojoBenchmark extends PojoBenchmark {
 	

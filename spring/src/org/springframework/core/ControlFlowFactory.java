@@ -25,7 +25,6 @@ import java.io.StringWriter;
  * Java 1.4 StackTraceElement if we can, and we don't want to impose
  * a runtime dependency on 1.4.
  * @author Rod Johnson
- * @version $Id$
  */
 public abstract class ControlFlowFactory {
 	

@@ -33,7 +33,6 @@ import org.springframework.jndi.JndiTemplate;
  * Tests Business Methods pattern
  * @author Rod Johnson
  * @since 21-May-2003
- * @version $Id$
  */
 public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 

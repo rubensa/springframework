@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 /**
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class StopWatchTests extends TestCase {
 

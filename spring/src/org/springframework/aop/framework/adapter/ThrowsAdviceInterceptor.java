@@ -41,7 +41,6 @@ import org.apache.commons.logging.LogFactory;
  * interfaces.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public final class ThrowsAdviceInterceptor implements MethodInterceptor {
 	

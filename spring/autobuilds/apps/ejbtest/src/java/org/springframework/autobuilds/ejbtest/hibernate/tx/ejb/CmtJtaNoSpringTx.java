@@ -30,7 +30,6 @@ import org.springframework.dao.DataAccessException;
  * within the same session (when using HibernateTemplate/SessionFactoryUtils.</p>
  * 
  * @author colin sampaleanu
- * @version $Id$
  */
 public interface CmtJtaNoSpringTx {
 

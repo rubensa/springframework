@@ -25,7 +25,6 @@ package org.springframework.web.servlet.handler.metadata;
  * Application code must use the Commons Attributes indexer
  * tool to use this option.
  * @author Rod Johnson
- * @version $Id$
  * 
  * @@org.apache.commons.attributes.Indexed()
  */

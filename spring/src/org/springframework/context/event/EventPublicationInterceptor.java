@@ -30,7 +30,6 @@ import org.springframework.context.ApplicationEvent;
  * Interceptor that knows how to publish ApplicationEvents to all
  * ApplicationListeners registered with an ApplicationContext.
  * @author Dmitriy Kopylenko
- * @version $Id$
  * @see org.springframework.context.ApplicationEvent
  * @see org.springframework.context.ApplicationListener
  */

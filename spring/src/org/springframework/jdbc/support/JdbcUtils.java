@@ -36,7 +36,6 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
  * @author Isabelle Muszynski
  * @author Thomas Risberg
  * @author Juergen Hoeller
- * @version $Id$
  */
 public class JdbcUtils {
 

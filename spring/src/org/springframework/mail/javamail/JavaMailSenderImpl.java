@@ -56,7 +56,6 @@ import org.springframework.mail.SimpleMailMessage;
  * @since 10.09.2003
  * @see JavaMailSender
  * @see org.springframework.mail.MailSender
- * @version $Id$
  */
 public class JavaMailSenderImpl implements JavaMailSender {
 

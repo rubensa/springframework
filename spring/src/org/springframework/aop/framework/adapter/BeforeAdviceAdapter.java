@@ -24,7 +24,6 @@ import org.springframework.aop.MethodBeforeAdvice;
 
 /**
  * @author Rod Johnson
- * @version $Id$
  */
 class BeforeAdviceAdapter implements AdvisorAdapter {
 

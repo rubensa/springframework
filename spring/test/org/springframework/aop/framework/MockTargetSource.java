@@ -21,7 +21,6 @@ import org.springframework.aop.TargetSource;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class MockTargetSource implements TargetSource {
 	

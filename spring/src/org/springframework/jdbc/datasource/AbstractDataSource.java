@@ -30,7 +30,6 @@ import org.apache.commons.logging.LogFactory;
  * @author Juergen Hoeller
  * @since 07.05.2003
  * @see DriverManagerDataSource
- * @version $Id$
  */
 public abstract class AbstractDataSource implements DataSource {
 

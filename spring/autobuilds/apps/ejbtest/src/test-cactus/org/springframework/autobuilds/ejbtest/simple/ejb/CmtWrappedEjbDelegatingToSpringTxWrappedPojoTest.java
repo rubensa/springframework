@@ -31,7 +31,6 @@ import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
  * POJO, which does persistence via Hibernate.
  * 
  * @author colin sampaleanu
- * @version $Id$
  */
 public class CmtWrappedEjbDelegatingToSpringTxWrappedPojoTest extends TestCase {
 

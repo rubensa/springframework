@@ -33,7 +33,6 @@ import org.springframework.metadata.qdox.QDoxMetadataCompiler;
  * 
  * @since Oct 15, 2003
  * @author Mark.Pollack
- * @version $Id$
  */
 public class MetadataCompilerTask extends Task {
 

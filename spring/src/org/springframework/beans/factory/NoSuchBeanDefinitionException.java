@@ -22,7 +22,6 @@ import org.springframework.beans.BeansException;
  * Exception thrown when a BeanFactory is asked for a bean
  * instance name for which it cannot find a definition.
  * @author Rod Johnson
- * @version $Id$
  */
 public class NoSuchBeanDefinitionException extends BeansException {
 

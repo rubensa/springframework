@@ -27,7 +27,6 @@ package org.springframework.aop;
  *
  * @author Rod Johnson
  * @since 04-Apr-2003
- * @version $Id$
  * @see org.springframework.aop.IntroductionInterceptor
  */
 public interface IntroductionAdvisor extends Advisor {

@@ -20,7 +20,6 @@ package org.springframework.beans.factory.script;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class CompilationException extends ScriptException {
 	

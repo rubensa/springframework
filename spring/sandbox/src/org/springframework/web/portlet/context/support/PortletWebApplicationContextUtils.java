@@ -27,7 +27,6 @@ import org.springframework.web.context.WebApplicationContext;
  * 
  * @author Juergen Hoeller
  * @author William G. Thompson, Jr.
- * @version $Revision$
  * @see org.springframework.web.servlet.context.ContextLoader
  */
 public abstract class PortletWebApplicationContextUtils {

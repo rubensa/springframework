@@ -34,7 +34,6 @@ import org.springframework.beans.MutablePropertyValues;
  * @see PropertyPlaceholderConfigurer
  * @see org.springframework.beans.factory.support.RootBeanDefinition
  * @see org.springframework.beans.factory.support.ChildBeanDefinition
- * @version $Id$
  */
 public interface BeanDefinition {
 

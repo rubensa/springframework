@@ -27,7 +27,6 @@ import org.springframework.aop.support.DelegatingIntroductionInterceptor;
  * 
  * @author Rod Johnson
  * @since 10-Jul-2003
- * @version $Id$
  */
 public class LockMixin extends DelegatingIntroductionInterceptor implements Lockable {
 	

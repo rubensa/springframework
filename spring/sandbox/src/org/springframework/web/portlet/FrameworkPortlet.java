@@ -80,7 +80,6 @@ import org.springframework.web.portlet.context.support.XmlPortletApplicationCont
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author William G. Thompson, Jr.
- * @version $Revision$
  * @see #doService
  * @see #initFrameworkPortlet
  * @see #setContextClass

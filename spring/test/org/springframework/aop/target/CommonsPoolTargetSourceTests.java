@@ -31,7 +31,6 @@ import org.springframework.util.SerializationTestUtils;
  * TODO need to make these tests stronger: it's hard to
  * make too many assumptions about a pool
  * @author Rod Johnson
- * @version $Id$
  */
 public class CommonsPoolTargetSourceTests extends TestCase {
 

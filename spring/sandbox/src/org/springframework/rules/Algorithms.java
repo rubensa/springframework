@@ -25,7 +25,6 @@ import org.springframework.rules.factory.Functions;
  * functor objects such as predicates.
  * 
  * @author Keith Donald
- * @version $Id$
  */
 public class Algorithms {
     private Functions functions = Functions.instance();

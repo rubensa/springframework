@@ -21,7 +21,6 @@ package org.springframework.transaction;
  * a Spring transaction API.
  * @author Rod Johnson
  * @since 22-Mar-2003
- * @version $Revision$
  */
 public class TransactionUsageException extends TransactionException {
 

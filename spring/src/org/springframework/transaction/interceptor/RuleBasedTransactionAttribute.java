@@ -35,7 +35,6 @@ import org.apache.commons.logging.LogFactory;
  * The TransactionAttributeEditor property editor creates objects
  * of this class.
  * @since 09-Apr-2003
- * @version $Id$
  * @author Rod Johnson
  */
 public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute {

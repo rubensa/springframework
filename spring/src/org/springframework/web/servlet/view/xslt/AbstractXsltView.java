@@ -62,7 +62,6 @@ import org.springframework.web.servlet.view.AbstractView;
  *
  * @author Rod Johnson
  * @author Darren Davison
- * @version $Id$
  */
 public abstract class AbstractXsltView extends AbstractView {
 

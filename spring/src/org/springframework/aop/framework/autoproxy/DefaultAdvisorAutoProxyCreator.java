@@ -37,7 +37,6 @@ import org.springframework.beans.factory.ListableBeanFactory;
  * The separator (.) will also be used in this case.
  *
  * @author Rod Johnson
- * @version $Id$
  */
 public class DefaultAdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator implements BeanNameAware {
 

@@ -23,7 +23,6 @@ import org.springframework.beans.factory.BeanFactory;
 /**
  * Simple PoolingTargetSourceCreator that pools everything.
  * @author Rod Johnson
- * @version $Id$
  */
 public class TestPoolingTargetSourceCreator extends AbstractPoolingTargetSourceCreator {
 

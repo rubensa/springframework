@@ -21,7 +21,6 @@ package org.springframework.aop.framework.autoproxy.metadata;
  * set in a ThreadLocal.
  * @see org.springframework.aop.target.ThreadLocalTargetSource
  * @author Rod Johnson
- * @version $Id$
  */
 public class ThreadLocalAttribute {
 

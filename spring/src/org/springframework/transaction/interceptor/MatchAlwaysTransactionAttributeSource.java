@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
  * methods being handled by a transaction interceptor.
  * @author Colin Sampaleanu
  * @since 15.10.2003
- * @version $Id$
  * @see org.springframework.transaction.interceptor.TransactionProxyFactoryBean
  * @see org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator
  */

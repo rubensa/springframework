@@ -32,7 +32,6 @@ import org.springframework.aop.framework.MethodCounter;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public class ThrowsAdviceInterceptorTests extends TestCase {
 

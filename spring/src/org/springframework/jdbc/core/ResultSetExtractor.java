@@ -39,7 +39,6 @@ import org.springframework.dao.DataAccessException;
  *
  * @author Rod Johnson
  * @since April 24, 2003
- * @version $Id$
  * @see JdbcTemplate
  * @see RowCallbackHandler
  * @see RowMapperResultReader

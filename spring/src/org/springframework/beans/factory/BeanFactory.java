@@ -66,7 +66,6 @@ import org.springframework.beans.BeansException;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 13 April 2001
- * @version $Revision$
  * @see BeanNameAware#setBeanName
  * @see BeanFactoryAware#setBeanFactory
  * @see InitializingBean#afterPropertiesSet

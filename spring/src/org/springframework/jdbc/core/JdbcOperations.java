@@ -32,7 +32,6 @@ import org.springframework.jdbc.support.KeyHolder;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @version $Id$
  * @see JdbcTemplate
  */
 public interface JdbcOperations {

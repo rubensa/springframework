@@ -17,7 +17,6 @@ import org.springframework.benchmark.cmt.server.NoSuchUserException;
 /**
  * 
  * @author Rod Johnson
- * @version $Id$
  */
 public interface BenchmarkDao {
 	

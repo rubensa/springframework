@@ -205,13 +205,11 @@ public class DefaultListableBeanFactory extends AbstractBeanFactory implements C
 	// Public methods
 	//---------------------------------------------------------------------
 
-	/**
-	 * Ensure that even potentially unreferenced singletons are instantiated.
-	 * Subclasses or callers should invoke this if they want this behavior.
-	 */
 	public void preInstantiateSingletons() {
 		// Ensure that unreferenced singletons are instantiated
-		logger.info("Pre-instantiating singletons in factory [" + this + "]");
+		if (logger.isInfoEnabled()) {
+			logger.info("Pre-instantiating singletons in factory [" + this + "]");
+		}
 		String[] beanNames = getBeanDefinitionNames();
 		for (int i = 0; i < beanNames.length; i++) {
 			RootBeanDefinition bd = getMergedBeanDefinition(beanNames[i], false);

@@ -41,13 +41,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NestingMessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.context.config.ConfigurableApplicationContext;
 import org.springframework.context.config.ApplicationContextAwareProcessor;
+import org.springframework.context.config.ConfigurableApplicationContext;
 import org.springframework.context.event.ApplicationEventMulticasterImpl;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.OrderComparator;
-import org.springframework.util.StringUtils;
 
 
 /**
@@ -238,7 +237,7 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 		refreshListeners();
 
 		// instantiate singletons this late to allow them to access the message source
-		preInstantiateSingletons();
+		getBeanFactory().preInstantiateSingletons();
 
 		// last step: publish respective event
 		publishEvent(new ContextRefreshedEvent(this));
@@ -336,24 +335,6 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 			ApplicationListener listener = (ApplicationListener) it.next();
 			addListener(listener);
 			logger.info("Application listener [" + listener + "] added");
-		}
-	}
-
-	/**
-	 * Invoke the setApplicationContext() callback on all objects
-	 * in the context. This involves instantiating the objects.
-	 * Only singletons will be instantiated eagerly.
-	 */
-	private void preInstantiateSingletons() throws BeansException {
-		logger.info("Configuring singleton beans in context");
-		String[] beanNames = getBeanDefinitionNames();
-		logger.debug("Found " + beanNames.length + " listeners in bean factory: [" +
-		             StringUtils.arrayToDelimitedString(beanNames, ",") + "]");
-		for (int i = 0; i < beanNames.length; i++) {
-			String beanName = beanNames[i];
-			if (isSingleton(beanName)) {
-				getBean(beanName);
-			}
 		}
 	}
 

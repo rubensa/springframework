@@ -503,7 +503,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 					generatedKeys.addAll((List) lrse.extractData(keys));
 				}
 				if (logger.isDebugEnabled()) {
-					logger.debug("SQL update affected " + rows + " rows and returned " + generatedKeys.size() + "keys");
+					logger.debug("SQL update affected " + rows + " rows and returned " + generatedKeys.size() + " keys");
 				}
 				return new Integer(rows);
 			}

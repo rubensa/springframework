@@ -19,17 +19,21 @@ package org.springframework.beandoc;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdom.*;
 import org.jdom.filter.ContentFilter;
+import org.jdom.filter.ElementFilter;
 import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
 import org.springframework.beandoc.output.*;
 import org.springframework.beandoc.output.Decorator;
 import org.springframework.beandoc.output.Tags;
 import org.springframework.beandoc.output.Transformer;
+import org.springframework.beandoc.util.MatchedPatternCallback;
+import org.springframework.beandoc.util.PatternMatcher;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -55,9 +59,13 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  */
 public class DefaultContextProcessor implements ContextProcessor {
     
+    private Object synchLock = new Object();
+    
     private Log logger = LogFactory.getLog(getClass());
 
     private boolean validateFiles = true;
+    
+    private Map mergeProxies = new HashMap();
     
     private File outputDir;
     
@@ -70,6 +78,9 @@ public class DefaultContextProcessor implements ContextProcessor {
     private List decorators;
     
     private List compilers;
+    
+    private static Filter beanFilter = new ElementFilter(Tags.TAGNAME_BEAN);
+        
 
     /**
      * Convert string values to actual resources
@@ -154,7 +165,7 @@ public class DefaultContextProcessor implements ContextProcessor {
      * The array of Document objects is passed to each <code>Decorator</code>
      * configured for use which can incrementally modify the attributes in the DOM trees.
      * <p>
-     * The process method is threadsafe, synchronizing on the current instance during 
+     * The process method is threadsafe, synchronizing on a private lock during 
      * the execution of documentation output.  A configured DefaultContextProcessor
      * is therefore re-usable from client code, and the configuration properties can be 
      * modified between calls to the process method.
@@ -173,9 +184,12 @@ public class DefaultContextProcessor implements ContextProcessor {
         // there's no value in repeating any of it in here.    
         logger.info("Processing input files..");
         
-        synchronized (this) {
+        synchronized (synchLock) {
             // build jdom docs from input files
             Document[] contextDocuments = buildDomsFromInputFiles();      
+            
+            // optionally merge some proxies and their target beans
+            if (mergeProxies.size() > 0) mergeProxiesInContextDocs(contextDocuments);
             
             // generate the Map of bean names to context file locations
             beanMap = generateBeanNameMap(contextDocuments);
@@ -259,6 +273,99 @@ public class DefaultContextProcessor implements ContextProcessor {
     }
 
     /**
+     * User can specify a map of proxy bean RegEx's --> property name mappings.  Each
+     * mapping denotes a split proxy/target in the context that should be merged in the 
+     * output.  This method takes those <ref>'s and replaces them with an inlined 
+     * <bean> definition instead for the property named as the Map value.
+     * 
+     * @param contextDocuments
+     */
+    private void mergeProxiesInContextDocs(final Document[] contextDocuments) {
+        logger.debug("Attempting to merge Proxy beans and their targets");
+        
+        Pattern[] mergedProxyPatterns = PatternMatcher.convertStringsToPatterns(mergeProxies.keySet());
+        
+        for (int i = 0; i < contextDocuments.length; i++) {
+            final List beans = contextDocuments[i].getRootElement().getContent(beanFilter);
+            for (Iterator iter = beans.iterator(); iter.hasNext();) {
+                final Element bean = (Element) iter.next();
+                final String idOrName = getBeanIdentifier(bean);
+                final String className = bean.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
+                String[] testForMatches = {idOrName, className};
+                
+                // patterns of beans to be merged
+                PatternMatcher.matchPatterns(
+                    mergedProxyPatterns, 
+                    testForMatches,
+                    
+                    new MatchedPatternCallback() {
+                        /**
+                         * handle merging proxy with target
+                         */
+                        public void patternMatched(String pattern, int index) {
+                            String targetPropertyName = (String) mergeProxies.get(pattern);
+                            Element targetProperty = null;
+                            Element targetRef = null;
+                            
+                            // find target ref
+                            Filter properties = new ElementFilter(Tags.TAGNAME_PROPERTY);
+                            List propertyList = bean.getContent(properties);
+                            
+                            for (Iterator propsIter = propertyList.iterator(); propsIter.hasNext();) {
+                                targetProperty = (Element) propsIter.next();
+                                if (targetPropertyName.equals(targetProperty.getAttributeValue(Tags.ATTRIBUTE_NAME))) {
+                                    targetRef = targetProperty.getChild(Tags.TAGNAME_REF);
+                                    break;
+                                }
+                            }
+                            
+                            // target should be assigned, if not it's likely to be a config error in beandoc.properties
+                            if (targetRef == null)
+                                logger.warn("Failed to merge proxy bean [" + idOrName + "] and target.  Target not found.");
+                            else {
+                                logger.info("Merging proxy bean [" + idOrName + 
+                                    "] and its target bean [" + targetRef.getAttributeValue(Tags.ATTRIBUTE_REF_LOCAL) + 
+                                    "] at property with name [" + targetPropertyName + "]");
+                                
+                                // break the REF link
+                                targetProperty.removeChild(Tags.TAGNAME_REF);
+                                
+                                // and replace it with the first class target - demoting it to an inner bean
+                                Element targetBean = null;
+                                for (Iterator targetIter = beans.iterator(); targetIter.hasNext();) {
+                                    // hmm, we're already iterating the same content in the outer class method
+                                    targetBean = (Element) targetIter.next();
+                                    logger.debug("Checking targetIter for target bean.  Doing [" + 
+                                        targetBean.getAttributeValue(Tags.ATTRIBUTE_ID) + "]");
+                                    if (getBeanIdentifier(targetBean).equals(targetRef.getAttributeValue(Tags.ATTRIBUTE_REF_LOCAL)))
+                                        break;
+                                }
+                                
+                                if (targetBean != null) {
+                                    logger.debug("Target bean found in context, detaching from parent");
+                                    
+                                    // TODO: this will throw a ConcurrentModificationException since we're already
+                                    // iterating over the underlying structure.  It has to be done outside of the
+                                    // iteration.
+                                    /*
+                                    targetBean.detach();
+                                    logger.debug("Converting to inner bean");
+                                    targetProperty.addContent(targetBean);
+                                    targetBean.removeAttribute(Tags.ATTRIBUTE_ID);
+                                    targetBean.removeAttribute(Tags.ATTRIBUTE_NAME);
+                                    */
+                                }
+                                                                   
+                            }
+                        }            
+                    }
+                    
+                );
+            }
+        }
+    }
+
+    /**
      * generate a Map of bean names pointing to the original file
      * name that the bean was defined in.  This allows transformers
      * such as the HTML generator to create links between beans in
@@ -268,13 +375,13 @@ public class DefaultContextProcessor implements ContextProcessor {
         Map beanMap = new HashMap();
         for (int i = 0; i < contextDocuments.length; i++) {
             Document doc = contextDocuments[i];
-            List beans = doc.getRootElement().getChildren();
+            List beans = doc.getRootElement().getContent(beanFilter);
             String fileName = doc.getRootElement().getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
         
             for (Iterator j = beans.iterator(); j.hasNext();) {
                 Element bean = (Element) j.next();
                 String idRef = getBeanIdentifier(bean);
-                if (idRef != null && "bean".equals(bean.getName()))  
+                if (idRef != null)  
                     beanMap.put(idRef, fileName);                
             }
         }
@@ -314,11 +421,11 @@ public class DefaultContextProcessor implements ContextProcessor {
                     Tags.TAGNAME_REPLACE.equals(tag)) { 
                     
                     String reference;
-                    if ((reference = element.getAttributeValue("bean")) != null)
+                    if ((reference = element.getAttributeValue(Tags.ATTRIBUTE_REF_BEAN)) != null)
                         element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(reference));
-                    else if ((reference = element.getAttributeValue("local")) != null)
+                    else if ((reference = element.getAttributeValue(Tags.ATTRIBUTE_REF_LOCAL)) != null)
                         element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(reference));
-                    else if ((reference = element.getAttributeValue("replacer")) != null)
+                    else if ((reference = element.getAttributeValue(Tags.ATTRIBUTE_REF_REPLACER)) != null)
                         element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(reference));
                     
                 }
@@ -336,7 +443,8 @@ public class DefaultContextProcessor implements ContextProcessor {
                 }
                 
             } catch (IllegalDataException ide) {
-                logger.error("Failed to decorate element " + element, ide);
+                logger.warn("Failed to decorate element [" + element + 
+                "].  Probably a bean was referenced that doesn't exist anywhere in the supplied Context files.");
             }
         }
         
@@ -433,6 +541,30 @@ public class DefaultContextProcessor implements ContextProcessor {
      */
     public void setCompilers(List list) {
         compilers = list;
+    }
+
+    /**
+     * Permits selective merging of ProxyFactory beans and their targets where the targets are defined
+     * as top level (referenceable) beans rather than inner beans.  This potentially keeps the 
+     * documentation and graphing output cleaner by showing one logical entity instead of two for 
+     * the proxy and its target.
+     * <p>
+     * The keys into the Map specify a RegEx expression denoting either the bean name or the class name
+     * of the <b>proxy</b> bean (the wrapper).  The value associated with the key is the property name
+     * that the target is referenced under.  Typically this will be 'target'.  Map values must be String
+     * objects specifying a bean property and not RegEx expressions or other object.
+     *  
+     * @param map
+     */
+    public void setMergeProxies(Map map) {
+        mergeProxies = map;
+    }
+
+    /**
+     * @return the Map denoting which Proxy wrappers and their targets to merge
+     */
+    public Map getMergeProxies() {
+        return mergeProxies;
     }
 
 }

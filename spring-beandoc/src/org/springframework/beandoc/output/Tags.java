@@ -39,6 +39,8 @@ public class Tags {
 
     public static final String TAGNAME_DESCRIPTION = "description";
 
+    public static final String TAGNAME_PROPERTY = "property";
+
     public static final String ATTRIBUTE_PARENT = "parent";
 
     public static final String ATTRIBUTE_NAME = "name";
@@ -48,5 +50,11 @@ public class Tags {
     public static final String ATTRIBUTE_CLASSNAME = "class";
 
     public static final String ATTRIBUTE_BD_FILENAME = "beandocFileName";
+
+    public static final String ATTRIBUTE_REF_BEAN = "bean";
+
+    public static final String ATTRIBUTE_REF_LOCAL = "local";
+
+    public static final String ATTRIBUTE_REF_REPLACER = "replacer";
 
 }

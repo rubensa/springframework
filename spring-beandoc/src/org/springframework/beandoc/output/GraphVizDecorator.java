@@ -16,16 +16,14 @@
 
 package org.springframework.beandoc.output;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jdom.Element;
 import org.springframework.beandoc.BeanDocException;
-import org.springframework.beandoc.util.BeanDocUtils;
+import org.springframework.beandoc.util.MatchedPatternCallback;
+import org.springframework.beandoc.util.PatternMatcher;
 
 
 /**
@@ -108,9 +106,9 @@ public class GraphVizDecorator extends SimpleDecorator {
      * patterns to Regex patterns.
      */
     void init() {
-        rankBeansPatterns = BeanDocUtils.convertStringsToPatterns(rankBeans);
-        ignoreBeansPatterns = BeanDocUtils.convertStringsToPatterns(ignoreBeans);
-        colourBeansPatterns = BeanDocUtils.convertStringsToPatterns(colourBeans.keySet());
+        rankBeansPatterns = PatternMatcher.convertStringsToPatterns(rankBeans);
+        ignoreBeansPatterns = PatternMatcher.convertStringsToPatterns(ignoreBeans);
+        colourBeansPatterns = PatternMatcher.convertStringsToPatterns(colourBeans.keySet());
     }
     
     /**
@@ -119,7 +117,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement(org.jdom.Element)
      */
-    protected void decorateElement(Element element) {
+    protected void decorateElement(final Element element) {
         if (element.isRootElement()) {
             element.setAttribute(ATTRIBUTE_GRAPH_FONTNAME, fontName);
             element.setAttribute(ATTRIBUTE_GRAPH_TYPE, outputType);
@@ -137,63 +135,51 @@ public class GraphVizDecorator extends SimpleDecorator {
 			String id = element.getAttributeValue(Tags.ATTRIBUTE_ID);
 			String name = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
 			if (name == null) name = "anon";
-			String idOrName = (id == null) ? name : id;
+			final String idOrName = (id == null) ? name : id;
 			
-			/*
-			 * JDK 1.5 seems to have changed the behaviour of Pattern.matches(arg)
-			 * in that a null arg now throws a NPE where as JDK 1.4 didn't - it just
-			 * resulted in no match.  This has been recorded as a bug with Sun;
-			 * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6178785
-			 */
 			String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
 			if (className == null) className = "";
 			
+            String[] testForMatches = {idOrName, className};
+            
 			// patterns of beans to be coloured
-			element.setAttribute(ATTRIBUTE_COLOUR, getDefaultFillColour());
-			for (int i = 0; i < colourBeansPatterns.length; i++) {
-		        Matcher beanMatcher = colourBeansPatterns[i].matcher(idOrName);
-		        Matcher classMatcher = colourBeansPatterns[i].matcher(className);
-		        String colour;
-		        try {
-		            if (beanMatcher.matches() || classMatcher.matches()) {
-		                colour = (String) colourBeans.get(colourBeansPatterns[i].pattern());
-		                element.setAttribute(ATTRIBUTE_COLOUR, colour);
-		                logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");
-		            }
-	                
-		        } catch (NullPointerException npe) {
-		            // no match (!)
-		        }
-		    }
+            element.setAttribute(ATTRIBUTE_COLOUR, getDefaultFillColour());
+            PatternMatcher.matchPatterns(
+                colourBeansPatterns, 
+                testForMatches,
+                new MatchedPatternCallback() {
+                    public void patternMatched(String pattern, int index) {
+                        String colour = (String) colourBeans.get(pattern);
+                        element.setAttribute(ATTRIBUTE_COLOUR, colour);
+                        logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");
+                    }                
+                }
+            );
 			
 			// patterns of beans to be ignored on graphs
-			for (int i = 0; i < ignoreBeansPatterns.length; i++) {
-		        Matcher beanMatcher = ignoreBeansPatterns[i].matcher(idOrName);
-		        Matcher classMatcher = ignoreBeansPatterns[i].matcher(className);
-		        try {
-		            if (beanMatcher.matches() || classMatcher.matches()) {		        
-		                element.setAttribute(ATTRIBUTE_GRAPH_IGNORE, "true");
-		                logger.debug("bean [" + idOrName + "] will be excluded from graphs");		
-		            }
-		        } catch (NullPointerException npe) {
-		            // no match (!)
-		        }
-		    }
+            PatternMatcher.matchPatterns(
+                ignoreBeansPatterns, 
+                testForMatches,
+                new MatchedPatternCallback() {
+                    public void patternMatched(String pattern, int index) {
+                        element.setAttribute(ATTRIBUTE_GRAPH_IGNORE, "true");
+                        logger.debug("bean [" + idOrName + "] will be excluded from graphs");   
+                    }                
+                }
+            );
 			
 			// patterns of beans to be constrained by rank on graphs
-			for (int i = 0; i < rankBeansPatterns.length; i++) {
-		        Matcher beanMatcher = rankBeansPatterns[i].matcher(idOrName);
-		        Matcher classMatcher = rankBeansPatterns[i].matcher(className);
-		        try {
-		            if (beanMatcher.matches() || classMatcher.matches()) {		        
-		                element.setAttribute(ATTRIBUTE_GRAPH_RANK, String.valueOf(i));
-		                logger.debug("bean [" + idOrName + 
-		                    "] will be constrained to rank with token value [" + i + "]");		
-		            }
-		        } catch (NullPointerException npe) {
-		            // no match (!)
-		        }
-		    }
+            PatternMatcher.matchPatterns(
+                rankBeansPatterns, 
+                testForMatches,
+                new MatchedPatternCallback() {
+                    public void patternMatched(String pattern, int index) {
+                        element.setAttribute(ATTRIBUTE_GRAPH_RANK, String.valueOf(index));
+                        logger.debug("bean [" + idOrName + 
+                            "] will be constrained to rank with token value [" + index + "]");  
+                    }                
+                }
+            );
 			
         }	    
     }

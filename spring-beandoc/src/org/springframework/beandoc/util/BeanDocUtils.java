@@ -43,37 +43,6 @@ public class BeanDocUtils {
     }
 
     /**
-     * Convert a collection of String objects to an array of compiled
-     * regex Patterns.  Gaps in the collection or objects that aren't 
-     * Strings will simply be ignored.
-     * 
-     * @param strings a List of Strings
-     * @return an array of compiled Patterns
-     */
-    public static Pattern[] convertStringsToPatterns(Collection strings) {
-        List tmp = new LinkedList();
-        for (Iterator i = strings.iterator(); i.hasNext();)
-            try {
-                String enteredPattern = (String) i.next();
-                Pattern compiledPattern = Pattern.compile(enteredPattern);
-                tmp.add(compiledPattern);
-                
-            } catch (ClassCastException cce) {
-                logger.warn("Ignoring non String object in Collection [" + cce.getMessage() + "]");
-                
-            } catch (PatternSyntaxException pse) {
-                logger.warn("Ignoring invalid RegEx pattern in String [" + pse.getPattern() + 
-                    "]; problem description [" + pse.getMessage() + "]");
-                
-            } catch (Exception e) {
-                logger.warn("Unable to handle Pattern from String; [" + e.getMessage() + "]");
-            }
-            
-        return
-            (Pattern[]) tmp.toArray(new Pattern[tmp.size()]);        
-    }
-    
-    /**
      * Returns a new <code>Map</code> containing only those entries
      * from <code>map</code> whose key starts with <code>prefix</code>.
      * Prefixes are removed from the keys in the returned <code>Map</code>.

@@ -216,8 +216,8 @@ public class ProxyFactoryBean extends DefaultProxyConfig implements FactoryBean,
 	 * Add all global interceptors and pointcuts.
 	 */
 	private void addGlobalInterceptorsAndPointcuts(ListableBeanFactory beanFactory, String prefix) {
-		String[] globalPointcutNames = BeanFactoryUtils.beanNamesIncludingAncestors(MethodPointcut.class, beanFactory);
-		String[] globalInterceptorNames = BeanFactoryUtils.beanNamesIncludingAncestors(Interceptor.class, beanFactory);
+		String[] globalPointcutNames = BeanFactoryUtils.beanNamesIncludingAncestors(beanFactory, MethodPointcut.class);
+		String[] globalInterceptorNames = BeanFactoryUtils.beanNamesIncludingAncestors(beanFactory, Interceptor.class);
 		List beans = new ArrayList(globalPointcutNames.length + globalInterceptorNames.length);
 		Map names = new HashMap();
 		for (int i = 0; i < globalPointcutNames.length; i++) {

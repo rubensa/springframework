@@ -18,9 +18,6 @@ public final class HashMapCachingAdvisorChainFactory implements AdvisorChainFact
 	
 	private HashMap methodCache = new HashMap();
 	
-	public void refresh(Advised pc) {
-		this.methodCache.clear();
-	}
 	
 	public List getInterceptorsAndDynamicInterceptionAdvice(Advised config, Object proxy, Method method, Class targetClass) {
 		List cached = (List) this.methodCache.get(method);
@@ -30,6 +27,21 @@ public final class HashMapCachingAdvisorChainFactory implements AdvisorChainFact
 			this.methodCache.put(method, cached);
 		}
 		return cached;
+	}
+
+
+	/**
+	 * @see org.springframework.aop.framework.AdvisedSupportListener#activated(org.springframework.aop.framework.AdvisedSupport)
+	 */
+	public void activated(AdvisedSupport advisedSupport) {
+	}
+
+
+	/**
+	 * @see org.springframework.aop.framework.AdvisedSupportListener#adviceChanged(org.springframework.aop.framework.AdvisedSupport)
+	 */
+	public void adviceChanged(AdvisedSupport advisedSupport) {
+		methodCache.clear();
 	}
 
 }

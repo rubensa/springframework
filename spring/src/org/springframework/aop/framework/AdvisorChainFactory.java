@@ -13,7 +13,7 @@ import java.util.List;
  * @author Rod Johnson
  * @version $Id$
  */
-public interface AdvisorChainFactory {
+public interface AdvisorChainFactory extends AdvisedSupportListener {
 	
 	/**
 	 * Return a list of Interceptor and InterceptorAndDynamicMethodMatcher
@@ -23,12 +23,6 @@ public interface AdvisorChainFactory {
 	 * @return
 	 */
 	List getInterceptorsAndDynamicInterceptionAdvice(Advised pc, Object proxy, Method method, Class targetClass);
-	
-	/**
-	 * Cache state based on this Advised instance.
-	 * Clear any existing state.
-	 */
-	void refresh(Advised pc);
 	
 
 }

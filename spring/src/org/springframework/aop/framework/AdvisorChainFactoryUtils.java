@@ -63,11 +63,15 @@ public abstract class AdvisorChainFactoryUtils {
 	
 	
 	public static AdvisorChainFactory SIMPLE_ADVISOR_CHAIN_FACTORY = new AdvisorChainFactory() {
-		public void refresh(Advised config) {
-		}
 
 		public List getInterceptorsAndDynamicInterceptionAdvice(Advised config, Object proxy, Method method, Class targetClass) {
 			return AdvisorChainFactoryUtils.calculateInterceptorsAndDynamicInterceptionAdvice(config, proxy, method, targetClass);
+		}
+
+		public void activated(AdvisedSupport advisedSupport) {
+		}
+
+		public void adviceChanged(AdvisedSupport advisedSupport) {
 		}
 	};
 	

@@ -27,6 +27,6 @@ public interface ScriptContext {
 	
 	ResourceLoader getResourceLoader();
 	
-	int getPollIntervalSeconds();
+	//int getPollIntervalSeconds();
 
 }

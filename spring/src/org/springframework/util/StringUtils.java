@@ -283,8 +283,10 @@ public abstract class StringUtils {
 	 * String. E.g. useful for toString() implementations.
 	 * @param c Collection to display
 	 * @param delim delimiter to use (probably a ",")
+	 * @param prefix string to start each element with
+	 * @param suffix string to end each element with
 	 */
-	public static String collectionToDelimitedString(Collection c, String delim) {
+	public static String collectionToDelimitedString(Collection c, String delim, String prefix, String suffix) {
 		if (c == null) {
 			return "null";
 		}
@@ -295,9 +297,20 @@ public abstract class StringUtils {
 			if (i++ > 0) {
 				sb.append(delim);
 			}
-			sb.append(it.next());
+			sb.append(prefix + it.next() + suffix);
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * Convenience method to return a Collection as a delimited (e.g. CSV)
+	 * String. E.g. useful for toString() implementations.
+	 * @param c Collection to display
+	 * @param delim delimiter to use (probably a ",")
+	 * @param prefix string to start each element with
+	 */
+	public static String collectionToDelimitedString(Collection c, String delim) {
+		return collectionToDelimitedString(c, delim, "", "");
 	}
 
 	/**

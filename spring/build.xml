@@ -331,7 +331,7 @@
 				<include name="lib/regexp/**"/>
 				<include name="lib/struts/**"/>
 				<include name="lib/velocity/**"/>
-				<include name="lib/xjavadoc/**"/>
+				<include name="lib/xdoclet/**"/>
 			</zipfileset>
 		</zip>
 

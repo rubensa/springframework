@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.aopalliance.intercept.AspectException;
+
 import org.springframework.aop.Advisor;
 import org.springframework.aop.InterceptionAroundAdvisor;
 import org.springframework.aop.InterceptionIntroductionAdvisor;
@@ -167,7 +168,6 @@ public abstract class AopUtils {
 		if (advice instanceof InterceptionIntroductionAdvisor) {
 			return ((InterceptionIntroductionAdvisor) advice).getClassFilter().matches(targetClass);
 		}
-		
 		InterceptionAroundAdvisor interceptionAdvice = (InterceptionAroundAdvisor) advice;
 		return canApply(interceptionAdvice.getPointcut(), targetClass, proxyInterfaces);
 	}

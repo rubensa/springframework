@@ -54,7 +54,6 @@ public abstract class AbstractPoolingTargetSource extends AbstractPrototypeTarge
 		return this.maxSize;
 	}
 
-	
 	public final void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		super.setBeanFactory(beanFactory);
 		try {
@@ -67,8 +66,7 @@ public abstract class AbstractPoolingTargetSource extends AbstractPrototypeTarge
 			throw new BeanInitializationException("Could not create instance pool", ex);
 		}
 	}
-	
-	
+
 	/**
 	 * Create the pool.
 	 * @param beanFactory owning BeanFactory, in case we need collaborators from it
@@ -93,14 +91,6 @@ public abstract class AbstractPoolingTargetSource extends AbstractPrototypeTarge
 	 * @throws Exception to allow pooling APIs to throw exception
 	 */
 	public abstract void releaseTarget(Object target) throws Exception; 
-	
-	/**
-	 * @see org.springframework.aop.interceptor.PoolingConfig#getInvocations()
-	 */
-	public int getInvocations() {
-		throw new UnsupportedOperationException();
-	}
-	
 
 	/**
 	 * @return an IntroductionAdvisor that providing a mixin

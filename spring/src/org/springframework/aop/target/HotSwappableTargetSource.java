@@ -21,7 +21,6 @@ public class HotSwappableTargetSource implements TargetSource {
 	/** Target cached and invoked using reflection */
 	private Object target;
 
-
 	/**
 	 * Create a new HotSwappableTargetSource with the initial target
 	 * @param initialTarget initial target
@@ -33,6 +32,28 @@ public class HotSwappableTargetSource implements TargetSource {
 	public Class getTargetClass() {
 		return target.getClass();
 	}
+
+	/**
+	 * @see org.springframework.aop.TargetSource#isStatic()
+	 */
+	public final boolean isStatic() {
+		return false;
+	}
+
+	/**
+	 * Synchronization around something that takes so little time is fine
+	 * @see org.springframework.aop.TargetSource#getTarget()
+	 */
+	public final synchronized Object getTarget() {
+		return this.target;
+	}
+
+	/**
+	 * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
+	 */
+	public void releaseTarget(Object o) {
+	}
+
 
 	/**
 	 * Swap the target, returning the old target
@@ -49,37 +70,16 @@ public class HotSwappableTargetSource implements TargetSource {
 		this.target = newTarget;
 		return old;
 	}
-
 	/**
-	 * Synchronization around something that takes so little time is fine
-	 * @see org.springframework.aop.ProxyInterceptor#getTarget()
-	 */
-	public final synchronized Object getTarget() {
-		return this.target;
-	}
-	
-	/**
-	 * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
-	 */
-	public void releaseTarget(Object o) {
-	}
-
-	/**
-	 * Two invoker interceptors are equal if they have the same target or if the targets
-	 * are equal.
+	 * Two invoker interceptors are equal if they have the same target or
+	 * if the targets are equal.
 	 */
 	public boolean equals(Object other) {
-		if (!(other instanceof HotSwappableTargetSource))
+		if (!(other instanceof HotSwappableTargetSource)) {
 			return false;
+		}
 		HotSwappableTargetSource otherII = (HotSwappableTargetSource) other;
 		return otherII.target == this.target || otherII.target.equals(this.target);
-	}
-
-	/**
-	 * @see org.springframework.aop.TargetSource#isStatic()
-	 */
-	public final boolean isStatic() {
-		return false;
 	}
 
 }

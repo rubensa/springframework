@@ -22,10 +22,6 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public class QuickTargetSourceCreator extends AbstractPrototypeTargetSourceCreator {
 
-	/**
-	 * @see org.springframework.aop.framework.support.TargetSourceCreator#getTargetSource(java.lang.Object,
-	 *      java.lang.String, org.springframework.beans.factory.ListableBeanFactory)
-	 */
 	protected final AbstractPrototypeTargetSource createPrototypeTargetSource(Object bean, String beanName, BeanFactory factory) {
 		if (beanName.startsWith(":")) {
 			CommonsPoolTargetSource cpts = new CommonsPoolTargetSource();

@@ -44,31 +44,18 @@ public class CommonsPoolTargetSource extends AbstractPoolingTargetSource
 		return gop;
 	}
 
-	/**
-	 * @see org.springframework.aop.interceptor.AbstractPoolingInvokerInterceptor#acquireTarget()
-	 */
 	public Object getTarget() throws Exception {
 		return this.pool.borrowObject();
 	}
 
-	/**
-	 * @see org.springframework.aop.interceptor.AbstractPoolingInvokerInterceptor#releaseTarget(java.lang.Object)
-	 */
 	public void releaseTarget(Object target) throws Exception {
 		this.pool.returnObject(target);
-		
 	}
 	
-	/**
-	 * @see org.springframework.aop.interceptor.PoolingConfig#getActive()
-	 */
 	public int getActive() {
 		return this.pool.getNumActive();
 	}
 
-	/**
-	 * @see org.springframework.aop.interceptor.PoolingConfig#getFree()
-	 */
 	public int getFree() {
 		return this.pool.getNumIdle();
 	}
@@ -86,9 +73,10 @@ public class CommonsPoolTargetSource extends AbstractPoolingTargetSource
 	}
 
 
-	//---------------------------------------------------------------------
+	//----------------------------------------------------------------------------
 	// Implementation of org.apache.commons.pool.PoolableObjectFactory interface
-	//---------------------------------------------------------------------
+	//----------------------------------------------------------------------------
+
 	/**
 	 * @see org.apache.commons.pool.PoolableObjectFactory#makeObject()
 	 */

@@ -16,13 +16,8 @@ import java.util.List;
 public interface AdvisorChainFactory extends AdvisedSupportListener {
 	
 	/**
-	 * Return a list of Interceptor and InterceptorAndDynamicMethodMatcher
-	 * @param pc
-	 * @param proxy
-	 * @param method
-	 * @return
+	 * Return a list of Interceptor and InterceptorAndDynamicMethodMatcher.
 	 */
 	List getInterceptorsAndDynamicInterceptionAdvice(Advised pc, Object proxy, Method method, Class targetClass);
-	
 
 }

@@ -20,9 +20,9 @@ import org.springframework.beans.factory.BeanFactory;
 public interface TargetSourceCreator {
 	
 	/**
-	 * 
-	 * @param bean
-	 * @param beanName
+	 * Create a special TargetSource for the given bean, if any.
+	 * @param bean the bean to create a TargetSource for
+	 * @param beanName the name of the bean
 	 * @return a special TargetSource or null if this TargetSourceCreator isn't
 	 * interested in the particular bean
 	 */

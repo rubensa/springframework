@@ -25,11 +25,7 @@ public class AttributesPoolingTargetSourceCreator extends AbstractPoolingTargetS
 		this.attributes = attributes;
 	}
 
-	
-	/**
-	 * @see org.springframework.aop.framework.autoproxy.target.AbstractPoolingTargetSourceCreator#getPoolingAttribute(java.lang.Object, java.lang.String, org.springframework.beans.factory.BeanFactory)
-	 */
-	protected PoolingAttribute getPoolingAttribute(Object bean, String beanName, BeanFactory bf) {
+	protected PoolingAttribute getPoolingAttribute(Object bean, String beanName, BeanFactory beanFactory) {
 		Class beanClass = bean.getClass();
 		// See if there's a pooling attribute
 		Collection atts = attributes.getAttributes(beanClass, PoolingAttribute.class);

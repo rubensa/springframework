@@ -37,7 +37,6 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	 * @return list of Advisor
 	 */
 	protected abstract List findCandidateAdvisors();
-	
 
 	/**
 	 * Find all eligible advices and for autoproxying this class.
@@ -87,7 +86,6 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 		return l;
 	}
 
-	
 	/**
 	 * We override this method to ensure that all candidate advisors are materialized
 	 * under a stack trace including this bean. Otherwise, the dependencies won't
@@ -99,14 +97,12 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 		findCandidateAdvisors();
 	}
 
-
 	/**
 	 * We override this to ensure that we don't get into circular reference hell
 	 * when our own infrastructure (such as this class) depends on advisors that depend
 	 * on beans... We use a ControlFlow object to check that we didn't arrived at this
 	 * call via this classes findCandidateAdvisors() method.
 	 * @see org.springframework.util.ControlFlow
-	 * @see org.springframework.aop.framework.support.AbstractAutoProxyCreator#shouldSkip(java.lang.Object, java.lang.String)
 	 */
 	protected boolean shouldSkip(Object bean, String name) {
 		// TODO consider pulling this test into AbstractBeanFactory.applyPostProcessors(),
@@ -120,4 +116,5 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 			return false;
 		}
 	}
+
 }

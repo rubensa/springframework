@@ -24,10 +24,6 @@ public abstract class AbstractPrototypeTargetSourceCreator implements TargetSour
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/**
-	 * @see org.springframework.aop.framework.support.TargetSourceCreator#getTargetSource(java.lang.Object,
-	 *      java.lang.String, org.springframework.beans.factory.ListableBeanFactory)
-	 */
 	public final TargetSource getTargetSource(Object bean, String beanName, BeanFactory factory) {
 		
 		AbstractPrototypeTargetSource prototypeTargetSource = createPrototypeTargetSource(bean, beanName, factory);

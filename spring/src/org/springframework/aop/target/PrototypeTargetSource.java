@@ -5,7 +5,6 @@
  
 package org.springframework.aop.target;
 
-
 /**
  * TargetSource that creates a new instance of the target bean for each request.
  * Can only be used in a bean factory.
@@ -18,9 +17,6 @@ public final class PrototypeTargetSource extends AbstractPrototypeTargetSource {
 		return newPrototypeInstance();
 	}
 	
-	/**
-	 * @see org.springframework.aop.TargetSource#releaseTarget()
-	 */
 	public void releaseTarget(Object target) {
 		// Do nothing
 	}

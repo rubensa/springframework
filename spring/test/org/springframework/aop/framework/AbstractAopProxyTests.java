@@ -635,17 +635,6 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		proxied.incrementViaProxy();
 	}
 	
-	/**
-	 * Static for CGLIB visibility
-	 */
-	static class InvocationCheckExposedInvocationTestBean extends ExposedInvocationTestBean {
-		protected void assertions(MethodInvocation invocation) {
-			assertTrue(invocation.getThis() == this);
-			assertTrue("Invocation should be on ITestBean: " + invocation.getMethod(), 
-					ITestBean.class.isAssignableFrom(invocation.getMethod().getDeclaringClass()));
-		}
-	}
-
 	public void testTargetCanGetInvocation() throws Throwable {
 		final InvocationCheckExposedInvocationTestBean expectedTarget = new InvocationCheckExposedInvocationTestBean();
 		

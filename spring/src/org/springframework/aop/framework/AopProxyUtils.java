@@ -79,10 +79,10 @@ public abstract class AopProxyUtils {
 		if (a == b)
 			return true;
 	
-		if (!Arrays.equals(a.getProxiedInterfaces(), b.getProxiedInterfaces()))
+		if (!equalsProxiedInterfaces(a, b))
 			return false;
 
-		if (!Arrays.equals(a.getAdvisors(), b.getAdvisors()))
+		if (!equalsAdvisors(a, b))
 			return false;
 	
 		if (a.getTargetSource() == null)
@@ -90,5 +90,14 @@ public abstract class AopProxyUtils {
 	
 		return a.getTargetSource().equals(b.getTargetSource());
 	}
+	
+	public static boolean equalsProxiedInterfaces(AdvisedSupport a, AdvisedSupport b) {
+		return Arrays.equals(a.getProxiedInterfaces(), b.getProxiedInterfaces());
+	}
+	
+	public static boolean equalsAdvisors(AdvisedSupport a, AdvisedSupport b) {
+		return Arrays.equals(a.getAdvisors(), b.getAdvisors());
+	}
+
 
 }

@@ -117,7 +117,9 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 	public void testMultipleProxies() {
 
 		TestBean target = new TestBean();
+		target.setAge(20);
 		TestBean target2 = new TestBean();
+		target2.setAge(21);
 
 		ITestBean proxy1 = getAdvisedProxy(target);
 		ITestBean proxy2 = getAdvisedProxy(target2);

@@ -56,7 +56,7 @@ public class MapTransactionAttributeSource extends AbstractFallbackTransactionAt
 	}
 	
 	private Collection doFindAllAttributes(Object what) {
-		System.out.println("Trying key " + what);
+		//System.out.println("Trying key " + what);
 		Object att = attributeMap.get(what);		
 		return att != null ? Collections.singleton(att) : null;
 	}

@@ -55,14 +55,14 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		catch (Throwable ex) {
 			// target invocation exception
 			if (txInfo != null) {
-				doAfterThrowing(txInfo, ex);
+				doCloseTransactionAfterThrowing(txInfo, ex);
 			}
 			throw ex;
 		}
 		finally {
 			doFinally(txInfo);
 		}
-		doAfterReturningOrNonRollbackThrowable(txInfo);
+		doAfterFinallyOnReturning(txInfo);
 
 		return retVal;
 	}

@@ -19,7 +19,9 @@ import org.springframework.aop.InterceptionIntroductionAdvisor;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.PointcutAdvisor;
+import org.springframework.aop.ThrowsAdvisor;
 import org.springframework.aop.support.MethodBeforeAdviceInterceptor;
+import org.springframework.aop.support.ThrowsAdviceInterceptor;
 
 /**
  * Utility methods for use by AdviceChainFactory implementations.
@@ -90,6 +92,10 @@ public abstract class AdvisorChainFactoryUtils {
 			BeforeAdvice advice = ba.getBeforeAdvice();
 			// TODO class cast
 			return new MethodBeforeAdviceInterceptor( (MethodBeforeAdvice) advice) ;
+		}
+		else if (advisor instanceof ThrowsAdvisor) {
+			Object throwsAdvice = ((ThrowsAdvisor) advisor).getThrowsAdvice();
+			return new ThrowsAdviceInterceptor(throwsAdvice);
 		}
 		throw new AopConfigException("Cannot create Interceptor for unknown advisor type: " + advisor);
 	}

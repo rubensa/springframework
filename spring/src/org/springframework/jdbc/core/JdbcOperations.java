@@ -111,7 +111,7 @@ public interface JdbcOperations {
 	 * result will be directly mapped to the corresponding object type.
 	 * @param sql SQL query to execute
 	 * @param requiredType the type that the result object is expected to match
-	 * @return the result object of the required type
+	 * @return the result object of the required type, or null in case of SQL NULL
 	 * @throws DataAccessException if there is any problem executing the query
 	 * @see #queryForObject(String, Object[], Class)
 	 */
@@ -126,7 +126,7 @@ public interface JdbcOperations {
 	 * The query is expected to be a single row/single column query that results
 	 * in a long value.
 	 * @param sql SQL query to execute
-	 * @return the long value
+	 * @return the long value, or 0 in case of SQL NULL
 	 * @throws DataAccessException if there is any problem executing the query
 	 * @see #queryForLong(String, Object[])
 	 */
@@ -141,7 +141,7 @@ public interface JdbcOperations {
 	 * The query is expected to be a single row/single column query that results
 	 * in an int value.
 	 * @param sql SQL query to execute
-	 * @return the int value
+	 * @return the int value, or 0 in case of SQL NULL
 	 * @throws DataAccessException if there is any problem executing the query
 	 * @see #queryForInt(String, Object[])
 	 */
@@ -291,7 +291,7 @@ public interface JdbcOperations {
 	 * @param args arguments to bind to the query
 	 * (leaving it to the PreparedStatement to guess the respective SQL type)
 	 * @param requiredType the type that the result object is expected to match
-	 * @return the result object of the required type
+	 * @return the result object of the required type, or null in case of SQL NULL
 	 * @throws DataAccessException if the query fails
 	 * @see #queryForObject(String, Class)
 	 */
@@ -307,7 +307,7 @@ public interface JdbcOperations {
 	 * @param sql SQL to execute
 	 * @param args arguments to bind to the query
 	 * (leaving it to the PreparedStatement to guess the respective SQL type)
-	 * @return the long value
+	 * @return the long value, or 0 in case of SQL NULL
 	 * @throws DataAccessException if the query fails
 	 * @see #queryForLong(String)
 	 */
@@ -322,7 +322,7 @@ public interface JdbcOperations {
 	 * @param sql SQL to execute
 	 * @param args arguments to bind to the query
 	 * (leaving it to the PreparedStatement to guess the respective SQL type)
-	 * @return the int value
+	 * @return the int value, or 0 in case of SQL NULL
 	 * @throws DataAccessException if the query fails
 	 * @see #queryForInt(String)
 	 */

@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.aop.Advisor;
+import org.springframework.aop.TargetSource;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.ControlFlow;
@@ -60,7 +61,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 		findCandidateAdvisors();
 	}
 
-	protected Object[] getInterceptorsAndAdvisorsForBean(Object bean, String name) {
+	protected Object[] getInterceptorsAndAdvisorsForBean(Object bean, String name, TargetSource targetSource) {
 		List advices = findEligibleAdvisors(bean.getClass());
 		if (advices.isEmpty()) {
 			return DO_NOT_PROXY;

@@ -149,7 +149,7 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
         } catch (FileNotFoundException e) {
             logger.warn("Unable to find either [" + 
                 graphFile.getAbsolutePath() + "] or [" + 
-                mapFile.getAbsolutePath() + "]", e);
+                mapFile.getAbsolutePath() + "] - graphing output probably not configured.");
             
         } catch (IOException e) {
             logger.warn("Unable to generate documentation from [" + 

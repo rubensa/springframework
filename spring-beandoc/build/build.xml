@@ -68,8 +68,7 @@
     -->
     <target name="clean" description="Clean all output dirs (dist, javadocs, classes, test-classes, etc.)">
         <!-- 
-            everything here *should* be under {target.dir} anyway,
-            but it might have been overridden 
+            don't remove ide-classes
         -->
         <delete dir="${target.javadocs.dir}"/>
 
@@ -78,7 +77,6 @@
         <delete dir="${target.junit.reports.dir}"/>
         <delete dir="${target.junit.summary.dir}"/>
 
-        <delete dir="${target.dir}"/>
     </target>
     
     
@@ -430,6 +428,7 @@
             <fileset dir="${basedir}">
                 <exclude name="target/**/*"/>
                 <exclude name="docs/**/*"/>
+                <exclude name="lib/ant.jar"/>
             </fileset>
         </zip>
         <delete file="${basedir}/spring-beandoc.pdf"/>

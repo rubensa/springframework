@@ -119,7 +119,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		public TestInterceptor testInterceptor = new TestInterceptor();
 
 		public TestAutoProxyCreator() {
-			setProxyInterfacesOnly(false);
+			setProxyTargetClass(true);
 			setOrder(0);
 		}
 

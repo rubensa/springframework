@@ -952,6 +952,20 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		}
 	}
 
+	public void testProps() throws Exception {
+		XmlBeanFactory xbf = new XmlBeanFactory(new ClassPathResource("collections.xml", getClass()));
+
+		HasMap hasMap = (HasMap) xbf.getBean("props");
+		assertEquals(2, hasMap.getProps().size());
+		assertEquals("bar", hasMap.getProps().getProperty("foo"));
+		assertEquals("TWO", hasMap.getProps().getProperty("2"));
+
+		HasMap hasMap2 = (HasMap) xbf.getBean("propsViaMap");
+		assertEquals(2, hasMap2.getProps().size());
+		assertEquals("bar", hasMap2.getProps().getProperty("foo"));
+		assertEquals("TWO", hasMap2.getProps().getProperty("2"));
+	}
+
 	public void testListFactory() throws Exception {
 		InputStream is = getClass().getResourceAsStream("collections.xml");
 		XmlBeanFactory xbf = new XmlBeanFactory(is);

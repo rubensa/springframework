@@ -76,7 +76,7 @@ public class PropertiesEditor extends PropertyEditorSupport {
 		if (!(value instanceof Properties) && value instanceof Map) {
 			Properties props = new Properties();
 			props.putAll((Map) value);
-			super.setValue(new Properties());
+			super.setValue(props);
 		}
 		else {
 			super.setValue(value);

@@ -169,6 +169,17 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	}
 
 
+	public ConstructorArgumentValues getConstructorArgumentValues() {
+		return constructorArgumentValues;
+	}
+
+	/**
+	 * Return if there are constructor argument values for this bean.
+	 */
+	public boolean hasConstructorArgumentValues() {
+		return (constructorArgumentValues != null && !constructorArgumentValues.isEmpty());
+	}
+
 	/**
 	 * Returns the class of the wrapped bean.
 	 * @throws IllegalStateException if the bean definition does not carry
@@ -191,20 +202,6 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 		else {
 			return (String) this.beanClass;
 		}
-	}
-
-	/**
-	 * Return the constructor argument values for this bean.
-	 */
-	public ConstructorArgumentValues getConstructorArgumentValues() {
-		return constructorArgumentValues;
-	}
-
-	/**
-	 * Return if there are constructor argument values for this bean.
-	 */
-	public boolean hasConstructorArgumentValues() {
-		return (constructorArgumentValues != null && !constructorArgumentValues.isEmpty());
 	}
 
 	/**

@@ -17,11 +17,9 @@
 package org.springframework.beandoc.output;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Iterator;
 
-import org.jdom.*;
-import org.jdom.filter.ContentFilter;
+import org.jdom.Document;
+import org.jdom.Element;
 
 
 /**

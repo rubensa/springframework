@@ -31,7 +31,6 @@ import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.core.DatabaseMetaDataCallbackHandler;
 
 /**
  * Factory for creating SQLErrorCodes based on the

@@ -8,11 +8,12 @@ package org.springframework.enterpriseservices;
 import java.util.List;
 
 import org.aopalliance.intercept.Interceptor;
+
 import org.springframework.aop.framework.support.AdvisorAutoProxyCreator;
 import org.springframework.aop.interceptor.AbstractPoolingInvokerInterceptor;
 import org.springframework.aop.interceptor.CommonsPoolingInvokerInterceptor;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.support.ListableBeanFactoryImpl;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.metadata.Attributes;
 import org.springframework.metadata.bcel.BcelAttributes;
@@ -74,7 +75,7 @@ public class EnterpriseServices extends AdvisorAutoProxyCreator  {
 			cpii.setTargetBeanName(beanName);
 			try {
 				// Infinite cycle: tries to create the bean if we don't use a different factory
-				ListableBeanFactoryImpl bf2 = new ListableBeanFactoryImpl();
+				DefaultListableBeanFactory bf2 = new DefaultListableBeanFactory();
 				bf2.registerBeanDefinition(beanName, definition);
 				cpii.setBeanFactory(bf2);
 			}

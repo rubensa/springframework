@@ -13,7 +13,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
  * One singleton to rule them all.
  * Reads System properties, which must contain the definition of
  * a bootstrap bean factory using the Properties syntax supported
- * by ListableBeanFactoryImpl.
+ * by DefaultListableBeanFactory.
  * <br>
  * The name of the bootstrap factory must be
  * "bootstrapBeanFactory".
@@ -30,7 +30,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
  * TODO take properties from other sources besides System properties?
  * @author Rod Johnson
  * @since December 2, 2002
- * @see org.springframework.beans.factory.support.ListableBeanFactoryImpl
+ * @see org.springframework.beans.factory.support.DefaultListableBeanFactory
  * @version $Id$
  */
 public class BeanFactoryBootstrap {
@@ -88,7 +88,7 @@ public class BeanFactoryBootstrap {
 	 * Apply rules to load factory.
 	 */
 	private BeanFactoryBootstrap() throws BeansException {
-		ListableBeanFactoryImpl startupFactory = new ListableBeanFactoryImpl();
+		DefaultListableBeanFactory startupFactory = new DefaultListableBeanFactory();
 		try {
 			startupFactory.registerBeanDefinitions(System.getProperties());
 			this.bootstrapFactory = (BeanFactory) startupFactory.getBean(BEAN_FACTORY_BEAN_NAME);

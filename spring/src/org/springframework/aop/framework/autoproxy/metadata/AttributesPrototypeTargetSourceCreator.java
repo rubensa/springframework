@@ -19,14 +19,13 @@ package org.springframework.aop.framework.autoproxy.metadata;
 import java.util.Collection;
 
 import org.springframework.aop.framework.autoproxy.target.AbstractPrototypeTargetSourceCreator;
-import org.springframework.aop.target.AbstractPrototypeTargetSource;
+import org.springframework.aop.target.AbstractPrototypeBasedTargetSource;
 import org.springframework.aop.target.PrototypeTargetSource;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.metadata.Attributes;
 
 /**
- * PrototypeTargetSourceCreator driven by metadata.
- * Creates a prototype
+ * PrototypeTargetSourceCreator driven by metadata. Creates a prototype
  * only if there's a PrototypeAttribute associated with the class.
  * @author Rod Johnson
  * @version $Id$
@@ -39,7 +38,8 @@ public class AttributesPrototypeTargetSourceCreator extends AbstractPrototypeTar
 		this.attributes = attributes;
 	}
 
-	protected AbstractPrototypeTargetSource createPrototypeTargetSource(Object bean, String beanName, BeanFactory bf) {
+	protected AbstractPrototypeBasedTargetSource createPrototypeTargetSource(Object bean, String beanName,
+																																					 BeanFactory bf) {
 		Class beanClass = bean.getClass();
 		// See if there's a pooling attribute
 		Collection atts = attributes.getAttributes(beanClass, PrototypeAttribute.class);

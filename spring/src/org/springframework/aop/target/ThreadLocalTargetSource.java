@@ -39,8 +39,10 @@ import org.springframework.beans.factory.DisposableBean;
  *
  * @author Rod Johnson
  * @version $Id$
+ * @see #destroy
  */
-public final class ThreadLocalTargetSource extends AbstractPrototypeTargetSource implements ThreadLocalTargetSourceStats, DisposableBean {
+public final class ThreadLocalTargetSource extends AbstractPrototypeBasedTargetSource
+		implements ThreadLocalTargetSourceStats, DisposableBean {
 	
 	/**
 	 * ThreadLocal holding the target associated with the current
@@ -50,8 +52,7 @@ public final class ThreadLocalTargetSource extends AbstractPrototypeTargetSource
 	private ThreadLocal targetInThread = new ThreadLocal();
 
 	/**
-	 * Set of managed targets, enabling us to keep track
-	 * of the targets we've created.
+	 * Set of managed targets, enabling us to keep track of the targets we've created.
 	 */
 	private Set targetSet = new HashSet();
 	
@@ -66,47 +67,44 @@ public final class ThreadLocalTargetSource extends AbstractPrototypeTargetSource
 	 * No synchronization is required.
 	 */
 	public Object getTarget() {
-		++invocations;
-		Object target = targetInThread.get();
+		++this.invocations;
+		Object target = this.targetInThread.get();
 		if (target == null) {
-			logger.info("No target for apartment prototype '" + getTargetBeanName() + 
-					"' found in thread: creating one and binding it to thread '" + Thread.currentThread().getName() + "'");
-			// Associate target with thread local
+			if (logger.isInfoEnabled()) {
+				logger.info("No target for apartment prototype '" + getTargetBeanName() +
+										"' found in thread: creating one and binding it to thread '" +
+										Thread.currentThread().getName() + "'");
+			}
+			// associate target with ThreadLocal
 			target = newPrototypeInstance();
-			targetInThread.set(target);
-			targetSet.add(target);
+			this.targetInThread.set(target);
+			this.targetSet.add(target);
 		}
 		else {
-			++hits;
+			++this.hits;
 		}
-		
 		return target;
 	}
 	
-	/**
-	 * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
-	 */
 	public void releaseTarget(Object o) {
-		// Do nothing
+		// do nothing
 	}
 
 	/**
-	 * Dispose of targets if necessary;
-	 * clear ThreadLocal.
-	 * @see org.springframework.beans.factory.DisposableBean#destroy()
+	 * Dispose of targets if necessary; clear ThreadLocal.
 	 */
 	public void destroy() {
 		logger.info("Destroying ThreadLocal bindings");
-		for (Iterator itr = this.targetSet.iterator(); itr.hasNext(); ) {
-			Object target = itr.next();
+		for (Iterator it = this.targetSet.iterator(); it.hasNext(); ) {
+			Object target = it.next();
 			if (target instanceof DisposableBean) {
 				try {
 					((DisposableBean) target).destroy();
 				}
 				catch (Exception ex) {
-					// Do nothing
-					logger.warn("Thread-bound target of class '" + target.getClass() + 
-							"' threw exception from destroy() method", ex);
+					// do nothing
+					logger.warn("Thread-bound target of class '" + target.getClass() +
+											"' threw exception from destroy() method", ex);
 				}
 			}
 		}

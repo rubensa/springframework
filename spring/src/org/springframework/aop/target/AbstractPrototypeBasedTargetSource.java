@@ -29,12 +29,15 @@ import org.springframework.beans.factory.InitializingBean;
 /**
  * Base class for dynamic TargetSources that can create new prototype bean
  * instances to support a pooling or new-instance-per-invocation strategy.
- * Such TargetSources must run in a BeanFactory, as it needs to call the
+ *
+ * <p>Such TargetSources must run in a BeanFactory, as it needs to call the
  * getBean() method to create a new prototype instance.
+ *
  * @author Rod Johnson
  * @version $Id$
+ * @see org.springframework.beans.factory.BeanFactory#getBean
  */
-public abstract class AbstractPrototypeTargetSource
+public abstract class AbstractPrototypeBasedTargetSource
 		implements TargetSource, BeanFactoryAware, InitializingBean {
 
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -54,7 +57,7 @@ public abstract class AbstractPrototypeTargetSource
 	/**
 	 * Set the name of the target bean in the factory. This bean should be a
 	 * prototype, or the same instance will always be obtained from the
-	 * factory, resulting in the same behaviour as the InvokerInterceptor
+	 * factory, resulting in the same behavior as the InvokerInterceptor.
 	 * @param targetBeanName name of the target bean in the BeanFactory
 	 * that owns this interceptor
 	 */
@@ -79,8 +82,8 @@ public abstract class AbstractPrototypeTargetSource
 			throw new BeanDefinitionStoreException(
 				"Cannot use PrototypeTargetSource against a Singleton bean; instances would not be independent");
 		}
-		logger.info("Getting bean with name '" + targetBeanName + "' to find class");
-		this.targetClass = owningBeanFactory.getBean(targetBeanName).getClass();
+		logger.info("Getting bean with name '" + this.targetBeanName + "' to find class");
+		this.targetClass = this.owningBeanFactory.getBean(this.targetBeanName).getClass();
 	}
 
 	/**

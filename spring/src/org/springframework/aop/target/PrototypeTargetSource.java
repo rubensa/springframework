@@ -22,14 +22,14 @@ package org.springframework.aop.target;
  * @author Rod Johnson
  * @version $Id$
  */
-public final class PrototypeTargetSource extends AbstractPrototypeTargetSource {
+public final class PrototypeTargetSource extends AbstractPrototypeBasedTargetSource {
 
 	public Object getTarget() {
 		return newPrototypeInstance();
 	}
 	
 	public void releaseTarget(Object target) {
-		// Do nothing
+		// do nothing
 	}
 
 }

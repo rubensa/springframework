@@ -17,7 +17,7 @@
 package org.springframework.aop.framework.autoproxy.target;
 
 import org.springframework.aop.target.AbstractPoolingTargetSource;
-import org.springframework.aop.target.AbstractPrototypeTargetSource;
+import org.springframework.aop.target.AbstractPrototypeBasedTargetSource;
 import org.springframework.aop.target.CommonsPoolTargetSource;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -28,15 +28,15 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public abstract class AbstractPoolingTargetSourceCreator extends AbstractPrototypeTargetSourceCreator {
 
-	protected final AbstractPrototypeTargetSource createPrototypeTargetSource(Object bean, String beanName, BeanFactory factory) {
+	protected final AbstractPrototypeBasedTargetSource createPrototypeTargetSource(Object bean, String beanName,
+																																								 BeanFactory factory) {
 		PoolingAttribute poolingAttribute = getPoolingAttribute(bean, beanName, factory);
 		if (poolingAttribute == null) {
-			// No pooling attribute
+			// no pooling attribute
 			return null;
 		}
 		else {
-			AbstractPoolingTargetSource poolingTargetSource = newPoolingTargetSource(poolingAttribute);
-			return poolingTargetSource;
+			return newPoolingTargetSource(poolingAttribute);
 		}
 	}
 	

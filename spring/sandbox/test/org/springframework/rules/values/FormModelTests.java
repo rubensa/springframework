@@ -18,14 +18,22 @@ public class FormModelTests extends TestCase {
         DefaultFormModel model = new DefaultFormModel(c);
         model.setBufferChangesDefault(false);
         ValueModel city = model.add("primaryContact.address.city");
+        ValueModel address = model.add("primaryContact.address");
+        address.addValueListener(new ValueListener() {
+            public void valueChanged() {
+                System.out.println("Address changed");
+            }
+        });
         city.addValueListener(new ValueListener() {
             public void valueChanged() {
                 System.out.println("city changed");
             }
         });
-        ValueModel addr = model.add("primaryContact.address");
-        System.out.println(addr.getClass());
-        addr.set(new Address());
+        ValueModel con = model.add("primaryContact");
+        System.out.println(con.getClass());
+        con.set(new Contact());
+        address.set(new Address());
+        city.set("Melbourne");
     }
 
     public static class Company {

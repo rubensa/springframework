@@ -24,6 +24,9 @@
 
 		<fileset dir="${lib.dir}">
 			<include name="**/*.jar"/>
+			<!-- Exclude ibatis-common-2, because it conflicts with ibatis-common -->
+			<!-- The former is not needed for building the framework, but the latter is -->
+			<exclude name="ibatis/ibatis-common-2.jar"/>
 		</fileset>
 
 	</path>

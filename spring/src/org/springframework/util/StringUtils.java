@@ -90,7 +90,7 @@ public abstract class StringUtils {
 			return false;
 		}
 		for (int i = 0; i < strLen; i++) {
-			if ((Character.isWhitespace(str.charAt(i)) == false)) {
+			if (!Character.isWhitespace(str.charAt(i))) {
 				return true;
 			}
 		}
@@ -289,13 +289,13 @@ public abstract class StringUtils {
 			return "null";
 		}
 		StringBuffer sb = new StringBuffer();
-		Iterator itr = c.iterator();
+		Iterator it = c.iterator();
 		int i = 0;
-		while (itr.hasNext()) {
+		while (it.hasNext()) {
 			if (i++ > 0) {
 				sb.append(delim);
 			}
-			sb.append(itr.next());
+			sb.append(it.next());
 		}
 		return sb.toString();
 	}

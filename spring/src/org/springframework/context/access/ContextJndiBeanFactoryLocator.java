@@ -29,7 +29,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Subclass of JndiBeanFactoryLocator which creates a
- * ClassPathXmlApplicationContext instead of a BeanFactory.
+ * ClassPathXmlApplicationContext instead of a DefaultListableBeanFactory.
+ * Operates identically in every other respect.
+ *  
  * @author Colin Sampaleanu
  * @version $Id$
  */

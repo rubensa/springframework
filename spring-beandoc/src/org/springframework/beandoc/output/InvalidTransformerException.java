@@ -22,8 +22,10 @@ import org.springframework.beandoc.BeanDocException;
  * @author Darren Davison
  * @since 1.0
  */
-public class InvalidTransformerException extends BeanDocException {    
-    
+public class InvalidTransformerException extends BeanDocException {  
+
+    private static final long serialVersionUID = 3256446923383911734L;
+
     /**
      * 
      */

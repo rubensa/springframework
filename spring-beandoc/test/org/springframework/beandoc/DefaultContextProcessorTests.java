@@ -78,17 +78,14 @@ public class DefaultContextProcessorTests extends TestCase {
         Transformer t = new Transformer() {
             public void transform(Document[] contextDocuments, File outputDir) {
                 assertEquals(2, contextDocuments.length);                
-                /*
-                 * requires Jaxen
-                 * TODO  
                 try {
-                    Element root = contextDocuments[0].getRootElement();                                       
-                    String refFile = ((Element) XPath.selectSingleNode(root, ".//bean[@id='foo']/property[@name='bar']/ref/@bean")).getText();
-                    assertEquals("context2.xml", refFile);                     
-                } catch (JDOMException e) {
+                    Element beans = contextDocuments[0].getRootElement();  
+                    assertEquals("context1.xml", beans.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME));
+                    Element ref = beans.getChild("bean").getChild("property").getChild("ref");
+                    assertEquals("context2.xml", ref.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME));                     
+                } catch (Exception e) {
                     fail();                    
                 }
-                 */
             }            
         };
         

@@ -24,7 +24,9 @@ package org.springframework.beandoc;
  */
 public class BeanDocException extends RuntimeException {
 
-	/**
+    private static final long serialVersionUID = 3257284716851114544L;
+
+    /**
 	 * 
 	 */
 	public BeanDocException() {

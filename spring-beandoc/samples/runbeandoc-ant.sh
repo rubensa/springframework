@@ -1,4 +1,4 @@
 #!/bin/sh
 
-export CLASSPATH=.:../target/dist/spring-beandoc.jar:../target/dist/spring-core.jar:../target/dist/jdom.jar:../target/dist/commons-logging.jar
-ant beandoc
+CLASSPATH=.:../target/dist/spring-beandoc.jar:../target/dist/spring-core.jar:../target/dist/jdom.jar:../target/dist/commons-logging.jar 
+$ANT_HOME/bin/ant beandoc

@@ -94,6 +94,8 @@ public class GraphVizDecorator extends SimpleDecorator {
             element.setAttribute(ATTRIBUTE_GRAPH_FONTNAME, graphFontName);
             element.setAttribute(ATTRIBUTE_GRAPH_TYPE, graphOutputType);
 			element.setAttribute(ATTRIBUTE_GRAPH_FONTSIZE, String.valueOf(graphFontSize));
+			if (graphXSize > -1 && graphYSize > -1)
+			    element.setAttribute(ATTRIBUTE_GRAPH_SIZE, graphXSize + ", " + graphYSize);		
 			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, graphRatio);		
 			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, graphBeanShape);
 			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(graphLabelLocation));

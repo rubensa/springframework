@@ -36,9 +36,13 @@ public class HtmlDecorator extends SimpleDecorator {
 
     private static final String ATTRIBUTE_TITLE = "beandocContextTitle";
 
+    private static final String ATTRIBUTE_FOOTER = "beandocPageFooter";
+
     private String contextCssUrl = DEFAULT_CSS_FILE;
     
     private String title = "Application Context";    
+    
+    private String footer = "Copyright Spring BeanDoc contributers"; 
     
     private String thisFileName;  
     
@@ -54,6 +58,9 @@ public class HtmlDecorator extends SimpleDecorator {
             element.setAttribute(ATTRIBUTE_TITLE, title);
             thisFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             thisHtmlFileName = StringUtils.replace(thisFileName, ".xml", ".html");
+            
+            // set page footer
+            element.setAttribute(ATTRIBUTE_FOOTER, footer);
         }
         
         String refFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
@@ -77,7 +84,7 @@ public class HtmlDecorator extends SimpleDecorator {
      * @param contextCssUrl a locations (absolute or relative to your output directory) 
      *      that the CSS file can be found which is used to skin the beandoc output.
      */
-    public void setContextCssUrls(String contextCssUrl) {
+    public void setContextCssUrl(String contextCssUrl) {
         this.contextCssUrl = contextCssUrl;
     }
 
@@ -114,4 +121,12 @@ public class HtmlDecorator extends SimpleDecorator {
         return title;
     }
 
+    /**
+     * Set a footer for each page which can contain HTML tags.
+     * 
+     * @param footer the value to use as a footer for each beandoc page
+     */
+    public void setFooter(String footer) {
+        this.footer = footer;
+    }
 }

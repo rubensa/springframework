@@ -5,38 +5,85 @@
   <sect1>
     <title>Simple configuration</title>
 
-    <para>Setup inputs and outputs; sys props, cmd line/Ant attribs,
-    beandoc.properties</para>
+    <para>BeanDoc attempts to be a very flexible tool without incurring a
+    steep learning curve. In the simplest configurations you only need to
+    specify your inputs (one or more Spring context XML files) and an output
+    location. If you wish to take advantage of the <link
+    linkend="overview-graphviz">graphing output</link> too
+    (<emphasis>highly</emphasis> recomended) you'll additionally need to
+    specify the location of your <ulink url="???">GraphViz</ulink> executable
+    once it's installed.</para>
+
+    <para>BeanDoc can be run either via a command line (main method) class, or
+    via an <ulink url="http://ant.apache.org">Ant</ulink> task which is
+    included in the <literal>spring-beandoc.jar</literal> file. However you
+    choose to run the tool, specifying configuration is in most cases
+    identical. Let's look at the simplest case; specifying inputs and outputs
+    only.</para>
+
+    <programlisting>input.files=/projects/my-spring-project/*.xml
+output.dir=/projects/my-spring-project/beandoc/</programlisting>
+
+    <para>The above values are saved in a properties file, the location and
+    name of which can be anything you like, but I'll assume it's been saved as
+    <literal>/projects/my-spring-project/beandoc.properties</literal> since
+    that's as good as anywhere. Inputs and output directory can optionally be
+    specified on the command line (for CLI), as Ant task attributes (for Ant)
+    or as System properties to the JVM (qualified with
+    "<literal>springbeandoc.</literal>"). More detail on this is in the
+    relevant sections below. All other configurable options are specified
+    through the properties file, so for now, we'll stick to specifying
+    everything in here.</para>
+
+    <para><literal>input.files</literal> are expected to point to one or more
+    Spring XML files. You can use any string that represents a Spring
+    <literal>Resource</literal> or array. Some other possibilities are
+    below;</para>
+
+    <programlisting>input.files=/projects/my-spring-project/file1.xml,/projects/my-spring-project/file2.xml
+input.files=classpath:/com/foo/bar/context.xml
+input.files=C:/projects/my-spring-project/*.xml</programlisting>
+
+    <para>BeanDoc will alway aggregate all files supplied into a single
+    logical ApplicationContext or BeanFactory and will always assume that you
+    are specifying files on a file system by default (rather than defaulting
+    to classpath resources).</para>
 
     <sect2>
-      <title>HTML output</title>
+      <title>Running from the command line</title>
 
-      <para>JavaDoc locations, CSS, Title</para>
+      <para></para>
     </sect2>
 
     <sect2>
-      <title>Graphing output</title>
+      <title>Running from an Ant script</title>
 
-      <para>colours, image types</para>
+      <para></para>
     </sect2>
   </sect1>
 
   <sect1>
-    <title>Running with Ant</title>
+    <title>Further configuration</title>
 
-    <para>Ant task, sample scripts</para>
-  </sect1>
+    <para></para>
 
-  <sect1>
-    <title>Running with CLI</title>
+    <sect2>
+      <title>HTML</title>
 
-    <para>Scripts</para>
+      <para></para>
+    </sect2>
+
+    <sect2>
+      <title>Graphs</title>
+
+      <para></para>
+    </sect2>
   </sect1>
 
   <sect1>
     <title>Advanced configuration</title>
 
     <para>supplying XSLT templates, advanced graphing options, defining new
-    context files</para>
+    context files, interacting programatically</para>
   </sect1>
 </chapter>

@@ -396,7 +396,11 @@
 	<!--
 		Release zip file generation
 	-->
-	<target name="release" depends="dist,docpdf" description="Build distribution units and all documentation.  Generate release zip">
+	<target 
+		name="release" 
+		depends="clean,tests,dist,docpdf" 
+		description="Build distribution units and all documentation.  Generate release zip">
+		
 		<delete file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
 		<copy file="${target.refdocs.pdf.dir}/spring-beandoc.pdf" todir="${basedir}"/>
 		<zip zipfile="${target.dist.dir}/${project.name}-${project.version}.zip">
@@ -406,6 +410,7 @@
 			</fileset>
 		</zip>
 		<delete file="${basedir}/spring-beandoc.pdf"/>
+		
 	</target>
     
 </project>

@@ -40,7 +40,7 @@
             <head>
                 <title><xsl:value-of select="beans/@beandocFileName"/></title>
                 <link rel="stylesheet" href="{beans/@beandocCssLocation}" type="text/css"/>
-                <!-- hack using an MS extension to ensure the next stylesheet is only loaded by IE5 browsers -->
+                <!-- hack using an MS extension to ensure the next stylesheet is *only* loaded by IE5 browsers -->
                 <xsl:comment>[if IE 5]>
                     &lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
                     &lt;![endif]</xsl:comment>              
@@ -61,10 +61,17 @@
                     
                     <strong>Description:</strong><br/>
                     <xsl:value-of select="beans/description"/>
-                    <br style="clear:both"/>
                 </p>
-                
-                <!-- do beandoc -->
+		                
+			    <p class="beanAttributeSummary">
+					<strong>Attributes</strong>
+					<table summary="Attribute list for this context file">
+						<xsl:apply-templates select="beans/@*"/>
+					</table>
+				</p>	
+				
+                <br style="clear:both"/>
+
                 <a name="summary"><xsl:comment>::</xsl:comment></a>
                 <h2>Summary of beans</h2>
                 <table summary="Summary list and description of beans defined in this file">
@@ -87,13 +94,52 @@
                 <h2>Detail of beans</h2>
                 <xsl:apply-templates select="beans/bean"/>
                 
+                <p id="pageFooter">
+                	<xsl:value-of select="beans/@beandocPageFooter"/>
+                </p>
             </body>
         </html>
 
     </xsl:template>
     
     
+    <!--
+     * Table of all attributes (inluding implicit values but excluding 'beandoc'
+     * attributes) for a given node
+    -->
+    <xsl:template match="@*">
+		<xsl:if test="substring(name(), 1, 7) != 'beandoc'">
+		<tr><td class="keyLabel"><xsl:value-of select="name()"/></td>
+		<td>
+		<xsl:choose>
+			<xsl:when test="name()='class'">
+				<xsl:choose>
+					<xsl:when test="../@beandocJavaDoc">
+						<a class="classValue mono" href="{../@beandocJavaDoc}" target="secondary">
+							<xsl:value-of select="."/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise>                     
+						<span class="classValue mono"><xsl:value-of select="."/></span>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:when test="name()='parent'">
+				<a class="classValue mono" href="{../@beandocHtmlFileName}#{.}">
+					<img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
+				</a> 
+			</xsl:when>
+			<xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+		</xsl:choose>
+		</td></tr>
+		</xsl:if>
+    </xsl:template>
     
+    
+    
+    <!--
+     * Menu bar for top, possibly bottom, of each page
+    -->
     <xsl:template name="menuBar">
         <div id="menuBar">
           <a class="menuItem" href="main.html">home</a> ::
@@ -141,37 +187,11 @@
         </xsl:if>       
         
         <p class="beanAttributeSummary">
-            <strong>Attributes</strong>
-            <table>
-            <xsl:for-each select="@*">
-                <xsl:if test="substring(name(), 1, 7) != 'beandoc'">
-                <tr><td class="keyLabel"><xsl:value-of select="name()"/></td>
-                <td>
-                <xsl:choose>
-                    <xsl:when test="name()='class'">
-                        <xsl:choose>
-                            <xsl:when test="../@beandocJavaDoc">
-                                <a class="classValue mono" href="{../@beandocJavaDoc}" target="secondary">
-                                    <xsl:value-of select="."/>
-                                </a>
-                            </xsl:when>
-                            <xsl:otherwise>                     
-                                <span class="classValue mono"><xsl:value-of select="."/></span>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:when>
-                    <xsl:when test="name()='parent'">
-                        <a class="classValue mono" href="{../@beandocHtmlFileName}#{.}">
-                            <img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
-                        </a> 
-                    </xsl:when>
-                    <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
-                </xsl:choose>
-                </td></tr>
-                </xsl:if>
-            </xsl:for-each>
-            </table>
-        </p>
+			<strong>Attributes</strong>
+			<table summary="Attribute list for this bean">
+				<xsl:apply-templates select="./@*"/>
+			</table>
+		</p>
         
         <!-- ctor args / dependencies / properties -->
         <xsl:if test="count(./constructor-arg)>0">

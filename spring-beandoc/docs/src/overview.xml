@@ -7,24 +7,65 @@
 
     <para>Spring BeanDoc is a tool for documenting context definition files
     used in <ulink url="http://www.springframework.org">Spring</ulink>
-    projects...</para>
+    projects. An unmodified beandoc run produces HTML with a JavaDoc-ish look
+    and feel to it, although the tool is highly configurable and extensible to
+    meet the needs of most.</para>
+
+    <figure>
+      <title>Screenshot of sample beandoc output in FireFox</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata align="left" fileref="images/main-firefox.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
   </sect1>
 
   <sect1>
-    <title>Obtaining the sources</title>
-
-    <para>CVS access / release downloads</para>
+    <title>Obtaining BeanDoc</title>
 
     <sect2>
-      <title>Project structure</title>
+      <title>CVS</title>
 
-      <para>Directory structure</para>
+      <para>Spring BeanDoc is part of the SpringFramework CVS repository,
+      existing as a separate module from the main Spring sources. You can
+      v<ulink
+      url="http://cvs.sourceforge.net/viewcvs.py/springframework/spring-beandoc/">iew
+      the module</ulink> via ViewCVS or <ulink url="???">check it out
+      anonymously</ulink> using normal CVS access. The module name is
+      <emphasis role="bold">spring-beandoc</emphasis>.</para>
+    </sect2>
+
+    <sect2>
+      <title>Releases</title>
+
+      <para>If you don't wish to track CVS you can <ulink url="???">download
+      release files</ulink> which contain all of the project sources, samples
+      and compiled documentation instead.</para>
     </sect2>
 
     <sect2>
       <title>Building the sources</title>
 
-      <para>Ant buld file / scripts</para>
+      <para>Having checked out or unzipped the project sources, cd to the
+      <literal>build</literal> directory and invoke <literal>ant
+      dist</literal> to generate the <literal>spring-beandoc.jar</literal>
+      file. This file, along with all other runtime dependencies will be
+      placed in <literal>target/dist</literal> (unless you overrode the target
+      directory in your <literal>build.properties</literal>). Runtime libs can
+      now be added to any of your Spring projects that you wish to document,
+      or just left where they are and referenced on the classpath.</para>
     </sect2>
+  </sect1>
+
+  <sect1>
+    <title>GraphViz</title>
+
+    <para>One of the most useful features of BeanDoc is its ability to
+    generate configurable graphs of the context files. The actual graphing
+    tool used is called GraphViz, and you will need to obtain and install a
+    copy for your platform from <ulink url="http://www.graphviz.org">their
+    website</ulink>. Thanks to the ATT guys for a great tool.</para>
   </sect1>
 </chapter>

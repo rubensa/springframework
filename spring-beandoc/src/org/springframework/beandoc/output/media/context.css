@@ -115,6 +115,12 @@ div.beanHeader {
     vertical-align: middle;    
     float: left;
   }
+  
+#pageFooter {
+	font-style: italic;
+	text-align: right;
+    color: #c0c0c0;
+  }
 
 #fileListTable {
     border-collapse: collapse;

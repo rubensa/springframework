@@ -14,9 +14,14 @@ package org.springframework.rules.reporting;
 public class TypeResolvableSupport implements TypeResolvable {
     private String type;
 
-    /**
-     * @see org.springframework.rules.reporting.TypeResolvable#getType()
-     */
+    public TypeResolvableSupport() {
+        
+    }
+    
+    public TypeResolvableSupport(String type) {
+        setType(type);
+    }
+    
     public String getType() {
         return type;
     }

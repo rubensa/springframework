@@ -14,19 +14,15 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.groovy;
-
+package org.springframework.beans.factory.groovy;
 
 /**
- * TODO use an existing spring class (JAR size?)
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public class CannotInstantiateGroovyClassException extends GroovyScriptException {
+public interface Hello {
 	
-	public CannotInstantiateGroovyClassException(String mesg, Exception ex) {
-		super(mesg, ex);
-	}
+	String sayHello(); 
 
 }

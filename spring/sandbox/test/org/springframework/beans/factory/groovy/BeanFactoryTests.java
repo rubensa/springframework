@@ -14,8 +14,9 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.groovy;
+package org.springframework.beans.factory.groovy;
 
+import org.springframework.beans.factory.groovy.DynamicScript;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import junit.framework.TestCase;
@@ -27,20 +28,22 @@ import junit.framework.TestCase;
  */
 public class BeanFactoryTests extends TestCase {
 	
+	private static final String SIMPLE_XML = "/org/springframework/beans/factory/groovy/simple.xml";
+	
 	public void testSimple() {
-		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("/org/springframework/beans/groovy/simple.xml");
+		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext(SIMPLE_XML);
 		Hello hello = (Hello) ac.getBean("simple");
 		assertEquals("hello world", hello.sayHello());
 	}
 	
 	public void testStringProperty() {
-		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("/org/springframework/beans/groovy/simple.xml");
+		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext(SIMPLE_XML);
 		Hello hello = (Hello) ac.getBean("property");
 		assertEquals("hello world property", hello.sayHello());
 	}
 	
 	public void testDependencyOnReloadedGroovyBean() throws Exception {
-		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext("/org/springframework/beans/groovy/simple.xml");
+		ClassPathXmlApplicationContext ac = new ClassPathXmlApplicationContext(SIMPLE_XML);
 		Hello delegatingHello = (Hello) ac.getBean("dependsOnProperty");
 		assertEquals("hello world property", delegatingHello.sayHello());
 		

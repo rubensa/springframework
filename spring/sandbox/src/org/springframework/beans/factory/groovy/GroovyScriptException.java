@@ -14,23 +14,19 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.groovy;
+package org.springframework.beans.factory.groovy;
 
-import java.io.IOException;
+import org.springframework.core.NestedRuntimeException;
 
 /**
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public class ScriptNotFoundException extends GroovyScriptException {
+public abstract class GroovyScriptException extends NestedRuntimeException {
 	
-	public ScriptNotFoundException(String mesg, IOException ex) {
-		super(mesg, ex);
-	}
-	
-	public ScriptNotFoundException(String mesg) {
-		super(mesg, null);
+	public GroovyScriptException(String mesg, Throwable t) {
+		super(mesg, t);
 	}
 
 }

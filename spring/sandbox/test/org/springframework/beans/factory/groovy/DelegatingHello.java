@@ -14,19 +14,23 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.groovy;
-
-import org.codehaus.groovy.control.CompilationFailedException;
+package org.springframework.beans.factory.groovy;
 
 /**
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public class CompilationException extends GroovyScriptException {
+public class DelegatingHello implements Hello {
 	
-	public CompilationException(String mesg, CompilationFailedException ex) {
-		super(mesg, ex);
+	private Hello hello;
+	
+	public void setHello(Hello hello) {
+		this.hello = hello;
+	}
+	
+	public String sayHello() {
+		return this.hello.sayHello();
 	}
 
 }

@@ -14,15 +14,24 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.groovy;
+package org.springframework.beans.factory.groovy;
+
 
 /**
- * 
+ * Interface to be implemented by dynamic (reloadable)
+ * Groovy beans, returned by the dynamicObject() method
+ * of GroovyFactory.
  * @author Rod Johnson
  * @version $Id$
  */
-public interface Hello {
+public interface DynamicScript {
 	
-	String sayHello();
+	void reload() throws GroovyScriptException;
+	
+	int getLoads();
+	
+	long getLastReloadMillis();
+	
+	String getClassName();
 
 }

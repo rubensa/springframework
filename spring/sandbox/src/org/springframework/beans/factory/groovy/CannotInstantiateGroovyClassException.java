@@ -14,23 +14,20 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.groovy;
+package org.springframework.beans.factory.groovy;
+
+
 
 /**
- * Interface to be implemented by dynamic (reloadable)
- * Groovy beans, returned by the dynamicObject() method
- * of GroovyFactory.
+ * TODO use an existing spring class (JAR size?)
+ * 
  * @author Rod Johnson
  * @version $Id$
  */
-public interface DynamicScript {
+public class CannotInstantiateGroovyClassException extends GroovyScriptException {
 	
-	void reload() throws GroovyScriptException;
-	
-	int getLoads();
-	
-	long getLastReloadMillis();
-	
-	String getClassName();
+	public CannotInstantiateGroovyClassException(String mesg, Exception ex) {
+		super(mesg, ex);
+	}
 
 }

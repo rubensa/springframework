@@ -337,7 +337,7 @@
 				<include name="lib/hsqldb/**"/>
 				<include name="lib/hibernate/**"/>
 				<include name="lib/ibatis/**"/>
-				<include name="lib/itext-pdf/**"/>
+				<include name="lib/itext/**"/>
 				<include name="lib/jakarta-commons/**"/>
 				<include name="lib/jakarta-taglibs/**"/>
 				<include name="lib/j2ee/**"/>

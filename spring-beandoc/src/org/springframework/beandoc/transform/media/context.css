@@ -1,0 +1,129 @@
+/*
+ * Copyright 2002-2004 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ 
+
+/*
+ * context.css
+ *
+ * Default style attributes for BeanDoc that will be copied into the
+ * output directory for the HTML file(s) if no overriding value is
+ * specified in the configuration
+ *
+ * @author Darren Davison
+ * @since 1.0
+ */
+
+/* default font family for all elements */
+* {
+	font-family: arial,helvetica,sans-serif;
+}
+
+body {
+	font-size: 80%;
+	background-color: white;
+}
+
+h1 {
+	font-size: 140%;
+	text-align: center;
+	background-color: #ccccff;
+	border: 1px solid #808080;
+	padding: 5px;
+}
+
+h2 {
+	font-size: 120%;
+	border-bottom: 1px solid #c0c0c0;
+	background-color: #eeeeff;
+	border: 1px solid #c0c0c0;
+	padding: 2px;
+}
+
+img {
+	border-width: 0px;
+}
+
+.descriptionBlock {
+
+}
+
+#fileListTable {
+	border-collapse: collapse;
+	border-width: 0px;
+	padding:2px;
+}
+
+table.beanHeader {
+	border-collapse: collapse;
+	border-width: 0px;
+	padding:2px;
+	width: 100%;
+}
+
+table.invisibleTable {
+	border-width: 0px;
+	cellpadding: 0px;
+	cellspacing: 0px;
+}
+
+td {
+	font-size: smaller;
+	padding: 4px;
+	vertical-align: top;
+}
+
+th {
+	background-color: #eeeeee;
+	border: 1px solid #cccccc;
+	text-align: left;
+}
+
+th.abstractTitle {
+	padding-left: 8px;
+	font-style: italic;
+}
+
+th.concreteTitle {
+	padding-left: 8px;
+}
+
+td.keyLabel {
+	color: #808080;
+	width: 90px;
+}
+
+a.classValue {
+	color: #0000ff;
+}
+
+span.classValue {
+	color:#000080;
+}
+
+.propertyValue {
+	color: #800000;
+}
+
+.refValue {
+	color: #000080;
+}
+
+.keyValue {
+	color: #808000;
+}
+
+.mono {
+	font-family: "Courier New", "Andale Mono", monospace;
+}

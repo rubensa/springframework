@@ -467,7 +467,7 @@ public class DefaultContextProcessor implements ContextProcessor {
                     
                 if (Tags.TAGNAME_BEAN.equals(tag) && element.getAttribute(Tags.ATTRIBUTE_PARENT) != null) {
                     element.setAttribute(
-                    Tags.ATTRIBUTE_BD_FILENAME, 
+                        Tags.ATTRIBUTE_BD_FILENAME, 
                         (String) beanMap.get(element.getAttributeValue(Tags.ATTRIBUTE_PARENT))
                     );
                     logger.debug(

@@ -49,6 +49,9 @@ public final class PatternMatcher {
      * @return an array of compiled Patterns
      */
     public static Pattern[] convertStringsToPatterns(Collection strings) {
+        if (strings == null || strings.size() == 0)
+            return new Pattern[0];
+        
         List tmp = new LinkedList();
         for (Iterator i = strings.iterator(); i.hasNext();)
             try {
@@ -62,9 +65,6 @@ public final class PatternMatcher {
             } catch (PatternSyntaxException pse) {
                 logger.warn("Ignoring invalid RegEx pattern in String [" + pse.getPattern() + 
                     "]; problem description [" + pse.getMessage() + "]");
-                
-            } catch (Exception e) {
-                logger.warn("Unable to handle Pattern from String; [" + e.getMessage() + "]");
             }
             
         return

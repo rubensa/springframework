@@ -60,4 +60,16 @@ public class EchoTransformerTests extends TestCase {
         
         assertTrue(sw.toString().indexOf(expect) > -1);
     }
+    
+    public void testNullWriter() {
+        EchoTransformer et = new EchoTransformer();
+        StringWriter sw = new StringWriter();
+        et.setWriter(sw);
+        et.setWriter(null);
+        et.setPrettyPrint(false);
+        
+        et.transform(docs, new File(System.getProperty("user.home")));
+        
+        assertTrue(sw.toString().indexOf(expect) > -1);
+    }
 }

@@ -64,6 +64,74 @@ public class DefaultContextProcessorTests extends TestCase {
         }
     }
     
+    public void testMiscMarkup() {        
+        try {
+            DefaultContextProcessor dcpMisc = new DefaultContextProcessor(
+                new String[] {"classpath:org/springframework/beandoc/misc.xml"}, 
+                testOutputDir
+            );
+
+            Map m = new HashMap();
+            m.put("^foo99$", "target");
+            dcpMisc.setValidateFiles(false);
+            dcpMisc.setMergeProxies(m);
+
+            dcpMisc.process();
+            
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+    
+    public void testInvalidXml() {        
+        try {
+            DefaultContextProcessor dcpInvalid = new DefaultContextProcessor(
+                new String[] {"classpath:org/springframework/beandoc/invalid.xml"}, 
+                testOutputDir
+            );
+            dcpInvalid.setValidateFiles(true);
+            assertTrue(dcpInvalid.isValidateFiles());
+            dcpInvalid.process();
+            fail();
+            
+        } catch (Exception e) {
+            assertTrue(e instanceof BeanDocException);
+            assertTrue(e.getMessage().indexOf("Unable to parse or validate") > -1);
+        }
+    }
+    
+    public void testNoValidationOfInvalidXml() {        
+        try {
+            DefaultContextProcessor dcpInvalid = new DefaultContextProcessor(
+                new String[] {"classpath:org/springframework/beandoc/invalid.xml"}, 
+                testOutputDir
+            );
+            dcpInvalid.setValidateFiles(false);
+            assertFalse(dcpInvalid.isValidateFiles());
+            dcpInvalid.process();
+            
+        } catch (Exception e) {
+            fail();
+        }
+    }
+    
+    public void testStringInputs() {
+        String[] testStringInputs = {
+            "classpath:org/springframework/beandoc/context1.xml",
+            "classpath:org/springframework/beandoc/context2.xml"
+        };
+        try {
+            dcp = new DefaultContextProcessor(testStringInputs, testOutputDir);
+            dcp = new DefaultContextProcessor(testStringInputs, System.getProperty("user.home"));
+            Resource[] rezzas = dcp.getInputFiles();
+            assertTrue(rezzas[0] instanceof ClassPathResource);
+            assertEquals(dcp.getOutputDir(), testOutputDir);
+            
+        } catch (IOException e) {
+            fail();
+        }
+    }
+    
     public void testNoOutputDirectoryThrowsIOException() {
         try {
             dcp = new DefaultContextProcessor(testInputs, new File("/hopefully/no/such/directory/exists/"));

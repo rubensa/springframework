@@ -28,6 +28,14 @@ import junit.framework.TestCase;
  * @since 1.0
  */
 public class PatternMatcherTests extends TestCase {
+    
+    public void testNullOrEmptyCollectionOfPatterns() {
+        Pattern[] patterns = PatternMatcher.convertStringsToPatterns(null);
+        assertEquals(0, patterns.length);
+
+        patterns = PatternMatcher.convertStringsToPatterns(new ArrayList());
+        assertEquals(0, patterns.length);
+    }
 
     public void testConvertValidStringsToPatterns() {
         List strings = new ArrayList(3);

@@ -43,7 +43,7 @@ public class BeanDocUtilsTests extends TestCase {
     }
     
     public void testFilterMapByPrefixAndStripPrefix() {
-        Map filtered = BeanDocUtils.filterByPrefix(m, "prefix.", true);
+        Map filtered = BeanDocUtils.filterByPrefix(m, "prefix.");
         assertEquals(2, filtered.size());
         assertTrue(filtered.containsKey("pkey1"));
         assertTrue(filtered.containsKey("pkey2"));
@@ -57,6 +57,20 @@ public class BeanDocUtilsTests extends TestCase {
         assertTrue(filtered.containsKey("prefix.pkey2"));
         assertFalse(filtered.containsKey("pkey1"));
         assertFalse(filtered.containsKey("key1"));
+    }
+    
+    public void testFilterMapByPrefixWithEmptyPrefix() {
+        Map filtered = BeanDocUtils.filterByPrefix(m, "");
+        assertEquals(m, filtered);
+    }
+    
+    public void testNonStringKeyInMap() {
+        m.put(new Object(), new Object());
+        try {
+            Map filtered = BeanDocUtils.filterByPrefix(m, "prefix.", true);
+        } catch (Exception e) {
+            fail(); // s/be swallowed
+        }
     }
 
 }

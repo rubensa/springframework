@@ -21,6 +21,7 @@ import java.io.*;
 import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.springframework.beandoc.BeanDocException;
 
 /**
  * Transformer that simply echoes the XML representation of the decorated DOM.  Useful for
@@ -52,7 +53,7 @@ public class EchoTransformer implements Transformer {
             try {
                 new XMLOutputter(format).output(contextDocuments[i], writer);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new BeanDocException(e);
             }        
     }
 
@@ -63,7 +64,8 @@ public class EchoTransformer implements Transformer {
      * @param writer
      */
     public void setWriter(Writer writer) {
-        this.writer = writer;
+        if (writer != null)
+            this.writer = writer;
     }
 
     /**

@@ -44,6 +44,7 @@ import org.springframework.aop.TargetSource;
  *
  * <p>Proxies created using this class will be threadsafe if the
  * underlying (target) class is threadsafe.
+ * 
  * <p>Proxies are serializable so long as all Advisors
  * are serializable (meaning both Advices and Pointcuts)
  * and the TargetSource is serializable.
@@ -66,7 +67,8 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 	 * This way, we can also more easily take advantage of minor optimizations in each class.
 	 */
 	
-	private Log logger = LogFactory.getLog(getClass());
+	/** We use a static Log to avoid serialization issues */
+	private static Log logger = LogFactory.getLog(JdkDynamicAopProxy.class);
 
 	/** Config used to configure this proxy */
 	private AdvisedSupport advisedSupport;
@@ -173,10 +175,6 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 				// Restore old proxy
 				AopContext.setCurrentProxy(oldProxy);
 			}
-			
-			//if (invocation != null) {
-			//	advised.getMethodInvocationFactory().release(invocation);
-			//}
 		}
 	}
 
@@ -252,7 +250,6 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 			throw new AopConfigException(AdvisedSupport.class + " missing attempting to deserialize an AOP proxy: " +
 					"Are the Spring AOP libraries available on the client side?");
 		}
-		this.logger = LogFactory.getLog(getClass());
 	}
 
 }

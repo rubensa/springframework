@@ -106,7 +106,8 @@ public class JavaMailSenderImpl implements JavaMailSender {
 	}
 
 	/**
-	* Set the mail server port. Default is 25.
+	 * Set the mail server port. Default is -1, letting JavaMail
+	 * use the default SMTP port (25).
 	*/
 	public void setPort(int port) {
 		this.port = port;
@@ -224,7 +225,7 @@ public class JavaMailSenderImpl implements JavaMailSender {
 				mimeMessagePreparators[i].prepare(mimeMessage);
 				mimeMessages.add(mimeMessage);
 			}
-			send((MimeMessage[])mimeMessages.toArray(new MimeMessage[mimeMessages.size()]));
+			send((MimeMessage[]) mimeMessages.toArray(new MimeMessage[mimeMessages.size()]));
 		}
 		catch (MessagingException ex) {
 			throw new MailParseException(ex);

@@ -52,6 +52,10 @@
 		<delete dir="${target.otherclasses.dir}"/>
 		<delete dir="${target.release.dir}"/>
 		<delete dir="${target.testclasses.dir}"/>
+		<delete dir="${target.loadclasses.dir}"/>
+	
+        <!-- just kill target dir (it's safer). No need at this point to keep it -->
+		<delete dir="${target.dir}"/>
 
 	</target>
 
@@ -398,7 +402,7 @@
 	</target>
 
 
-	<target name="loadjar" depends="buildtests" description="Build load test jar">
+	<target name="loadjar" depends="initdist, buildtests" description="Build load test jar">
 
 		<mkdir dir="${target.loadclasses.dir}"/>
 

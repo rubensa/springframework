@@ -31,7 +31,6 @@
     	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     	/>
     	
-    <xsl:param name="beandocXslGraphType">png</xsl:param> 
     <xsl:param name="beandocGenerated">unknown</xsl:param> 
 
     <!--
@@ -40,18 +39,18 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="beans/@beandocFileName"/></title>
+                <title><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></title>
                 <link rel="stylesheet" href="{consolidated/beans[1]/@beandocCssLocation}" type="text/css"/>
             </head>
   
             <body>
       			<div id="bannerBar">beandoc generated: <xsl:value-of select="$beandocGenerated"/></div>
-                <h1>Application Context</h1>
+                <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
 
                 <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage">
                 <p>
-                    <a href="{consolidated/beans[1]/@beandocConsolidatedImage}" title="View graph for this context">
-                        <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for this context"/>
+                    <a href="{consolidated/beans[1]/@beandocConsolidatedImage}" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
+                        <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {consolidated/beans[1]/@beandocContextTitle}"/>
                     </a>
                 </p>
                 </xsl:if>

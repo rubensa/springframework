@@ -30,7 +30,6 @@
     	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
     	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     	/>
-    <xsl:param name="beandocXslGraphType">png</xsl:param> 
 
     <!--
      * Template structure of HTML output
@@ -51,8 +50,8 @@
                 
                 <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
                 <p>
-                    <a href="{$fileRoot}.{$beandocXslGraphType}" title="View full size image">
-                        <img src="{$fileRoot}.{$beandocXslGraphType}" alt="Graph" id="inlineContextImage" />
+                    <a href="{$fileRoot}.{beans/@beandocGraphType}" title="View full size image">
+                        <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
                     </a>
                 	
                 	<strong>Description:</strong><br/>
@@ -61,13 +60,13 @@
                 </p>
                 
                 <!-- do beandoc -->
-                <a name="summary" />
+                <a name="summary"><xsl:comment>::</xsl:comment></a>
                 <h2>Summary of beans</h2>
 		    	<table summary="Summary list and description of beans defined in this file">
 		    		<xsl:apply-templates select="beans/bean" mode="summary"/>
                 </table>
                 
-                <a name="detail" />
+                <a name="detail"><xsl:comment>::</xsl:comment></a>
                 <h2>Detail of beans</h2>
                 <xsl:apply-templates select="beans/bean" mode="detail"/>
                 
@@ -119,7 +118,7 @@
             </xsl:choose>
         </xsl:variable>
         
-        <a name="{$beandocId}" />
+        <a name="{$beandocId}"><xsl:comment>::</xsl:comment></a>
         <div style="background-color: {@beandocFillColour}" class="beanHeader">
                 <img src="bean_local.gif" alt="Bean" />
         </div>
@@ -209,7 +208,7 @@
     
     
     
-    <xsl:template match="constructor-arg">
+    <xsl:template match="constructor-arg" mode="detail">
         <tr>
             <td class="keyLabel">
                 <xsl:if test="@index">index <xsl:value-of select="@index"/></xsl:if>
@@ -223,21 +222,16 @@
     
     
 
-    <xsl:template match="value" name="value">
+    <xsl:template match="value" name="value" mode="detail">
         <xsl:value-of select="."/><br/>
     </xsl:template>   
     
     
     
     <xsl:template match="props" mode="detail">
-        <table class="invisibleTable" summary="Property list">
         <xsl:for-each select="./prop">
-        <tr>
-            <td><span class="keyLabel"><xsl:value-of select="@key"/></span></td>
-            <td><xsl:value-of select="."/></td>
-        </tr>
+        	<span class="keyLabel"><xsl:value-of select="@key"/></span> = <xsl:value-of select="."/><br/>
         </xsl:for-each>
-        </table>
     </xsl:template>
     
     
@@ -259,15 +253,20 @@
         </a><br/>
     </xsl:template>
     
+    
+    
     <xsl:template match="map" mode="detail">
-        <table class="invisibleTable" summary="List of map items">
         <xsl:for-each select="./entry">
-        <tr>
-            <td><span class="keyLabel"><xsl:value-of select="@key"/></span></td>
-            <td><xsl:apply-templates select="."/></td>
-        </tr>
+        	<span class="keyLabel"><xsl:value-of select="@key"/></span> --&gt;
+        	<xsl:apply-templates mode="detail"/>
         </xsl:for-each>
-        </table>
+    </xsl:template>
+    
+    
+    <xsl:template match="list" mode="detail">
+        <xsl:for-each select="./value">
+        	<xsl:apply-templates mode="detail"/><br/>
+        </xsl:for-each>
     </xsl:template>
 
 </xsl:stylesheet>

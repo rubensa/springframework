@@ -32,7 +32,7 @@ import org.springframework.beandoc.BeanDocException;
  */
 public class GraphVizDecorator extends SimpleDecorator {
 
-    protected static final String ATTRIBUTE_GRAPH_NAME = "beandocGraphName";
+    protected static final String ATTRIBUTE_GRAPH_TYPE = "beandocGraphType";
   
     protected static final String ATTRIBUTE_GRAPH_FONTNAME = "beandocGraphFontName";
 	
@@ -92,6 +92,7 @@ public class GraphVizDecorator extends SimpleDecorator {
     protected void decorateElement(Element element) {
         if (element.isRootElement()) {
             element.setAttribute(ATTRIBUTE_GRAPH_FONTNAME, graphFontName);
+            element.setAttribute(ATTRIBUTE_GRAPH_TYPE, graphOutputType);
 			element.setAttribute(ATTRIBUTE_GRAPH_FONTSIZE, String.valueOf(graphFontSize));
 			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, graphRatio);		
 			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, graphBeanShape);
@@ -241,7 +242,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * if the graph has to be printed to ensure it will fit on the target paper size.  Used
      * by GraphViz in conjunction with the ratio setting to determine final layout and
      * positioning of nodes on the graph.  If the corresponding value for the y-axis of
-     * the graph is not set, this value is ignored by the <code>BeanDocEngine</code>.
+     * the graph is not set, this value is ignored.
      * 
      * @param x a float value specifying the length of the x-axis of the graph
      */
@@ -254,7 +255,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * if the graph has to be printed to ensure it will fit on the target paper size.  Used
      * by GraphViz in conjunction with the ratio setting to determine final layout and
      * positioning of nodes on the graph.  If the corresponding value for the x-axis of
-     * the graph is not set, this value is ignored by the <code>BeanDocEngine</code>.
+     * the graph is not set, this value is ignored.
      * 
      * @param y a float value specifying the length of the y-axis of the graph
      */
@@ -426,7 +427,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * if the graph has to be printed to ensure it will fit on the target paper size.  Used
      * by GraphViz in conjunction with the ratio setting to determine final layout and
      * positioning of nodes on the graph.  If the corresponding value for the y-axis of
-     * the graph is not set, this value is ignored by the <code>BeanDocEngine</code>.
+     * the graph is not set, this value is ignored.
      * 
      * @return a float value for the length of the x-axis of a graph, or -1 if the value is
      *      not set.
@@ -443,7 +444,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * if the graph has to be printed to ensure it will fit on the target paper size.  Used
      * by GraphViz in conjunction with the ratio setting to determine final layout and
      * positioning of nodes on the graph.  If the corresponding value for the x-axis of
-     * the graph is not set, this value is ignored by the <code>BeanDocEngine</code>.
+     * the graph is not set, this value is ignored.
      * 
      * @return a float value for the length of the y-axis of a graph, or -1 if the value is
      *      not set.

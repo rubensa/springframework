@@ -34,6 +34,8 @@ public class HtmlDecorator extends SimpleDecorator {
 
     private static final String ATTRIBUTE_HTML_NAME = "beandocHtmlFileName";
 
+    private static final String ATTRIBUTE_TITLE = "beandocContextTitle";
+
     private String contextCssUrl = DEFAULT_CSS_FILE;
     
     private String title = "Application Context";    
@@ -47,8 +49,9 @@ public class HtmlDecorator extends SimpleDecorator {
      */
     protected void decorateElement(Element element) {
         if (element.isRootElement()) {
-            // add CSS file locations
+            // add CSS file locations, title
             element.setAttribute(ATTRIBUTE_CSS_NAME, contextCssUrl);
+            element.setAttribute(ATTRIBUTE_TITLE, title);
             thisFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             thisHtmlFileName = StringUtils.replace(thisFileName, ".xml", ".html");
         }

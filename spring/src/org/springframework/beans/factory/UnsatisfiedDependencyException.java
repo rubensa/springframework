@@ -16,6 +16,16 @@ package org.springframework.beans.factory;
  */
 public class UnsatisfiedDependencyException extends BeanDefinitionStoreException {
 
+	/**
+	 * @param name
+	 * @param propertyName
+	 * @param string
+	 */
+	public UnsatisfiedDependencyException(String beanName, String propertyName, String message) {
+		super("Bean with name '" + beanName + "' has an unsatisfied dependency expressed through property '" + 
+				propertyName + "': set this property value or disable dependency checking for this bean:" +				"detail message=[" + message + "]", null);
+	}
+
 	public UnsatisfiedDependencyException(String beanName, String propertyName) {
 		super("Bean with name '" + beanName + "' has an unsatisfied dependency expressed through property '" + 
 			propertyName + "': set this property value or disable dependency checking for this bean", null);

@@ -13,24 +13,24 @@ import org.springframework.rules.Constraint;
  * @author  Keith Donald
  */
 public interface ValidationResults {
-    
-    /**
-     * @return Returns the rejectedValue.
-     */
-    public Object getRejectedValue();
 
-    /**
-     * @return Returns the violatedConstraint.
-     */
-    public Constraint getViolatedConstraint();
+	/**
+	 * @return Returns the rejectedValue.
+	 */
+	public Object getRejectedValue();
 
-    /**
-     * @return Returns the violatedCount.
-     */
-    public int getViolatedCount();
+	/**
+	 * @return Returns the violatedConstraint.
+	 */
+	public Constraint getViolatedConstraint();
 
-    /**
-     * @return Returns the severity.
-     */
-    public Severity getSeverity();
+	/**
+	 * @return Returns the violatedCount.
+	 */
+	public int getViolatedCount();
+
+	/**
+	 * @return Returns the severity.
+	 */
+	public Severity getSeverity();
 }

@@ -88,6 +88,11 @@ public class SQLErrorCodesFactory {
 	private Map rdbmsErrorCodes;
 
 	/**
+	* Create a Map to hold database product name retreived from database metadata.
+	*/
+	private Map dataSourceProductName = new HashMap(10);
+
+	/**
 	 * Not public to enforce Singleton design pattern.
 	 * Would be private except to allow testing via overriding the
 	 * loadInputStream() method.
@@ -157,6 +162,15 @@ public class SQLErrorCodesFactory {
 	 */
 	public SQLErrorCodes getErrorCodes(DataSource ds) {
 		logger.info("Looking up default SQLErrorCodes for DataSource");
+        // Lets avoid looking up database product info if we can.
+        Integer dataSourceHash = new Integer(ds.hashCode());
+        if (dataSourceProductName.containsKey(dataSourceHash)) {
+            String dataSourceDbName = (String)dataSourceProductName.get(dataSourceHash);
+            logger.info("Database product name found in cache {" + 
+            		dataSourceHash + "}. Name is " + dataSourceDbName);
+            return getErrorCodes(dataSourceDbName);
+        }
+        // We could not find it - got to look it up.
 		Connection con = null;
 		try {
 			con = DataSourceUtils.getConnection(ds);
@@ -178,6 +192,7 @@ public class SQLErrorCodesFactory {
 						dbName = "DB2";
 					}
 					if (dbName != null) {
+						dataSourceProductName.put(new Integer(ds.hashCode()), dbName);
 						logger.info("Database Product Name is " + dbName);
 						logger.info("Driver Version is " + driverVersion);
 						SQLErrorCodes sec = (SQLErrorCodes) this.rdbmsErrorCodes.get(dbName);

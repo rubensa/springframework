@@ -16,6 +16,7 @@
 
 package org.springframework.aop.interceptor;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 import org.aopalliance.aop.AspectException;
@@ -78,6 +79,16 @@ public class ExposeInvocationInterceptor implements MethodInterceptor, Serializa
 		finally {
 			invocation.set(old);
 		}
+	}
+	
+	/**
+	 * Required to support serialization.
+	 * Replaces with canonical instance on deserialization,
+	 * protecting Singleton pattern. 
+	 * Alternative to overriding equals().
+	 */
+	private Object readResolve() throws ObjectStreamException {
+		return INSTANCE;
 	}
 
 }

@@ -40,6 +40,9 @@ public class HasMap {
 	
 	private Integer[] intArray;
 
+	private HasMap() {
+	}
+
 	public Map getMap() {
 		return map;
 	}

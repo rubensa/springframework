@@ -330,9 +330,6 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 				throw new BeanDefinitionValidationException("FactoryBean must be defined as singleton - " +
 																										"FactoryBeans themselves are not allowed to be prototypes");
 			}
-			if (getBeanClass().getConstructors().length == 0) {
-				throw new BeanDefinitionValidationException("No public constructor in class [" + getBeanClass() + "]");
-			}
 		}
 	}
 

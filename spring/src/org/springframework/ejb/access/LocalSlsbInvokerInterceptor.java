@@ -16,12 +16,12 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.MethodInvocationException;
 
 /**
- * <p>Interceptor that invokes a local Stateless Session Bean, after caching
- * the home object. A local EJB home can never go stale.</p>
+ * <p>Invoker for a local Stateless Session Bean.
+ * Caches the home object. A local EJB home can never go stale.
  * 
  * <p>See {@link org.springframework.jndi.AbstractJndiLocator} for info on
- * how to specify the JNDI location of the target EJB</p>
- * 
+ * how to specify the JNDI location of the target EJB.
+ *
  * <p>In a bean container, this class is normally best used as a singleton. However,
  * if that bean container pre-instantiates singletons (as do the XML ApplicationContext
  * variants) you may have a problem if the bean container is loaded before the EJB
@@ -29,8 +29,8 @@ import org.springframework.beans.MethodInvocationException;
  * the init method of this class and cached, but the EJB will not have been bound at the
  * target location yet. The solution is to not pre-instantiate this factory object, but
  * allow it to be created on first use. In the XML containers, this is controlled via
- * the lazy-init attribute.</p>
- * 
+ * the "lazy-init" attribute.
+ *
  * @author Rod Johnson
  * @version $Id$
  */
@@ -41,7 +41,7 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 			logger.debug("Trying to create reference to local EJB");
 		}
 
-		// Call superclass to invoke the EJB create method on the cached home
+		// call superclass to invoke the EJB create method on the cached home
 		EJBLocalObject session = (EJBLocalObject) create();
 
 		if (logger.isDebugEnabled()) {
@@ -51,8 +51,7 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 	}
 
 	/**
-	 * This is the last invoker in the chain: 
-	 * invoke the EJB.
+	 * This is the last invoker in the chain: invoke the EJB.
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		try {
@@ -69,8 +68,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 				throw targetException;
 			}
 		}
-		catch (Throwable t) {
-			throw new AspectException("Failed to invoke local EJB [" + getJndiName() + "]", t);
+		catch (Throwable ex) {
+			throw new AspectException("Failed to invoke local EJB [" + getJndiName() + "]", ex);
 		}
 	}
 

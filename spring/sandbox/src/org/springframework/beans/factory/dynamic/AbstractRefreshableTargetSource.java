@@ -16,7 +16,8 @@
 
 package org.springframework.beans.factory.dynamic;
 
-import org.springframework.aop.target.HotSwappableTargetSource;
+import org.springframework.aop.TargetSource;
+import org.springframework.aop.support.DelegatingIntroductionInterceptor;
 
 /**
  * Superclass for TargetSources that are threadsafe yet
@@ -24,20 +25,42 @@ import org.springframework.aop.target.HotSwappableTargetSource;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class AbstractRefreshableTargetSource extends HotSwappableTargetSource implements ExpirableObject {
+public abstract class AbstractRefreshableTargetSource extends DelegatingIntroductionInterceptor implements TargetSource, DynamicObject {
 	
 	private int loads;
 	
 	private long lastRefresh;
 	
+	private Object target;
+	
+	private ExpirableObject expirableObject;
+	
+	private long expiry;
+	
+	private boolean autoRefresh;
+	
+	private long lastRefreshTime;
+	
+	private long lastCheck;
+	
 	public AbstractRefreshableTargetSource(Object initialTarget) {
-		super(initialTarget);
-		lastRefresh = System.currentTimeMillis();
+		lastRefresh = lastCheck = System.currentTimeMillis();
 		loads = 1;
+		suppressInterface(TargetSource.class);
+		this.target = initialTarget;
 	}
 	
-	public void refresh() {
-		swap(refreshedTarget());
+	public void setExpirableObject(ExpirableObject expirableObject) {
+		this.expirableObject = expirableObject;
+	}
+	
+	public void setExpirySeconds(long expirySeconds) {
+		this.expiry = expirySeconds * 1000;
+	}
+	
+	public synchronized void refresh() {
+		target = refreshedTarget();
+		lastRefreshTime = System.currentTimeMillis();
 		++loads;
 	}
 	
@@ -59,6 +82,58 @@ public abstract class AbstractRefreshableTargetSource extends HotSwappableTarget
 	 * @see org.springframework.beans.factory.dynamic.ExpirableObject#isModified()
 	 */
 	public boolean isModified() {
+		if (expirableObject != null) {
+			return expirableObject.isModified();
+		}
 		throw new UnsupportedOperationException();
+	}
+	/**
+	 * @see org.springframework.aop.TargetSource#getTarget()
+	 */
+	public synchronized Object getTarget() throws Exception {
+		if (autoRefresh &&
+				System.currentTimeMillis() - lastCheck > expiry) {
+			if (isModified()) {
+				refresh();
+			}
+			lastCheck = System.currentTimeMillis();
+		}
+		return this.target;
+	}
+	/**
+	 * @see org.springframework.aop.TargetSource#getTargetClass()
+	 */
+	public Class getTargetClass() {
+		return target.getClass();
+	}
+	/**
+	 * @see org.springframework.aop.TargetSource#isStatic()
+	 */
+	public boolean isStatic() {
+		return false;
+	}
+	/**
+	 * @see org.springframework.aop.TargetSource#releaseTarget(java.lang.Object)
+	 */
+	public void releaseTarget(Object target) throws Exception {
+		// Do nothing
+	}
+	/**
+	 * @see org.springframework.beans.factory.dynamic.DynamicObject#getExpiry()
+	 */
+	public long getExpiry() {
+		return expiry;
+	}
+	/**
+	 * @see org.springframework.beans.factory.dynamic.DynamicObject#isAutoRefresh()
+	 */
+	public boolean isAutoRefresh() {
+		return autoRefresh;
+	}
+	/**
+	 * @see org.springframework.beans.factory.dynamic.DynamicObject#setAutoRefresh(boolean)
+	 */
+	public void setAutoRefresh(boolean autoRefresh) {
+		this.autoRefresh = autoRefresh;
 	}
 }

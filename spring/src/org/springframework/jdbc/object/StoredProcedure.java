@@ -15,8 +15,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.jdbc.core.SQLExceptionTranslater;
-import org.springframework.jdbc.core.SQLExceptionTranslaterFactory;
+import org.springframework.jdbc.core.SQLExceptionTranslator;
+import org.springframework.jdbc.core.SQLExceptionTranslatorFactory;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
@@ -49,7 +49,7 @@ public abstract class StoredProcedure extends RdbmsOperation {
 	private boolean function = false;
 
 	/** Helper to translate SQL exceptions to DataAccessExceptions */
-	private SQLExceptionTranslater exceptionTranslater;
+	private SQLExceptionTranslator exceptionTranslator;
 
 
 	//---------------------------------------------------------------------
@@ -74,43 +74,44 @@ public abstract class StoredProcedure extends RdbmsOperation {
 	}
 
 	/**
-	 * Set the exception translater used in this class.
+	 * Set the exception translator used in this class.
 	 * As in the JdbcTemplate class, this can be parameterized
-	 * @see org.springframework.jdbc.core.SQLExceptionTranslater
+	 * @see org.springframework.jdbc.core.SQLExceptionTranslator
 	 */
-	public void setExceptionTranslater(SQLExceptionTranslater exceptionTranslater) {
-		this.exceptionTranslater = exceptionTranslater;
+	public void setExceptionTranslator(SQLExceptionTranslator exceptionTranslator) {
+		this.exceptionTranslator = exceptionTranslator;
 	}
 
 	/**
-	 * Return the exception translater for this instance.
+	 * Return the exception translator for this instance.
 	 * Create a default one for the specified DataSource if none set.
 	 */
-	protected SQLExceptionTranslater getExceptionTranslater() {
-		if (this.exceptionTranslater == null) {
-			this.exceptionTranslater = SQLExceptionTranslaterFactory.getInstance().getDefaultTranslater(getDataSource());
+	protected SQLExceptionTranslator getExceptionTranslator() {
+		if (this.exceptionTranslator == null) {
+			this.exceptionTranslator = SQLExceptionTranslatorFactory.getInstance().getDefaultTranslator(getDataSource());
 		}
-		return this.exceptionTranslater;
+		return this.exceptionTranslator;
 	}
 
 	/**
-	 * get the flag ussed to indicate that this call is for a function
+	 * Set the flag ussed to indicate that this call is for a function
+	 * @param function true or false
+	 */
+	public void setFunction(boolean function) {
+		this.function = function;
+	}
+
+	/**
+	 * Get the flag ussed to indicate that this call is for a function.
 	 * @return boolean
 	 */
 	public boolean isFunction() {
 		return function;
 	}
 
-	/**
-	 * Sets the flag ussed to indicate that this call is for a function
-	 * @param isFunction true or false
-	 */
-	public void setFunction(boolean function) {
-		this.function = function;
-	}
 
 	//---------------------------------------------------------------------
-	// Overriden methods
+	// Overridden methods
 	//---------------------------------------------------------------------
 
 	/**
@@ -215,7 +216,7 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		}
 		catch (SQLException ex) {
 			//throw new UncategorizedSQLException("Call to stored procedure '" + getSql() + "' failed", ex);
-			throw getExceptionTranslater().translate("Call to stored procedure '" + getSql() + "'", this.callString, ex);
+			throw getExceptionTranslator().translate("Call to stored procedure '" + getSql() + "'", this.callString, ex);
 		}
 		finally {
 			DataSourceUtils.closeConnectionIfNecessary(con, ds);

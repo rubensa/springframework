@@ -122,7 +122,31 @@ public abstract class Cache {
     }
     
     public Iterator values() {
-        return map.values().iterator();
+        return new ValuesIterator(map.values().iterator());
+    }
+    
+    /**
+     * Delegates to the underlying values iterator, retrieving
+     * the object stored at each value reference.
+     */
+    static class ValuesIterator implements Iterator {
+        private Iterator it;
+        
+        public ValuesIterator(Iterator it) {
+            this.it = it;
+        }
+        
+        public boolean hasNext() {
+            return it.hasNext();
+        }
+
+        public Object next() {
+            return ((ValueReference)it.next()).get();
+        }
+
+        public void remove() {
+            it.remove();
+        }
     }
     
     public Iterator entries() {

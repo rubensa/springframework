@@ -49,7 +49,7 @@ import org.springframework.dao.DataAccessException;
  * @see #setFlushEager
  * @version $Id$
  */
-public class JdoAccessor implements InitializingBean {
+public abstract class JdoAccessor implements InitializingBean {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -87,7 +87,7 @@ public class JdoAccessor implements InitializingBean {
 
 	/**
 	 * Return the JDO dialect to use for this accessor.
-	 * Creates a default one for the specified PersistenceManagerFactory if none set.
+	 * <p>Creates a default one for the specified PersistenceManagerFactory if none set.
 	 */
 	public JdoDialect getJdoDialect() {
 		if (this.jdoDialect == null) {
@@ -150,7 +150,7 @@ public class JdoAccessor implements InitializingBean {
 	 * Convert the given JDOException to an appropriate exception from the
 	 * org.springframework.dao hierarchy. Delegates to the JdoDialect if set, falls
 	 * back to PersistenceManagerFactoryUtils' standard exception translation else.
-	 * May be overridden in subclasses.
+	 * <p>May be overridden in subclasses.
 	 * @param ex JDOException that occured
 	 * @return the corresponding DataAccessException instance
 	 * @see JdoDialect#translateException

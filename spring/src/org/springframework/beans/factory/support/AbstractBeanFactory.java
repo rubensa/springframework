@@ -128,7 +128,7 @@ public abstract class AbstractBeanFactory implements AutowireCapableBeanFactory,
 	//---------------------------------------------------------------------
 
 	/**
-	 * Return the bean name, stripping out the factory deference prefix if necessary,
+	 * Return the bean name, stripping out the factory dereference prefix if necessary,
 	 * and resolving aliases to canonical names.
 	 */
 	private String transformedBeanName(String name) throws NoSuchBeanDefinitionException {

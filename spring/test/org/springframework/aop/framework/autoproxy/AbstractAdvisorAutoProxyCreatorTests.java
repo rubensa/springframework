@@ -65,7 +65,7 @@ public abstract class AbstractAdvisorAutoProxyCreatorTests extends TestCase {
 	}
 	
 	public void testCustomTargetSource() throws Exception {
-		BeanFactory bf = new ClassPathXmlApplicationContext("/org/springframework/aop/framework/support/customTargetSource.xml");
+		BeanFactory bf = new ClassPathXmlApplicationContext("/org/springframework/aop/framework/autoproxy/customTargetSource.xml");
 		ITestBean test = (ITestBean) bf.getBean("test");
 		assertTrue(AopUtils.isAopProxy(test));
 		Advised advised = (Advised) test;

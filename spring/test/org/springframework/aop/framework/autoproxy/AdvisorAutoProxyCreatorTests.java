@@ -27,7 +27,7 @@ public class AdvisorAutoProxyCreatorTests extends AbstractAdvisorAutoProxyCreato
 	}
 	
 	protected BeanFactory getBeanFactory() throws IOException {
-		return new ClassPathXmlApplicationContext("/org/springframework/aop/framework/support/advisorAutoProxyCreator.xml");
+		return new ClassPathXmlApplicationContext("/org/springframework/aop/framework/autoproxy/advisorAutoProxyCreator.xml");
 	}
 	
 }

@@ -585,6 +585,10 @@ public class SchedulerFactoryBean
 	}
 
 
+	/**
+	 * Exception to be thrown if the Quartz scheduler cannot be started
+	 * after the specified delay has passed.
+	 */
 	public static class DelayedSchedulerStartException extends NestedRuntimeException {
 
 		private DelayedSchedulerStartException(SchedulerException ex) {

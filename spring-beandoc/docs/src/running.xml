@@ -8,11 +8,10 @@
     <para>BeanDoc attempts to be a very flexible tool without incurring a
     steep learning curve. In the simplest configurations you only need to
     specify your inputs (one or more Spring context XML files) and an output
-    location. If you wish to take advantage of the <xref
-    linkend="overview-graphviz" /> too (<emphasis>highly</emphasis>
-    recomended) you'll additionally need to specify the location of your
-    <ulink url="http://www.graphviz.org">GraphViz</ulink> executable once it's
-    installed.</para>
+    location. If you wish to take advantage of the graphing output too
+    (<emphasis>highly</emphasis> recomended, see <xref
+    linkend="overview-graphviz" />) you'll additionally need to specify the
+    location of your GraphViz "dot" executable once it's installed.</para>
 
     <para>BeanDoc can be run either via a command line (main method) class, or
     via an <ulink url="http://ant.apache.org">Ant</ulink> task which is

@@ -13,11 +13,15 @@ import javax.naming.InitialContext;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 
 /**
- * BeanFactory implementation populated by JNDI environment
+ * Bean definition reader that populates a bean factory from JNDI environment
  * variables available to an object running in a J2EE application server.
  * Such a bean factory might be used to parameterize EJBs.
  *
@@ -26,7 +30,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * @author Rod Johnson
  * @version $Id$
  */
-public class JndiEnvironmentBeanFactory extends DefaultListableBeanFactory {
+public class JndiEnvironmentBeanDefinitionReader {
 	
 	/** Syntax is beans.name.class=Y */
 	public static final String BEANS_PREFIX = "beans.";
@@ -34,11 +38,13 @@ public class JndiEnvironmentBeanFactory extends DefaultListableBeanFactory {
 	/** Delimiter for properties */
 	public static final String DELIMITER = ".";
 
-	/** 
+	protected final Log logger = LogFactory.getLog(getClass());
+
+	/**
 	 * Creates new JNDIBeanFactory
 	 * @param root likely to be "java:comp/env"
 	 */
-	public JndiEnvironmentBeanFactory(String root) throws BeansException {
+	public JndiEnvironmentBeanDefinitionReader(BeanDefinitionRegistry beanFactory, String root) throws BeansException {
 		// We'll take everything from the NamingContext and dump it in a
 		// Properties object, so that the superclass can efficiently manipulate it
 		// after we've closed the context.
@@ -61,8 +67,9 @@ public class JndiEnvironmentBeanFactory extends DefaultListableBeanFactory {
 				m.put(binding.getName(), binding.getObject());
 			}
 			enum.close();
-			
-			registerBeanDefinitions(m, BEANS_PREFIX);
+
+			PropertiesBeanDefinitionReader propReader = new PropertiesBeanDefinitionReader(beanFactory);
+			propReader.registerBeanDefinitions(m, BEANS_PREFIX);
 		}
 		catch (NamingException ex) {
 			logger.debug("----- NO PROPERTIES FOUND " + ex);

@@ -11,7 +11,7 @@ import org.springframework.beans.TestBean;
  * We don't need an import for this attribute, because it's in this package.
  * Attributes syntax is Commons Attributes.
  * 
- * @PrototypeAttribute()
+ * @@PrototypeAttribute()
  * 
  * @author Rod Johnson
  * @version $Id$

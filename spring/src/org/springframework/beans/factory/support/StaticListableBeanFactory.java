@@ -10,9 +10,9 @@ import java.util.Set;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.StringUtils;
 
 /**
@@ -49,8 +49,19 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		return bean;
 	}
 
-	public boolean isSingleton(String name) {
-		return true;
+	public boolean containsBean(String name) {
+		return this.beans.containsKey(name);
+	}
+
+	public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
+		Object bean = getBean(name);
+		// in case of FactoryBean, return singleton status of created object
+		if (bean instanceof FactoryBean) {
+			return ((FactoryBean) bean).isSingleton();
+		}
+		else {
+			return true;
+		}
 	}
 
 	public String[] getAliases(String name) {

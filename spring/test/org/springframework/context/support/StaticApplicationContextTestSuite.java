@@ -108,7 +108,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		ACATest acaPr = (ACATest) getListableBeanFactory().getBean("aca-prototype");
 		acaPr.getApplicationContext();
 		TestInterceptor ti = (TestInterceptor) getListableBeanFactory().getBean("testInterceptorForCreator");
-		assertEquals(2, ti.nrOfInvocations);
+		assertEquals(1, ti.nrOfInvocations);
 		TestAutoProxyCreator tapc = (TestAutoProxyCreator) getListableBeanFactory().getBean("testAutoProxyCreator");
 		assertEquals(3, tapc.testInterceptor.nrOfInvocations);
 	}
@@ -139,6 +139,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		public int nrOfInvocations = 0;
 
 		public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+			System.out.println(methodInvocation.getMethod().getName());
 			if (!methodInvocation.getMethod().getName().equals("finalize")) {
 				nrOfInvocations++;
 			}

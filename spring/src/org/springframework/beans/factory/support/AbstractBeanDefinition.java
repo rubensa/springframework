@@ -77,6 +77,7 @@ public abstract class AbstractBeanDefinition {
 
 	/**
 	 * Set whether this bean should be lazily initialized.
+	 * Only applicable for a singleton bean.
 	 * If false, it will get instantiated on startup by bean factories
 	 * that perform eager initialization of singletons.
 	 */
@@ -89,6 +90,12 @@ public abstract class AbstractBeanDefinition {
 	 */
 	public boolean isLazyInit() {
 		return lazyInit;
+	}
+
+	public void validate() throws BeanDefinitionValidationException {
+		if (this.lazyInit && !this.singleton) {
+			throw new BeanDefinitionValidationException("Lazy initialization is just applicable for singleton beans");
+		}
 	}
 
 	public boolean equals(Object other) {

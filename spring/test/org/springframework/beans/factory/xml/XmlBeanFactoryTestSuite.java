@@ -725,6 +725,17 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		}
 	}
 
+	public void testFactoryBeanDefinedAsPrototype()  {
+		try {
+			InputStream is = getClass().getResourceAsStream("invalid-factory.xml");
+			XmlBeanFactory xbf = new XmlBeanFactory(is);
+			fail("Should have thrown BeanDefinitionStoreException");
+		}
+		catch (BeanDefinitionStoreException ex) {
+			// expected
+		}
+	}
+
 	public void testDependsOn() {
 		InputStream is = getClass().getResourceAsStream("initializers.xml");
 		XmlBeanFactory xbf = new XmlBeanFactory(is);

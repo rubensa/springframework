@@ -7,6 +7,7 @@ package org.springframework.beans.factory.support;
 
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValues;
+import org.springframework.beans.factory.FactoryBean;
 
 /** 
 * Root bean definitions have a class and properties.
@@ -223,6 +224,17 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 		return this.destroyMethodName;
 	}
 
+
+	public void validate() throws BeanDefinitionValidationException {
+		super.validate();
+		if (this.beanClass == null) {
+			throw new BeanDefinitionValidationException("beanClass must be set in RootBeanDefinition");
+		}
+		if (FactoryBean.class.isAssignableFrom(this.beanClass) && !isSingleton()) {
+			throw new BeanDefinitionValidationException("FactoryBean must be defined as singleton - " +
+																									"FactoryBeans themselves are not allowed to be prototypes");
+		}
+	}
 
 	public boolean equals(Object obj) {
 		if (!(obj instanceof RootBeanDefinition))

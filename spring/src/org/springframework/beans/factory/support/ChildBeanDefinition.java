@@ -32,7 +32,14 @@ public class ChildBeanDefinition extends AbstractBeanDefinition {
 	public String getParentName() {
 		return parentName;
 	}
-	
+
+	public void validate() throws BeanDefinitionValidationException {
+		super.validate();
+		if (this.parentName == null) {
+			throw new BeanDefinitionValidationException("parentName must be set in ChildBeanDefinition");
+		}
+	}
+
 	public boolean equals(Object obj) {
 		if (!(obj instanceof ChildBeanDefinition))
 			return false;

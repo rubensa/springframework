@@ -521,16 +521,16 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		InputStream is = getClass().getResourceAsStream("collections.xml");
 		XmlBeanFactory xbf = new XmlBeanFactory(is);
 		HasMap hasMap = (HasMap) xbf.getBean("emptyProps");
-		assertTrue(hasMap.getMap().size() == 0);
+		assertTrue(hasMap.getProps().size() == 0);
 	}
 
 	public void testPopulatedProps() throws Exception {
 		InputStream is = getClass().getResourceAsStream("collections.xml");
 		XmlBeanFactory xbf = new XmlBeanFactory(is);
 		HasMap hasMap = (HasMap) xbf.getBean("props");
-		assertTrue(hasMap.getMap().size() == 2);
-		assertTrue(hasMap.getMap().get("foo").equals("bar"));
-		assertTrue(hasMap.getMap().get("2").equals("TWO"));
+		assertTrue(hasMap.getProps().size() == 2);
+		assertTrue(hasMap.getProps().get("foo").equals("bar"));
+		assertTrue(hasMap.getProps().get("2").equals("TWO"));
 	}
 
 	public void testObjectArray() throws Exception {

@@ -16,27 +16,36 @@
 
 package org.springframework.aop.framework.adapter;
 
+import java.lang.ref.WeakReference;
 
 /**
  * Singleton to publish a shared DefaultAdvisorAdapterRegistry.
  * @author Rod Johnson
+ * @author Juergen Hoeller
  * @version $Id$
+ * @see DefaultAdvisorAdapterRegistry
  */
-public class GlobalAdvisorAdapterRegistry extends DefaultAdvisorAdapterRegistry {
-	
-	private static GlobalAdvisorAdapterRegistry instance = new GlobalAdvisorAdapterRegistry();
+public abstract class GlobalAdvisorAdapterRegistry {
+
+	/**
+	 * Keep track of a single instance so we can return it to classes that request it.
+	 * Needs to be a WeakReference to allow for proper garbage collection on shutdown!
+	 */
+	private static WeakReference instance;
 	
 	/**
-	 * @return the per-VM AdapterRegistry instance.
+	 * Return the per-VM AdvisorAdapterRegistry instance.
 	 */
-	public static GlobalAdvisorAdapterRegistry getInstance() {
-		return instance;
+	public static synchronized AdvisorAdapterRegistry getInstance() {
+		AdvisorAdapterRegistry registry = null;
+		if (instance != null) {
+			registry = (AdvisorAdapterRegistry) instance.get();
+		}
+		if (registry == null) {
+			registry = new DefaultAdvisorAdapterRegistry();
+			instance = new WeakReference(registry);
+		}
+		return registry;
 	}
-	
-	/**
-	 * Constructor to enforce the Singleton pattern.
-	 */
-	private GlobalAdvisorAdapterRegistry() {
-	}
-	
+
 }

@@ -32,19 +32,24 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  */
 public class AdvisorAdapterRegistrationManager implements BeanPostProcessor {
 
+	private AdvisorAdapterRegistry advisorAdapterRegistry = GlobalAdvisorAdapterRegistry.getInstance();
+
 	/**
-	 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization
+	 * Specify the AdvisorAdapterRegistry to use.
+	 * Default is the global AdvisorAdapterRegistry.
+	 * @see org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry
 	 */
+	public void setAdvisorAdapterRegistry(AdvisorAdapterRegistry advisorAdapterRegistry) {
+		this.advisorAdapterRegistry = advisorAdapterRegistry;
+	}
+
 	public Object postProcessBeforeInitialization(Object bean, String name) throws BeansException {
 		return bean;
 	}
 
-	/**
-	 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
-	 */
 	public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
-		if(bean instanceof AdvisorAdapter){
-			GlobalAdvisorAdapterRegistry.getInstance().registerAdvisorAdapter((AdvisorAdapter)bean);
+		if (bean instanceof AdvisorAdapter){
+			this.advisorAdapterRegistry.registerAdvisorAdapter((AdvisorAdapter) bean);
 		}
 		return bean;
 	}

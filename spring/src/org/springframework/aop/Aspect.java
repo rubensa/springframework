@@ -8,7 +8,7 @@ package org.springframework.aop;
 
 
 /**
- * Object containing multiple interceptors and pointcuts (advice) together 
+ * Object containing multiple interceptors and pointcuts (advisor) together 
  * making up the modularization of an Aspect.
  * <b>Not currently used.</b> 
  * 

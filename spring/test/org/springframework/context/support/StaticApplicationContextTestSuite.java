@@ -58,7 +58,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 
 	/** Overridden */
 	public void testCount() {
-		assertCount(15);
+		assertCount(16);
 	}
 
 }

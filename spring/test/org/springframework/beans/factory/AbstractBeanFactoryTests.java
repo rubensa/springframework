@@ -248,7 +248,6 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 		DummyFactory factory = (DummyFactory) getBeanFactory().getBean("&singletonFactory");
 		TestBean tb2 = (TestBean) getBeanFactory().getBean("singletonFactory");
 		assertTrue("Singleton references ==", tb == tb2);
-		assertTrue("Created bean is BeanFactoryAware", tb.getBeanFactory() != null);
 		assertTrue("FactoryBean is BeanFactoryAware", factory.getBeanFactory() != null);
 	}
 	

@@ -7,6 +7,7 @@ package org.springframework.beans.factory;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.TestBean;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 /**
  * Simple factory to allow testing of FactoryBean 
@@ -81,7 +82,7 @@ public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAwar
 
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = (AutowireCapableBeanFactory) beanFactory;
-		this.beanFactory.applyBeanPostProcessors(this.testBean, this.beanName);
+		this.beanFactory.applyBeanPostProcessorsBeforeInitialization(this.testBean, this.beanName);
 	}
 
 	public BeanFactory getBeanFactory() {
@@ -129,15 +130,12 @@ public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAwar
 	 */
 	public Object getObject() throws BeansException {
 		if (isSingleton()) {
-			//System.out.println("DummyFactory returned new SINGLETON");
 			return this.testBean;
 		}
 		else {
-			//System.out.println("DummyFactory created new PROTOTYPE");
 			TestBean prototype = new TestBean("prototype created at " + System.currentTimeMillis(), 11);
-			//System.out.println("prot name is " + prototype.getName());
 			if (this.beanFactory != null) {
-				this.beanFactory.applyBeanPostProcessors(prototype, this.beanName);
+				this.beanFactory.applyBeanPostProcessorsBeforeInitialization(prototype, this.beanName);
 			}
 			prototypeCreated = true;
 			return prototype;

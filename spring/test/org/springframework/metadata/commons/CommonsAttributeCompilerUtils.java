@@ -11,7 +11,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.springframework.aop.support.ControlFlow;
+import org.springframework.aop.support.ControlFlowFactory;
 
 /**
  * Programmatic support classes for compiling with Commons Attributes
@@ -39,7 +39,7 @@ public class CommonsAttributeCompilerUtils {
 
 	public static boolean inEclipse() {
 		// Use our AOP control flow functionality
-		return new ControlFlow().underToken("eclipse.jdt");
+		return ControlFlowFactory.getInstance().createControlFlow().underToken("eclipse.jdt");
 	}
 
 	public static void ideAttributeCompile(String testWildcards) {

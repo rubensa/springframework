@@ -72,7 +72,7 @@ public class ControlFlowPointcut implements Pointcut, ClassFilter, MethodMatcher
 	 */
 	public boolean matches(Method m, Class targetClass, Object[] args) {
 		++evaluations;
-		ControlFlow cflow = new ControlFlow();
+		ControlFlow cflow = ControlFlowFactory.getInstance().createControlFlow();
 		return (methodName != null) ? cflow.under(clazz, methodName) : cflow.under(clazz);
 	}
 	

@@ -12,15 +12,17 @@ import junit.framework.TestCase;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ControlFlowTests extends TestCase {
+public abstract class AbstractControlFlowTests extends TestCase {
 
 	/**
 	 * Constructor for ControlFlowTests.
 	 * @param arg0
 	 */
-	public ControlFlowTests(String arg0) {
+	public AbstractControlFlowTests(String arg0) {
 		super(arg0);
 	}
+	
+	protected abstract ControlFlow createControlFlow();
 
 	/*
 	 * Class to test for boolean under(Class)
@@ -42,20 +44,21 @@ public class ControlFlowTests extends TestCase {
 	
 	public class One {
 		public void test() {
-			ControlFlow cflow = new ControlFlow();
+			ControlFlow cflow = createControlFlow();
 			assertTrue(cflow.under(One.class));
-			assertTrue(cflow.under(ControlFlowTests.class));
+			assertTrue(cflow.under(AbstractControlFlowTests.class));
 			assertFalse(cflow.under(Two.class));
 			assertTrue(cflow.under(One.class, "test"));
 			assertFalse(cflow.under(One.class, "hashCode"));
 		}
+
 	}
 	
 	public class Two {
 		public void testing() {
-			ControlFlow cflow = new ControlFlow();
+			ControlFlow cflow = createControlFlow();
 			assertTrue(cflow.under(Two.class));
-			assertTrue(cflow.under(ControlFlowTests.class));
+			assertTrue(cflow.under(AbstractControlFlowTests.class));
 			assertFalse(cflow.under(One.class));
 			assertFalse(cflow.under(Two.class, "test"));
 			assertTrue(cflow.under(Two.class, "testing"));

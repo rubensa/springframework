@@ -276,7 +276,7 @@
 	</target>
 
 
-	<target name="mockjar" depends="build,initdist" description="Create JAR file with Spring mock classes">
+	<target name="mockjar" depends="buildmock,initdist" description="Create JAR file with Spring mock classes">
 
 		<delete file="${dist.dir}/spring-mock.jar"/>
 

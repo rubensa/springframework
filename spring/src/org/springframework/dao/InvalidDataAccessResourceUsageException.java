@@ -5,13 +5,10 @@
 
 package org.springframework.dao;
 
-
 /**
- * Root for exceptions thrown when we use a data access
- * resource incorrectly. Thrown for example on specifying bad SQL
- * when using a RDBMS.
- * Resource-specific subclasses will probably be supplied by
- * data access packages.
+ * Root for exceptions thrown when we use a data access resource incorrectly.
+ * Thrown for example on specifying bad SQL when using a RDBMS.
+ * Resource-specific subclasses will probably be supplied by data access packages.
  * @author Rod Johnson
  * @version $Id$
  */

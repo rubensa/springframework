@@ -38,7 +38,20 @@ public abstract class WebApplicationContextUtils {
 	 * @see org.springframework.web.context.WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE
 	 */
 	public static WebApplicationContext getWebApplicationContext(ServletContext sc) {
-		return (WebApplicationContext) sc.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		Object attr = sc.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		if (attr == null) {
+			return null;
+		}
+		if (attr instanceof RuntimeException) {
+			throw (RuntimeException) attr;
+		}
+		if (attr instanceof Error) {
+			throw (Error) attr;
+		}
+		if (!(attr instanceof WebApplicationContext)) {
+			throw new IllegalStateException("Root context attribute is not of type WebApplicationContext: " + attr);
+		}
+		return (WebApplicationContext) attr;
 	}
 
 	/**

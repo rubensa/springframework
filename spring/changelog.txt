@@ -122,6 +122,7 @@ Package org.springframework.web
 * added ServletContextAware interface for application beans, to be detected by web application contexts
 * reworked CommonsMultipartResolver and CosMultipartResolver to implement ServletContextAware
 * added CharacterEncodingFilter, for specifying a character set for requests (typically not sent by current browsers)
+* reworked ContextLoader and WebApplicationContextUtils to remember exceptions thrown on root context initialization
 * added "bindEmptyMultipartFiles" setting to ServletRequestDataBinder
 * added "onBind" callback to BaseCommandController, for customized processing after binding but before validation
 * added "setView" and "setViewName" mutators to ModelAndView, to allow for post-processing in a HandlerInterceptor

@@ -100,7 +100,11 @@ public class InternalResourceView extends AbstractView {
 		if (model != null) {
 			Iterator itr = model.keySet().iterator();
 			while (itr.hasNext()) {
-				String modelName = (String) itr.next();
+				Object key = itr.next();
+				if (!(key instanceof String)) {
+					throw new ServletException("Invalid key [" + key + "] in model Map - only Strings allowed as model keys");
+				}
+				String modelName = (String) key;
 				Object modelValue = model.get(modelName);
 				if (logger.isDebugEnabled()) {
 					String msg = "Added model with name '" + modelName + "' to request in InternalResourceView with name '" + getName() + "' ";
@@ -111,7 +115,7 @@ public class InternalResourceView extends AbstractView {
 			}
 		}
 		else {
-			logger.debug("Model is null. Nothing to expose to request");
+			logger.debug("Model is null. Nothing to expose to request.");
 		}
 	}
 	

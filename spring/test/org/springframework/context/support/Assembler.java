@@ -1,10 +1,11 @@
 package org.springframework.context.support;
 
-import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.beans.factory.InitializingBean;
 
-// let the class implement the interface and it'll fail!
-public class Assembler /*implements TestIF*/ {
+/**
+ * @author Alef Arendsen
+ * @version $Id$
+ */
+public class Assembler implements TestIF {
 	
 	private Service service;
 	private Logic l;	

@@ -226,6 +226,10 @@ public class TestBean implements BeanFactoryAware, ITestBean, IOther, Comparable
 	 */
 	public void absquatulate() {
 	}
+	
+	public int haveBirthday() {
+		return age++;
+	}
 
 
 	public boolean equals(Object other) {

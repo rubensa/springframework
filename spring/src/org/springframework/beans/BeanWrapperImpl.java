@@ -328,16 +328,21 @@ public class BeanWrapperImpl implements BeanWrapper {
 	 * @return the custom editor, or null if none found for this type
 	 */
 	private PropertyEditor getCustomEditor(Class requiredType) {
-		CustomEditorHolder holder = (CustomEditorHolder) this.customEditors.get(requiredType);
-		if (holder == null) {
-			for (Iterator it = this.customEditors.keySet().iterator(); it.hasNext();) {
-				Object key = it.next();
-				if (key instanceof Class && ((Class) key).isAssignableFrom(requiredType)) {
-					holder = (CustomEditorHolder) this.customEditors.get(key);
+		if (requiredType != null) {
+			CustomEditorHolder holder = (CustomEditorHolder) this.customEditors.get(requiredType);
+			if (holder == null) {
+				for (Iterator it = this.customEditors.keySet().iterator(); it.hasNext();) {
+					Object key = it.next();
+					if (key instanceof Class && ((Class) key).isAssignableFrom(requiredType)) {
+						holder = (CustomEditorHolder) this.customEditors.get(key);
+					}
 				}
 			}
+			if (holder != null) {
+				return holder.getPropertyEditor(requiredType);
+			}
 		}
-		return (holder != null ? holder.getPropertyEditor(requiredType) : null);
+		return null;
 	}
 
 

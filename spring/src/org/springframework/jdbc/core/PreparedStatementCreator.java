@@ -19,9 +19,16 @@ import java.sql.SQLException;
  * SQLExceptions that may be thrown from operations they attempt.
  * The JdbcTemplate class will catch and handle SQLExceptions appropriately.
  *
+ * <p>A PreparedStatementCreator should also implement the SqlProvider interface
+ * if it is able to provide the SQL it uses for PreparedStatement creation.
+ * This allows for better contextual information in case of exceptions.
+ *
  * @author Rod Johnson
  * @version $Id$
+ * @see JdbcTemplate#execute(PreparedStatementCreator, PreparedStatementCallback)
+ * @see JdbcTemplate#query(PreparedStatementCreator, RowCallbackHandler)
  * @see JdbcTemplate#update(PreparedStatementCreator)
+ * @see SqlProvider
  */
 public interface PreparedStatementCreator {
 

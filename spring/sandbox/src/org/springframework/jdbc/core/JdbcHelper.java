@@ -105,7 +105,7 @@ public class JdbcHelper {
 	 */
 	public Object[] getIDs(final String sql, final Class requiredType, final Object[] params) throws DataAccessException {
 
-		class IDsHandler extends RowCountCallbackHandler implements PreparedStatementCreator {
+		class IDsHandler extends RowCountCallbackHandler implements PreparedStatementCreator, SqlProvider {
 
 			private List l = new LinkedList();
 
@@ -118,6 +118,10 @@ public class JdbcHelper {
 						ps.setObject(i + 1, params[i]);
 					}
 				return ps;
+			}
+
+			public String getSql() {
+				return sql;
 			}
 
 			protected void processRow(ResultSet rs, int rowNum) throws SQLException {

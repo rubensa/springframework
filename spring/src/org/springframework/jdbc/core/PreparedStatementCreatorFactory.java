@@ -29,10 +29,6 @@ public class PreparedStatementCreatorFactory {
 
 	private int resultSetType = ResultSet.TYPE_FORWARD_ONLY;
 
-	/**
-	 * Boolean to indicate whether the PreparedStatement created is capable
-	 * of returning updatable ResultSets.
-	 */
 	private boolean updatableResults = false;
 	
 	/**
@@ -112,7 +108,7 @@ public class PreparedStatementCreatorFactory {
 	/**
 	 * PreparedStatementCreator implementation returned by this class.
 	 */
-	private class PreparedStatementCreatorImpl implements PreparedStatementCreator {
+	private class PreparedStatementCreatorImpl implements PreparedStatementCreator, SqlProvider {
 
 		private List parameters;
 		
@@ -134,7 +130,7 @@ public class PreparedStatementCreatorFactory {
 			}
 			else {
 				ps = con.prepareStatement(sql, resultSetType,
-				                     updatableResults ? ResultSet.CONCUR_UPDATABLE : ResultSet.CONCUR_READ_ONLY);
+																	updatableResults ? ResultSet.CONCUR_UPDATABLE : ResultSet.CONCUR_READ_ONLY);
 			}
 
 			// Set arguments: does nothing if there are no parameters
@@ -146,22 +142,22 @@ public class PreparedStatementCreatorFactory {
 				}
 				else {
 					// Documentation?
-					
 					// PARAMETERIZE THIS TO A TYPE MAP INTERFACE?
 					switch (declaredParameter.getSqlType()) {
 						case Types.VARCHAR : 
 							ps.setString(i + 1, (String) this.parameters.get(i));
 							break;
-						//case Types. : 
-						//	ps.setString(i + 1, (String) parameters.get(i));
-						//	break;
-						default : 
+						default :
 							ps.setObject(i + 1, this.parameters.get(i), declaredParameter.getSqlType());
 							break;
 					}
 				}
 			}
 			return ps;
+		}
+
+		public String getSql() {
+			return sql;
 		}
 
 		public String toString() {

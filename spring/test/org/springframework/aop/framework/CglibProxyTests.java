@@ -5,7 +5,8 @@
 
 package org.springframework.aop.framework;
 
-import net.sf.cglib.CodeGenerationException;
+
+import net.sf.cglib.core.CodeGenerationException;
 
 import org.aopalliance.intercept.AspectException;
 import org.springframework.aop.framework.support.AopUtils;
@@ -37,7 +38,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 	
 	protected AopProxy createAopProxy(AdvisedSupport as) {
 		as.setProxyTargetClass(true);
-		return new Cglib1AopProxy(as);
+		return new Cglib2AopProxy(as);
 	}
 	
 	protected boolean requiresTarget() {
@@ -46,7 +47,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 	
 	public void testNullConfig() {
 		try {
-			Cglib1AopProxy aop = new Cglib1AopProxy(null);
+			AopProxy aop = new Cglib2AopProxy(null);
 			aop.getProxy();
 			fail("Shouldn't allow null interceptors");
 		} 
@@ -77,7 +78,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 		mockTargetSource.setTarget(raw);
 		AdvisedSupport pc = new AdvisedSupport(new Class[] {});
 		pc.setTargetSource(mockTargetSource);
-		AopProxy aop = new Cglib1AopProxy(pc);
+		AopProxy aop = new Cglib2AopProxy(pc);
 
 		Object proxy = aop.getProxy();
 		assertTrue("Proxy is CGLIB enhanced", AopUtils.isCglibProxy(proxy));

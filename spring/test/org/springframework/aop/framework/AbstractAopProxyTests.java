@@ -460,8 +460,12 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		catch (UndeclaredThrowableException thrown) {			
 			assertEquals("exception matches", unexpectedException, thrown.getUndeclaredThrowable());
 		}
-		catch (net.sf.cglib.UndeclaredThrowableException thrown) {			
-			assertEquals("exception matches", unexpectedException, thrown.getUndeclaredThrowable());
+		//catch (net.sf.cglib.proxy.UndeclaredThrowableException thrown) {			
+		//	assertEquals("exception matches", unexpectedException, thrown.getUndeclaredThrowable());
+		//}
+		catch (Exception ex) {
+			ex.printStackTrace();
+			fail("Didn't expect exception: " + ex);
 		}
 	}
 	

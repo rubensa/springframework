@@ -47,7 +47,10 @@ public class SerializablePerson implements Person, Serializable {
 		this.name = name;
 	}
 	
-	public Object echo(Object o) {
+	public Object echo(Object o) throws Throwable {
+		if (o instanceof Throwable) {
+			throw (Throwable) o;
+		}
 		return o;
 	}
 	

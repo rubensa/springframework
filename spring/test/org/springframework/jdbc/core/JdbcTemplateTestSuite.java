@@ -40,7 +40,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.UncategorizedDataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
-import org.springframework.jdbc.JdbcTestCase;
+import org.springframework.jdbc.AbstractJdbcTests;
 import org.springframework.jdbc.SQLWarningException;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
@@ -53,7 +53,7 @@ import org.springframework.jdbc.support.nativejdbc.NativeJdbcExtractor;
  * @author Rod Johnson
  * @version $Id$
  */
-public class JdbcTemplateTestSuite extends JdbcTestCase {
+public class JdbcTemplateTestSuite extends AbstractJdbcTests {
 
 	public void testBeanProperties() throws Exception {
 		replay();

@@ -31,8 +31,8 @@ import org.easymock.MockControl;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.jdbc.AbstractJdbcTests;
 import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.jdbc.JdbcTestCase;
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ParameterMapper;
@@ -47,24 +47,17 @@ import org.springframework.jdbc.support.SQLStateSQLExceptionTranslator;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Tests for StoredProcedure class
+ * Tests for StoredProcedure class.
  * @author Thomas Risberg
  * @author Trevor Cook
  * @author Rod Johnson
  * @version $Id$
  */
-public class StoredProcedureTestSuite extends JdbcTestCase {
+public class StoredProcedureTestSuite extends AbstractJdbcTests {
 
 	private MockControl ctrlCallable;
 	private CallableStatement mockCallable;
 
-	public StoredProcedureTestSuite(String name) {
-		super(name);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
 		super.setUp();
 

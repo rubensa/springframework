@@ -144,8 +144,7 @@
         </xsl:choose>
         </td></tr>
         </xsl:if>
-    </xsl:template>
-    
+    </xsl:template>    
     
     
     <!--
@@ -240,9 +239,12 @@
     -->
     <xsl:template match="property">
         <tr>
-            <td class="keyLabel"><xsl:value-of select="@name"/></td>
+            <td class="keyLabel">
+				<xsl:value-of select="@name"/>             
+				<xsl:if test="./description"><br />(<xsl:value-of select="./description"/>)</xsl:if>
+			</td>
             <td>
-                <xsl:apply-templates/>              
+                <xsl:apply-templates/> 
             </td>   
         </tr>       
     </xsl:template>
@@ -253,15 +255,15 @@
         <tr>
             <td class="keyLabel">
                 <xsl:if test="@index">index <xsl:value-of select="@index"/></xsl:if>
-                <xsl:if test="@type">type <xsl:value-of select="@type"/></xsl:if>
+                <xsl:if test="@type">type <xsl:value-of select="@type"/></xsl:if>           
+				<xsl:if test="./description"><br />(<xsl:value-of select="./description"/>)</xsl:if>
             </td>
             <td>
                 <xsl:apply-templates/>              
             </td>   
         </tr>       
     </xsl:template>
-    
-    
+        
 
     <xsl:template match="lookup-method">
         <tr>
@@ -296,8 +298,7 @@
                 </xsl:if>
             </td>   
         </tr>
-    </xsl:template>
-    
+    </xsl:template>    
     
     
     <xsl:template match="value | arg-type" name="value">
@@ -343,6 +344,11 @@
     
     <xsl:template match="list">
         <xsl:apply-templates/><br/>
+    </xsl:template>
+	
+	
+    <xsl:template match="description">
+        <xsl:text></xsl:text>
     </xsl:template>
 
 </xsl:stylesheet>

@@ -5,14 +5,14 @@
  
 package org.springframework.mail;
 
-import org.springframework.core.NestedCheckedException;
+import org.springframework.core.NestedRuntimeException;
 
 /**
  * Base class for all mail exceptions.
  * @author Dmitriy Kopylenko
  * @version $Id$
  */
-public abstract class MailException extends NestedCheckedException {
+public abstract class MailException extends NestedRuntimeException {
 
 	public MailException(String msg) {
 		super(msg);

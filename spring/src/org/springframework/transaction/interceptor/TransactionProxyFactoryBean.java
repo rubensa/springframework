@@ -143,15 +143,7 @@ public class TransactionProxyFactoryBean extends ProxyConfig implements FactoryB
 	 * or if providing a custom invoker interceptor instead of a target.
 	 */
 	public void setProxyInterfaces(String[] interfaceNames) throws AspectException, ClassNotFoundException {
-		// TODO similar code in ProxyFactoryBean: may be able to refactor conversion from
-		// String[] to Class[]
-		this.interfaces = new Class[interfaceNames.length];
-		for (int i = 0; i < interfaceNames.length; i++) {
-			interfaces[i] = Class.forName(interfaceNames[i], true, Thread.currentThread().getContextClassLoader());
-			// Check it's an interface
-			if (!interfaces[i].isInterface())
-				throw new AspectException("Can proxy only interfaces: " + interfaces[i] + " is a class");
-		}
+		this.interfaces = AopUtils.toInterfaceArray(interfaceNames);
 	}
 	
 

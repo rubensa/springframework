@@ -49,6 +49,9 @@ public abstract class BeanUtils {
 		try {
 			return constructor.newInstance(arguments);
 		}
+		catch (IllegalArgumentException ex) {
+			throw new FatalBeanException("Illegal arguments when trying to instantiate constructor: " + constructor, ex);
+		}
 		catch (InstantiationException ex) {
 			throw new FatalBeanException("Could not instantiate [" + constructor.getDeclaringClass() + "]; is it an interface or an abstract class?", ex);
 		}

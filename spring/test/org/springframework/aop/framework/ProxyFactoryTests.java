@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.interceptor.AbstractQaInterceptor;
 import org.springframework.aop.interceptor.NopInterceptor;
-import org.springframework.aop.support.SimpleIntroductionAdvice;
+import org.springframework.aop.support.SimpleIntroductionAdvisor;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
@@ -84,7 +84,7 @@ public class ProxyFactoryTests extends TestCase {
 		
 		System.out.println(StringUtils.arrayToDelimitedString(factory.getProxiedInterfaces(), "/"));
 		
-		factory.addAdvisor(0, new SimpleIntroductionAdvice(ti, TimeStamped.class));
+		factory.addAdvisor(0, new SimpleIntroductionAdvisor(ti, TimeStamped.class));
 		
 		System.out.println(StringUtils.arrayToDelimitedString(factory.getProxiedInterfaces(), "/"));
 		

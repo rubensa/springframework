@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.framework.AopConfigException;
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
-import org.springframework.aop.support.SimpleIntroductionAdvice;
+import org.springframework.aop.support.SimpleIntroductionAdvisor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.enterpriseservices.MetadataDriven;
 import org.springframework.metadata.Attributes;
@@ -22,7 +22,7 @@ import org.springframework.metadata.Attributes;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ModifiableAdvice extends SimpleIntroductionAdvice implements MetadataDriven, InitializingBean {
+public class ModifiableAdvice extends SimpleIntroductionAdvisor implements MetadataDriven, InitializingBean {
 
 	protected final Log log = LogFactory.getLog(getClass());
 	

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.springframework.aop.InterceptionIntroductionAdvisor;
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
-import org.springframework.aop.support.SimpleIntroductionAdvice;
+import org.springframework.aop.support.SimpleIntroductionAdvisor;
 import org.springframework.beans.factory.DisposableBean;
 
 /**
@@ -133,7 +133,7 @@ public class ThreadLocalTargetSource extends PrototypeTargetSource implements Th
 	 */
 	public InterceptionIntroductionAdvisor getStatsMixin() {
 		DelegatingIntroductionInterceptor dii = new DelegatingIntroductionInterceptor(this);
-		return new SimpleIntroductionAdvice(dii, ThreadLocalTargetSourceStats.class);
+		return new SimpleIntroductionAdvisor(dii, ThreadLocalTargetSourceStats.class);
 	}
 
 }

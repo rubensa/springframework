@@ -27,10 +27,10 @@ public class ThreadLocalMethodInvocationFactory extends SimpleMethodInvocationFa
 	
 	public MethodInvocation getMethodInvocation(AdvisedSupport advised, Object proxy, Method method, Class targetClass, Object[] args, List interceptorsAndDynamicInterceptionAdvice) {
 		
-		MethodInvocationImpl mii = (MethodInvocationImpl) instance.get();
+		ReflectiveMethodInvocation mii = (ReflectiveMethodInvocation) instance.get();
 		// Need to use OLD to replace so as not to zap existing
 		if (mii == null) {
-			mii = new MethodInvocationImpl();
+			mii = new ReflectiveMethodInvocation();
 			instance.set(mii);
 		}
 
@@ -47,7 +47,7 @@ public class ThreadLocalMethodInvocationFactory extends SimpleMethodInvocationFa
 
 	public void release(MethodInvocation invocation) {
 		// TODO move into AOP Alliance
-		((MethodInvocationImpl) invocation).clear();
+		((ReflectiveMethodInvocation) invocation).clear();
 	}
 
 	

@@ -14,24 +14,11 @@ package org.springframework.aop;
  * @see org.springframework.aop.IntroductionInterceptor
  * @version $Id$
  */
-public interface InterceptionIntroductionAdvisor extends InterceptionAdvisor {
-	
-	/**
-	 * @return the filter determining which target classes this introduction
-	 * should apply to. The class part of a pointcut. Note that method matching
-	 * doesn't make sense to introductions.
-	 */
-	ClassFilter getClassFilter();
+public interface InterceptionIntroductionAdvisor extends IntroductionAdvisor, InterceptionAdvisor {
 	
 	/**
 	 * @return the interceptor that handles the introduced interface(s)
 	 */
 	IntroductionInterceptor getIntroductionInterceptor();
-	
-	/**
-	 * @return the additional interfaces introduced by this Advisor
-	 */
-	Class[] getInterfaces();
-	
 
 }

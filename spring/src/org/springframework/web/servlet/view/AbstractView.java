@@ -210,12 +210,12 @@ public abstract class AbstractView extends WebApplicationObjectSupport implement
 	/** 
 	 * Subclasses must implement this method to render the view.
 	 * <p>The first take will be preparing the request: This may include setting
-	 * the model elements as attributes, e.g. in the case of a JSP view.
-	 * @param model combined output Map, with dynamic values
-	 * taking precedence over static attributes
+	 * the model elements as request attributes, e.g. in the case of a JSP view.
+	 * @param model combined output Map, with dynamic values taking precedence
+	 * over static attributes
 	 * @param request current HTTP request
 	 * @param response current HTTP response
-	 * @throws ServletException if rendering failed
+	 * @throws Exception if rendering failed
 	 */
 	protected abstract void renderMergedOutputModel(Map model, HttpServletRequest request,
 	                                                HttpServletResponse response) throws Exception;

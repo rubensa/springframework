@@ -5,6 +5,7 @@
  
 package org.springframework.aop.interceptor;
 
+import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 
@@ -49,6 +50,9 @@ public class PrototypeInvokerInterceptor extends AbstractReflectionInvokerInterc
 	 */
 	public void setBeanFactory(BeanFactory beanFactory) throws Exception {
 		this.owningBeanFactory = beanFactory;
+		if (this.owningBeanFactory.isSingleton(this.targetBeanName)) {
+			throw new BeanDefinitionStoreException("Cannot use PrototypeInvoker against a Singleton bean; instances would not be independent", null);
+		}
 	}
 
 	/**

@@ -124,6 +124,8 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals(2, friends.size());
 		DerivedTestBean inner2 = (DerivedTestBean) friends.get(0);
 		assertEquals("inner2", inner2.getName());
+		assertEquals("innerBean", inner2.getBeanName());
+		assertFalse(xbf.containsBean("innerBean"));
 		assertEquals(7, inner2.getAge());
 		TestBean innerFactory = (TestBean) friends.get(1);
 		assertEquals(DummyFactory.SINGLETON_NAME, innerFactory.getName());

@@ -30,6 +30,9 @@ import org.springframework.transaction.TransactionStatus;
  *  
  * @version $Id$
  * @author Rod Johnson
+ * @see org.springframework.aop.framework.ProxyFactoryBean
+ * @see TransactionProxyFactoryBean
+ * @see org.springframework.transaction.PlatformTransactionManager
  */
 public class TransactionInterceptor implements MethodInterceptor, InitializingBean {
 	
@@ -173,11 +176,8 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	 */
 	private void onThrowable(MethodInvocation invocation, TransactionAttribute txAtt, TransactionStatus status, Throwable ex) {
 		if (txAtt.rollbackOn(ex)) {
-			logger.error(
-				"Rolling back transaction on method '"
-					+ invocation.getMethod().getName()
-					+ "' due to throwable: "
-					+ ex.getMessage());
+			logger.error("Rolling back transaction on method '" + invocation.getMethod().getName() +
+			             "' due to throwable [" + ex + "]");
 			try {
 				this.transactionManager.rollback(status);
 			}
@@ -188,8 +188,8 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 		}
 		else {
 			if (logger.isDebugEnabled())
-				logger.debug("Method '"	+ invocation.getMethod().getName()+ "' threw throwable {"	+
-				             ex.getMessage()	+ "} but this does not force transaction rollback");
+				logger.debug("Method '"	+ invocation.getMethod().getName()+ "' threw throwable ["	+ ex +
+				             "] but this does not force transaction rollback");
 			// Will still roll back if rollbackOnly is true
 			this.transactionManager.commit(status);
 		}

@@ -16,6 +16,7 @@
 
 package org.springframework.aop;
 
+import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.framework.adapter.AdvisorAdapter;
 
@@ -29,7 +30,7 @@ public class SimpleBeforeAdviceAdapter implements AdvisorAdapter {
 	/**
 	 * @see org.springframework.aop.framework.adapter.AdvisorAdapter#supportsAdvice(java.lang.Object)
 	 */
-	public boolean supportsAdvice(Object advice) {
+	public boolean supportsAdvice(Advice advice) {
 		return advice instanceof SimpleBeforeAdvice;
 	}
 

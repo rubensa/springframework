@@ -16,6 +16,7 @@
 
 package org.springframework.aop.support;
 
+import org.aopalliance.aop.Advice;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.PointcutAdvisor;
 
@@ -27,20 +28,20 @@ import org.springframework.aop.PointcutAdvisor;
  */
 public class NameMatchMethodPointcutAdvisor extends NameMatchMethodPointcut implements PointcutAdvisor {
 
-	private Object advice;
+	private Advice advice;
 
 	public NameMatchMethodPointcutAdvisor() {
 	}
 
-	public NameMatchMethodPointcutAdvisor(Object advice) {
+	public NameMatchMethodPointcutAdvisor(Advice advice) {
 		this.advice = advice;
 	}
 
-	public void setAdvice(Object object) {
-		advice = object;
+	public void setAdvice(Advice advice) {
+		this.advice = advice;
 	}
 
-	public Object getAdvice() {
+	public Advice getAdvice() {
 		return advice;
 	}
 

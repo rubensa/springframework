@@ -24,6 +24,8 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import junit.framework.TestCase;
+
+import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -556,7 +558,7 @@ public class ProxyFactoryBeanTests extends TestCase {
 			return ClassFilter.TRUE;
 		}
 
-		public Object getAdvice() {
+		public Advice getAdvice() {
 			return this.gi;
 		}
 

@@ -113,7 +113,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 		}
 		catch (AspectException ex) {
 			// Check that stack trace is preserved
-			assertTrue(ex.getRootCause() instanceof CodeGenerationException);
+			assertTrue(ex.getCause() instanceof CodeGenerationException);
 			
 			// Check that error message is helpful
 			

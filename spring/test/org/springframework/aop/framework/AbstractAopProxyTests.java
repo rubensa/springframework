@@ -913,7 +913,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		private static MethodInterceptor cleaner = new MethodInterceptor() {
 			public Object invoke(MethodInvocation mi) throws Throwable {
 				// We know it can only be invoked if there's a single parameter of type string
-				mi.setArgument(0, "");
+				mi.getArguments()[0] = "";
 				return mi.proceed();
 			}
 		};

@@ -122,7 +122,7 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 			fail("Should have failed to create EJB");
 		}
 		catch (AspectException ex) {
-			assertTrue(ex.getRootCause() == cex);
+			assertSame(cex, ex.getCause());
 		}
 		
 		mc.verify();	

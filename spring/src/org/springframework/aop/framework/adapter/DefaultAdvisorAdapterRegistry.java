@@ -19,6 +19,7 @@ package org.springframework.aop.framework.adapter;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
@@ -38,10 +39,16 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 		registerAdvisorAdapter(new ThrowsAdviceAdapter());
 	}
 
-	public Advisor wrap(Object advice) throws UnknownAdviceTypeException {
-		if (advice instanceof Advisor) {
-			return (Advisor) advice;
+	public Advisor wrap(Object adviceObject) throws UnknownAdviceTypeException {
+		if (adviceObject instanceof Advisor) {
+			return (Advisor) adviceObject;
 		}
+		
+		if (!(adviceObject instanceof Advice)) {
+			throw new UnknownAdviceTypeException(adviceObject);
+		}
+		Advice advice = (Advice) adviceObject;
+		
 		if (advice instanceof Interceptor) {
 			// So well-known it doesn't even need an adapter
 			return new DefaultPointcutAdvisor(advice);
@@ -57,7 +64,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 	}
 
 	public Interceptor getInterceptor(Advisor advisor) throws UnknownAdviceTypeException {
-		Object advice = advisor.getAdvice();
+		Advice advice = advisor.getAdvice();
 		if (advice instanceof Interceptor) {
 			return (Interceptor) advice;
 		}

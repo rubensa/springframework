@@ -16,6 +16,8 @@
 
 package org.springframework.aop;
 
+import org.aopalliance.aop.Advice;
+
 
 /**
  * Superinterface for all after returning advice. Such advice is invoked
@@ -25,6 +27,6 @@ package org.springframework.aop;
  * @author Rod Johnson
  * @version $Id$
  */
-public interface AfterReturningAdvice {
+public interface AfterReturningAdvice extends Advice {
 
 }

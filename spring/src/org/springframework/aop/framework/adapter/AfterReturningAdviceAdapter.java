@@ -16,6 +16,7 @@
 
 package org.springframework.aop.framework.adapter;
 
+import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.MethodAfterReturningAdvice;
@@ -32,7 +33,7 @@ class AfterReturningAdviceAdapter implements AdvisorAdapter {
 	/**
 	 * @see org.springframework.aop.framework.adapter.AdvisorAdapter#supportsAdvice(java.lang.Object)
 	 */
-	public boolean supportsAdvice(Object advice) {
+	public boolean supportsAdvice(Advice advice) {
 		return advice instanceof MethodAfterReturningAdvice;
 	}
 

@@ -72,5 +72,15 @@ class Jdk14ControlFlow implements ControlFlow {
 		String stackTrace = sw.toString();
 		return stackTrace.indexOf(token) != -1;
 	}
+	
+	public String toString() {
+		StringBuffer sb = new StringBuffer("Jdk14ControlFlow: ");
+		for (int i = 0; i < stack.length; i++) {
+			if (i > 0)
+				sb.append("\n\t@");
+			sb.append(stack[i]);
+		}
+		return sb.toString();
+	}
 
 }

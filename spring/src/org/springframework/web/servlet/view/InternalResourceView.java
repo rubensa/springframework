@@ -66,11 +66,11 @@ public class InternalResourceView extends AbstractUrlBasedView {
 		// if already included, include again, else forward
 		if (request.getAttribute(UrlPathHelper.INCLUDE_URI_REQUEST_ATTRIBUTE) != null) {
 			rd.include(request, response);
-			logger.debug("Included resource [" + getUrl() + "] in InternalResourceView '" + getName() + "'");
+			logger.debug("Included resource [" + getUrl() + "] in InternalResourceView '" + getBeanName() + "'");
 		}
 		else {
 			rd.forward(request, response);
-			logger.debug("Forwarded to resource [" + getUrl() + "] in InternalResourceView '" + getName() + "'");
+			logger.debug("Forwarded to resource [" + getUrl() + "] in InternalResourceView '" + getBeanName() + "'");
 		}
 	}
 
@@ -95,7 +95,7 @@ public class InternalResourceView extends AbstractUrlBasedView {
 					request.setAttribute(modelName, modelValue);
 					if (logger.isDebugEnabled()) {
 						logger.debug("Added model object '" + modelName + "' of type [" + modelValue.getClass().getName() +
-						    "] to request in InternalResourceView '" + getName() + "' ");
+						    "] to request in InternalResourceView '" + getBeanName() + "' ");
 					}
 				}
 			}

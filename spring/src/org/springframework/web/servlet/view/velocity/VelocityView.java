@@ -194,7 +194,7 @@ public class VelocityView extends AbstractUrlBasedView {
 
 		mergeTemplate(this.velocityTemplate, velocityContext, response);
 		if (logger.isDebugEnabled()) {
-			logger.debug("Merged with Velocity template '" + getUrl() + "' in VelocityView '" + getName() + "'");
+			logger.debug("Merged with Velocity template '" + getUrl() + "' in VelocityView '" + getBeanName() + "'");
 		}
 	}
 
@@ -213,13 +213,13 @@ public class VelocityView extends AbstractUrlBasedView {
 				modelName = transformModelNameIfNecessary(modelName);
 				if (logger.isDebugEnabled()) {
 					logger.debug("Added model attribute with name '" + modelName + "' and value [" + modelObject +
-											 "] to Velocity context in view '" + getName() + "'");
+											 "] to Velocity context in view '" + getBeanName() + "'");
 				}
 				velocityContext.put(modelName, modelObject);
 			}
 		}
 		else {
-			logger.debug("Model is null. Nothing to expose to Velocity context in view with name '" + getName() + "'");
+			logger.debug("Model is null. Nothing to expose to Velocity context in view with name '" + getBeanName() + "'");
 		}
 	}
 	

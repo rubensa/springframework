@@ -276,7 +276,7 @@ public class VelocityViewTests extends TestCase {
 		resolver.setSuffix("_suffix");
 		resolver.setApplicationContext(new StaticWebApplicationContext());
 		VelocityView view = (VelocityView) resolver.loadView("test", Locale.CANADA);
-		assertEquals("test", view.getName());
+		assertEquals("test", view.getBeanName());
 		assertEquals("prefix_test_suffix", view.getUrl());
 	}
 

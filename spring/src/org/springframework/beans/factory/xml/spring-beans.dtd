@@ -244,7 +244,7 @@
 	is automatically performed by the Spring AbstractBeanFactory. 
 -->
 <!ELEMENT list (
-        (value | ref)*
+        (value | ref | list | map)*
 )>
 
 <!--

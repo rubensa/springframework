@@ -24,26 +24,20 @@ public abstract class StaticMethodMatcherPointcutAdvisor extends StaticMethodMat
 		this.advice = advice;
 	}
 
-	public boolean isPerInstance() {
-		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
+	public void setAdvice(Object object) {
+		advice = object;
+	}
+
+	public Object getAdvice() {
+		return advice;
 	}
 
 	public Pointcut getPointcut() {
 		return this;
 	}
 
-	/**
-	 * @return
-	 */
-	public Object getAdvice() {
-		return advice;
-	}
-
-	/**
-	 * @param object
-	 */
-	public void setAdvice(Object object) {
-		advice = object;
+	public boolean isPerInstance() {
+		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
 	}
 
 }

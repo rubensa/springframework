@@ -14,8 +14,7 @@ import org.springframework.aop.PointcutAdvisor;
  * @author Juergen Hoeller
  * @version $Id$
  */
-public class NameMatchMethodPointcutAdvisor extends NameMatchMethodPointcut
-    implements PointcutAdvisor {
+public class NameMatchMethodPointcutAdvisor extends NameMatchMethodPointcut implements PointcutAdvisor {
 
 	private Object advice;
 
@@ -25,28 +24,21 @@ public class NameMatchMethodPointcutAdvisor extends NameMatchMethodPointcut
 	public NameMatchMethodPointcutAdvisor(Object advice) {
 		this.advice = advice;
 	}
-	
 
-	public boolean isPerInstance() {
-		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
+	public void setAdvice(Object object) {
+		advice = object;
+	}
+
+	public Object getAdvice() {
+		return advice;
 	}
 
 	public Pointcut getPointcut() {
 		return this;
 	}
 
-	/**
-	 * @return
-	 */
-	public Object getAdvice() {
-		return advice;
-	}
-
-	/**
-	 * @param object
-	 */
-	public void setAdvice(Object object) {
-		advice = object;
+	public boolean isPerInstance() {
+		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
 	}
 
 }

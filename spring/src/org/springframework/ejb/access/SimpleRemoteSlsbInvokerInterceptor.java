@@ -51,7 +51,7 @@ public class SimpleRemoteSlsbInvokerInterceptor extends AbstractRemoteSlsbInvoke
 	/**
 	 * Convenient constructor for programmatic use.
 	 * @see org.springframework.jndi.AbstractJndiLocator#setJndiName
-	 * @see org.springframework.jndi.AbstractJndiLocator#setInContainer
+	 * @see org.springframework.jndi.AbstractJndiLocator#setResourceRef
 	 */
 	public SimpleRemoteSlsbInvokerInterceptor(String jndiName, boolean resourceRef) throws AspectException {
 		setJndiName(jndiName);

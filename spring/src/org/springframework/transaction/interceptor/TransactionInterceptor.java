@@ -30,6 +30,7 @@ import org.springframework.transaction.TransactionStatus;
  *  
  * @version $Id$
  * @author Rod Johnson
+ * @author Juergen Hoeller
  * @see org.springframework.aop.framework.ProxyFactoryBean
  * @see TransactionProxyFactoryBean
  * @see org.springframework.transaction.PlatformTransactionManager
@@ -89,9 +90,12 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	}
 
 	/**
-	 * Set the transaction attribute source which is used to
-	 * find transaction attributes. The default implementation looks
-	 * at the metadata attributes associated with the current invocation.
+	 * Set the transaction attribute source which is used to find transaction
+	 * attributes. If specifying a String property value, a PropertyEditor
+	 * will create a MethodMapTransactionAttributeSource from the value.
+	 * @see TransactionAttributeSourceEditor
+	 * @see MethodMapTransactionAttributeSource
+	 * @see NameMatchTransactionAttributeSource
 	 */
 	public void setTransactionAttributeSource(TransactionAttributeSource transactionAttributeSource) {
 		this.transactionAttributeSource = transactionAttributeSource;

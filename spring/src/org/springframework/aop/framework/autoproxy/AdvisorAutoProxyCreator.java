@@ -139,10 +139,10 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 		if (logger.isDebugEnabled())
 			logger.debug("getInterceptorsAndAdvicesForBean with name '" + name + "'; singleton=" + this.owningFactory.isSingleton(name));
 		List advices = findEligibleAdvisors(bean.getClass());
-		advices = sortAdvisors(advices);
-		if (advices.size() == 0 && !hasCustomInvoker(bean, name)) {
+		if (advices.isEmpty()) {
 			return DO_NOT_PROXY;
 		}
+		advices = sortAdvisors(advices);
 		return advices.toArray();
 	}
 
@@ -160,15 +160,6 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 		return l;
 	}
 
-	/**
-	 * Does this bean need a custom invoker interceptor? Subclasses can override
-	 * if they wish: for example, to implement pooling. This implementation always returns false.
-	 * @param bean bean in question
-	 * @param beanName name of the bean
-	 */
-	protected boolean hasCustomInvoker(Object bean, String beanName) {
-		return false;
-	}
 	
 	/**
 	 * We override this to ensure that we don't get into circular reference hell

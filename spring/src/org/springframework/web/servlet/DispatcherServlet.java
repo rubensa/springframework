@@ -490,7 +490,8 @@ public class DispatcherServlet extends FrameworkServlet {
 				return ha;
 			}
 		}
-		throw new ServletException("No adapter for handler [" + handler + "]");
+		throw new ServletException("No adapter for handler [" + handler +
+		                           "]: Does your handler implement a supported interface like Controller?");
 	}
 
 	/**

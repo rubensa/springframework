@@ -64,6 +64,8 @@ import org.xml.sax.SAXParseException;
  */
 public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
+	public static final String BEAN_NAME_DELIMITERS = ",; ";
+
 	/**
 	 * Value of a T/F attribute that represents true.
 	 * Anything else represents false. Case seNsItive.
@@ -301,9 +303,9 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
 		String name = el.getAttribute(NAME_ATTRIBUTE);
 		if (name != null && !"".equals(name)) {
-			// Automatically create aliases from the name CSV.
+			// Automatically create aliases from the name.
 			// Used for names that aren't legal in id attributes.
-			String[] aliases = StringUtils.commaDelimitedListToStringArray(name);
+			String[] aliases = StringUtils.tokenizeToStringArray(name, BEAN_NAME_DELIMITERS, true, true);
 			for (int i = 0; i < aliases.length; i++) {
 				registerAlias(id, aliases[i]);
 			}

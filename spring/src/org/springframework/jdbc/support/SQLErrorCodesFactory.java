@@ -108,8 +108,12 @@ public class SQLErrorCodesFactory {
 				else {
 					Arrays.sort(ec.getDataIntegrityViolationCodes());
 				}
-				rdbmsErrorCodes.put(rdbmsNames[i], ec);
+				if (ec.getDatabaseProductName() == null)
+					rdbmsErrorCodes.put(rdbmsNames[i], ec);
+				else
+				rdbmsErrorCodes.put(ec.getDatabaseProductName(), ec);
 			}
+			logger.warn("SQLErrorCodes loaded " + rdbmsErrorCodes.keySet());
 		}
 		catch (BeanDefinitionStoreException be) {
 			logger.warn("Error loading error codes from config file.  Message = " + be.getMessage());
@@ -155,9 +159,11 @@ public class SQLErrorCodesFactory {
 					if (dbName != null && dbName.startsWith("DB2/"))
 						dbName = "DB2";
 					if (dbName != null) {
+						logger.info("Database Product Name is " + dbName);
 						SQLErrorCodes sec = (SQLErrorCodes) rdbmsErrorCodes.get(dbName);
 						if (sec != null)
 							return sec;
+						logger.info("Error Codes for " + dbName + " not found");
 					}
 				}
 				else {

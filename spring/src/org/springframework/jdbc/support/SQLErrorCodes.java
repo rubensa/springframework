@@ -14,6 +14,8 @@ package org.springframework.jdbc.support;
  */
 public class SQLErrorCodes {
 
+	private String databaseProductName = null;
+
 	private String[] badSqlGrammarCodes = new String[0];
 
 	private String[] dataIntegrityViolationCodes = new String[0];
@@ -44,6 +46,20 @@ public class SQLErrorCodes {
 	 */
 	public String[] getDataIntegrityViolationCodes() {
 		return dataIntegrityViolationCodes;
+	}
+
+	/**
+	 * @return Returns the databaseProductName.
+	 */
+	public String getDatabaseProductName() {
+		return databaseProductName;
+	}
+
+	/**
+	 * @param databaseProductName The databaseProductName to set.
+	 */
+	public void setDatabaseProductName(String databaseProductName) {
+		this.databaseProductName = databaseProductName;
 	}
 
 }

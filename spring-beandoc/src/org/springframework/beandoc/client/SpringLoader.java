@@ -58,9 +58,9 @@ class SpringLoader {
         Properties beandocProps = new Properties();    
         
         // evaluate system props first as they are lowest in the hierarchy
-        for (Enumeration enum = System.getProperties().keys(); enum.hasMoreElements();)
+        for (Enumeration sysKeys = System.getProperties().keys(); sysKeys.hasMoreElements();)
             try {
-                String nextProp = (String) enum.nextElement();
+                String nextProp = (String) sysKeys.nextElement();
                 if (nextProp.startsWith(SYSTEM_PROPS_QUALIFIER))
                     beandocProps.put(
                         nextProp.substring(SYSTEM_PROPS_QUALIFIER.length()), 

@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 
+import javax.ejb.CreateException;
 import javax.ejb.EJBObject;
 
 import org.aopalliance.intercept.AspectException;
@@ -56,8 +57,8 @@ public class SimpleRemoteSlsbInvokerInterceptor extends AbstractRemoteSlsbInvoke
 	 * Can be overridden for custom invocation strategies.
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		EJBObject ejb = newSessionBeanInstance();
 		try {
+			EJBObject ejb = newSessionBeanInstance();
 			Method method = invocation.getMethod();
 			if (method.getDeclaringClass().isInstance(ejb)) {
 				// directly implemented
@@ -74,7 +75,15 @@ public class SimpleRemoteSlsbInvokerInterceptor extends AbstractRemoteSlsbInvoke
 			logger.info("Method of remote EJB [" + getJndiName() + "] threw exception", ex.getTargetException());
 			if (targetException instanceof RemoteException &&
 					!Arrays.asList(invocation.getMethod().getExceptionTypes()).contains(RemoteException.class)) {
-				throw new RemoteAccessException("Cannot access remote EJB [" + getJndiName() + "]", targetException);
+				throw new RemoteAccessException("Could not invoke remote EJB [" + getJndiName() + "]", targetException);
+			}
+			else if (targetException instanceof CreateException) {
+				if (!Arrays.asList(invocation.getMethod().getExceptionTypes()).contains(RemoteException.class)) {
+					throw new RemoteAccessException("Could not create remote EJB [" + getJndiName() + "]", targetException);
+				}
+				else {
+					throw new RemoteException("Could not create remote EJB [" + getJndiName() + "]", targetException);
+				}
 			}
 			else {
 				throw targetException;

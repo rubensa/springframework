@@ -1,5 +1,7 @@
 package org.springframework.ejb.access;
 
+import java.lang.reflect.InvocationTargetException;
+
 import javax.ejb.EJBObject;
 
 /**
@@ -14,7 +16,7 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 	 * Can be overridden to change the algorithm.
 	 * @return EJBObject
 	 */
-	protected EJBObject newSessionBeanInstance() {
+	protected EJBObject newSessionBeanInstance() throws InvocationTargetException {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Trying to create reference to remote EJB");
 		}
@@ -22,7 +24,7 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 		// Invoke the superclass's generic create method
 		EJBObject session = (EJBObject) create();
 		// if it throws remote exception (wrapped in bean exception), retry?
-	
+
 		if (logger.isDebugEnabled()) {
 			logger.debug("Obtained reference to remote EJB: " + session);
 		}

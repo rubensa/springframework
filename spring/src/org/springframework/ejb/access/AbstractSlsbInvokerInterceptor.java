@@ -42,27 +42,6 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 		return cachedHome;
 	}
 	
-	/**
-	 * Invoke the create() method on the cached home.
-	 * @return a new EJBObject or EJBLocalObject
-	 */
-	protected Object create() {
-		try {
-			return createMethod.invoke(cachedHome, null);
-		}
-		catch (IllegalArgumentException ex) {
-			// Can't happen
-			throw new FatalBeanException("Inconsistent state: could not call ejbCreate() method without arguments", ex);
-		}
-		catch (IllegalAccessException ex) {
-			throw new FatalBeanException("Could not access ejbCreate() method", ex);
-		}
-		catch (InvocationTargetException ex) {
-			throw new MethodInvocationException(ex.getTargetException(), "create");
-		}
-	}
-
-	
  	/**
  	 * Implementation of AbstractJndiLocator's callback, to cache the home wrapper.
 	 * Triggers afterLocated after execution.
@@ -88,6 +67,23 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 	 * @see #located
 	 */
 	protected void afterLocated() {
+	}
+
+	/**
+	 * Invoke the create() method on the cached home.
+	 * @return a new EJBObject or EJBLocalObject
+	 */
+	protected Object create() throws InvocationTargetException {
+		try {
+			return this.createMethod.invoke(this.cachedHome, null);
+		}
+		catch (IllegalArgumentException ex) {
+			// Can't happen
+			throw new FatalBeanException("Inconsistent state: could not call ejbCreate() method without arguments", ex);
+		}
+		catch (IllegalAccessException ex) {
+			throw new FatalBeanException("Could not access ejbCreate() method", ex);
+		}
 	}
 
 }

@@ -295,6 +295,10 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory, Co
 	// Implementation of ConfigurableBeanFactory interface
 	//---------------------------------------------------------------------
 
+	public void setParentBeanFactory(BeanFactory parentBeanFactory) {
+		this.parentBeanFactory = parentBeanFactory;
+	}
+
 	public void registerCustomEditor(Class requiredType, PropertyEditor propertyEditor) {
 		this.customEditors.put(requiredType, propertyEditor);
 	}

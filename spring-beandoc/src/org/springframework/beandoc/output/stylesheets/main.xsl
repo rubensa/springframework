@@ -50,36 +50,37 @@
   
             <body>
       			<div id="bannerBar">beandoc generated: <xsl:value-of select="$beandocGenerated"/></div>
-                <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
-
-                <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage and not(consolidated/beans[1]/@beandocNoGraphs)">
-                <p>
-                    <a href="consolidated-graph.html" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
-                        <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {consolidated/beans[1]/@beandocContextTitle}"/>
-                    </a>
-                </p>
-                </xsl:if>
-
-				<h2>files making up this application context</h2>
-                <table id="fileListTable" summary="List of individual context files and their descriptions that 
-                    made up this application context">
-                    <tbody>
-                    <xsl:for-each select="consolidated/beans/description">
-                        <tr>
-                            <td style="width:30%">
-                                <a href="{@beandocHtmlFileName}"><xsl:value-of select="../@beandocFileName"/></a>
-                            </td>
-                            <td><xsl:value-of select="."/></td>
-                        </tr>           
-                    </xsl:for-each>
-                    </tbody>
-                </table>
-                <p/>
-                <hr/>                
+      			<div id="contentWell">
+	                <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
+	
+	                <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage and not(consolidated/beans[1]/@beandocNoGraphs)">
+	                <p>
+	                    <a href="consolidated-graph.html" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
+	                        <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {consolidated/beans[1]/@beandocContextTitle}"/>
+	                    </a>
+	                </p>
+	                </xsl:if>
+	
+					<h2>files making up this application context</h2>
+	                <table id="fileListTable" summary="List of individual context files and their descriptions that 
+	                    made up this application context">
+	                    <tbody>
+	                    <xsl:for-each select="consolidated/beans/description">
+	                        <tr>
+	                            <td style="width:30%">
+	                                <a href="{@beandocHtmlFileName}"><xsl:value-of select="../@beandocFileName"/></a>
+	                            </td>
+	                            <td><xsl:value-of select="."/></td>
+	                        </tr>           
+	                    </xsl:for-each>
+	                    </tbody>
+	                </table>
+	                <p/>
+	                
+	            </div>            
                 <p id="pageFooter">
                 	<xsl:value-of select="consolidated/beans[1]/@beandocPageFooter"/>
-                </p>
-                <p>
+                	<br/><br/>                
                 	<a href="http://validator.w3.org/check?uri=referer">
                 		<img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" />
           			</a>

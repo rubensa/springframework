@@ -42,22 +42,25 @@
             </head>
   
             <body>
-      
-                <h1>All Beans</h1>
-                <xsl:for-each select=".//bean">                    
-                    <xsl:sort select="@id | @name"/>
-                    <xsl:variable name="beandocId">
-                        <xsl:choose>
-                            <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
-                            <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
-                            <xsl:otherwise>ignore</xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <xsl:if test="$beandocId != 'ignore'">
-                        <a href="{@beandocHtmlFileName}#{$beandocId}" target="mainframe"><xsl:value-of select="$beandocId"/></a>
-                        <br/>
-                    </xsl:if>
-                </xsl:for-each>
+      			<div id="contentWell">      
+	                <h1>All Beans</h1>
+	                <p>
+	                <xsl:for-each select=".//bean">                    
+	                    <xsl:sort select="@id | @name"/>
+	                    <xsl:variable name="beandocId">
+	                        <xsl:choose>
+	                            <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
+	                            <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
+	                            <xsl:otherwise>ignore</xsl:otherwise>
+	                        </xsl:choose>
+	                    </xsl:variable>
+	                    <xsl:if test="$beandocId != 'ignore'">
+	                        <a href="{@beandocHtmlFileName}#{$beandocId}" target="mainframe"><xsl:value-of select="$beandocId"/></a>
+	                        <br/>
+	                    </xsl:if>
+	                </xsl:for-each>
+	                </p>
+                </div>
             </body>
             
         </html>

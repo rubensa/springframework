@@ -94,6 +94,7 @@
 
         <copy todir="${target.classes.dir}" preservelastmodified="true">
             <fileset dir="${src.dir}">
+                <include name="**/*.png"/>
                 <include name="**/*.xml"/>
                 <include name="**/*.xsl"/>
                 <include name="**/*.gif"/>

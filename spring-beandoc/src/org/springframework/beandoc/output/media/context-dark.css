@@ -27,38 +27,49 @@
 
 
 * {
-    font-family: arial,helvetica,sans-serif;
+    font-family: verdana,arial,helvetica,sans-serif;
   }
 
 a {
-    color : #ffff50;
+    color : #ff6;
     text-decoration: none;
+  }
+
+a:hover {
+    text-decoration: none;
+    color: #cca
   }
 
 body {
     background-color: black;
-    font-size: 80%;
     color: white;
+    font-size: 70%;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
   }
 
+h1, h2 {
+    background-color: #ffd;
+    color: black;
+    padding: 2px;
+    background-image: url(round-corner-tl.gif);
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #000000
+}
+    
 h1 {
     font-size: 150%;
     text-align: center;
-    background-color: #656565;
-    border: 1px solid #c0c0c0;
-    padding: 2px;
   }
 
 h2 {
     font-size: 120%;
-    background-color: #656565;
-    border: 1px solid #c0c0c0;
-    padding: 2px;
   }
 
 hr {
     border-width: 0px;
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #443;
   }
 
 img {
@@ -68,16 +79,13 @@ img {
 td {
     padding: 4px;
     vertical-align: top;
+    border-bottom: 1px solid #444444;
   }
 
 th {
     font-size: larger;
     text-align: left;
     padding:2px;
-  }
-
-.keyValue {
-    color: #c0c000;
   }
 
 .menuItem {
@@ -90,11 +98,14 @@ th {
 
 table.invisibleTable {
     border-width: 0px;
+    border-collapse: collapse;
   }
 
 td.keyLabel {
-    color: #e0e0e0;
-    width: 90px;
+    color: #808080;
+    width: 200px;
+    background-color: #333333;
+    text-align: right;
   }
 
 span.abstractTitle {
@@ -113,19 +124,24 @@ span.concreteTitle {
 div.beanHeader {
     width: 18px; 
     border:1px solid #808080;
-    vertical-align: middle;    
+    vertical-align: middle;
     float: left;
   }
 
 div.beanFooter {
-	text-align: right;
-	font-size: smaller;
+    text-align: right;
+    font-size: smaller;
   }
 
+#contentWell {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
 #pageFooter {
-	font-style: italic;
-	text-align: right;
-    color: #e0e0e0;
+    text-align: right;
+    color: #808080;
+    padding: 5px;
   }
 
 #fileListTable {
@@ -141,27 +157,18 @@ div.beanFooter {
     padding-right:15px;
   }
 
-#menuBar {
-    background: url(./spring_clear.png) no-repeat  right;
-    background-color: #aeaeae;
-    font-weight: bold;
-    padding:2px;
-    padding-top: 29px;    
-    color: #202020;
+#menuBar, #bannerBar {
+    background: #c0c0c0 url(spring_clear.png) no-repeat  right;
+    border-bottom: 2px solid #996;
+    padding: 5px;
   }
   
+#menuBar {
+    padding-top: 29px;   
+    font-weight: bold;     
+}
+
 #bannerBar {
-    background: url(./spring_clear.png) no-repeat  right;
-    background-color: #aeaeae;
     height: 45px;
-    color: #202020;
-  }
-
-a:hover {
-    text-decoration:none;
-    background-color:#808080;
-  }
-
-a:visited {
-    color : #ffff50;
+    color: black;
   }

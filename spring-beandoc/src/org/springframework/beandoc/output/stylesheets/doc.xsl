@@ -54,49 +54,52 @@
                     <xsl:value-of select="substring-before(beans/@beandocFileName, '.xml')"/>
                 </xsl:variable>
                 
-                <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
-                <p>
-                	<xsl:if test="not(beans/@beandocNoGraphs)">
-	                    <a href="{$fileRoot}-graph.html" title="View full size image">
-	                        <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
-	                    </a>
-                    </xsl:if>
-                    
-                    <strong>Description:</strong><br/>
-                    <xsl:value-of select="beans/description"/>
-                </p>
-                        
-                <p class="beanAttributeSummary">
-                    <strong>Attributes</strong>
-                    <table summary="Attribute list for this context file">
-                        <xsl:apply-templates select="beans/@*"/>
-                    </table>
-                </p>    
-                
-                <br style="clear:both"/>
-
-                <a name="summary"><xsl:comment>::</xsl:comment></a>
-                <h2>Summary of beans</h2>
-                <table summary="Summary list and description of beans defined in this file">
-                    <xsl:for-each select="beans/bean">
-                        <xsl:variable name="beandocId">
-                            <xsl:choose>
-                                <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
-                                <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
-                                <xsl:otherwise>anonymous-inner-bean</xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:variable>
-                        <tr>
-                            <td><a href="#{$beandocId}"><xsl:value-of select="$beandocId"/></a></td>
-                            <td><xsl:value-of select="./description"/></td>
-                        </tr>                    
-                    </xsl:for-each>
-                </table>
-                
-                <a name="detail"><xsl:comment>::</xsl:comment></a>
-                <h2>Detail of beans</h2>
-                <xsl:apply-templates select="beans/bean"/>
-                
+      			<div id="contentWell">
+	                <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
+	                <p>
+	                	<xsl:if test="not(beans/@beandocNoGraphs)">
+		                    <a href="{$fileRoot}-graph.html" title="View full size image">
+		                        <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
+		                    </a>
+	                    </xsl:if>
+	                    
+	                    <strong>Description:</strong><br/>
+	                    <xsl:value-of select="beans/description"/>
+	                </p>
+	                        
+	                <p class="beanAttributeSummary">
+	                    <strong>Attributes</strong>
+	                    <table class="invisibleTable" summary="Attribute list for this context file">
+	                    	<tbody>
+		                        <xsl:apply-templates select="beans/@*"/>
+		                    </tbody>
+	                    </table>
+	                </p>    
+	                
+	                <br style="clear:both"/>
+	
+	                <a name="summary"><xsl:comment>::</xsl:comment></a>
+	                <h2>Summary of beans</h2>
+	                <table class="invisibleTable" summary="Summary list and description of beans defined in this file">
+	                    <xsl:for-each select="beans/bean">
+	                        <xsl:variable name="beandocId">
+	                            <xsl:choose>
+	                                <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
+	                                <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
+	                                <xsl:otherwise>anonymous-inner-bean</xsl:otherwise>
+	                            </xsl:choose>
+	                        </xsl:variable>
+	                        <tr>
+	                            <td><a href="#{$beandocId}"><xsl:value-of select="$beandocId"/></a></td>
+	                            <td><xsl:value-of select="./description"/></td>
+	                        </tr>                    
+	                    </xsl:for-each>
+	                </table>
+	                
+	                <a name="detail"><xsl:comment>::</xsl:comment></a>
+	                <h2>Detail of beans</h2>
+	                <xsl:apply-templates select="beans/bean"/>
+                </div>
                 <p id="pageFooter">
                     <xsl:value-of select="beans/@beandocPageFooter"/>
                 </p>
@@ -191,7 +194,7 @@
         
         <p class="beanAttributeSummary">
             <strong>Attributes</strong>
-            <table summary="Attribute list for this bean">
+            <table class="invisibleTable" summary="Attribute list for this bean">
                 <xsl:apply-templates select="./@*"/>
             </table>
         </p>
@@ -219,7 +222,7 @@
         </table>
         </xsl:if>
         
-        <div class="beanFooter"><a href="#top"><img src="top.gif" alt="Up"/> back to top</a></div>
+        <div class="beanFooter"><a href="#top">back to top</a></div>
         <hr/>
     </xsl:template>
     

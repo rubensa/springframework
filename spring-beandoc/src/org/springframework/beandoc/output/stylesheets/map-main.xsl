@@ -21,10 +21,6 @@
  * Converts a decorated DOM tree of Spring beans into an HTML file with a 
  * an image map over the GraphViz generated image of this particular context.
  *
- * This output is the same as map.xsl, but it seemed to be impossible to set a variable
- * to refer to a root node based on whether the tree was consolidated or whether
- * it was an individual context file.  Hence the duplication.
- *
  * @author Darren Davison
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -51,17 +47,12 @@
             </head>
   
             <body>
-                <a name="top"><xsl:comment>::</xsl:comment></a>
-                
-                <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
-                <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" alt="Graph" usemap ="#G"/>
-                
-                <xsl:comment> ## imagemap ## </xsl:comment>
-                
-                <hr/>
-                <p id="pageFooter">
-                    <xsl:value-of select="consolidated/beans[1]/@beandocPageFooter"/>
-                </p>
+      			<div id="contentWell">
+	                <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" alt="Graph" usemap ="#G"/>
+	                
+	                <xsl:comment> ## imagemap ## </xsl:comment>
+	                
+	            </div>
             </body>
         </html>
 

@@ -152,8 +152,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				if (status.isDebugEnabled()) 
 					logger.debug("Triggering beforeCompletion synchronization");
 				TransactionSynchronizationManager.triggerBeforeCompletion();
-				if (status.isDebugEnabled()) 
-					logger.debug("Initiating transaction commit");
+			
+				logger.info("Initiating transaction commit");
 				doCommit(status);
 				triggerAfterCompletion(TransactionSynchronization.STATUS_COMMITTED, null);
 			}
@@ -199,9 +199,9 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			try {
 				if (status.isDebugEnabled())
 					logger.debug("Triggering beforeCompletion synchronization");
-				TransactionSynchronizationManager.triggerBeforeCompletion();
-				if (status.isDebugEnabled())
-					logger.debug("Initiating transaction rollback");
+				TransactionSynchronizationManager.triggerBeforeCompletion();				
+				
+				logger.info("Initiating transaction rollback");
 				doRollback(status);
 				triggerAfterCompletion(TransactionSynchronization.STATUS_ROLLED_BACK, null);
 			}

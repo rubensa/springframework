@@ -16,6 +16,8 @@
 
 package org.springframework.transaction.interceptor;
 
+import java.io.Serializable;
+
 import org.springframework.aop.framework.AopConfigException;
 
 /**
@@ -27,7 +29,7 @@ import org.springframework.aop.framework.AopConfigException;
  * @author Rod Johnson
  * @see NoRollbackRuleAttribute
  */
-public class RollbackRuleAttribute {
+public class RollbackRuleAttribute implements Serializable{
 	
 	public static final RollbackRuleAttribute ROLLBACK_ON_RUNTIME_EXCEPTIONS = new RollbackRuleAttribute("java.lang.RuntimeException");
 	

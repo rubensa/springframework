@@ -18,7 +18,6 @@ package org.springframework.beans.factory.xml;
 
 import org.springframework.beans.TestBean;
 
-// TODO constructor on diff class
 
 /**
  * Test class for Spring's ability to create
@@ -29,13 +28,16 @@ import org.springframework.beans.TestBean;
  */
 public class FactoryMethods {
 	
-	public static FactoryMethods newInstance(TestBean tb) {
-		return new FactoryMethods(tb, "default", 0);
-	}
-	
 	public static FactoryMethods defaultInstance() {
 		TestBean tb = new TestBean();
 		tb.setName("defaultInstance");
+		return new FactoryMethods(tb, "default", 0);
+	}
+	
+	/**
+	 * Note that overloaded methods are supported
+	 */
+	public static FactoryMethods newInstance(TestBean tb) {
 		return new FactoryMethods(tb, "default", 0);
 	}
 	

@@ -5,7 +5,6 @@
  
 package org.springframework.util;
 
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Singleton factory to conceal automatic choice of Java 1.4 or 1.3
@@ -19,22 +18,12 @@ public class ControlFlowFactory {
 	
 	private static ControlFlowFactory instance = new ControlFlowFactory();
 
-	
 	public static ControlFlowFactory getInstance() {
 		return instance;
 	}
-	
-	private boolean isJava14;
-	
-	private ControlFlowFactory() {
-		String javaVersion = System.getProperty("java.version");
-		LogFactory.getLog(ControlFlowFactory.class).info("Java version is " + javaVersion);
-		// Should look like "1.4.1_02"
-		isJava14 = javaVersion.indexOf("1.4") != -1;
-	}
-	
+		
 	public ControlFlow createControlFlow() {
-		return isJava14 ? 
+		return JdkVersion.getMajorJavaVersion() >= JdkVersion.JAVA_14 ? 
 					(ControlFlow) new Jdk14ControlFlow() : 
 					(ControlFlow) new Jdk13ControlFlow();
 	}

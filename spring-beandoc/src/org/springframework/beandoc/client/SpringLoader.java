@@ -16,6 +16,8 @@
 
 package org.springframework.beandoc.client;
 
+import java.io.FileInputStream;
+import java.util.Enumeration;
 import java.util.Properties;
 
 import org.springframework.beans.factory.BeanFactory;
@@ -36,15 +38,39 @@ import org.springframework.core.io.ClassPathResource;
 class SpringLoader {
     
 	private static final String BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
+    
+    private static final String SYSTEM_PROPS_QUALIFIER = "springbeandoc.";
+        
 
     /**
      * Loads and configures (post-processes) a BeanFactory from an inernal
      * definition file.
      * 
-     * @param beandocProps
+     * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
+     *      mandatory properties are specified as parmeters to this method or as System properties 
+     *      using a "springbeandoc." qualifier (ie <code>springbeandoc.input.files=...</code> in 
+     *      place of <code>input.files=...</code>)
      * @return the BeanFactory post-processed by the properties supplied
      */
-    static BeanFactory getBeanFactory(Properties beandocProps) {
+    static BeanFactory getBeanFactory(String beandocPropsLocation) throws Exception {
+        
+        Properties beandocProps = new Properties();    
+        
+        // evaluate system props first as they are lowest in the hierarchy
+        for (Enumeration enum = System.getProperties().keys(); enum.hasMoreElements();)
+            try {
+                String nextProp = (String) enum.nextElement();
+                if (nextProp.startsWith(SYSTEM_PROPS_QUALIFIER))
+                    beandocProps.put(nextProp.substring(SYSTEM_PROPS_QUALIFIER.length()), System.getProperty(nextProp));
+                    
+            } catch (Exception e) {
+                // ignore and continue
+            }
+        
+        // load user props if specified, overriding any values from the System
+        if (beandocPropsLocation != null)
+            beandocProps.load(new FileInputStream(beandocPropsLocation));
+        
 	    ClassPathResource res = new ClassPathResource(BEANDOC_XML);
 	    XmlBeanFactory factory = new XmlBeanFactory(res);
 	    PropertyPlaceholderConfigurer cfgPlacehoder = new PropertyPlaceholderConfigurer();

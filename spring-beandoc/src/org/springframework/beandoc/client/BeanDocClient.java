@@ -78,20 +78,18 @@ public class BeanDocClient {
 		}
     
 		try {
-            beandocProps.load(new FileInputStream(args[0]));
+            BeanFactory factory = SpringLoader.getBeanFactory(args[0]);
+            ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
+            cp.process();
+            
         } catch (FileNotFoundException e1) {
             System.err.println("Unable to find properties file [" + args[0] + "]");
             System.exit(99);
+            
         } catch (IOException e1) {
             System.err.println("Unable to load properties file [" + args[0] + "]; " + e1.getMessage());
             System.exit(99);
-        }
-		        
-        BeanFactory factory = SpringLoader.getBeanFactory(beandocProps);
-        
-        try {
-            ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
-            cp.process();
+          
         } catch (Exception e) {
             System.err.println("Unable to run beandoc tool; " + e.getMessage());
             System.exit(99);

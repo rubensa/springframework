@@ -29,6 +29,7 @@ import org.jdom.input.SAXBuilder;
 import org.springframework.beandoc.output.Decorator;
 import org.springframework.beandoc.output.Tags;
 import org.springframework.beandoc.output.Transformer;
+import org.springframework.beans.factory.xml.BeansDtdResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -200,11 +201,13 @@ public class DefaultContextProcessor implements ContextProcessor {
      * @throws IOException
      */
     private Document[] buildDomsFromInputFiles() throws IOException {
-        logger.debug("Starting building DOM trees fro input files");
+        logger.debug("Starting building DOM trees from input files");
         Document[] contextDocuments = new Document[inputFiles.length];
         
         SAXBuilder builder = new SAXBuilder();
+        builder.setEntityResolver(new BeansDtdResolver());
         builder.setValidation(validateFiles);
+        logger.debug("Input file validation is set to [" + validateFiles + "]");
         
         // process each context file, decorating and consolidating.  
         for (int i = 0; i < inputFiles.length; i++) {

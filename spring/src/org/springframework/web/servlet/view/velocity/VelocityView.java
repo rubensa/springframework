@@ -36,7 +36,7 @@ import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.web.servlet.support.RequestContextUtils;
-import org.springframework.web.servlet.view.AbstractUrlBasedView;
+import org.springframework.web.servlet.view.AbstractTemplateView;
 
 /**
  * View using the Velocity template engine.
@@ -79,7 +79,7 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  * @see VelocityConfig
  * @see VelocityConfigurer
  */
-public class VelocityView extends AbstractUrlBasedView {
+public class VelocityView extends AbstractTemplateView {
 
 	public static final int DEFAULT_WRITER_POOL_SIZE = 40;
 
@@ -221,6 +221,11 @@ public class VelocityView extends AbstractUrlBasedView {
 		}
 
 		response.setContentType(getContentType());
+		
+		// add request or session attributes to the model if needed
+	    exposeAttributesToModel(request, model);
+	    
+	    // create context from model and add Velocity helpers
 		Context velocityContext = new VelocityContext(model);
 		exposeHelpers(velocityContext, request);
 

@@ -29,7 +29,8 @@ import org.springframework.beandoc.util.BeanDocUtils;
 
 
 /**
- * GraphVizDecorator
+ * GraphVizDecorator is a configurable Decorator implementation that adds attributes to
+ * the DOM used by DotFileTransformer in generating input files for GraphViz.  
  * 
  * @author Darren Davison
  * @since 1.0
@@ -132,7 +133,7 @@ public class GraphVizDecorator extends SimpleDecorator {
         }
         
         
-        if ("bean".equals(element.getName())) {
+        if (Tags.TAGNAME_BEAN.equals(element.getName())) {
 			String id = element.getAttributeValue(Tags.ATTRIBUTE_ID);
 			String name = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
 			if (name == null) name = "anon";
@@ -154,7 +155,6 @@ public class GraphVizDecorator extends SimpleDecorator {
 	                
 		        } catch (NullPointerException npe) {
 		            // no match (!)
-		            logger.debug("d)");
 		        }
 		    }
 			

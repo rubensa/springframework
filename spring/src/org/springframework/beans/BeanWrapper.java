@@ -133,11 +133,10 @@ public interface BeanWrapper {
 	PropertyDescriptor[] getPropertyDescriptors() throws BeansException;
 
 	/**
-	 * Get the property descriptor for a particular property, or null if there
-	 * is no such property.
+	 * Get the property descriptor for a particular property.
 	 * @param propertyName property to check status for
-	 * @return the property descriptor for a particular property, or null if there
-	 * is no such property
+	 * @return the property descriptor for a particular property
+	 * @throws FatalBeanException if there is no such property
 	 */
 	PropertyDescriptor getPropertyDescriptor(String propertyName) throws BeansException;
 

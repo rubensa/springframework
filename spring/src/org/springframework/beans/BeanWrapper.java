@@ -73,6 +73,14 @@ public interface BeanWrapper {
 	Class getWrappedClass();
 
 	/**
+	 * Register the given custom property editor for all properties of the
+	 * given type.
+	 * @param requiredType type of the property
+	 * @param propertyEditor editor to register
+	 */
+	void registerCustomEditor(Class requiredType, PropertyEditor propertyEditor);
+
+	/**
 	 * Register the given custom property editor for the given type and
 	 * property, or for all properties of the given type.
 	 * @param requiredType type of the property, can be null if a property is

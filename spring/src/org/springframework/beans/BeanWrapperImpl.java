@@ -196,6 +196,10 @@ public class BeanWrapperImpl implements BeanWrapper {
 	}
 
 
+	public void registerCustomEditor(Class requiredType, PropertyEditor propertyEditor) {
+		registerCustomEditor(requiredType, null, propertyEditor);
+	}
+
 	public void registerCustomEditor(Class requiredType, String propertyPath, PropertyEditor propertyEditor) {
 		if (propertyPath != null) {
 			List bws = getBeanWrappersForPropertyPath(propertyPath);

@@ -14,43 +14,21 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beandoc;
+package org.springframework.beandoc.output;
+
+import org.jdom.Document;
+
 
 /**
- * Wrapper exception for problems occurring in the BeanDocEngine.
+ * Decorator implementations have the opportunity to modufy the DOM trees built by a 
+ * Processor instance.  They can optionally add elements and attributes to elements
+ * that may be required by one or more Transformer instances.
  * 
  * @author Darren Davison
  * @since 1.0
  */
-public class BeanDocException extends RuntimeException {
+public interface Decorator {
 
-	/**
-	 * 
-	 */
-	public BeanDocException() {
-		super();
-	}
-
-	/**
-	 * @param message
-	 */
-	public BeanDocException(String message) {
-		super(message);
-	}
-
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public BeanDocException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
-	 * @param cause
-	 */
-	public BeanDocException(Throwable cause) {
-		super(cause);
-	}
-
+    public void decorate(Document[] contextDocuments);
+    
 }

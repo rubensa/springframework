@@ -34,15 +34,18 @@
 	<xsl:template match="/">
     	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   			<head>
-    			<title><xsl:value-of select="beans/@beandocTitle"/></title>
-    			<xsl:for-each select="beans/beandocCssLocation">
-    			<link rel="stylesheet" href="{.}" type="text/css"/>
-    			</xsl:for-each>
+    			<title><xsl:value-of select="beans/@beandocFileName"/></title>
+    			<link rel="stylesheet" href="{beans/@beandocCssLocation}" type="text/css"/>
   			</head>
   
 	  		<body>
 	  
-	    		<h1><xsl:value-of select="beans/@beandocTitle"/></h1>
+	    		<h1><xsl:value-of select="beans/@beandocFileName"/></h1>
+	    		<!--
+	    			::
+	    			:: move to separate frame a-la javadoc
+	    			::
+	    			
 	    		<xsl:if test="beans/@beandocConsolidatedImage">
 	    		<p>
 	    			<a href="{beans/@beandocConsolidatedImage}" target="_secondary" title="View graph for this context">
@@ -50,8 +53,7 @@
 	    			</a>
     			</p>
     			</xsl:if>
-    			
-    			<!-- Context file description list -->
+    			    			
     			<table id="fileListTable" summary="List of individual context files and their descriptions that 
     				made up this application context">
     				<thead><tr><th colspan="2">files making up this application context</th></tr></thead>
@@ -70,6 +72,7 @@
     				</tbody>
     			</table>
     			<p/>
+    			-->
     			
     			<!-- do beandoc -->
     			<xsl:apply-templates select="beans/bean"/>
@@ -150,7 +153,7 @@
 		<!-- parent link (usually when no class defined) -->
   		<xsl:if test="@parent">
   		<p><strong>Parent:</strong><br/>
-  			<a class="classValue mono" href="#{@parent}">
+  			<a class="classValue mono" href="{@beandocHtmlFileName}#{@parent}">
   				<xsl:value-of select="@parent"/>
   			</a> 
   		</p>			
@@ -218,7 +221,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-    	<a class="classValue mono" style="font-size:100%" href="#{$refName}"><xsl:value-of select="$refName"/></a><br/>
+    	<a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{$refName}"><xsl:value-of select="$refName"/></a><br/>
     </xsl:template>
     
     <xsl:template match="map">

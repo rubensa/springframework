@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <description>Application context definition for default beandoc setup</description>
+
+    <!-- ========================= GENERAL DEFINITIONS ========================= -->
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <description>Configurer that replaces ${...} placeholders with values from properties files</description>
+        <property name="locations">
+            <list>
+                <value>beandoc.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="processor" class="org.springframework.beandoc.DefaultContextProcessor">
+    	<description>main processor for generating output</description>
+    	
+    	<property name="inputFiles"><value>${input.files}</value></property>
+    	<property name="outputDir"><value>${output.dir}</value></property>
+    	<property name="validateFiles"><value>${validate.files}</value></property>
+    	<property name="transformers">
+    		<list>
+    			<ref local="javaDocDecorator"/>
+    			<ref local="graphVizDecorator"/>
+    			<ref local="htmlDecorator"/>
+    		</list>
+    	</property>
+    	<property name="decorators">
+    		<list>
+    			<ref local="htmlTransformer"/>
+    			<ref local="graphVizTransformer"/>
+    		</list>
+    	</property>    	
+    </bean>
+    
+    <bean id="javaDocDecorator" class="org.springframework.beandoc.output.JavaDocDecorator"/>
+    
+    <bean id="graphVizDecorator" class="org.springframework.beandoc.output.GraphVizDecorator"/>
+    
+    <bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
+    
+    <bean id="htmlTransformer" class="org.springframework.beandoc.output.HtmlTransformer"/>
+    
+    <bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer">
+    	<property name="dotExe"><value>${dot.location}</value></property>
+    	<property name="graphOutputType"><value>${graph.type}</value></property>
+    </bean>
+    
+</beans>

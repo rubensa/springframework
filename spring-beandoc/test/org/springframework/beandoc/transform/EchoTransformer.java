@@ -16,6 +16,7 @@
 
 package org.springframework.beandoc.transform;
 
+import java.io.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import org.jdom.Document;
 import org.jdom.input.DOMBuilder;
 import org.jdom.output.XMLOutputter;
+import org.springframework.beandoc.output.Transformer;
 import org.w3c.dom.Node;
 
 /**
@@ -33,28 +35,18 @@ import org.w3c.dom.Node;
  */
 public class EchoTransformer implements Transformer {
 
-	/* (non-Javadoc)
-	 * @see org.springframework.beandoc.transform.Transformer#document(org.w3c.dom.Node, java.io.File)
-	 */
-	public void document(Node node, File outputFile) throws Exception {
-		Document doc = new DOMBuilder().build((org.w3c.dom.Document) node);
-		try {
-			new XMLOutputter().output(doc, new FileWriter(outputFile));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.springframework.beandoc.transform.Transformer#dotFile(org.w3c.dom.Node, java.io.File)
-	 */
-	public void dotFile(Node node, File outputFile) throws Exception {
-        Document doc = new DOMBuilder().build((org.w3c.dom.Document) node);
-        try {
-            new XMLOutputter().output(doc, new FileWriter(outputFile));
-        } catch (IOException e) {
-            e.printStackTrace();
+    /**
+     * @see org.springframework.beandoc.output.Transformer#transform(org.jdom.Document[], File)
+     */
+    public void transform(Document[] contextDocuments, File outputDir) {
+        for (int i = 0; i < contextDocuments.length; i++) {
+            Document doc = contextDocuments[i];
+            try {
+                new XMLOutputter().output(doc, new OutputStreamWriter(System.out));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-	}
+    }
 
 }

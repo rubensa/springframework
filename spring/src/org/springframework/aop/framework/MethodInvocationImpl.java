@@ -103,6 +103,7 @@ public class MethodInvocationImpl implements MethodInvocation {
 		this.method = null;
 		this.arguments = null;
 		this.interceptorsAndDynamicMethodMatchers = null;
+		this.resources = null;
 	}
 	
 	

@@ -5,7 +5,6 @@
  
 package org.springframework.ejb.support;
 
-import javax.ejb.CreateException;
 import javax.ejb.MessageDrivenBean;
 import javax.ejb.MessageDrivenContext;
 

@@ -17,7 +17,7 @@ import org.springframework.web.util.WebUtils;
  * <p>This bean must be included in the application context of any application
  * using Spring's VelocityView for web MVC. It exists purely to configure Velocity.
  * It is not meant to be referenced by application components but just internally
- * by VelocityView. Implements VelocityConfiguration to be found by VelocityView
+ * by VelocityView. Implements VelocityConfig to be found by VelocityView
  * without depending on the bean name the configurer.
  *
  * <p>The default config file location, applied only when no "configLocation" and
@@ -43,7 +43,7 @@ import org.springframework.web.util.WebUtils;
  * @see #setAppRootMarker
  * @see VelocityView
  */
-public class VelocityConfigurer extends VelocityEngineFactory implements VelocityConfiguration {
+public class VelocityConfigurer extends VelocityEngineFactory implements VelocityConfig {
 
 	public static final String DEFAULT_CONFIG_LOCATION = "WEB-INF/velocity.properties";
 

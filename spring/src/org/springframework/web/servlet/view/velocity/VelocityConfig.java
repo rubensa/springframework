@@ -14,7 +14,7 @@ import org.apache.velocity.app.VelocityEngine;
  * @version $Id$
  * @see VelocityView
  */
-public interface VelocityConfiguration {
+public interface VelocityConfig {
 	
 	/**
 	 * Return the VelocityEngine for this web application context.

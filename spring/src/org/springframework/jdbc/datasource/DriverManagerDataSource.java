@@ -104,22 +104,30 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 	}
 
 	public Connection getConnection() throws SQLException {
-		return getConnection(this.username, this.password);
+		return getConnectionFromDriverManager();
 	}
 
 	public Connection getConnection(String username, String password) throws SQLException {
-		logger.info("Creating new JDBC connection: " + this.url);
-		Connection con = getConnectionFromDriverManager(this.url, username, password);
-		con.setAutoCommit(true);
-		return con;
+		return getConnectionFromDriverManager(this.url, username, password);
 	}
 	
 	/**
-	 * Getting a connection using the nasty static from DriverManager is extracted into a
-	 * protected method to allow for easy unit testing
+	 * Get a new Connection from DriverManager, with the connection
+	 * properties of this DataSource.
+	 */
+	protected Connection getConnectionFromDriverManager() throws SQLException {
+		return getConnectionFromDriverManager(this.url, this.username, this.password);
+	}
+
+	/**
+	 * Getting a connection using the nasty static from DriverManager is extracted
+	 * into a protected method to allow for easy unit testing.
 	 */
 	protected Connection getConnectionFromDriverManager(String url, String username, String password) throws SQLException {
-		return DriverManager.getConnection(this.url, username, password);
+		logger.info("Creating new JDBC connection to [" + url + "]");
+		Connection con = DriverManager.getConnection(url, username, password);
+		con.setAutoCommit(true);
+		return con;
 	}
 
 }

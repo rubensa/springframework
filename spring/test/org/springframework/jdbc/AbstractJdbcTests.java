@@ -63,6 +63,12 @@ public abstract class AbstractJdbcTests extends TestCase {
 		ctrlDataSource.setDefaultReturnValue(mockConnection);
 	}
 
+	protected void replay() {
+		this.shouldVerify = true;
+		ctrlDataSource.replay();
+		ctrlConnection.replay();
+	}
+
 	protected void tearDown() throws Exception {
 		super.tearDown();
 
@@ -75,12 +81,6 @@ public abstract class AbstractJdbcTests extends TestCase {
 
 	protected boolean shouldVerify() {
 		return this.shouldVerify;
-	}
-
-	protected void replay() {
-		this.shouldVerify = true;
-		ctrlDataSource.replay();
-		ctrlConnection.replay();
 	}
 
 }

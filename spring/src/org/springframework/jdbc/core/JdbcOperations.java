@@ -454,6 +454,7 @@ public interface JdbcOperations {
 	 * Execute a SQL call using a CallableStatementCreator to provide SQL and any
 	 * required parameters.
 	 * @param csc object that provides SQL and any necessary parameters
+	 * @param declaredParameters list of declared SqlParameter objects
 	 * @return Map of extracted out parameters
 	 * @throws DataAccessException if there is any problem issuing the update
 	 */

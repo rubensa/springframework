@@ -29,6 +29,61 @@ public class BeanWrapperTestSuite extends TestCase {
 		assertTrue("2nd changed", tb2.getAge()==14);
 		assertTrue("1 didn't change", tb.getAge() == 11);
 	}
+	
+	public void testToString() {
+		TestBean tb = new TestBean();
+		tb.setName("kerry");
+		tb.setAge(37);
+		String s = new BeanWrapperImpl(tb).toString();
+		// Test that it lists properties we've set
+		assertTrue(s.indexOf("37") != -1);
+		assertTrue(s.indexOf("kerry") != -1);
+	}
+	
+	
+	public static class NoRead {
+		public void setAge(int age) {
+		}
+	}
+	
+	public void testIsReadablePropertyNotReadable() {
+		NoRead nr = new NoRead();
+		BeanWrapper bw = new BeanWrapperImpl(nr);
+		assertFalse(bw.isReadableProperty("age"));
+	}
+	
+	/**
+	 * Shouldn't throw an exception: should just return false
+	 */
+	public void testIsReadablePropertyNoSuchProperty() {
+		NoRead nr = new NoRead();
+		BeanWrapper bw = new BeanWrapperImpl(nr);
+		assertFalse(bw.isReadableProperty("xxxxx"));
+	}
+	
+	public void testIsReadablePropertyNull() {
+		NoRead nr = new NoRead();
+		BeanWrapper bw = new BeanWrapperImpl(nr);
+		try {
+			bw.isReadableProperty(null);
+			fail("Can't inquire into readability of null property");
+		}
+		catch (BeansException ex) {
+			
+		}
+	}
+	
+	public void testIsWritablePropertyNull() {
+		NoRead nr = new NoRead();
+		BeanWrapper bw = new BeanWrapperImpl(nr);
+		try {
+			bw.isWritableProperty(null);
+			fail("Can't inquire into writability of null property");
+		}
+		catch (BeansException ex) {
+		
+		}
+	}
 
 	public void testSetWrappedInstanceOfDifferentClass()throws Exception {
 		ThrowsException tex = new ThrowsException();
@@ -457,6 +512,36 @@ public class BeanWrapperTestSuite extends TestCase {
 		}
 		catch (BeansException ex) {
 			// expected
+		}
+	}
+	
+	public void testInvokeNonVisibleMethod() {
+		TestBean tb = new TestBean() {
+			private void invisibleMethod() {}
+		};
+		
+		BeanWrapper bw = new BeanWrapperImpl(tb);
+		try {
+			Object ret = bw.invoke("invisibleMethod", null);
+			fail("Should have thrown exception trying to invoke non-visible method");
+		}
+		catch (BeansException ex) {
+			// Check for helpful error message
+			assertTrue(ex.getMessage().indexOf("invisibleMethod") != -1);
+		}
+	}
+	
+	public void testInvokeWithInvalidArgument() {
+		TestBean tb = new TestBean();
+	
+		BeanWrapper bw = new BeanWrapperImpl(tb);
+		try {
+			Object ret = bw.invoke("setAge", new Object[] { "" });
+			fail("Should have thrown exception trying to pass invalid argument");
+		}
+		catch (BeansException ex) {
+			assertTrue(ex.getMessage().indexOf("argument") != -1);
+			assertTrue(ex.getMessage().indexOf("setAge") != -1);
 		}
 	}
 

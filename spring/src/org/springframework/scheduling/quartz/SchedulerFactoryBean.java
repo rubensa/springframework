@@ -18,6 +18,7 @@ package org.springframework.scheduling.quartz;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -339,7 +340,7 @@ public class SchedulerFactoryBean
 			props.setProperty(PROP_THREAD_COUNT, Integer.toString(DEFAULT_THREAD_COUNT));
 
 			if (this.configLocation != null) {
-				// load Quarz properties from given location
+				// load Quartz properties from given location
 				InputStream is = this.configLocation.getInputStream();
 				try {
 					props.load(is);
@@ -350,8 +351,11 @@ public class SchedulerFactoryBean
 			}
 
 			if (this.quartzProperties != null) {
-				// add given Quartz properties
-				props.putAll(this.quartzProperties);
+				// use propertyNames enumeration to also catch default properties
+				for (Enumeration enum = this.quartzProperties.propertyNames(); enum.hasMoreElements();) {
+					String key = (String) enum.nextElement();
+					props.setProperty(key, this.quartzProperties.getProperty(key));
+				}
 			}
 
 			if (this.dataSource != null) {

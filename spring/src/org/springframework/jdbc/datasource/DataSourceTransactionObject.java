@@ -34,17 +34,7 @@ package org.springframework.jdbc.datasource;
  */
 public class DataSourceTransactionObject extends JdbcTransactionObjectSupport {
 
-	private Integer previousIsolationLevel;
-	
 	private boolean mustRestoreAutoCommit;
-
-	protected void setPreviousIsolationLevel(Integer previousIsolationLevel) {
-		this.previousIsolationLevel = previousIsolationLevel;
-	}
-
-	public Integer getPreviousIsolationLevel() {
-		return previousIsolationLevel;
-	}
 
 	protected void setMustRestoreAutoCommit(boolean mustRestoreAutoCommit) {
 		this.mustRestoreAutoCommit = mustRestoreAutoCommit;

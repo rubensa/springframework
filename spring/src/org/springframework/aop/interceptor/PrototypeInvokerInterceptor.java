@@ -60,6 +60,9 @@ public class PrototypeInvokerInterceptor extends AbstractReflectionInvokerInterc
 	}
 
 	public Object getTarget() {
+		if (logger.isInfoEnabled()) {
+			logger.info("Creating new target from bean '" + this.targetBeanName + "'");
+		}
 		return this.owningBeanFactory.getBean(this.targetBeanName);
 	}
 

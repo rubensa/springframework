@@ -28,6 +28,10 @@ public abstract class OverrideOneMethod {
 	
 	protected abstract TestBean protectedOverrideSingleton();
 	
+	public TestBean invokesOverridenMethodOnSelf() {
+		return getPrototypeDependency();
+	}
+	
 	public String echo(String echo) {
 		return echo;
 	}

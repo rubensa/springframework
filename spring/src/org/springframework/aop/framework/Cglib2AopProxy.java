@@ -90,15 +90,13 @@ class Cglib2AopProxy implements AopProxy, MethodInterceptor, CallbackFilter {
 			// Try special rules for equals() method and implementation of the
 			// ProxyConfig AOP configuration interface
 			if (isEqualsMethod(method)) {
-				// What if equals throws exception!?
-
 				// This class implements the equals() method itself
 				// We don't need to use reflection
 				return new Boolean(equals(args[0]));
 			}
-			else if (Advised.class.equals(method.getDeclaringClass())) {
+			else if (Advised.class == method.getDeclaringClass()) {
 				// Service invocations on ProxyConfig with the proxy config
-				return method.invoke(this.advised, args);
+				return AopProxyUtils.invokeJoinpointUsingReflection(this.advised, method, args);
 			}
 			
 			Object retVal = null;

@@ -96,7 +96,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 			}
 			else if (Advised.class == method.getDeclaringClass()) {
 				// Service invocations on ProxyConfig with the proxy config
-				return method.invoke(this.advised, args);
+				return AopProxyUtils.invokeJoinpointUsingReflection(this.advised, method, args);
 			}
 			
 			Object retVal = null;

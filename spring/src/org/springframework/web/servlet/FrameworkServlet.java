@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContextException;
-import org.springframework.context.config.ConfigurableApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.RequestHandledEvent;
@@ -262,7 +263,10 @@ public abstract class FrameworkServlet extends HttpServletBean {
 		wac.setServletContext(getServletContext());
 		wac.setNamespace(getNamespace());
 		if (this.contextConfigLocation != null) {
-			wac.setConfigLocations(WebApplicationContextUtils.parseContextConfigLocation(this.contextConfigLocation));
+			wac.setConfigLocations(
+			    StringUtils.tokenizeToStringArray(this.contextConfigLocation,
+			                                      ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS,
+			                                      true, true));
 		}
 		wac.refresh();
 		return wac;

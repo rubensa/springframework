@@ -18,14 +18,14 @@ import freemarker.template.Configuration;
  * @see FreemarkerView
  */
 public interface FreemarkerConfig {
-	
+
 	/**
-	 * Return the FreeMarker <code>Configuration</code> object for the current
+	 * Return the FreeMarker Configuration object for the current
 	 * web application context.
 	 * <p>A FreeMarker Configuration object may be used to set FreeMarker
-	 * properties and shared objects, and allows to retrieve <code>Template</code>s.
+	 * properties and shared objects, and allows to retrieve templates.
 	 * @return the FreeMarker Configuration
 	 */
-	Configuration getFreemarkerConfiguration();
-	
+	Configuration getConfiguration();
+
 }

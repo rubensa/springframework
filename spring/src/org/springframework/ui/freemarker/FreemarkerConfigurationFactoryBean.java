@@ -31,14 +31,14 @@ import org.springframework.context.ResourceLoaderAware;
 public class FreemarkerConfigurationFactoryBean extends FreemarkerConfigurationFactory
 		implements FactoryBean, InitializingBean, ResourceLoaderAware {
 
-	private Configuration freemarkerConfiguration;
+	private Configuration configuration;
 
 	public void afterPropertiesSet() throws IOException, TemplateException {
-		this.freemarkerConfiguration = createFreemarkerConfiguration();
+		this.configuration = createConfiguration();
 	}
 
 	public Object getObject() {
-		return this.freemarkerConfiguration;
+		return this.configuration;
 	}
 
 	public Class getObjectType() {

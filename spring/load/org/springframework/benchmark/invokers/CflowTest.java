@@ -7,12 +7,11 @@ package org.springframework.benchmark.invokers;
 
 import java.lang.reflect.Method;
 
-import org.springframework.aop.Advisor;
 import org.springframework.aop.BeforeAdvice;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.framework.Advised;
-import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
 import org.springframework.aop.support.ControlFlowPointcut;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.load.AbortTestException;
 import org.springframework.load.TestFailedException;
 
@@ -49,14 +48,8 @@ public class CflowTest extends RandomWaitTest {
 			};
 			ControlFlowPointcut cflow = new ControlFlowPointcut(getClass(), "runPass");
 
-			//DK
-			GlobalAdvisorAdapterRegistry advisorAdapterRegistry = GlobalAdvisorAdapterRegistry.getInstance();
-			//Created overloaded wrap() method to associate pointcut with Advisor
-			Advisor beforeAdvisor = advisorAdapterRegistry.wrap(ba, cflow);
-
-			//advised.addAdvisor(new DefaultBeforeAdvisor(cflow, ba));
-			advised.addAdvisor(beforeAdvisor);
-
+			advised.addAdvisor(new DefaultPointcutAdvisor(cflow, ba));
+			
 			System.out.println(advised.toProxyConfigString());
 			assertEquals("right number of advisors", 2, advised.getAdvisors().length);
 			System.out.println("Service bean class for group " + getGroup() + "=" + service.getClass());

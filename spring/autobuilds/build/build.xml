@@ -31,12 +31,11 @@
 	<property name="autobuilds.mail.failure.subject" value="Spring Autobuilds Failure Report"/>
 	
 	
-	<!-- server properties file with version numbers and download locations -->
-	<property file="servers.properties"/>
-	
 	<!-- build.properties is local per user -->
 	<property file="build.properties"/>
 	
+	<!-- server properties file with version numbers and download locations -->
+	<property file="servers.properties"/>
 	
 	
 	<!--

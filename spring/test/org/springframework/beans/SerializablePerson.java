@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2002-2004 the original author or authors.
  * 
@@ -17,44 +16,41 @@
 
 package org.springframework.beans;
 
+import java.io.Serializable;
+
+import org.springframework.util.ObjectUtils;
+
+
 /**
- * Interface used for test beans.
+ * Serializable implementation of the Person interface.
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public interface ITestBean extends Person {
-	
-	//int getAge(); -- inherited
-	
-	void setAge(int age);
-	
-	//String getName(); -- inherited
-	
-	void setName(String name);
-	
-	ITestBean getSpouse();
-	
-	void setSpouse(ITestBean spouse);
-	
-	/**
-	 * t null no error
-	 */
-	void exceptional(Throwable t) throws Throwable;
-	
-	Object returnsThis();
-	
-	INestedTestBean getDoctor();
-	
-	INestedTestBean getLawyer();
+public class SerializablePerson implements Person, Serializable {
+	private String name;
+	private int age;
 
-	IndexedTestBean getNestedIndexedBean();
+	public int getAge() {
+		return age;
+	}
 	
-	/**
-	 * Increment the age by one
-	 * @return the previous age
-	 *
-	 */
-	int haveBirthday();
-
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public boolean equals(Object other) {
+		if (!(other instanceof SerializablePerson))
+			return false;
+		SerializablePerson p = (SerializablePerson) other;
+		return p.age == age && ObjectUtils.nullSafeEquals(name, p.name);
+	}
 }

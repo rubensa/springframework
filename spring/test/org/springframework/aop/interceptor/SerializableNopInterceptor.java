@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2002-2004 the original author or authors.
  * 
@@ -15,46 +14,18 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans;
+package org.springframework.aop.interceptor;
+
+import java.io.Serializable;
+
 
 /**
- * Interface used for test beans.
+ * Subclass of NopInterceptor that is serializable and
+ * can be used to test proxy serialization.
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public interface ITestBean extends Person {
+public class SerializableNopInterceptor extends NopInterceptor implements Serializable {
 	
-	//int getAge(); -- inherited
-	
-	void setAge(int age);
-	
-	//String getName(); -- inherited
-	
-	void setName(String name);
-	
-	ITestBean getSpouse();
-	
-	void setSpouse(ITestBean spouse);
-	
-	/**
-	 * t null no error
-	 */
-	void exceptional(Throwable t) throws Throwable;
-	
-	Object returnsThis();
-	
-	INestedTestBean getDoctor();
-	
-	INestedTestBean getLawyer();
-
-	IndexedTestBean getNestedIndexedBean();
-	
-	/**
-	 * Increment the age by one
-	 * @return the previous age
-	 *
-	 */
-	int haveBirthday();
-
 }

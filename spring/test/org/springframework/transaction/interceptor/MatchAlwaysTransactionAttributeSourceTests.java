@@ -4,10 +4,10 @@
  */
 package org.springframework.transaction.interceptor;
 
+import javax.servlet.ServletException;
+
 import junit.framework.TestCase;
 
-import org.aopalliance.intercept.MethodInvocation;
-import org.easymock.MockControl;
 import org.springframework.transaction.TransactionDefinition;
 
 /**
@@ -21,25 +21,14 @@ import org.springframework.transaction.TransactionDefinition;
  */
 public class MatchAlwaysTransactionAttributeSourceTests extends TestCase {
   
-	public void testGetTransactionAttribute() {
-		MockControl control = MockControl.createControl(MethodInvocation.class);
-
-		MethodInvocation mock = (MethodInvocation) control.getMock();
-
-		// we know it doesn't need an actual method, so no more setup is needed
-		control.replay();
-
+	public void testGetTransactionAttribute() throws Exception {
 		MatchAlwaysTransactionAttributeSource tas = new MatchAlwaysTransactionAttributeSource();
-		TransactionAttribute ta = tas.getTransactionAttribute(mock);
-		control.verify();
+		TransactionAttribute ta = tas.getTransactionAttribute(Object.class.getMethod("hashCode", null), null);
 		assertNotNull(ta);
 		assertTrue(TransactionDefinition.PROPAGATION_REQUIRED == ta.getPropagationBehavior());
 
-		control.reset();
 		tas.setTransactionAttribute("PROPAGATION_SUPPORTS");
-		control.replay();
-		ta = tas.getTransactionAttribute(mock);
-		control.verify();
+		ta = tas.getTransactionAttribute(ServletException.class.getMethod("getMessage", null), ServletException.class);
 		assertNotNull(ta);
 		assertTrue(TransactionDefinition.PROPAGATION_SUPPORTS == ta.getPropagationBehavior());
 	}

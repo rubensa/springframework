@@ -12,8 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.aopalliance.intercept.MethodInvocation;
-
 import org.springframework.transaction.TransactionUsageException;
 
 /**
@@ -33,8 +31,8 @@ public class MethodMapTransactionAttributeSource extends AbstractTransactionAttr
 	/** Map from Method to name pattern used for registration */
 	private Map nameMap = new HashMap();
 
-	public TransactionAttribute getTransactionAttribute(MethodInvocation invocation) {
-		return (TransactionAttribute) this.methodMap.get(invocation.getMethod());
+	public TransactionAttribute getTransactionAttribute(Method m, Class targetClass) {
+		return (TransactionAttribute) this.methodMap.get(m);
 	}
 
 	/**

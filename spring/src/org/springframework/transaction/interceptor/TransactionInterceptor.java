@@ -117,7 +117,7 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 
 	public final Object invoke(MethodInvocation invocation) throws Throwable {
 		// If this is null, the method is non-transactional
-		TransactionAttribute transAtt = this.transactionAttributeSource.getTransactionAttribute(invocation);
+		TransactionAttribute transAtt = this.transactionAttributeSource.getTransactionAttribute(invocation.getMethod(), null);
 		TransactionStatus status = null;
 		
 		// Create transaction if necessary

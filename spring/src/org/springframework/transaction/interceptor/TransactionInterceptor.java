@@ -10,6 +10,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -67,15 +68,11 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 
 	/**
 	 * Create a new TransactionInterceptor.
-	 * Sets AttributesTransactionAttributeSource as default source.
 	 * Does not set a default transaction manager!
 	 * @see #setTransactionManager
 	 * @see #setTransactionAttributeSource
-	 * @see AttributesTransactionAttributeSource
 	 */
 	public TransactionInterceptor() {
-		// Set default properties, which may be changed later
-		//this.transactionAttributeSource = new AttributesTransactionAttributeSource();
 	}
 
 	/**

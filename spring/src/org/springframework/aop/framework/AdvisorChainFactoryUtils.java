@@ -9,19 +9,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.BeforeAdvice;
-import org.springframework.aop.BeforeAdvisor;
-import org.springframework.aop.InterceptionAroundAdvisor;
 import org.springframework.aop.InterceptionIntroductionAdvisor;
-import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.PointcutAdvisor;
-import org.springframework.aop.ThrowsAdvisor;
-import org.springframework.aop.support.MethodBeforeAdviceInterceptor;
-import org.springframework.aop.support.ThrowsAdviceInterceptor;
+import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
 
 /**
  * Utility methods for use by AdviceChainFactory implementations.
@@ -51,13 +44,16 @@ public abstract class AdvisorChainFactoryUtils {
 				// Add it conditionally
 				PointcutAdvisor pointcutAdvisor = (PointcutAdvisor) advisor;
 				if (pointcutAdvisor.getPointcut().getClassFilter().matches(targetClass)) {
+					MethodInterceptor interceptor = (MethodInterceptor) GlobalAdvisorAdapterRegistry.getInstance().getInterceptor(advisor);
 					MethodMatcher mm = pointcutAdvisor.getPointcut().getMethodMatcher();
 					if (mm.matches(method, targetClass)) {
 						if (mm.isRuntime()) {
-							interceptors.add(new InterceptorAndDynamicMethodMatcher((MethodInterceptor) getInterceptor(advisor), mm) );
+							// Creating a new object instance in the getInterceptor() method
+							// isn't a problem as we normally cache created chains
+							interceptors.add(new InterceptorAndDynamicMethodMatcher(interceptor, mm) );
 						}
 						else {							
-							interceptors.add(getInterceptor(advisor));
+							interceptors.add(interceptor);
 						}
 					}
 				}
@@ -71,34 +67,6 @@ public abstract class AdvisorChainFactoryUtils {
 		}	// for
 		return interceptors;
 	}	// calculateInterceptorsAndDynamicInterceptionAdvice
-	
-	
-	/**
-	 * Find an interceptor for this advisor if possible.
-	 * Object creation here isn't a problem, as advice chains, once created,
-	 * are normally cached.
-	 */
-	private static Interceptor getInterceptor(Advisor advisor) {
-		/**
-		 * As we add additional advice types, we may make this data driven, or
-		 * make it possible to register new adapters for different advice types.
-		 */
-		
-		if (advisor instanceof InterceptionAroundAdvisor) {
-			return ((InterceptionAroundAdvisor) advisor).getInterceptor();
-		}
-		else if (advisor instanceof BeforeAdvisor) {
-			BeforeAdvisor ba = (BeforeAdvisor) advisor;
-			BeforeAdvice advice = ba.getBeforeAdvice();
-			// TODO class cast
-			return new MethodBeforeAdviceInterceptor( (MethodBeforeAdvice) advice) ;
-		}
-		else if (advisor instanceof ThrowsAdvisor) {
-			Object throwsAdvice = ((ThrowsAdvisor) advisor).getThrowsAdvice();
-			return new ThrowsAdviceInterceptor(throwsAdvice);
-		}
-		throw new AopConfigException("Cannot create Interceptor for unknown advisor type: " + advisor);
-	}
 	
 	
 	

@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
  
-package org.springframework.aop.support;
+package org.springframework.aop.framework.adapter;
 
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;

@@ -2,7 +2,7 @@
  * The Spring Framework is published under the terms of the Apache Software License.
  */
 
-package org.springframework.aop.support;
+package org.springframework.aop.framework.adapter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +25,7 @@ import org.springframework.aop.framework.AopConfigException;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ThrowsAdviceInterceptor implements MethodInterceptor {
+final class ThrowsAdviceInterceptor implements MethodInterceptor {
 	
 	private static final String AFTER_THROWING = "afterThrowing";
 	

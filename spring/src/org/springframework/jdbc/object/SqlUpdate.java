@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
-import org.springframework.jdbc.support.JdbcUtils;
 
 /**
  * RdbmsOperation subclass representing a SQL update.
@@ -151,7 +150,6 @@ public class SqlUpdate extends SqlOperation {
 	public int update(Object[] args) throws DataAccessException {
 		validateParameters(args);
 		int rowsAffected = getJdbcTemplate().update(newPreparedStatementCreator(args));
-		JdbcUtils.cleanupParameters(args);
 		checkRowsAffected(rowsAffected);
 		return rowsAffected;
 	}

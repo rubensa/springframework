@@ -44,6 +44,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.TypeMismatchDataAccessException;
 import org.springframework.jdbc.SQLWarningException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.jdbc.object.SqlLobValueCloser;
 import org.springframework.jdbc.support.JdbcAccessor;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.nativejdbc.NativeJdbcExtractor;
@@ -410,7 +411,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		return (number != null ? number.intValue() : 0);
 	}
 
-	protected int update(PreparedStatementCreator psc, final PreparedStatementSetter pss) throws DataAccessException {
+	protected int update(final PreparedStatementCreator psc, final PreparedStatementSetter pss) throws DataAccessException {
 		if (logger.isDebugEnabled()) {
 			String sql = getSql(psc);
 			logger.debug("Executing SQL update" + (sql != null ? " [" + sql  + "]" : ""));
@@ -423,6 +424,9 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 				int rows = ps.executeUpdate();
 				if (logger.isDebugEnabled()) {
 					logger.debug("SQL update affected " + rows + " rows");
+				}
+				if (psc instanceof SqlLobValueCloser) {
+					((SqlLobValueCloser) psc).closeLobValues();
 				}
 				return new Integer(rows);
 			}

@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.jdbc.object.SqlLobValueCloser;
 import org.springframework.jdbc.support.JdbcUtils;
 
 /**
@@ -142,7 +143,7 @@ public class PreparedStatementCreatorFactory {
 	 * PreparedStatementCreator implementation returned by this class.
 	 */
 	private class PreparedStatementCreatorImpl
-			implements PreparedStatementCreator, PreparedStatementSetter, SqlProvider {
+			implements PreparedStatementCreator, PreparedStatementSetter, SqlProvider, SqlLobValueCloser {
 
 		private final List parameters;
 		
@@ -178,6 +179,17 @@ public class PreparedStatementCreatorFactory {
 				Object in = this.parameters.get(i);
 				int sqlColIndx = i + 1;
 				JdbcUtils.setParameterValue(ps, sqlColIndx, declaredParameter, in);
+			}
+		}
+		
+		public void closeLobValues() {
+			if (parameters != null) {
+				for (int i = 0; i < parameters.size(); i++ ) {
+					Object inValue = parameters.get(i);
+					if (inValue instanceof SqlLobValue) {
+						((SqlLobValue)inValue).closeLobCreator();
+					}
+				}
 			}
 		}
 

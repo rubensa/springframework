@@ -7,18 +7,11 @@ package org.springframework.aop.target;
 
 import org.springframework.aop.TargetSource;
 
-
 /**
- * Implementation of Interceptor interface that 
- * invokes a local target object using reflection.
- * This is a simple JavaBean that caches a local object.
- * This should always be the last interceptor in the chain.
- * It does not invoke proceed() on the MethodInvocation.
- * This class is final as it has a special purpose to the AOP
- * framework and cannot be modified.
- * <br>Note that this class used to extend AbstractReflectionInvokerInterceptor
- * but at the price of a little code duplication making it implement invoke()
- * itself simplifies stack traces and produces a slight performance improvement.
+ * Implementation of the TargetSource interface that 
+ * holds a local object. This is the default implementation of TargetSource
+ * used by the AOP framework. There is no need to create objects of this
+ * class in application code.
  * @author Rod Johnson
  * @version $Id$
  */
@@ -27,14 +20,7 @@ public final class SingletonTargetSource implements TargetSource {
 	/** Target cached and invoked using reflection */	
 	private Object target;
 	
-	public SingletonTargetSource() {
-	}
-	
 	public SingletonTargetSource(Object target) {
-		this.target = target;
-	}
-	
-	public void setTarget(Object target) {
 		this.target = target;
 	}
 	

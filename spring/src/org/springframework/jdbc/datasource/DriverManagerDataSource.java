@@ -60,6 +60,7 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 
 	private String password = "";
 
+
 	/**
 	 * Constructor for bean-style configuration.
 	 */
@@ -77,6 +78,7 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 		setUsername(username);
 		setPassword(password);
 	}
+
 
 	public void setDriverClassName(String driverClassName) throws CannotGetJdbcConnectionException {
 		this.driverClassName = driverClassName;
@@ -117,6 +119,7 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 	public String getPassword() {
 		return password;
 	}
+
 
 	/**
 	 * This DataSource returns a new connection every time:

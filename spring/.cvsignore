@@ -11,3 +11,6 @@ bin
 junit-reports
 libold
 classes
+spring.iws
+spring.ipr
+spring-core.iml

@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.PdfWriter;
  

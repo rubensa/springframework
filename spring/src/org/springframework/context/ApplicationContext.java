@@ -8,7 +8,6 @@ package org.springframework.context;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 

@@ -6,7 +6,6 @@
 package org.springframework.ejb.access;
 
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 
 /**

@@ -311,6 +311,7 @@
 			<include name="samples/webapp-typical/**"/>
 			<include name="src/**"/>
 			<include name="test/**"/>
+			<include name="*.bat"/>
 			<include name="*.txt"/>
 			<include name="*.xml"/>
 			<include name="*.properties"/>

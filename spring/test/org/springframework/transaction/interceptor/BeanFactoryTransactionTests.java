@@ -62,7 +62,8 @@ public class BeanFactoryTransactionTests extends TestCase {
 		preCounter.counter = 0;
 		postCounter.counter = 0;
 		executeGetsAreNotTransactional(testBean);
-		assertEquals(4, txnCounter.counter);
+		// Can't assert it's equal to 4 as the pointcut may be optimized and only invoked once
+		assertTrue(0 < txnCounter.counter && txnCounter.counter <= 4);
 		assertEquals(4, preCounter.counter);
 		assertEquals(4, postCounter.counter);
 	}

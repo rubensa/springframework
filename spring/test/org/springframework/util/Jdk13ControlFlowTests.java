@@ -3,18 +3,19 @@
  * of the Apache Software License.
  */
  
-package org.springframework.aop.support;
+package org.springframework.util;
 
 /**
  * Tests with ControlFlowFactory return
  * @author Rod Johnson
  * @version $Id$
  */
-public class DefaultControlFlowTests extends AbstractControlFlowTests {
+public class Jdk13ControlFlowTests extends AbstractControlFlowTests {
 	
-	public DefaultControlFlowTests(String s) {
+	public Jdk13ControlFlowTests(String s) {
 		super(s);
 	}
+	
 	
 	/** 
 	 * Necessary only because
@@ -25,14 +26,10 @@ public class DefaultControlFlowTests extends AbstractControlFlowTests {
 	}
 
 	/**
-	 *
 	 * @see org.springframework.aop.support.AbstractControlFlowTests#createControlFlow()
 	 */
 	protected ControlFlow createControlFlow() {
-		ControlFlow cf = ControlFlowFactory.getInstance().createControlFlow();
-		boolean is14 = System.getProperty("java.version").indexOf("1.4") != -1;
-		assertEquals("Autodetection of JVM succeeded", is14, cf instanceof Jdk14ControlFlow);
-		return cf;
+		return new Jdk13ControlFlow();
 	}
 
 }

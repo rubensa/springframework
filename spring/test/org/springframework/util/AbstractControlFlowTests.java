@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
  
-package org.springframework.aop.support;
+package org.springframework.util;
 
 import junit.framework.TestCase;
 

@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
+import org.springframework.util.*;
 
 /**
  * Pointcut and method matcher for use in simple <b>cflow</b>-style pointcut.

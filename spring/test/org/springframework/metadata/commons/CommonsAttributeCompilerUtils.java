@@ -11,7 +11,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
-import org.springframework.aop.support.ControlFlowFactory;
+import org.springframework.util.ControlFlowFactory;
 
 /**
  * Programmatic support classes for compiling with Commons Attributes

@@ -327,7 +327,7 @@
 			<zipfileset dir="." prefix="${release.path}">
 				<include name="lib/ant/**"/>
 				<include name="lib/axis/**"/>
-				<include name="lib/aop-alliance/**"/>
+				<include name="lib/aopalliance/**"/>
 				<include name="lib/caucho/**"/>
 				<include name="lib/cglib/**"/>
 				<include name="lib/cos/**"/>

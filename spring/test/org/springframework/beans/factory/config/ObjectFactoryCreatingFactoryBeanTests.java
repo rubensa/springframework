@@ -27,8 +27,7 @@ import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
 /**
- * <p>Test for ObjectFactoryCreatingFactoryBean</p> 
- * 
+ * Tests for ObjectFactoryCreatingFactoryBean.
  * @author Colin Sampaleanu
  * @since 2004-05-11
  * @version $Id$
@@ -48,7 +47,7 @@ public class ObjectFactoryCreatingFactoryBeanTests extends TestCase {
 		
 		Date date1 = (Date) objectFactory.getObject();
 		Date date2 = (Date) objectFactory.getObject();
-		assertTrue(!date1.equals(date2));
+		assertTrue(date1 != date2);
 	}
 
 	public static class TestBean {

@@ -209,8 +209,8 @@ class Cglib2AopProxy implements AopProxy, MethodInterceptor, CallbackFilter {
 	 * the given interface. Uses the given class loader.
 	 */
 	public Object getProxy(ClassLoader cl) {
-		if (logger.isInfoEnabled())
-			logger.info("Creating CGLIB proxy for [" + this.advised.getTargetSource().getTargetClass() + "]");
+		if (logger.isDebugEnabled())
+			logger.debug("Creating CGLIB proxy for [" + this.advised.getTargetSource().getTargetClass() + "]");
 		
 		Enhancer e = new Enhancer();
 		try {

@@ -132,7 +132,7 @@ public class ProxyFactoryBean extends AdvisedSupport
 	 * Set the names of the interfaces we're proxying. If no interface
 	 * is given, a CGLIB for the actual class will be created.
 	 */
-	public void setProxyInterfaces(String[] interfaceNames) throws AspectException, ClassNotFoundException {
+	public void setProxyInterfaces(String[] interfaceNames) throws ClassNotFoundException {
 		Class[] interfaces = AopUtils.toInterfaceArray(interfaceNames);
 		setInterfaces(interfaces);
 	}

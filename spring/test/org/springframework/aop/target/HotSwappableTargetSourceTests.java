@@ -95,14 +95,14 @@ public class HotSwappableTargetSourceTests extends TestCase {
 	 * @param invalid
 	 * @return the message
 	 */
-	private AopConfigException testRejectsSwapToInvalidValue(Object invalid) {
+	private IllegalArgumentException testRejectsSwapToInvalidValue(Object invalid) {
 		HotSwappableTargetSource swapper = (HotSwappableTargetSource) beanFactory.getBean("swapper");
-		AopConfigException aopex = null;
+		IllegalArgumentException aopex = null;
 		try {
 			swapper.swap(invalid);
 			fail("Shouldn't be able to swap to invalid value [" + invalid + "]");
 		}
-		catch (AopConfigException ex) {
+		catch (IllegalArgumentException ex) {
 			// Ok
 			aopex = ex;
 		}
@@ -113,7 +113,7 @@ public class HotSwappableTargetSourceTests extends TestCase {
 	}
 	
 	public void testRejectsSwapToNull() {
-		AopConfigException ex = testRejectsSwapToInvalidValue(null);
+		IllegalArgumentException ex = testRejectsSwapToInvalidValue(null);
 		assertTrue(ex.getMessage().indexOf("null") != -1);
 	}
 	

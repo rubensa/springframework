@@ -20,7 +20,7 @@ package org.springframework.aop.framework;
 import net.sf.cglib.core.CodeGenerationException;
 
 import org.aopalliance.aop.AspectException;
-import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.aop.interceptor.NopInterceptor;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;

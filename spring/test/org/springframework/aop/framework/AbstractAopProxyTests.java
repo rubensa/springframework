@@ -676,7 +676,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 			pc.addAdvisor(0, new DefaultIntroductionAdvisor(new TimestampIntroductionInterceptor(), ITestBean.class));
 			fail("Shouldn't be able to add introduction advice introducing an unimplemented interface");
 		}
-		catch (AopConfigException ex) {
+		catch (IllegalArgumentException ex) {
 			//assertTrue(ex.getMessage().indexOf("ntroduction") > -1);
 		}
 		// Check it still works: proxy factory state shouldn't have been corrupted
@@ -696,7 +696,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 			pc.addAdvisor(0, new DefaultIntroductionAdvisor(new TimestampIntroductionInterceptor(), TestBean.class));
 			fail("Shouldn't be able to add introduction advice that introduces a class, rather than an interface");
 		}
-		catch (AopConfigException ex) {
+		catch (IllegalArgumentException ex) {
 			assertTrue(ex.getMessage().indexOf("interface") > -1);
 		}
 		// Check it still works: proxy factory state shouldn't have been corrupted

@@ -175,7 +175,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 	}
 
 	/**
-	 * Creates a new Proxy object for the given object, proxying
+	 * Create a new Proxy object for the given object, proxying
 	 * the given interface. Uses the thread context class loader.
 	 */
 	public Object getProxy() {
@@ -183,11 +183,13 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 	}
 
 	/**
-	 * Creates a new Proxy object for the given object, proxying
+	 * Create a new Proxy object for the given object, proxying
 	 * the given interface. Uses the given class loader.
 	 */
 	public Object getProxy(ClassLoader cl) {
-		logger.debug("Creating JDK dynamic proxy");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Creating JDK dynamic proxy for [" + this.advised.getTargetSource().getTargetClass() + "]");
+		}
 		Class[] proxiedInterfaces = AopProxyUtils.completeProxiedInterfaces(this.advised);
 		return Proxy.newProxyInstance(cl, proxiedInterfaces, this);
 	}

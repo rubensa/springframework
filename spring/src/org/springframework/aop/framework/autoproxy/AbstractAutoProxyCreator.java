@@ -31,7 +31,7 @@ import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.ProxyConfig;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
-import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -188,7 +188,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyConfig
 		// Check for special cases. We don't want to try to autoproxy a part of the autoproxying
 		// infrastructure, lest we get a stack overflow.
 		if (isInfrastructureClass(bean, name) || shouldSkip(bean, name)) {
-			logger.debug("Did not attempt to autoproxy infrastructure class '" + bean.getClass() + "'");
+			logger.debug("Did not attempt to autoproxy infrastructure class [" + bean.getClass().getName() + "]");
 			return bean;
 		}
 		
@@ -221,8 +221,8 @@ public abstract class AbstractAutoProxyCreator extends ProxyConfig
 				logger.info("Creating implicit proxy for bean '" +  name + "' with " + nrOfCommonInterceptors +
 										" common interceptors and " + nrOfSpecificInterceptors + " specific interceptors");
 			}
-			ProxyFactory proxyFactory = new ProxyFactory();
 
+			ProxyFactory proxyFactory = new ProxyFactory();
 			// copy our properties (proxyTargetClass) inherited from ProxyConfig
 			proxyFactory.copyFrom(this);
 			

@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.framework.Lockable;
-import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.aop.interceptor.NopInterceptor;
 import org.springframework.aop.target.CommonsPoolTargetSource;
 import org.springframework.aop.target.PrototypeTargetSource;

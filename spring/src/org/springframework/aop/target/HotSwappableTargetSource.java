@@ -17,7 +17,6 @@
 package org.springframework.aop.target;
 
 import org.springframework.aop.TargetSource;
-import org.springframework.aop.framework.AopConfigException;
 
 /**
  * Implementation of TargetSource interface that caches a local target object,
@@ -71,11 +70,11 @@ public class HotSwappableTargetSource implements TargetSource {
 	 * Swap the target, returning the old target.
 	 * @param newTarget new target
 	 * @return the old target
-	 * @throws AopConfigException if the new target is invalid
+	 * @throws IllegalArgumentException if the new target is invalid
 	 */
-	public synchronized Object swap(Object newTarget) throws AopConfigException {
+	public synchronized Object swap(Object newTarget) throws IllegalArgumentException {
 		if (newTarget == null) {
-			throw new AopConfigException("Cannot swap to null");
+			throw new IllegalArgumentException("Cannot swap to null");
 		}
 		// TODO type checks
 		Object old = this.target;

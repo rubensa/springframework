@@ -24,7 +24,10 @@ package org.springframework.aop;
  * @version $Id$
  */
 public interface PointcutAdvisor extends Advisor {
-	
+
+	/**
+	 * Get the Pointcut that drives this advisor.
+	 */
 	Pointcut getPointcut();
 
 }

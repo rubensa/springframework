@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.aop.Advisor;
-import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.ControlFlow;
 import org.springframework.core.ControlFlowFactory;

@@ -24,7 +24,6 @@ import org.aopalliance.aop.Advice;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
-import org.springframework.aop.framework.AopConfigException;
 import org.springframework.core.Ordered;
 
 /**
@@ -45,7 +44,7 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 		this.interceptor = interceptor;
 	}
 	
-	public DefaultIntroductionAdvisor(IntroductionInterceptor interceptor, Class clazz) throws AopConfigException {
+	public DefaultIntroductionAdvisor(IntroductionInterceptor interceptor, Class clazz) {
 		this(interceptor);
 		addInterface(clazz);
 	}
@@ -69,7 +68,7 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 		return order;
 	}
 
-	public void addInterface(Class intf) throws AopConfigException {
+	public void addInterface(Class intf) {
 		this.interfaces.add(intf);
 	}
 
@@ -96,13 +95,14 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 		return true;
 	}
 	
-	public void validateInterfaces() throws AopConfigException {
+	public void validateInterfaces() throws IllegalArgumentException {
 		 for (int i = 0; i < getInterfaces().length; i++) {
 			 if (!getInterfaces()[i].isInterface()) {
-				 throw new AopConfigException("Class '" + getInterfaces()[i].getName() + "' is not an interface; cannot be used in an introduction");
+				 throw new IllegalArgumentException("Class '" + getInterfaces()[i].getName() +
+				                                    "' is not an interface; cannot be used in an introduction");
 			 }
 			  if (!interceptor.implementsInterface(getInterfaces()[i])) {
-				 throw new AopConfigException("IntroductionInterceptor [" + interceptor + "] " +
+				 throw new IllegalArgumentException("IntroductionInterceptor [" + interceptor + "] " +
 						 "does not implement interface '" + getInterfaces()[i].getName() + "' specified in introduction advice");
 			  }
 		  }

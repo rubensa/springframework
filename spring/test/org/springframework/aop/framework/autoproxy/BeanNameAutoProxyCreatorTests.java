@@ -24,7 +24,7 @@ import org.springframework.aop.framework.CountingBeforeAdvice;
 import org.springframework.aop.framework.Lockable;
 import org.springframework.aop.framework.LockedException;
 import org.springframework.aop.framework.TimeStamped;
-import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.aop.interceptor.NopInterceptor;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;

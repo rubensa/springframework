@@ -16,18 +16,16 @@
 
 package org.springframework.aop.framework.adapter;
 
-import org.springframework.aop.framework.adapter.AdvisorAdapter;
-import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 /**
- * BeanPostProcessor implementation that "registers" instances of any non-default AdvisorAdapters
- * with GlobalAdvisorAdapterRegistry.
- * <p>
- * The only requirement for it to work is that it needs to be defined in application context
- * along with any arbitrary "non-native" Spring AdvisorAdapters that need to be "recognized" by
- * SpringAOP module.
+ * BeanPostProcessor implementation that "registers" instances of any
+ * non-default AdvisorAdapters with GlobalAdvisorAdapterRegistry.
+ *
+ * <p>The only requirement for it to work is that it needs to be defined
+ * in application context along with any arbitrary "non-native" Spring
+ * AdvisorAdapters that need to be "recognized" by Spring's AOP framework.
  * 
  * @author Dmitriy Kopylenko
  * @version $Id$
@@ -35,20 +33,20 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 public class AdvisorAdapterRegistrationManager implements BeanPostProcessor {
 
 	/**
-	 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization(java.lang.Object, java.lang.String)
+	 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessBeforeInitialization
 	 */
 	public Object postProcessBeforeInitialization(Object bean, String name) throws BeansException {
 		return bean;
 	}
 
 	/**
-	 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization(java.lang.Object, java.lang.String)
+	 * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
 	 */
 	public Object postProcessAfterInitialization(Object bean, String name) throws BeansException {
 		if(bean instanceof AdvisorAdapter){
 			GlobalAdvisorAdapterRegistry.getInstance().registerAdvisorAdapter((AdvisorAdapter)bean);
 		}
-		
 		return bean;
 	}
+
 }

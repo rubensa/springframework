@@ -17,12 +17,15 @@
 package org.springframework.aop.framework.adapter;
 
 import org.aopalliance.intercept.Interceptor;
+
 import org.springframework.aop.Advisor;
 
 /**
  * Interface for registries of AdvisorAdapters.
- * <br><i>This is an SPI interface, that should not need to be implemented
+ *
+ * <p><i>This is an SPI interface, that should not need to be implemented
  * by any Spring user.</i>
+ *
  * @author Rod Johnson
  * @version $Id$
  */

@@ -189,9 +189,9 @@ public class StoredProcedureTestSuite extends JdbcTestCase {
 
 		class TestJdbcTemplate extends JdbcTemplate {
 			int calls;
-			public Map execute(CallableStatementCreator csc, List declaredParameters) throws DataAccessException {
+			public Map call(CallableStatementCreator csc, List declaredParameters) throws DataAccessException {
 				calls++;
-				return super.execute(csc, declaredParameters);
+				return super.call(csc, declaredParameters);
 			}
 
 		}

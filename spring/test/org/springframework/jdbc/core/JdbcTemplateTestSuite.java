@@ -1263,7 +1263,7 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 			}
 		});
 
-		template.execute(new CallableStatementCreator() {
+		template.call(new CallableStatementCreator() {
 			public CallableStatement createCallableStatement(Connection con) throws SQLException {
 				return mockCallableStatement;
 			}
@@ -1410,7 +1410,7 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 
 		JdbcTemplate template = new JdbcTemplate(mockDataSource);
 		try {
-			template.execute(new CallableStatementCreator() {
+			template.call(new CallableStatementCreator() {
 				public CallableStatement createCallableStatement(Connection conn)
 					throws SQLException {
 					return conn.prepareCall("my query");

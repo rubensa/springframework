@@ -7,6 +7,9 @@ Changes in version 1.0 final (20.3.2003)
 ----------------------------------------
 
 Package org.springframework.aop
+* upgraded to release 1.0 version of AOP Alliance interfaces. Removed attachment feature on MethodInvocation; all Spring advices
+extend new org.aopalliance.aop.Advice tag interface.
+* introduced frozen flag on ProxyConfig: use to disable advice changes
 * fixed too eager initialization of common interceptors in AbstractAutoProxyCreator, potentially causing circular refs
 
 Package org.springframework.beans

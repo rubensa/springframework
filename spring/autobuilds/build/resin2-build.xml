@@ -116,7 +116,7 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			classname="com.caucho.server.http.HttpServer"
-			output="${reports.dir}/${target.app}_server.log"
+			output="${reports.dir}/${target.server}_server.log"
 			fork="true">
 		
 			<jvmarg value="-Dresin.home=${servers.install.dir}/${appserver.distname}" />

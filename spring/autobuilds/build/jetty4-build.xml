@@ -85,7 +85,7 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			jar="${servers.install.dir}/${appserver.distname}/start.jar"
-			output="${reports.dir}/jetty4_server.log"
+			output="${reports.dir}/${target.server}_server.log"
 			dir="${servers.install.dir}/${appserver.distname}"
 			fork="true">
 				
@@ -108,7 +108,7 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			jar="${servers.install.dir}/${appserver.distname}/stop.jar"
-			output="${reports.dir}/jetty4_server.log"
+			output="${reports.dir}/${target.server}_server.log"
 			dir="${servers.install.dir}/${appserver.distname}"
 			fork="true">			
       		

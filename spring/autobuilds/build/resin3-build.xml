@@ -121,7 +121,7 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			classname="com.caucho.server.resin.Resin"
-			output="${reports.dir}/${target.app}_server.log"
+			output="${reports.dir}/${target.server}_server.log"
 			fork="true"
 			dir="${servers.install.dir}/${appserver.distname}">
 		

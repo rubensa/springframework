@@ -96,7 +96,7 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			classname="org.apache.catalina.startup.Bootstrap"
-			output="${reports.dir}/tomcat4_server.log"
+			output="${reports.dir}/${target.server}_server.log"
 			fork="true">
 		
 			<arg value="start"/>
@@ -122,7 +122,7 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			classname="org.apache.catalina.startup.Bootstrap"
-			output="${reports.dir}/tomcat4_server.log"
+			output="${reports.dir}/${target.server}_server.log"
 			fork="true">
 		
 			<arg value="stop"/>

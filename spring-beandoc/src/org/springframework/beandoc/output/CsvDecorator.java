@@ -21,6 +21,12 @@ import org.jdom.filter.ElementFilter;
 
 /**
  * From the example in the Reference Docs.
+ * <p>
+ * <b>This class is instructive only and is not designed for normal use</b>
+ * <p>
+ * See the <a href="http://springframework.sourceforge.net/beandoc/refdoc/extending.html#d0e485">
+ * relevent section of the reference documentation</a>
+ * for more information.
  * 
  * @author Darren Davison
  * @since 1.0

@@ -17,6 +17,7 @@
 package org.springframework.beandoc.output;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.springframework.beandoc.BeanDocException;
 
 /**
  * 
@@ -49,8 +51,14 @@ public class DoAbstractTransformerTests extends TestCase {
         docs[1] = new Document();
         Element root2 = new Element("beans");
         docs[1].setRootElement(root2);
-            
-            
+    }
+    
+    public void testBadTemplateName() {
+        try {
+            tat.setTemplateName("should/throw/Except|0n");
+        } catch (InvalidTransformerException ex) {
+            // ok
+        } 
     }
     
     public void testInitExceptionStopsTransform() {

@@ -109,7 +109,13 @@ public class GraphVizDecoratorTests extends TestCase {
         } catch (Throwable t) {
             fail("IllegalArgumentException should be thrown instead");
         }
-
+        
+        assertEquals(4, gvd.getIgnoreBeans().size());
+        gvd.addIgnoreBeans(null);
+        assertEquals(4, gvd.getIgnoreBeans().size());
+        gvd.setIgnoreBeans(new ArrayList());
+        assertEquals(0, gvd.getIgnoreBeans().size());
+        
         try {
             gvd.setOutputType(null);
             fail();
@@ -136,6 +142,11 @@ public class GraphVizDecoratorTests extends TestCase {
         } catch (Throwable t) {
             fail("IllegalArgumentException should be thrown instead");
         }
+        
+        assertEquals(2, gvd.getRankBeans().size());
+        gvd.addRankBeans(null);
+        assertEquals(2, gvd.getRankBeans().size());
+        
 
         try {
             gvd.setRatio(null);
@@ -153,7 +164,12 @@ public class GraphVizDecoratorTests extends TestCase {
         assertEquals("auto", gvd.getRatio());
         assertEquals("box", gvd.getBeanShape());
         assertEquals("png", gvd.getOutputType());
-        assertEquals(2, gvd.getRankBeans().size());        
+        assertEquals(2, gvd.getRankBeans().size());   
+        assertEquals(-1f, gvd.getGraphXSize(), 0);    
+        assertEquals(-1f, gvd.getGraphYSize(), 0);        
+        
+        gvd.setRankBeans(new ArrayList());
+        assertEquals(0, gvd.getRankBeans().size());        
     }
     
     public void testRootElementDecoration() {
@@ -201,9 +217,19 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd.decorateElement(root);
         assertEquals("t", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_LABELLOCATION));
         
-        gvd.setLabelLocation('b');
+        gvd.setLabelLocation("bottom");
         gvd.decorateElement(root);
         assertEquals("b", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_LABELLOCATION));
+        
+        gvd.setLabelLocation("invalid");
+        assertEquals('b', gvd.getLabelLocation());
+        
+        try {
+            gvd.setLabelLocation(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        }
     }
     
     public void testSetOutputType() {
@@ -213,6 +239,9 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd.setOutputType("svg");
         gvd.decorateElement(root);
         assertEquals("svg", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_TYPE));
+        
+        gvd.setOutputType("JPG");
+        assertEquals("jpg", gvd.getOutputType());
     }
     
     /*

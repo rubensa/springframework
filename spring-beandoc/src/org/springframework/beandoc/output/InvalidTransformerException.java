@@ -25,12 +25,13 @@ import org.springframework.beandoc.BeanDocException;
 public class InvalidTransformerException extends BeanDocException {  
 
     private static final long serialVersionUID = 3256446923383911734L;
-
+    
     /**
-     * @param cause
+     * @param msg
+     * @param ex
      */
-    public InvalidTransformerException(Throwable cause) {
-        super(cause);
+    public InvalidTransformerException(String msg, Exception ex) {
+        super(msg, ex);
     }
-
+    
 }

@@ -81,12 +81,7 @@ public abstract class AbstractXslTransformer implements Transformer {
      * @param templateName the XSL resource used to generate output
      */
     public AbstractXslTransformer(String templateName) {
-        try {
-            setTemplateName(templateName);
-            
-        } catch (IOException e) {
-            throw new InvalidTransformerException(e);
-        }
+        setTemplateName(templateName);
     }
 
     /**
@@ -262,7 +257,7 @@ public abstract class AbstractXslTransformer implements Transformer {
      *      value that the underlying resource loading classes can understand.  See the 
      *      Spring JavaDocs for more information on resource handling.
      */
-    public void setTemplateName(String templateName) throws IOException {
+    public void setTemplateName(String templateName) throws InvalidTransformerException {
         this.templateName = templateName;
         Resource res = resourceLoader.getResource(templateName);
         try {
@@ -270,10 +265,10 @@ public abstract class AbstractXslTransformer implements Transformer {
                 new StreamSource(res.getInputStream())
             );
         }
-        catch (TransformerConfigurationException ex) {
-            throw new BeanDocException(
-                "Can't load stylesheet [" + templateName + "]" + ex.getMessage(), ex);
-        }    
+        catch (Exception ex) {
+            throw new InvalidTransformerException (
+                "Can't load stylesheet [" + templateName + "]" + ex.getMessage(), ex);                
+        }   
     }
 
     /**

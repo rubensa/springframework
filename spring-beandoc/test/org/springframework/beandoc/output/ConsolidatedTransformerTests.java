@@ -49,6 +49,18 @@ public class ConsolidatedTransformerTests extends TestCase {
             
     }
     
+    public void testValidFileName() {
+        ct.setOutputFileName("anything");
+        
+        try {
+            ct.setOutputFileName(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+            assertEquals("anything", ct.getOutputFileName());
+        }
+    }
+    
     public void testConsolidation() {
         try {
             ct.setTemplateName("/org/springframework/beandoc/output/stylesheets/index.xsl");

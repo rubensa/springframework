@@ -228,9 +228,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * concepts within your bean factories and application contexts if you follow
      * a disciplined bean naming convention.
      * 
-     * @param pattern a String representing a pattern to match.  The pattern can be prefixed or
-     *      suffixed with a wildcard (*) but does not use RegEx matching.  A null value will
-     *      be ignored
+     * @param pattern a String representing a pattern to match based on RegEx matching.  
+     *      A null value will be ignored
      * @param colour the colour as an RGB HEX triplet to fill the bean with.  May not be null
      */
     public void addColourBeans(String pattern, String colour) {
@@ -281,10 +280,14 @@ public class GraphVizDecorator extends SimpleDecorator {
      * Determines whether graph titles will appear at the top or bottom
      * of the graph.  Use 't' or 'b' as required
      * 
-     * @param labelLocation a char representing Top ('t') or Bottom ('b').  Default is 't'
+     * @param labelLocation a String representing Top ('t') or Bottom ('b').
+     *      Default is 't'.
      */
-    public void setLabelLocation(char labelLocation) {
-        this.labelLocation = labelLocation;
+    public void setLabelLocation(String labelLocation) {
+        Assert.hasText(labelLocation);
+        char c = labelLocation.charAt(0);
+        if (c == 't' || c == 'b')
+            this.labelLocation = c;
     }
 
     /**
@@ -365,7 +368,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      */
     public void setOutputType(String graphType) {
         Assert.hasText(graphType);
-        outputType = graphType.trim();
+        outputType = graphType.trim().toLowerCase();
     }
 
     /**
@@ -520,7 +523,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @return 't' or 'b' to denote top or bottom respectively
      */
     public char getLabelLocation() {
-        return labelLocation;
+        return this.labelLocation;
     }
 
     /**

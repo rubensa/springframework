@@ -20,6 +20,7 @@ import java.io.File;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.springframework.util.Assert;
 
 
 /**
@@ -95,6 +96,7 @@ public class ConsolidatedTransformer extends AbstractXslTransformer {
      * @param outputFileName the filename that will represent the consolidated output of the DOM transformation
      */
     public void setOutputFileName(String outputFileName) {
+        Assert.hasText(outputFileName);
         this.outputFileName = outputFileName;
     }
 

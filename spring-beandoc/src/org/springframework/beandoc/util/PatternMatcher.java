@@ -57,8 +57,10 @@ public final class PatternMatcher {
             String enteredPattern = null;
             try {
                 enteredPattern = (String) i.next();
-                Pattern compiledPattern = Pattern.compile(enteredPattern);
-                tmp.add(compiledPattern);
+                if (enteredPattern != null) {
+                    Pattern compiledPattern = Pattern.compile(enteredPattern);
+                    tmp.add(compiledPattern);
+                }
                 
             } catch (ClassCastException cce) {
                 logger.warn("Ignoring non String object in Collection [" + cce.getMessage() + "]");
@@ -66,9 +68,6 @@ public final class PatternMatcher {
             } catch (PatternSyntaxException pse) {
                 logger.warn("Ignoring invalid RegEx pattern in String [" + pse.getPattern() + 
                     "]; problem description [" + pse.getMessage() + "]");
-            } catch (Exception e) {
-                logger.warn("Failed to compile pattern [" + enteredPattern + 
-                    "] - are there gaps in the List?");
             }
         }
         

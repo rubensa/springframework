@@ -34,7 +34,7 @@ public class PropertyVetoExceptionsException extends BeansException {
 	private BeanWrapper beanWrapper;
 
 	/**
-	 * Creates new empty PropertyVetoExceptionsException
+	 * Create new empty PropertyVetoExceptionsException.
 	 * We'll add errors to it as we attempt to bind properties.
 	 */
 	PropertyVetoExceptionsException(BeanWrapper beanWrapper) {
@@ -134,13 +134,6 @@ public class PropertyVetoExceptionsException extends BeansException {
 	void addTypeMismatchException(TypeMismatchException ex) {
 		// Need proper stack trace!?
 		addPropertyVetoException(new ErrorCodedPropertyVetoException(ex));
-	}
-
-	void addMissingFields(InvalidPropertyValuesException ex) {
-		// Need proper stack trace!?
-		for (int i = 0; i < ex.getMissingFields().size(); i++) {
-			addPropertyVetoException(new ErrorCodedPropertyVetoException(getBindObject(), (InvalidPropertyValuesException.MissingFieldException) ex.getMissingFields().get(i)));
-		}
 	}
 
 	void addMethodInvocationException(MethodInvocationException ex) {

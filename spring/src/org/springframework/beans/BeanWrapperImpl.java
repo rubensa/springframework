@@ -606,22 +606,12 @@ public class BeanWrapperImpl implements BeanWrapper {
 	}
 
 	public void setPropertyValues(PropertyValues pvs) throws BeansException {
-		setPropertyValues(pvs, false, null);
+		setPropertyValues(pvs, false);
 	}
 
-	public void setPropertyValues(PropertyValues propertyValues, boolean ignoreUnknown,
-									PropertyValuesValidator pvsValidator) throws BeansException {
+	public void setPropertyValues(PropertyValues propertyValues, boolean ignoreUnknown) throws BeansException {
 		// Create only if needed
 		PropertyVetoExceptionsException propertyVetoExceptionsException = new PropertyVetoExceptionsException(this);
-
-		if (pvsValidator != null) {
-			try {
-				pvsValidator.validatePropertyValues(propertyValues);
-			}
-			catch (InvalidPropertyValuesException ipvex) {
-				propertyVetoExceptionsException.addMissingFields(ipvex);
-			}
-		}
 
 		PropertyValue[] pvs = propertyValues.getPropertyValues();
 		for (int i = 0; i < pvs.length; i++) {

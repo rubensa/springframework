@@ -163,9 +163,8 @@ public interface BeanWrapper {
 	 * <p>Does not allow unknown fields.
 	 * @param pvs PropertyValues to set on the target object
 	 * @param ignoreUnknown should we ignore unknown values (not found in the bean!?)
-	 * @param pvsValidator property values validator. Ignored if it's null.
 	 */
-	void setPropertyValues(PropertyValues pvs, boolean ignoreUnknown, PropertyValuesValidator pvsValidator)
+	void setPropertyValues(PropertyValues pvs, boolean ignoreUnknown)
 	    throws BeansException;
 
 

@@ -352,13 +352,13 @@ public class BeanWrapperTestSuite extends TestCase {
 		pvs.addPropertyValue(new PropertyValue("graceful.rubbish", "tony"));
 		pvs.addPropertyValue(new PropertyValue("more.garbage", new Object()));
 		BeanWrapper bw = new BeanWrapperImpl(rod);
-		bw.setPropertyValues(pvs, true, null);
+		bw.setPropertyValues(pvs, true);
 		
 		assertTrue("Set valid and ignored invalid", rod.getName().equals("rod"));
 		
 		try {
 			// Don't ignore: should fail
-			bw.setPropertyValues(pvs, false, null);
+			bw.setPropertyValues(pvs, false);
 			fail("Shouldn't have ignored invalid updates");
 		}
 		catch (NotWritablePropertyException ex) {

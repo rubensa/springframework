@@ -10,8 +10,6 @@ import java.util.List;
 
 import net.sf.cglib.MethodProxy;
 
-import org.aopalliance.intercept.AspectException;
-
 /**
  * Invokes superclass form of the method when interception is done.
  * Assumes that the target is the instance of the enhanced class,
@@ -19,15 +17,10 @@ import org.aopalliance.intercept.AspectException;
  * @author Rod Johnson
  * @version $Id$
  */
-public class OptimizedCglibMethodInvocation extends ReflectiveMethodInvocation {
+final class OptimizedCglibMethodInvocation extends ReflectiveMethodInvocation {
 	
 	private MethodProxy methodProxy;
 
-	/**
-	 * 
-	 */
-	public OptimizedCglibMethodInvocation() {
-	}
 	
 	/**
 	 * @param proxy
@@ -46,13 +39,7 @@ public class OptimizedCglibMethodInvocation extends ReflectiveMethodInvocation {
 	}
 	
 	protected Object invokeJoinpoint() throws Throwable {
-		 try {
-			 Object rval = methodProxy.invokeSuper(target, arguments);
-			 return rval;
-		 }
-		 catch (IllegalAccessException ex) {
-			 throw new AspectException("Couldn't access method " + method, ex);
-		 }
+		return methodProxy.invokeSuper(target, arguments);
 	}
 
 }

@@ -682,14 +682,13 @@ public class BeanWrapperImpl implements BeanWrapper {
 			if (pe != null || !requiredType.isAssignableFrom(newValue.getClass())) {
 
 				if (newValue instanceof String[]) {
-					// convert String array to String
-					newValue = StringUtils.arrayToCommaDelimitedString((String[])newValue);
 					if (logger.isDebugEnabled()) {
 						logger.debug("Converting String array to comma-delimited String [" + newValue + "]");
 					}
+					newValue = StringUtils.arrayToCommaDelimitedString((String[]) newValue);
 				}
 
-				else if (newValue instanceof String) {
+				if (newValue instanceof String) {
 					if (pe == null) {
 						// no custom editor -> check BeanWrapper's default editors
 						pe = (PropertyEditor) defaultEditors.get(requiredType);

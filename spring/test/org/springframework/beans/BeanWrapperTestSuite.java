@@ -824,6 +824,18 @@ public class BeanWrapperTestSuite extends TestCase {
 		assertEquals("b", tb.getArray()[1].getName());
 	}
 
+	public void testArrayToStringConversion() throws PropertyVetoException {
+		TestBean tb = new TestBean();
+		BeanWrapper bw = new BeanWrapperImpl(tb);
+		bw.registerCustomEditor(String.class, new PropertyEditorSupport() {
+			public void setAsText(String text) throws IllegalArgumentException {
+				setValue("-" + text + "-");
+			}
+		});
+		bw.setPropertyValue("name", new String[] {"a", "b"});
+		assertEquals("-a,b-", tb.getName());
+	}
+
 
 	private static class NoRead {
 

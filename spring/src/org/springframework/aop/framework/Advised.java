@@ -46,6 +46,13 @@ public interface Advised {
 	TargetSource getTargetSource();
 	
 	/**
+	 * Change the TargetSource used by this Advised object.
+	 * Only works if the configuration isn't frozen.
+	 * @param targetSource new TargetSource to use
+	 */
+	void setTargetSource(TargetSource targetSource);
+	
+	/**
 	 * Get whether the factory should expose the proxy as a ThreadLocal. 
 	 * This can be necessary if a target object needs to invoke a method on itself
 	 * benefitting from advice. (If it invokes a method on <code>this</code> no advice

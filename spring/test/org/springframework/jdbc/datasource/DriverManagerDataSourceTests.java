@@ -17,7 +17,6 @@
 package org.springframework.jdbc.datasource;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 import junit.framework.TestCase;
 import org.easymock.MockControl;
@@ -41,11 +40,7 @@ public class DriverManagerDataSourceTests extends TestCase {
 		ctrlConnection.replay();
 
 		class TestDriverManagerDataSource extends DriverManagerDataSource {
-			protected Connection getConnectionFromDriverManager(
-				String purl,
-				String pusername,
-				String ppassword)
-				throws SQLException {
+			protected Connection getConnectionFromDriverManager(String purl, String pusername, String ppassword) {
 				assertTrue(purl.equals(url));
 				assertTrue(pusername.equals(uname));
 				assertTrue(ppassword.equals(pwd));
@@ -65,7 +60,6 @@ public class DriverManagerDataSourceTests extends TestCase {
 		assertTrue(ds.getPassword().equals(pwd));
 		assertTrue(ds.getUsername().equals(uname));
 
-		assertTrue(ds.shouldClose(actualCon));
 		ctrlConnection.verify();
 	}
 

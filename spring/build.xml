@@ -112,6 +112,7 @@
 				<include name="org/springframework/beans/**"/>
 				<include name="org/springframework/core/**"/>
 				<include name="org/springframework/dao/**"/>
+				<include name="org/springframework/ejb/**"/>
 				<include name="org/springframework/jdbc/**"/>
 				<include name="org/springframework/jndi/**"/>
 				<include name="org/springframework/orm/**"/>

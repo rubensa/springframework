@@ -839,6 +839,57 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		assertEquals(di.getCount(), 2);
 	}
 	
+	public static interface IOverloads {
+		void overload();
+		int overload(int i);
+		String overload(String foo);
+		void noAdvice();
+	}
+	
+	public static class Overloads implements IOverloads {
+		public void overload() {
+		}
+		public int overload(int i) {
+			return i;
+		}
+		public String overload(String s) {
+			return s;
+		}
+		public void noAdvice() {
+		}
+	}
+	
+	public void testOverloadedMethodsWithDifferentAdvice() throws Throwable {
+		Overloads target = new Overloads();
+		ProxyFactory pc = new ProxyFactory(target);
+		NopInterceptor overLoadVoids = new NopInterceptor();
+		pc.addAdvisor(new StaticMethodMatcherPointcutAroundAdvisor(overLoadVoids) {
+			public boolean matches(Method m, Class targetClass) {
+				return m.getName().equals("overload") && m.getParameterTypes().length == 0;
+			}
+		});
+		NopInterceptor overLoadInts = new NopInterceptor();
+		pc.addAdvisor(new StaticMethodMatcherPointcutAroundAdvisor(overLoadInts) {
+			public boolean matches(Method m, Class targetClass) {
+				return m.getName().equals("overload") && m.getParameterTypes().length == 1 &&
+					m.getParameterTypes()[0].equals(int.class);
+			}
+		});
+
+		IOverloads proxy = (IOverloads) createProxy(pc);
+		assertEquals(0, overLoadInts.getCount());
+		assertEquals(0, overLoadVoids.getCount());
+		proxy.overload();
+		assertEquals(0, overLoadInts.getCount());
+		assertEquals(1, overLoadVoids.getCount());
+		assertEquals(25, proxy.overload(25));
+		assertEquals(1, overLoadInts.getCount());
+		assertEquals(1, overLoadVoids.getCount());
+		proxy.noAdvice();
+		assertEquals(1, overLoadInts.getCount());
+		assertEquals(1, overLoadVoids.getCount());
+	}
+	
 	
 	protected static class TestDynamicPointcutAdvice extends DynamicMethodMatcherPointcutAroundAdvisor {
 		

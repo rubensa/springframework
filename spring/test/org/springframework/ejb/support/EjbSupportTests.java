@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 import junit.framework.TestCase;
 import org.easymock.MockControl;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.access.BeanFactoryLocator;
@@ -79,7 +80,7 @@ public class EjbSupportTests extends TestCase {
 	/**
 	 * Check there's a helpful message if no JNDI key is present
 	 */
-	public void testHelpfulNamingLookupMessage() throws NamingException {
+	public void testHelpfulNamingLookupMessage() throws NamingException, CreateException {
 		SimpleNamingContextBuilder.emptyActivatedContextBuilder();
 		
 		MockControl mc = MockControl.createControl(SessionContext.class);
@@ -99,7 +100,7 @@ public class EjbSupportTests extends TestCase {
 			slsb.ejbCreate();
 			fail();
 		}
-		catch (CreateException ex) {
+		catch (BeansException ex) {
 			assertTrue(ex.getMessage().indexOf("environment") != -1);
 			assertTrue(ex.getMessage().indexOf("ejb/BeanFactoryPath") != -1);
 		}
@@ -212,7 +213,7 @@ public class EjbSupportTests extends TestCase {
 			slsb.ejbCreate();
 			fail();
 		}
-		catch (CreateException ex) {
+		catch (BeansException ex) {
 			// Ok
 		}
 	}

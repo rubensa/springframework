@@ -374,6 +374,16 @@ public interface JdbcOperations {
 	int update(PreparedStatementCreator psc) throws DataAccessException;
 
 	/**
+	 * Issue an update using a PreparedStatementCreator to provide SQL and any
+	 * required parameters.  Generetaed keys will to be returned by the List parameter.
+	 * @param psc object that provides SQL and any necessary parameters
+	 * @param generatedKeys List that will hold the generated keys
+	 * @return the number of rows affected
+	 * @throws DataAccessException if there is any problem issuing the update
+	 */
+	int update(PreparedStatementCreator psc, List generatedKeys) throws DataAccessException;
+
+	/**
 	 * Issue an update using a PreparedStatementSetter to set bind parameters,
 	 * with given SQL. Simpler than using a PreparedStatementCreator as this
 	 * method will create the PreparedStatement: The PreparedStatementSetter

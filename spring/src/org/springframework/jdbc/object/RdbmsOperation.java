@@ -68,6 +68,10 @@ public abstract class RdbmsOperation implements InitializingBean {
 
 	private boolean updatableResults = false;
 
+	private boolean returnGeneratedKeys = false;
+	
+	private String[] generatedKeysColumnNames = null;
+
 	/** SQL statement */
 	private String sql;
 
@@ -130,6 +134,9 @@ public abstract class RdbmsOperation implements InitializingBean {
 	 * updatable ResultSets.
 	 */
 	protected void setUpdatableResults(boolean updatableResults) {
+		if (compiled) {
+			throw new InvalidDataAccessApiUsageException("The updateableResults flag must be set before the operation is compiled");
+		}
 		this.updatableResults = updatableResults;
 	}
 
@@ -138,6 +145,45 @@ public abstract class RdbmsOperation implements InitializingBean {
 	 */
 	protected boolean isUpdatableResults() {
 		return updatableResults;
+	}
+
+	/**
+	 * Set to indicate prepared statements should be capable of returning
+	 * auto generated keys.
+	 * @param returnGeneratedKeys Set to true to be able to retrieve the 
+	 * generated keys.
+	 */
+	public void setReturnGeneratedKeys(boolean returnGeneratedKeys) {
+		if (compiled) {
+			throw new InvalidDataAccessApiUsageException("The returnGeneratedKeys flag must be set before the operation is compiled");
+		}
+		this.returnGeneratedKeys = returnGeneratedKeys;
+	}
+
+	/**
+	 * Return whether statements should be capable of returning
+	 * auto generated keys.
+	 */
+	protected boolean isReturnGeneratedKeys() {
+		return returnGeneratedKeys;
+	}
+
+	/**
+	 * Set the column names of the auto generated keys.
+	 * @param name The names of the columns for the auto generated keys 
+	 */
+	public void setGeneratedKeysColumnNames(String[] names) {
+		if (compiled) {
+			throw new InvalidDataAccessApiUsageException("The column names for the generated keys must be set before the operation is compiled");
+		}
+		this.generatedKeysColumnNames = names;
+	}
+
+	/**
+	 * Return the column names of the auto generated keys.
+	 */
+	public String[] getGeneratedKeysColumnNames() {
+		return generatedKeysColumnNames;
 	}
 
 	/**

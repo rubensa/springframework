@@ -53,6 +53,7 @@ Package org.springframework.ejb
 * added explicit proxy type checks to LocalSlsbInvokerInterceptor and AbstractRemoteSlsbInvokerInterceptor
 
 Package org.springframework.jdbc
+* added support for retrieving auto generated keys to SqlUpdate and JdbcTemplate
 * added translation category for CannotAcquireLockException to SqlErrorCodeSQLExceptionTranslator and sql-error-codes
 * allow for defining custom translations using CustomSQLErrorCodesTranslation defined in the sql-error-codes.xml file
 * removed CannotCloseJdbcConnectionException, as it is not used anymore

@@ -117,8 +117,8 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 			// Get the interception chain for this method
 			List chain = advised.getAdvisorChainFactory().getInterceptorsAndDynamicInterceptionAdvice(this.advised, proxy, method, targetClass);
 			
-			// Check whether we only have one InvokerInterceptor: that is, no real advice,
-			// but just reflective invocation of the target.
+			// Check whether we have any advice. If we don't, we can fallback on
+			// direct reflective invocation of the target, and avoid creating a MethodInvocation
 			// We can only do this if the AdvisedSupport config object lets us.
 			if (chain.isEmpty() && !advised.getExposeInvocation()) {
 				// We can skip creating a MethodInvocation: just invoke the target directly
@@ -128,7 +128,9 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 			}
 			else {
 				// We need to create a method invocation...
-				invocation = advised.getMethodInvocationFactory().getMethodInvocation(proxy, method, targetClass, target, args, chain, advised);
+				//invocation = advised.getMethodInvocationFactory().getMethodInvocation(proxy, method, targetClass, target, args, chain, advised);
+				
+				invocation = new ReflectiveMethodInvocation(proxy, target, method.getDeclaringClass(), method, args, targetClass, chain);
 			
 				if (this.advised.getExposeInvocation()) {
 					// Make invocation available if necessary.
@@ -141,9 +143,8 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 					setInvocationContext = true;
 				}
 				
-				// Proceed to the joinpoint through the interception chain
+				// Proceed to the joinpoint through the interceptor chain
 				retVal = invocation.proceed();
-				
 			}
 			
 			// Massage return value if necessary
@@ -170,9 +171,9 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 				AopContext.setCurrentProxy(oldProxy);
 			}
 			
-			if (invocation != null) {
-				advised.getMethodInvocationFactory().release(invocation);
-			}
+			//if (invocation != null) {
+			//	advised.getMethodInvocationFactory().release(invocation);
+			//}
 		}
 	}	// invoke
 	

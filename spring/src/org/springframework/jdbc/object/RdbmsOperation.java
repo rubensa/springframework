@@ -16,6 +16,7 @@
 
 package org.springframework.jdbc.object;
 
+import java.sql.ResultSet;
 import java.sql.Types;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -63,6 +64,10 @@ public abstract class RdbmsOperation implements InitializingBean {
 	/** Lower-level class used to execute SQL */
 	private JdbcTemplate jdbcTemplate = new JdbcTemplate();
 
+	private int resultSetType = ResultSet.TYPE_FORWARD_ONLY;
+
+	private boolean updatableResults = false;
+
 	/** SQL statement */
 	private String sql;
 
@@ -100,6 +105,39 @@ public abstract class RdbmsOperation implements InitializingBean {
 	 */
 	protected JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
+	}
+
+	/**
+	 * Set whether to use statements that return a specific type of ResultSet.
+	 * @param resultSetType the ResultSet type
+	 * @see java.sql.ResultSet#TYPE_FORWARD_ONLY
+	 * @see java.sql.ResultSet#TYPE_SCROLL_INSENSITIVE
+	 * @see java.sql.ResultSet#TYPE_SCROLL_SENSITIVE
+	 */
+	protected void setResultSetType(int resultSetType) {
+		this.resultSetType = resultSetType;
+	}
+
+	/**
+	 * Return whether statements will return a specific type of ResultSet.
+	 */
+	protected int getResultSetType() {
+		return resultSetType;
+	}
+
+	/**
+	 * Set whether to use statements that are capable of returning
+	 * updatable ResultSets.
+	 */
+	protected void setUpdatableResults(boolean updatableResults) {
+		this.updatableResults = updatableResults;
+	}
+
+	/**
+	 * Return whether statements will return updatable ResultSets.
+	 */
+	protected boolean isUpdatableResults() {
+		return updatableResults;
 	}
 
 	/**
@@ -159,22 +197,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 		return declaredParameters;
 	}
 
+
 	/**
 	 * Ensures compilation if used in a bean factory.
 	 */
 	public void afterPropertiesSet() {
 		compile();
-	}
-
-
-	/**
-	 * Is this operation "compiled"? Compilation, as in JDO,
-	 * means that the operation is fully configured, and ready to use.
-	 * The exact meaning of compilation will vary between subclasses.
-	 * @return whether this operation is compiled, and ready to use.
-	 */
-	public boolean isCompiled() {
-		return compiled;
 	}
 
 	/**
@@ -211,6 +239,16 @@ public abstract class RdbmsOperation implements InitializingBean {
 	 * hasn't been properly configured.
 	 */
 	protected abstract void compileInternal() throws InvalidDataAccessApiUsageException;
+
+	/**
+	 * Is this operation "compiled"? Compilation, as in JDO,
+	 * means that the operation is fully configured, and ready to use.
+	 * The exact meaning of compilation will vary between subclasses.
+	 * @return whether this operation is compiled, and ready to use.
+	 */
+	public boolean isCompiled() {
+		return compiled;
+	}
 
 	/**
 	 * Validate the parameters passed to an execute method based on declared parameters.

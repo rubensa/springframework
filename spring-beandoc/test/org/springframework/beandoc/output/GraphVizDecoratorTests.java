@@ -64,6 +64,15 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd.init();
     }
     
+    public void testDefaults() {
+        assertEquals(10, gvd.getFontSize());
+        assertEquals("helvetica", gvd.getFontName());
+        assertEquals("auto", gvd.getRatio());
+        assertEquals("box", gvd.getBeanShape());
+        assertEquals("png", gvd.getOutputType());
+        assertEquals(2, gvd.getRankBeans().size());        
+    }
+    
     public void testRootElementDecoration() {
         gvd.setBeanShape("ellipse");
         gvd.setFontName("Times");

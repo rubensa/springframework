@@ -64,6 +64,13 @@ public class PatternMatcherTests extends TestCase {
         assertEquals(0, patterns.length);  
     }
     
+    public void testConvertNullsToPatterns() {
+        List strings = new ArrayList(1);
+        strings.add(null); // oops - null
+        Pattern[] patterns = PatternMatcher.convertStringsToPatterns(strings);
+        assertEquals(0, patterns.length);  
+    }
+    
     public void testPatternMatchCallback() {
         List strings = new ArrayList(3);
         strings.add("^myTestBean$");

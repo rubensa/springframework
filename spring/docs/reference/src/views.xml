@@ -1176,7 +1176,7 @@ public class PDFPage extends AbstractPdfView {
         a page to get an instance of the UserService, for example, would be
         with code such as: <programlisting>    WebApplicationContext appContext = WebApplicationContextUtils.getApplicationContext(
         getRequestCycle().getRequestContext().getServlet().getServletContext());
-    UserService userService = appContext.getBean("userService");
+    UserService userService = (UserService) appContext.getBean("userService");
     ... some code which uses UserService</programlisting> This mechanism does
         work. It can be made a lot less verbose by encapsulating most of the
         functionality in a method in the base class for the page or component.

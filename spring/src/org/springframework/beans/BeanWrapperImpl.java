@@ -166,15 +166,11 @@ public class BeanWrapperImpl implements BeanWrapper {
 			throw new FatalBeanException("Cannot set BeanWrapperImpl target to a null object");
 		}
 		this.object = object;
+		this.nestedBeanWrappers = null;
 		if (this.cachedIntrospectionResults == null ||
 		    !this.cachedIntrospectionResults.getBeanClass().equals(object.getClass())) {
 			this.cachedIntrospectionResults = CachedIntrospectionResults.forClass(object.getClass());
 		}
-		// assert: cachedIntrospectionResults != null
-	}
-
-	public void newWrappedInstance() throws BeansException {
-		this.object = BeanUtils.instantiateClass(getWrappedClass());
 	}
 
 	public Class getWrappedClass() {

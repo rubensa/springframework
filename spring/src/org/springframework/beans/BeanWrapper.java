@@ -52,14 +52,6 @@ public interface BeanWrapper {
 	void setWrappedInstance(Object obj) throws BeansException;
 
 	/**
-	 * This method is included for efficiency. If an implementation
-	 * caches all necessary information about the class,
-	 * it might be faster to instantiate a new instance in the
-	 * class than create a new wrapper to work with a new object
-	 */
-	void newWrappedInstance() throws BeansException;
-
-	/**
 	 * Return the bean wrapped by this object (cannot be null).
 	 * @return the bean wrapped by this object
 	 */
@@ -130,7 +122,7 @@ public interface BeanWrapper {
 	 * <p>Bulk updates from PropertyValues are more powerful: This method is
 	 * provided for convenience. Behaviour will be identical to that of
 	 * the setPropertyValues(PropertyValues) method.
-	 * @param m Map to take properties from. Contains property value objects,
+	 * @param map Map to take properties from. Contains property value objects,
 	 * keyed by property name
 	 */
 	void setPropertyValues(Map map) throws BeansException;

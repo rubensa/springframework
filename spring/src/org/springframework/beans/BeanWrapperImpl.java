@@ -583,9 +583,7 @@ public class BeanWrapperImpl implements BeanWrapper {
 	}
 
 	public void setPropertyValues(PropertyValues propertyValues, boolean ignoreUnknown) throws BeansException {
-		// Create only if needed
-		PropertyAccessExceptionsException propertyVetoExceptionsException = new PropertyAccessExceptionsException(this);
-
+		List propertyAccessExceptions = new ArrayList();
 		PropertyValue[] pvs = propertyValues.getPropertyValues();
 		for (int i = 0; i < pvs.length; i++) {
 			try {
@@ -602,16 +600,17 @@ public class BeanWrapperImpl implements BeanWrapper {
 				// otherwise, just ignore it and continue...
 			}
 			catch (TypeMismatchException ex) {
-				propertyVetoExceptionsException.addPropertyAccessException(ex);
+				propertyAccessExceptions.add(ex);
 			}
 			catch (MethodInvocationException ex) {
-				propertyVetoExceptionsException.addPropertyAccessException(ex);
+				propertyAccessExceptions.add(ex);
 			}
 		}
 
 		// if we encountered individual exceptions, throw the composite exception
-		if (propertyVetoExceptionsException.getExceptionCount() > 0) {
-			throw propertyVetoExceptionsException;
+		if (!propertyAccessExceptions.isEmpty()) {
+			Object[] paeArray = propertyAccessExceptions.toArray(new PropertyAccessException[propertyAccessExceptions.size()]);
+			throw new PropertyAccessExceptionsException(this, (PropertyAccessException[]) paeArray);
 		}
 	}
 

@@ -301,20 +301,19 @@ public class DefaultContextProcessor implements ContextProcessor {
             Element element = (Element) iter.next();
             // process element
             String tag = element.getName();
-            String referencedBean;
             try {
                 if (Tags.TAGNAME_REF.equals(tag) || 
                     Tags.TAGNAME_IDREF.equals(tag) || 
                     Tags.TAGNAME_LOOKUP.equals(tag)|| 
                     Tags.TAGNAME_REPLACE.equals(tag)) { 
-                                   
-                    referencedBean = element.getAttributeValue("bean");
-                    if (referencedBean != null)
-                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(referencedBean));
-                    else if (element.getAttributeValue("local") != null)
-                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(element.getAttributeValue("local")));
-                    else
-                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(element.getAttributeValue("replacer")));
+                    
+                    String reference;
+                    if ((reference = element.getAttributeValue("bean")) != null)
+                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(reference));
+                    else if ((reference = element.getAttributeValue("local")) != null)
+                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(reference));
+                    else if ((reference = element.getAttributeValue("replacer")) != null)
+                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(reference));
                     
                 }
                     

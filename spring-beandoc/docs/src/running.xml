@@ -53,20 +53,100 @@ input.files=C:/projects/my-spring-project/*.xml</programlisting>
     <sect2>
       <title>Running from the command line</title>
 
-      <para></para>
+      <para>The samples directory contains a very simple CLI batch file/shell
+      script to enable you to test the BeanDoc tool. Check that you have made
+      the shell script executable before trying to run it. The script requires
+      one argument - the location of your beandoc.properties file.</para>
+
+      <programlisting>&gt; runbeandoc-cli.bat C:\Projects\my-spring-project\beandoc.properties</programlisting>
+
+      <para>or for Linux/Unix..</para>
+
+      <programlisting>samples $ chmod +x *.sh
+samples $ ./runbeandoc-cli.sh /projects/my-spring-project/beandoc.properties</programlisting>
+
+      <para>Although the sample CLI scripts themselves only accept a single
+      argument (the property file location) you can create your own that allow
+      you to override the values of <literal>input.files</literal> and
+      <literal>output.directory</literal> since the
+      <literal>BeanDocClient</literal> java class will accept these values.
+      Here's an example of using the class directly to do so.</para>
+
+      <programlisting>samples $ export CLASSPATH=$CLASSPATH:.:../target/dist/spring-beandoc.jar:../target/dist/spr
+ing-core.jar:../target/dist/jdom.jar:../target/dist/commons-logging.jar
+
+samples $ java -cp $CLASSPATH org.springframework.beandoc.client.BeanDocClient jpetstore/*.x
+ml ../target/output/ /projects/my-spring-project/beandoc.properties</programlisting>
+
+      <para>In the example above, the main class is called with 3 arguments;
+      <literal>input.files</literal> is the first, followed by
+      <literal>output.dir</literal> and finally the property file location
+      (which is now optional since you specified the two mandatory parameters
+      already).</para>
     </sect2>
 
     <sect2>
       <title>Running from an Ant script</title>
 
-      <para></para>
+      <para>Once again, the samples directory contains an example build file
+      showing how to use BeanDoc as an Ant task, and a couple of shell scripts
+      just to setup the classpath and invoke Ant. The task itself is in
+      spring-beandoc.jar and any buildfile you create will just need to setup
+      the task prior to calling it.</para>
+
+      <programlisting>&lt;path id="beandoc-classpath"&gt;
+  &lt;fileset dir="${lib.dir}"&gt;
+    &lt;include name="spring-beandoc.jar"/&gt;
+  &lt;/fileset&gt;
+&lt;/path&gt;
+        
+&lt;taskdef name="beandoc" classname="org.springframework.beandoc.client.AntTask"&gt;            
+  &lt;classpath refid="beandoc-classpath"/&gt;
+&lt;/taskdef&gt;</programlisting>
+
+      <para>Once the task is declared you may call it using any of the
+      following definitions</para>
+
+      <programlisting>&lt;!--
+this works if your input.files and output.dir are specified
+in the properties file
+--&gt;
+&lt;beandoc beandocProps="/path/to/beandoc.properties"/&gt;
+        
+&lt;!--
+alternative task overriding input and output locations that may be defined in the
+beandoc.properties file
+--&gt;
+&lt;beandoc 
+  inputFiles="/projects/my-spring-project/*.xml" 
+  outputDir="/some/other/outputdir/html/"
+  beandocProps="/path/to/beandoc.properties"
+/&gt;</programlisting>
     </sect2>
   </sect1>
 
   <sect1>
     <title>Further configuration</title>
 
-    <para></para>
+    <para>When using either the <literal>BeanDocClient</literal> class or the
+    <literal>AntTask</literal>, you can also specify input and output
+    locations as system properties. If you do, they must be qualified with a
+    prefix of "springbeandoc." to prevent potential namespace
+    collisions.</para>
+
+    <programlisting>ant -Dspringbeandoc.input.files=/path/to/input.xml</programlisting>
+
+    <para>or</para>
+
+    <programlisting>set springframeworg.output.dir=C:\my\output\dir\
+runbeandoc-cli.bat</programlisting>
+
+    <para>System properties are lowest in the hierarchy of places to define
+    input and output locations and will be ignored if the values are specified
+    in a beandoc.properties file. In turn, locations specified in
+    beandoc.properties files will be overridden by any listed as arguments to
+    the <literal>BeanDocClient</literal> class' main method, or those defined
+    as attributes to the <literal>AntTask</literal> class.</para>
 
     <sect2>
       <title>HTML</title>
@@ -84,7 +164,21 @@ input.files=C:/projects/my-spring-project/*.xml</programlisting>
   <sect1>
     <title>Advanced configuration</title>
 
-    <para>supplying XSLT templates, advanced graphing options, defining new
-    context files, interacting programatically</para>
+    <para>post processing of context file, supplying XSLT templates, advanced
+    graphing options, defining new context files, interacting
+    programatically</para>
+
+    <programlisting>&lt;!--
+alternative task overriding input and output locations that may be defined in the
+beandoc.properties file, and also specifying a new context file for complete control
+over the beandoc operation.  If all you want to do is specify different XSLT templates
+then you can specify them in the beandoc.properties file - see the sample one for
+information.
+--&gt;
+&lt;beandoc 
+  inputFiles="${basedir}/petclinic/*.xml" 
+  outputDir="/some/other/outputdir/html/"
+  beandocContext="${basedir}/alternative-beandoc.xml"
+/&gt;</programlisting>
   </sect1>
 </chapter>

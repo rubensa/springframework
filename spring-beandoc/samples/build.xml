@@ -26,6 +26,10 @@
             <fileset dir="${output.dir}" includes="**/*" />
         </delete>
         
+        <!--
+        	in this example input and output locations must be defined in the
+        	beandoc.properties file
+        -->
         <beandoc 
             beandocProps="${basedir}/beandoc.properties"
         />

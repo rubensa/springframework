@@ -16,6 +16,11 @@
 
 package org.springframework.beandoc.output;
 
+import java.io.File;
+
+import org.jdom.Document;
+import org.jdom.Element;
+
 import junit.framework.TestCase;
 
 /**
@@ -25,18 +30,38 @@ import junit.framework.TestCase;
  */
 public class ConsolidatedTransformerTests extends TestCase {
     
-    ConsolidatedTransformer ct;
+    TestConsolidatedTransformer ct;
+    File outputDir = new File(System.getProperty("user.dir"));
     
     public void setUp() {
-        ct = new ConsolidatedTransformer();
+        ct = new TestConsolidatedTransformer();
     }
     
     public void testConsolidation() {
         try {
             ct.setTemplateName("/org/springframework/beandoc/output/stylesheets/index.xsl");
             
+            Document[] docs = new Document[2];
+            docs[0] = new Document();
+            Element root1 = new Element("beans");
+            docs[0].setRootElement(root1);
+            
+            docs[1] = new Document();
+            Element root2 = new Element("beans");
+            docs[1].setRootElement(root2);
+            
+            ct.initTransform(docs, outputDir);
+            ct.handleTransform(docs, outputDir);
+            
         } catch (Exception e) {
             fail(e.getMessage());
+        }
+    }
+    
+    class TestConsolidatedTransformer extends ConsolidatedTransformer {        
+        protected void handleTransform(Document[] contextDocuments, File outputDir) {
+            assertEquals("consolidated", consolidatedDocument.getRootElement().getName());
+            assertEquals(2, consolidatedDocument.getRootElement().getChildren("beans").size());
         }
     }
 }

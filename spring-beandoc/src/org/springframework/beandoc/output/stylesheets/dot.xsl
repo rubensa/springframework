@@ -82,19 +82,27 @@
      *
     -->
     <xsl:template match="bean">
-    	<xsl:choose>
-		  	<xsl:when test="@id">
-		    	"<xsl:value-of select="@id"/>"
-		  	</xsl:when>
-		  	<xsl:otherwise>
-		    	"<xsl:value-of select="@name"/>"
-		  	</xsl:otherwise>
-		</xsl:choose>
-        [peripheries=2, style=filled, color="<xsl:value-of select="@beandocFillColour"/>"];
+    	<xsl:variable name="beandocId">
+    		<xsl:choose>
+		  		<xsl:when test="@id">
+					<xsl:value-of select="@id"/>
+		  		</xsl:when>
+			  	<xsl:otherwise>
+					<xsl:value-of select="@name"/>
+			  	</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		"<xsl:value-of select="$beandocId"/>" [
+        	peripheries=2, 
+	        style=filled, 
+	        color="<xsl:value-of select="@beandocFillColour"/>"
+	        <xsl:if test="@abstract = 'true'">shape=polygon, sides=4, skew=.3</xsl:if>
+	    ];
         <xsl:if test="@parent">
         	<!-- special type of relationship - dotted line, no arrow -->
-        	"<xsl:value-of select="@parent"/>" -&gt; "<xsl:value-of select="@id"/><xsl:value-of select="@name"/>"
-        	[ style=dotted arrowhead=none ];
+        "<xsl:value-of select="@parent"/>" -&gt; "<xsl:value-of select="@id"/><xsl:value-of select="@name"/>" [
+        	style=dotted arrowhead=none
+        ];
         </xsl:if>
     </xsl:template>
 
@@ -105,8 +113,7 @@
      *
     -->
     <xsl:template match="ref">
-        "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="@bean"/><xsl:value-of select="@local"/>"
-        [ ];
+        "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="@bean"/><xsl:value-of select="@local"/>" [ ]
     </xsl:template>
 
 </xsl:stylesheet>

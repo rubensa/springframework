@@ -20,7 +20,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
  * @since 10-Mar-2003
  * version $Id$
  */
-public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAware, InitializingBean {
+public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAware, InitializingBean, DisposableBean {
 	
 	public static final String SINGLETON_NAME = "Factory singleton";
 
@@ -35,7 +35,7 @@ public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAwar
 
 	private boolean postProcessed;
 
-	private boolean isInitialized;
+	private boolean initialized;
 
 	private static boolean prototypeCreated;
 
@@ -106,9 +106,10 @@ public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAwar
 	}
 
 	public void afterPropertiesSet() {
-		if (isInitialized)
+		if (initialized) {
 			throw new RuntimeException("Cannot call afterPropertiesSet twice on the one bean");
-		this.isInitialized = true;
+		}
+		this.initialized = true;
 	}
 	
 	/**
@@ -116,7 +117,7 @@ public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAwar
 	 * afterPropertiesSet() method from the InitializingBean interface?
 	 */
 	public boolean wasInitialized() {
-		return this.isInitialized;
+		return initialized;
 	}
 
 	public static boolean wasPrototypeCreated() {
@@ -144,6 +145,12 @@ public class DummyFactory implements FactoryBean, BeanNameAware, BeanFactoryAwar
 
 	public Class getObjectType() {
 		return TestBean.class;
+	}
+
+	public void destroy() {
+		if (this.testBean != null) {
+			this.testBean.setName(null);
+		}
 	}
 
 }

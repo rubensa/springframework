@@ -44,7 +44,7 @@ public class InvokerInterceptorTests extends TestCase {
 
 		Method m = IOther.class.getMethod("absquatulate", null);
 			MethodInvocationImpl invocation = new MethodInvocationImpl(null, t, m.getDeclaringClass(), //?
-	m, null, l // list
+	m, null, null, l // list
 	);
 		Object ret = ii.invoke(invocation);
 		assertTrue(ret == null);
@@ -72,7 +72,7 @@ public class InvokerInterceptorTests extends TestCase {
 
 		Method m = Demo.class.getMethod("doSomething", null);
 			MethodInvocationImpl invocation = new MethodInvocationImpl(null, t, m.getDeclaringClass(), //?
-	m, null, l // list
+	m, null, null, l // list
 		);
 		try {
 			ii.invoke(invocation);

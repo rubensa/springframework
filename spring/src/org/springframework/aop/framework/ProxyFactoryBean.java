@@ -16,7 +16,9 @@ import org.aopalliance.intercept.AspectException;
 import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Advisor;
+import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.TargetSource;
+import org.springframework.aop.support.DefaultBeforeAdvisor;
 import org.springframework.aop.support.DefaultInterceptionAroundAdvisor;
 import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.BeansException;
@@ -288,6 +290,9 @@ public class ProxyFactoryBean extends AdvisedSupport implements FactoryBean, Bea
 		else if (next instanceof MethodInterceptor) {
 			return new DefaultInterceptionAroundAdvisor((MethodInterceptor) next);
 		}
+		else if (next instanceof MethodBeforeAdvice) {
+			return new DefaultBeforeAdvisor((MethodBeforeAdvice) next);
+		}
 		else if (next instanceof TargetSource) {
 			return (TargetSource) next;
 		}
@@ -343,7 +348,7 @@ public class ProxyFactoryBean extends AdvisedSupport implements FactoryBean, Bea
 	 * @see org.springframework.beans.factory.FactoryBean#getObjectType()
 	 */
 	public Class getObjectType() {
-		return getTargetSource().getClass();
+		return getTargetSource().getTargetClass();
 	}
 
 	/**

@@ -25,7 +25,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 			logger.debug("Trying to create reference to remote EJB");
 		}
 
-		EJBLocalObject session = (EJBLocalObject) getHomeBeanWrapper().invoke(CREATE_METHOD, null);
+		// Call superclass to invoke the EJB create method on the cached home
+		EJBLocalObject session = (EJBLocalObject) create();
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("Obtained reference to remote EJB: " + session);
@@ -34,7 +35,8 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 	}
 
 	/**
-	 * This is the last invoker in the chain:
+	 * This is the last invoker in the chain: 
+	 * invoke the EJB.
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		EJBLocalObject ejb = newSessionBeanInstance();

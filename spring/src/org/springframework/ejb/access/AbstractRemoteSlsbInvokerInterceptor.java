@@ -5,7 +5,7 @@ import javax.ejb.EJBObject;
 /**
  * Superclass for interceptors proxying remote Stateless Session Beans.
  * @author Rod Johnson
- * @version $Revision$
+ * @version $Id$
  */
 public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor {
 	
@@ -19,7 +19,8 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 			logger.debug("Trying to create reference to remote EJB");
 		}
 
-		EJBObject session = (EJBObject) getHomeBeanWrapper().invoke(CREATE_METHOD, null);
+		// Invoke the superclass's generic create method
+		EJBObject session = (EJBObject) create();
 		// if it throws remote exception (wrapped in bean exception), retry?
 	
 		if (logger.isDebugEnabled()) {

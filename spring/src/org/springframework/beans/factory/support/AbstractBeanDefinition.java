@@ -159,6 +159,13 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 
 
 	/**
+	 * Return whether this definitions specifies a bean class.
+	 */
+	public boolean hasBeanClass() {
+		return (this.beanClass instanceof Class);
+	}
+
+	/**
 	 * Specify the class for this bean.
 	 */
 	public void setBeanClass(Class beanClass) {
@@ -167,21 +174,14 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 
 	/**
 	 * Return the class of the wrapped bean.
-	 * @throws IllegalStateException if the bean definition does not carry
-	 * a resolved bean class
+	 * @throws IllegalStateException if the bean definition
+	 * does not carry a resolved bean class
 	 */
 	public Class getBeanClass() throws IllegalStateException {
 		if (!(this.beanClass instanceof Class)) {
 			throw new IllegalStateException("Bean definition does not carry a resolved bean class");
 		}
 		return (Class) this.beanClass;
-	}
-
-	/**
-	 * Return whether this definitions specifies a bean class.
-	 */
-	public boolean hasBeanClass() {
-		return (this.beanClass instanceof Class);
 	}
 
 	/**
@@ -452,7 +452,7 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 
 		if (!getMethodOverrides().isEmpty() && getStaticFactoryMethodName() != null) {
 			throw new  BeanDefinitionValidationException("Cannot combine static factory method with method overrides: " +
-					"the static factory method must create the instance");
+			                                             "the static factory method must create the instance");
 		}
 		
 		
@@ -468,8 +468,9 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 	
 	private void validateMethodOverride(MethodOverride mo, Class beanClass) throws BeanDefinitionValidationException {
 		if (!BeanUtils.isAtLeastOneMethodWithName(mo.getMethodName(), beanClass)) {
-			throw new BeanDefinitionValidationException("No method with name '" + mo.getMethodName() + 
-					"' on class " + beanClass.getName() + " specified in lookup override");
+			throw new BeanDefinitionValidationException("No method with name '" + mo.getMethodName() +
+			                                            "' on class " + beanClass.getName() +
+			                                            " specified in lookup override");
 		}
 	}
 

@@ -16,6 +16,8 @@
 
 package org.springframework.aop.framework;
 
+import java.io.Serializable;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -32,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ProxyConfig {
+public class ProxyConfig implements Serializable {
 	
 	/*
 	 * Note that some of the instance variables in this class and AdvisedSupport
@@ -43,6 +45,10 @@ public class ProxyConfig {
 	 * method access. - RJ, December 10, 2003.
 	 */
 	
+	/**
+	 * Transient to optimize serialization:
+	 * AdvisedSupport resets it.
+	 */
 	protected transient Log logger = LogFactory.getLog(getClass());
 
 	private boolean proxyTargetClass;
@@ -63,7 +69,7 @@ public class ProxyConfig {
 	private boolean frozen;
 	
 	/** Factory used to create AopProxy instances */
-	private AopProxyFactory aopProxyFactory = new DefaultAopProxyFactory();
+	private transient AopProxyFactory aopProxyFactory = new DefaultAopProxyFactory();
 
 	
 	/**

@@ -16,9 +16,6 @@
 
 package org.springframework.aop.framework;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -228,28 +225,6 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler, Serializa
 		
 		// If we get here, aopr2 is the other AopProxy
 		return AopProxyUtils.equalsInProxy(this.advisedSupport, aopr2.advisedSupport);
-	}
-	
-	//---------------------------------------------------------------------
-	// Serialization support
-	//---------------------------------------------------------------------
-	
-	private void writeObject(ObjectOutputStream oos) throws IOException {
-		// Copy the AdvisedSupport object to avoid dependencies
-		// on BeanFactories etc. that subclasses may have
-		AdvisedSupport copy = new AdvisedSupport();
-		copy.copyConfigurationFrom(this.advisedSupport);
-		oos.writeObject(copy);
-	}
-	
-	private void readObject(ObjectInputStream ois) throws IOException {
-		try {
-			this.advisedSupport = (AdvisedSupport) ois.readObject();
-		}
-		catch (ClassNotFoundException ex) {
-			throw new AopConfigException(AdvisedSupport.class + " missing attempting to deserialize an AOP proxy: " +
-					"Are the Spring AOP libraries available on the client side?", ex);
-		}
 	}
 
 }

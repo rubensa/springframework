@@ -88,7 +88,7 @@ public class MailTestSuite extends TestCase {
 			mt.sendMail(new MailCallback() {
 				public void configure(MailSettings mailSettings) {
 					mailSettings.setMailTo("xxx@yahoo.com");
-					mailSettings.setMailFrom("xxx@org.springframework.com");
+					mailSettings.setMailFrom("xxx@springframework.org");
 					mailSettings.setMailSubject("test");
 					mailSettings.setMailText("test");
 					mailSettings.setMailHost("localhost");

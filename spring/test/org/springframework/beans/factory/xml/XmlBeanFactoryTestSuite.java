@@ -435,9 +435,10 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals(null, tb4.getName());
 
 		Map drs = xbf.getBeansOfType(DummyReferencer.class, false, false);
-		assertEquals(2, drs.size());
+		assertEquals(3, drs.size());
 		assertTrue(drs.containsKey(DummyReferencer.class.getName()));
 		assertTrue(drs.containsKey(DummyReferencer.class.getName() + "#2"));
+		assertTrue(drs.containsKey(DummyReferencer.class.getName() + "#3"));
 	}
 
 	public void testEmptyMap() throws Exception {

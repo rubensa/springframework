@@ -26,6 +26,7 @@ import org.easymock.MockControl;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.StaticWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
@@ -45,7 +46,7 @@ public class VelocityViewTests extends TestCase {
 		wmc.setReturnValue(null);
 		wmc.replay();
 
-		vv.setTemplateName("anythingButNull");
+		vv.setUrl("anythingButNull");
 		try {
 			vv.setApplicationContext(wac);
 			fail();
@@ -71,7 +72,7 @@ public class VelocityViewTests extends TestCase {
 		}
 		catch (IllegalArgumentException ex) {
 			// Check there's a helpful error message
-			assertTrue(ex.getMessage().indexOf("templateName") != -1);
+			assertTrue(ex.getMessage().indexOf("url") != -1);
 		}
 
 		wmc.verify();
@@ -119,7 +120,7 @@ public class VelocityViewTests extends TestCase {
 		VelocityView vv = new VelocityView();
 		//vv.setExposeDateFormatter(false);
 		//vv.setExposeCurrencyFormatter(false);
-		vv.setTemplateName(templateName);
+		vv.setUrl(templateName);
 
 		try {
 			vv.setApplicationContext(wac);
@@ -198,7 +199,7 @@ public class VelocityViewTests extends TestCase {
 				}
 			}
 		};
-		vv.setTemplateName(templateName);
+		vv.setUrl(templateName);
 		vv.setApplicationContext(wac);
 
 		try {
@@ -260,13 +261,23 @@ public class VelocityViewTests extends TestCase {
 				vContext.put("myHelper", "myValue");
 			}
 		};
-		vv.setTemplateName(templateName);
+		vv.setUrl(templateName);
 		vv.setApplicationContext(wac);
 		vv.setDateToolAttribute("dateTool");
 		vv.render(new HashMap(), req, expectedResponse);
 
 		wmc.verify();
 		reqControl.verify();
+	}
+
+	public void testVelocityViewResolver() {
+		VelocityViewResolver resolver = new VelocityViewResolver();
+		resolver.setPrefix("prefix_");
+		resolver.setSuffix("_suffix");
+		resolver.setApplicationContext(new StaticWebApplicationContext());
+		VelocityView view = (VelocityView) resolver.loadView("test", Locale.CANADA);
+		assertEquals("test", view.getName());
+		assertEquals("prefix_test_suffix", view.getUrl());
 	}
 
 

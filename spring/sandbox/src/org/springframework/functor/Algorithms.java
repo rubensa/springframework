@@ -23,12 +23,9 @@ import java.util.Iterator;
  * functor objects such as predicates.
  * 
  * @author Keith Donald
+ * @version $Id$
  */
 public abstract class Algorithms {
-
-    private Algorithms() {
-    
-    }
     
     /**
      * Find the first element in the collection matching the specified unary

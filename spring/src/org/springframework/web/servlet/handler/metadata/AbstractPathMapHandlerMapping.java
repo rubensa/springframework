@@ -98,8 +98,9 @@ public abstract class AbstractPathMapHandlerMapping extends AbstractUrlHandlerMa
 			}
 		}
 		catch (ClassNotFoundException ex) {
-			// Shouldn't happen: Attributes API gave us the classname
-			throw new ApplicationContextException("Failed to load a class returned in an attribute index: internal error in Commons Attributes indexing?", ex);
+			// Shouldn't happen: Attributes API gave us the class name.
+			throw new ApplicationContextException("Failed to load a class returned in an attribute index: " +
+																						"internal error in Commons Attributes indexing?", ex);
 		}
 	}
 

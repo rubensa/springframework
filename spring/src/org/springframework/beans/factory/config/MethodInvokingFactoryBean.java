@@ -46,17 +46,22 @@ import org.springframework.util.MethodInvoker;
  *
  * <p>An example (in an XML based bean factory definition) of a bean definition
  * which uses this class to call a static factory method:
+ *
  * <pre>
- * &lt;bean id="myClass" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+ * &lt;bean id="myObject" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
  *   &lt;property name="staticMethod">&lt;value>com.whatever.MyClassFactory.getInstance&lt;/value>&lt;/property>
  * &lt;/bean></pre>
- * An example of calling a static method then an instance method to get at a Java
- * System property. Somewhat verbose, but it works.<pre>
+ *
+ * <p>An example of calling a static method then an instance method to get at a Java
+ * System property. Somewhat verbose, but it works.
+ *
+ * <pre>
  * &lt;bean id="sysProps" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
  *   &lt;property name="targetClass">&lt;value>java.lang.System&lt;/value>&lt;/property>
  *   &lt;property name="targetMethod">&lt;value>getProperties&lt;/value>&lt;/property>
  * &lt;/bean>
- * &lt;bean id="javaVersion" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+ *
+ * <p>&lt;bean id="javaVersion" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
  *   &lt;property name="targetObject">&lt;ref local='sysProps'/>&lt;/property>
  *   &lt;property name="targetMethod">&lt;value>getProperty&lt;/value>&lt;/property>
  *   &lt;property name="arguments">

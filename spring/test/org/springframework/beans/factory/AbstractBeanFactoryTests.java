@@ -114,7 +114,7 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 			// So far, so good
 			assertTrue("Exception has correct bean name", ex.getBeanName().equals("rod"));
 			assertTrue("Exception requiredType must be BeanFactory.class", ex.getRequiredType().equals(BeanFactory.class));
-			assertTrue("Exception actualType as TestBean.class", ex.getActualType().equals(TestBean.class));
+			assertTrue("Exception actualType as TestBean.class", TestBean.class.isAssignableFrom(ex.getActualType()));
 			assertTrue("Actual instance is correct", ex.getActualInstance() == getBeanFactory().getBean("rod"));
 		}
 		catch (Exception ex) {
@@ -148,7 +148,7 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 			// So far, so good
 			assertTrue("Exception has correct bean name", ex.getBeanName().equals("rod"));
 			assertTrue("Exception requiredType must be BeanFactory.class", ex.getRequiredType().equals(BeanFactory.class));
-			assertTrue("Exception actualType as TestBean.class", ex.getActualType().equals(TestBean.class));
+			assertTrue("Exception actualType as TestBean.class", TestBean.class.isAssignableFrom(ex.getActualType()));
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();

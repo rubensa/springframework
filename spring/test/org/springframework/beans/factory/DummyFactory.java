@@ -28,13 +28,20 @@ public class DummyFactory extends AbstractFactoryBean implements InitializingBea
 	
 	private TestBean testBean;
 
+	private TestBean otherTestBean;
+
 	public DummyFactory() {
 		this.testBean = new TestBean();
 		this.testBean.setName(SINGLETON_NAME);
 		this.testBean.setAge(25);
 	}
 
-	public void setOtherFactory(TestBean tb) {
+	public void setOtherTestBean(TestBean otherTestBean) {
+		this.otherTestBean = otherTestBean;
+	}
+
+	public TestBean getOtherTestBean() {
+		return otherTestBean;
 	}
 
 	public void afterPropertiesSet() {

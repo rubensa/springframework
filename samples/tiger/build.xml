@@ -73,6 +73,8 @@
      ========================================================================
   -->
 
+  <property name="commons.collections.jar"
+      location="${spring.root}/lib/jakarta-commons/commons-collections.jar"/>
   <property name="commons.logging.jar"
       location="${spring.root}/lib/jakarta-commons/commons-logging.jar"/>
   <property name="junit.jar"
@@ -85,7 +87,11 @@
     <pathelement location="${commons.logging.jar}"/>
     <pathelement location="${spring.jar}"/>
   </path>
-
+  <path id="test.classpath">
+  	<path refid="project.classpath"/>
+    <pathelement location="${commons.collections.jar}"/>
+  </path>
+	
   <!--
      ========================================================================
        Initialize the build. Must be called by all targets
@@ -140,7 +146,7 @@
         deprecation="${deprecation}" optimize="${optimize}" debug="${debug}">
       <src path="${src.test.dir}"/>
       <classpath>
-        <path refid="project.classpath"/>
+        <path refid="test.classpath"/>
         <pathelement location="${target.classes.java.dir}"/>
       </classpath>
     </javac>

@@ -9,8 +9,11 @@ package org.springframework.transaction.annotation;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.List;
 
+import org.apache.commons.collections.ListUtils;
 import org.springframework.metadata.standard.StandardAttributes;
+import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 import junit.framework.TestCase;
@@ -53,10 +56,25 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 		StandardAttributes att = new StandardAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean1.class);
-
-		assertEquals("a", "a");
+		
+		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
+		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
 	}
 	
+	
+	void assertRulesAreEqual(RuleBasedTransactionAttribute rule1,
+			RuleBasedTransactionAttribute rule2) throws Exception {
+		
+		if (rule1.getIsolationLevel() != rule2.getIsolationLevel())
+			throw new Exception("isolaation level does not match");
+		if (rule1.getPropagationBehavior() != rule2.getPropagationBehavior())
+			throw new Exception("propagation behaviour does not match");
+		
+		List intersect = ListUtils.intersection(rule1.getRollbackRules(), rule2.getRollbackRules());
+		if (intersect.size() != rule1.getRollbackRules().size())
+			throw new Exception("rules have different sized lists of rollback rules");
+	}
+
 	
 	public interface ITestBean {
 		

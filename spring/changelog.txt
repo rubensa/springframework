@@ -3,6 +3,11 @@ SPRING FRAMEWORK CHANGELOG
 
 $Id$
 
+Changes in version 1.0 M3 (XX.11.2003)
+--------------------------------------
+* Added targetClass argument to StaticMethodPointcut.applies()
+
+
 Changes in version 1.0 M2 (23.10.2003)
 --------------------------------------
 * added optional dependency checking for bean factories, ensuring that all bean properties have been set before use

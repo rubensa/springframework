@@ -44,6 +44,17 @@ public class RedirectView extends AbstractUrlBasedView {
 	}
 
 	/**
+	 * Create a new RedirectView with the given URL.
+	 * @param url the URL to redirect to
+	 * @param contextRelative whether to interpret the given URL as
+	 * relative to the current ServletContext
+	 */
+	public RedirectView(String url, boolean contextRelative) {
+		setUrl(url);
+		this.contextRelative = contextRelative;
+	}
+
+	/**
 	 * Set whether to interpret the given URL as relative to the current
 	 * ServletContext, i.e. as relative to the web application root.
 	 * <p>Default is false: The URL will be intepreted as absolute, i.e.

@@ -693,6 +693,81 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		assertEquals(target.getAge(), proxied.getAge());
 	}
 	
+	public void testCannotAddInterceptorWhenFrozen() throws Throwable {
+		TestBean target = new TestBean();
+		target.setAge(21);
+		ProxyFactory pc = new ProxyFactory(target);
+		assertFalse(pc.isFrozen());
+		pc.addInterceptor(new NopInterceptor());
+		ITestBean proxied = (ITestBean) createProxy(pc);
+		pc.setFrozen(true);
+		try {
+			pc.addInterceptor(0, new NopInterceptor());
+			fail("Shouldn't be able to add interceptor when frozen");
+		}
+		catch (AopConfigException ex) {
+			assertTrue(ex.getMessage().indexOf("frozen") > -1);
+		}
+		// Check it still works: proxy factory state shouldn't have been corrupted
+		assertEquals(target.getAge(), proxied.getAge());
+		assertEquals(1, ((Advised) proxied).getAdvisors().length);
+	}
+	
+	/**
+	 * Check that casting to Advised can't get around advice freeze
+	 * @throws Throwable
+	 */
+	public void testCannotAddAdvisorWhenFrozenUsingCast() throws Throwable {
+		TestBean target = new TestBean();
+		target.setAge(21);
+		ProxyFactory pc = new ProxyFactory(target);
+		assertFalse(pc.isFrozen());
+		pc.addInterceptor(new NopInterceptor());
+		ITestBean proxied = (ITestBean) createProxy(pc);
+		pc.setFrozen(true);
+		Advised advised = (Advised) proxied;
+		
+		assertTrue(pc.isFrozen());
+		try {
+			advised.addAdvisor(new DefaultPointcutAdvisor(new NopInterceptor()));
+			fail("Shouldn't be able to add Advisor when frozen");
+		}
+		catch (AopConfigException ex) {
+			assertTrue(ex.getMessage().indexOf("frozen") > -1);
+		}
+		// Check it still works: proxy factory state shouldn't have been corrupted
+		assertEquals(target.getAge(), proxied.getAge());
+		assertEquals(1, advised.getAdvisors().length);
+	}
+	
+	public void testCannotRemoveAdvisorWhenFrozen() throws Throwable {
+		TestBean target = new TestBean();
+		target.setAge(21);
+		ProxyFactory pc = new ProxyFactory(target);
+		assertFalse(pc.isFrozen());
+		pc.addInterceptor(new NopInterceptor());
+		ITestBean proxied = (ITestBean) createProxy(pc);
+		pc.setFrozen(true);
+		Advised advised = (Advised) proxied;
+	
+		assertTrue(pc.isFrozen());
+		try {
+			advised.removeAdvisor(0);
+			fail("Shouldn't be able to remove Advisor when frozen");
+		}
+		catch (AopConfigException ex) {
+			assertTrue(ex.getMessage().indexOf("frozen") > -1);
+		}
+		// Didn't get removed
+		assertEquals(1, advised.getAdvisors().length);
+		pc.setFrozen(false);
+		// Can now remove it
+		advised.removeAdvisor(0);
+		// Check it still works: proxy factory state shouldn't have been corrupted
+		assertEquals(target.getAge(), proxied.getAge());
+		assertEquals(0, advised.getAdvisors().length);
+	}
+	
 	public void testUseAsHashKey() {
 		TestBean target1 = new TestBean();
 		ProxyFactory pf1 = new ProxyFactory(target1);

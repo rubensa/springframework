@@ -114,7 +114,7 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 			return bean;
 		}
 		
-		Object[] specificInterceptors = getInterceptorsAndAdviceForBean(bean, name);
+		Object[] specificInterceptors = getInterceptorsAndAdvicesForBean(bean, name);
 		if (specificInterceptors != null) {
 			List allInterceptors = new ArrayList();
 			allInterceptors.addAll(Arrays.asList(specificInterceptors));
@@ -206,7 +206,7 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 	 * @see #DO_NOT_PROXY
 	 * @see #PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS
 	 */
-	protected abstract Object[] getInterceptorsAndAdviceForBean(Object bean, String beanName)
+	protected abstract Object[] getInterceptorsAndAdvicesForBean(Object bean, String beanName)
 	    throws BeansException;
 
 }

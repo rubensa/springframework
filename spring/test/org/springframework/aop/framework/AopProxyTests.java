@@ -68,7 +68,7 @@ public class AopProxyTests extends TestCase {
 		}
 	}
 
-	public void testNoInterceptors() {
+	public void testNoInterceptorsAndNoTarget() {
 		AdvisedSupport pc =
 			new AdvisedSupport(new Class[] { ITestBean.class });
 		// Add no interceptors

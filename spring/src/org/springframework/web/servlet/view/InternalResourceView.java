@@ -73,8 +73,8 @@ public class InternalResourceView extends AbstractView {
 	 * Render the internal resource given the specified model.
 	 * This includes setting the model as request attributes.
 	 */
-	protected void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException {
+	protected void renderMergedOutputModel(Map model, HttpServletRequest request,
+	                                       HttpServletResponse response) throws Exception {
 
 		exposeModelAsRequestAttributes(model, request);
 

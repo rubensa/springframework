@@ -611,8 +611,8 @@ public abstract class AbstractAopProxyTests extends TestCase {
 	static class ContextTestBean2 extends ContextTestBean {
 		protected void assertions(MethodInvocation invocation) {
 			assertTrue(invocation.getThis() == this);
-			assertTrue("Invocation should be on Person: " + invocation.getMethod(), 
-					Person.class.isAssignableFrom(invocation.getMethod().getDeclaringClass()));
+			assertTrue("Invocation should be on ITestBean: " + invocation.getMethod(), 
+					ITestBean.class.isAssignableFrom(invocation.getMethod().getDeclaringClass()));
 		}
 	}
 

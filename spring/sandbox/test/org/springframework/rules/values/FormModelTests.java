@@ -15,15 +15,16 @@ public class FormModelTests extends TestCase {
         contact.setAddress(new Address());
         c.setPrimaryContact(contact);
 
-        ValidatingFormModel model = new ValidatingFormModel(c);
+        DefaultFormModel model = new DefaultFormModel(c);
         model.setBufferChangesDefault(false);
-        ValueModel city = model.add("primaryContact");
+        ValueModel city = model.add("primaryContact.address.city");
         city.addValueListener(new ValueListener() {
             public void valueChanged() {
                 System.out.println("city changed");
             }
         });
         ValueModel addr = model.add("primaryContact.address");
+        System.out.println(addr.getClass());
         addr.set(new Address());
     }
 

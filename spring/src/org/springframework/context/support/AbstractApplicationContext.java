@@ -465,6 +465,10 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 	public Object applyBeanPostProcessors(Object existingBean, String name) throws BeansException {
 		return getBeanFactory().applyBeanPostProcessors(existingBean, name);
 	}
+	
+	public Object registerBeanOfClass(String beanName, Class beanClass, boolean dependencyCheck) throws BeansException {
+		return getBeanFactory().registerBeanOfClass(beanName, beanClass, dependencyCheck);
+	}
 
 
 	//---------------------------------------------------------------------

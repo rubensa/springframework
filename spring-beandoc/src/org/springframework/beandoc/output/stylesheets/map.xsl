@@ -47,21 +47,14 @@
             </head>
   
             <body>
-                <a name="top"><xsl:comment>::</xsl:comment></a>
-                      
                 <xsl:variable name="fileRoot">
                     <xsl:value-of select="substring-before(beans/@beandocFileName, '.xml')"/>
                 </xsl:variable>
                 
-                <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
                 <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" usemap ="#G"/>
                 
                 <xsl:comment> ## imagemap ## </xsl:comment>
                 
-                <hr/>
-                <p id="pageFooter">
-                    <xsl:value-of select="beans/@beandocPageFooter"/>
-                </p>
             </body>
         </html>
 

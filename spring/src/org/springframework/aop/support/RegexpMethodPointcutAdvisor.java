@@ -9,19 +9,29 @@ import org.springframework.aop.Pointcut;
 import org.springframework.aop.PointcutAdvisor;
 
 /**
- * Convenient superclass for Advisors that are also static pointcuts.
- * @author Rod Johnson
+ * Convenient class for regexp method pointcuts that hold an Interceptor,
+ * making them an Advisor.
+ * @author Dmitriy Kopylenko
  * @version $Id$
  */
-public abstract class StaticMethodMatcherPointcutAdvisor extends StaticMethodMatcherPointcut implements PointcutAdvisor {
+public class RegexpMethodPointcutAdvisor extends RegexpMethodPointcut
+    implements PointcutAdvisor {
 
 	private Object advice;
-	
-	public StaticMethodMatcherPointcutAdvisor() {
+
+	public RegexpMethodPointcutAdvisor() {
 	}
 
-	public StaticMethodMatcherPointcutAdvisor(Object advice) {
+	public RegexpMethodPointcutAdvisor(Object advice) {
 		this.advice = advice;
+	}
+	
+	public void setAdvice(Object advice) {
+		this.advice = advice;
+	}
+	
+	public Object getAdvice() {
+		return this.advice;
 	}
 
 	public boolean isPerInstance() {
@@ -30,20 +40,6 @@ public abstract class StaticMethodMatcherPointcutAdvisor extends StaticMethodMat
 
 	public Pointcut getPointcut() {
 		return this;
-	}
-
-	/**
-	 * @return
-	 */
-	public Object getAdvice() {
-		return advice;
-	}
-
-	/**
-	 * @param object
-	 */
-	public void setAdvice(Object object) {
-		advice = object;
 	}
 
 }

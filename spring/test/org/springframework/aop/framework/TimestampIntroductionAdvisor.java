@@ -6,14 +6,14 @@
 package org.springframework.aop.framework;
 
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
-import org.springframework.aop.support.DefaultInterceptionIntroductionAdvisor;
+import org.springframework.aop.support.DefaultIntroductionAdvisor;
 
 /**
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public class TimestampIntroductionAdvisor extends DefaultInterceptionIntroductionAdvisor {
+public class TimestampIntroductionAdvisor extends DefaultIntroductionAdvisor {
 
 	/**
 	 * @param dii

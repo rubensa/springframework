@@ -25,17 +25,6 @@ import org.springframework.aop.Advisor;
 public interface AdvisorAdapter {
 	
 	/**
-	 * Does this adapter understand this Advisor? Is it valid to invoke
-	 * the getInterceptor() method with this advisor as an argument.
-	 * Most implementations will support only a single Advisor type,
-	 * and simply do an <code>instanceof</code> test here.
-	 * @param advisor advisor to test
-	 * @return whether it's valid to invoke the getInterceptor() method
-	 * on this object with the advisor as argument
-	 */
-	boolean supportsAdvisor(Advisor advisor);
-	
-	/**
 	 * Does this adapter understand this advice object? 
 	 * Is it valid to invoke the wrap() method with the
 	 * given advice as an argument?

@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.InterceptionIntroductionAdvisor;
+import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
@@ -58,10 +58,11 @@ public abstract class AdvisorChainFactoryUtils {
 					}
 				}
 			}
-			else if (advisor instanceof InterceptionIntroductionAdvisor) {
-				InterceptionIntroductionAdvisor ia = (InterceptionIntroductionAdvisor) advisor;
+			else if (advisor instanceof IntroductionAdvisor) {
+				IntroductionAdvisor ia = (IntroductionAdvisor) advisor;
 				if (ia.getClassFilter().matches(targetClass)) {
-					interceptors.add(ia.getIntroductionInterceptor());
+					MethodInterceptor interceptor = (MethodInterceptor) GlobalAdvisorAdapterRegistry.getInstance().getInterceptor(advisor);
+					interceptors.add(interceptor);
 				}
 			}
 		}	// for

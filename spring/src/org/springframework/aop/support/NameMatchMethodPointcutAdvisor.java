@@ -9,20 +9,23 @@ import org.springframework.aop.Pointcut;
 import org.springframework.aop.PointcutAdvisor;
 
 /**
- * Convenient superclass for Advisors that are also static pointcuts.
- * @author Rod Johnson
+ * Convenient class for name-match method pointcuts that hold an Interceptor,
+ * making them an Advisor.
+ * @author Juergen Hoeller
  * @version $Id$
  */
-public abstract class StaticMethodMatcherPointcutAdvisor extends StaticMethodMatcherPointcut implements PointcutAdvisor {
+public class NameMatchMethodPointcutAdvisor extends NameMatchMethodPointcut
+    implements PointcutAdvisor {
 
 	private Object advice;
-	
-	public StaticMethodMatcherPointcutAdvisor() {
+
+	public NameMatchMethodPointcutAdvisor() {
 	}
 
-	public StaticMethodMatcherPointcutAdvisor(Object advice) {
+	public NameMatchMethodPointcutAdvisor(Object advice) {
 		this.advice = advice;
 	}
+	
 
 	public boolean isPerInstance() {
 		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");

@@ -14,12 +14,22 @@ import org.springframework.aop.PointcutAdvisor;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class AbstractPointcutAdvisor implements PointcutAdvisor {
+public class DefaultPointcutAdvisor implements PointcutAdvisor {
 	
 	private Pointcut pointcut;
 	
-	protected AbstractPointcutAdvisor(Pointcut pointcut) {
+	private Object advice;
+	
+	public DefaultPointcutAdvisor() {
+	}
+	
+	public DefaultPointcutAdvisor(Object advice) {
+		this(Pointcut.TRUE, advice);
+	}
+	
+	public DefaultPointcutAdvisor(Pointcut pointcut, Object advice) {
 		this.pointcut = pointcut;
+		this.advice = advice;
 	}
 
 	/**
@@ -34,6 +44,28 @@ public abstract class AbstractPointcutAdvisor implements PointcutAdvisor {
 	 */
 	public boolean isPerInstance() {
 		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
+	}
+
+	/**
+	 * @return
+	 */
+	public Object getAdvice() {
+		return advice;
+	}
+
+	/**
+	 * @param object
+	 */
+	public void setAdvice(Object object) {
+		advice = object;
+	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof DefaultPointcutAdvisor)) 
+			return false;
+		DefaultPointcutAdvisor other = (DefaultPointcutAdvisor) o;
+		return other.advice.equals(this.advice) && 
+			other.pointcut.equals(this.pointcut);
 	}
 
 }

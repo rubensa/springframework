@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.aop.support.DefaultInterceptionAroundAdvisor;
+import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.TestBean;
 
 /**
@@ -132,7 +132,7 @@ new Attrib4jAttributeRegistry());
 		Object proxy = new Object();
 		final Object returnValue = new Object();
 		List is = new LinkedList();
-		is.add(new DefaultInterceptionAroundAdvisor(new MethodInterceptor() {
+		is.add(new DefaultPointcutAdvisor(new MethodInterceptor() {
 			public Object invoke(MethodInvocation invocation) throws Throwable {
 				return returnValue;
 			}

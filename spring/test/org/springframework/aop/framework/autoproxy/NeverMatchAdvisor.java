@@ -9,14 +9,14 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.springframework.aop.interceptor.NopInterceptor;
-import org.springframework.aop.support.StaticMethodMatcherPointcutAroundAdvisor;
+import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 
 /**
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public class NeverMatchAdvisor extends StaticMethodMatcherPointcutAroundAdvisor {
+public class NeverMatchAdvisor extends StaticMethodMatcherPointcutAdvisor {
 	
 	public NeverMatchAdvisor() {
 		super(new NopInterceptor());

@@ -8,7 +8,7 @@ package org.springframework.aop.framework.autoproxy;
 import java.lang.reflect.Method;
 
 import org.springframework.aop.framework.CountingBeforeAdvice;
-import org.springframework.aop.support.StaticMethodMatcherPointcutBeforeAdvisor;
+import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.Ordered;
 import org.springframework.transaction.NoTransactionException;
@@ -23,7 +23,7 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
  * @author Rod Johnson
  * @version $Id$
  */
-public class OrderedTxCheckAdvisor extends StaticMethodMatcherPointcutBeforeAdvisor implements Ordered, InitializingBean {
+public class OrderedTxCheckAdvisor extends StaticMethodMatcherPointcutAdvisor implements Ordered, InitializingBean {
 
 	/** Unordered by default */
 	private int order = Integer.MAX_VALUE;
@@ -80,14 +80,14 @@ public class OrderedTxCheckAdvisor extends StaticMethodMatcherPointcutBeforeAdvi
 	}
 
 	public CountingBeforeAdvice getCountingBeforeAdvice() {
-		return (CountingBeforeAdvice) getBeforeAdvice();
+		return (CountingBeforeAdvice) getAdvice();
 	}
 
 	/**
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
 	 */
 	public void afterPropertiesSet() throws Exception {
-		setBeforeAdvice(new TxCountingBeforeAdvice());
+		setAdvice(new TxCountingBeforeAdvice());
 	}
 
 	/**

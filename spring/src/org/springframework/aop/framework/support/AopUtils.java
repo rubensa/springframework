@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.aopalliance.intercept.AspectException;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.InterceptionIntroductionAdvisor;
+import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.PointcutAdvisor;
 
@@ -164,8 +164,8 @@ public abstract class AopUtils {
 	}
 	
 	public static boolean canApply(Advisor advisor, Class targetClass, Class[] proxyInterfaces) {
-		if (advisor instanceof InterceptionIntroductionAdvisor) {
-			return ((InterceptionIntroductionAdvisor) advisor).getClassFilter().matches(targetClass);
+		if (advisor instanceof IntroductionAdvisor) {
+			return ((IntroductionAdvisor) advisor).getClassFilter().matches(targetClass);
 		}
 		else if (advisor instanceof PointcutAdvisor) {
 			PointcutAdvisor pca = (PointcutAdvisor) advisor;

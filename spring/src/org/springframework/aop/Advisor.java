@@ -19,8 +19,6 @@ package org.springframework.aop;
  *
  * @author Rod Johnson
  * @version $Id$
- * @see org.springframework.aop.InterceptionAroundAdvisor
- * @see org.springframework.aop.InterceptionIntroductionAdvisor
  */
 public interface Advisor {
 	
@@ -33,5 +31,16 @@ public interface Advisor {
 	 * proxy creation to ensure that Advisors have the correct lifecycle model. 
 	 */
 	boolean isPerInstance();
+	
+	/**
+	 * Return the advice part of this aspect. An advice may be an
+	 * interceptor, a throws advice, before advice etc. In order to comply
+	 * with the AOP Alliance interception API, this needs to return Object:
+	 * there isn't any common interface for advices.
+	 * <br>Spring supports user-defined advice, via the org.springframework.aop.adapter
+	 * package.
+	 * @return the advice that should apply if the pointcut matches
+	 */
+	Object getAdvice();
 
 }

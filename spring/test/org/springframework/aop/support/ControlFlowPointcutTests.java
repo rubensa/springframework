@@ -33,7 +33,7 @@ public class ControlFlowPointcutTests extends TestCase {
 		ControlFlowPointcut cflow = new ControlFlowPointcut(One.class, "getAge");
 		ProxyFactory pf = new ProxyFactory(target);
 		ITestBean proxied = (ITestBean) pf.getProxy();
-		pf.addAdvisor(new DefaultInterceptionAroundAdvisor(cflow, nop));
+		pf.addAdvisor(new DefaultPointcutAdvisor(cflow, nop));
 		
 		// Not advised, not under One
 		assertEquals(target.getAge(), proxied.getAge());
@@ -69,7 +69,7 @@ public class ControlFlowPointcutTests extends TestCase {
 		Pointcut settersUnderOne = Pointcuts.intersection(settersPc, cflow);
 		ProxyFactory pf = new ProxyFactory(target);
 		ITestBean proxied = (ITestBean) pf.getProxy();
-		pf.addAdvisor(new DefaultInterceptionAroundAdvisor(settersUnderOne, nop));
+		pf.addAdvisor(new DefaultPointcutAdvisor(settersUnderOne, nop));
 	
 		// Not advised, not under One
 		target.setAge(16);

@@ -7,7 +7,7 @@
  */
 package org.springframework.rules.reporting;
 
-import org.springframework.rules.Constraint;
+import org.springframework.util.closure.Constraint;
 
 /**
  * @author  Keith Donald

@@ -29,4 +29,8 @@ public class MethodInvocationException extends PropertyAccessException {
 		super("Method '" + methodName + "' threw exception", null, t);
 	}
 
+	public String getErrorCode() {
+		return "methodInvocation";
+	}
+
 }

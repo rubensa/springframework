@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
@@ -33,7 +34,7 @@ import org.springframework.context.ApplicationEvent;
  * @see org.springframework.context.ApplicationEvent
  * @see org.springframework.context.ApplicationListener
  */
-public class EventPublicationInterceptor implements MethodInterceptor, ApplicationContextAware {
+public class EventPublicationInterceptor implements MethodInterceptor, ApplicationContextAware, InitializingBean {
 
 	private ApplicationContext applicationContext;
 
@@ -49,10 +50,13 @@ public class EventPublicationInterceptor implements MethodInterceptor, Applicati
 	 * for the event source. The interceptor will pass in the invoked object.
 	 */
 	public void setApplicationEventClass(Class applicationEventClass) {
-		if (applicationEventClass == null || !ApplicationEvent.class.isAssignableFrom(applicationEventClass)) {
-			throw new IllegalArgumentException("applicationEventClass needs to implement ApplicationEvent");
-		}
 		this.applicationEventClass = applicationEventClass;
+	}
+	
+	public void afterPropertiesSet() throws Exception {
+		if (this.applicationEventClass == null || !ApplicationEvent.class.isAssignableFrom(this.applicationEventClass)) {
+			throw new IllegalStateException("applicationEventClass is required and needs to implement ApplicationEvent");
+		}
 	}
 
 	public Object invoke(MethodInvocation invocation) throws Throwable {

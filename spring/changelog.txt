@@ -112,6 +112,7 @@ Package org.springframework.web
 * reworked JSP tag implementations to implement the TryCatchFinally interface for eager resource cleanup
 * factored out common Struts Action delegation code from DelegationActionProxy to DelegatingActionUtils
 * added DelegatingRequestProcessor and DelegatingTilesRequestProcessor as alternatives to DelegatingActionProxy
+* added AbstractTemplateView allowing request and session attributes to be exposed in FreeMarker and Velocity views
 
 
 Changes in version 1.0.1 (22.4.2003)

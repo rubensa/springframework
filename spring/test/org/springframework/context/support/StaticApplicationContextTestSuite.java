@@ -123,11 +123,11 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		protected Object[] getInterceptorsAndPointcutsForBean(Object bean, String name,
 		                                                      RootBeanDefinition definition) {
 			if (bean instanceof StaticMessageSource)
-				return null;
+				return DO_NOT_PROXY;
 			else if (name.startsWith("aca"))
 				return new Object[] {testInterceptor};
 			else
-				return new Object[0];
+				return PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS;
 		}
 	}
 

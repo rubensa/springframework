@@ -17,6 +17,8 @@ import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 
 import org.springframework.aop.Advisor;
+import org.springframework.aop.interceptor.*;
+import org.springframework.aop.support.*;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;

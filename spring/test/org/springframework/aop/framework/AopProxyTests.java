@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import junit.framework.TestCase;
-
 import net.sf.cglib.CodeGenerationException;
 
 import org.aopalliance.intercept.AspectException;
@@ -18,10 +17,11 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.easymock.MockControl;
 import org.springframework.aop.InterceptionAroundAdvisor;
-import org.springframework.aop.framework.support.DynamicMethodMatcherPointcutAroundAdvisor;
-import org.springframework.aop.framework.support.SimpleIntroductionAdvice;
-import org.springframework.aop.framework.support.StaticMethodMatcherPointcutAroundAdvisor;
 import org.springframework.aop.interceptor.DebugInterceptor;
+import org.springframework.aop.interceptor.InvokerInterceptor;
+import org.springframework.aop.support.DynamicMethodMatcherPointcutAroundAdvisor;
+import org.springframework.aop.support.SimpleIntroductionAdvice;
+import org.springframework.aop.support.StaticMethodMatcherPointcutAroundAdvisor;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;

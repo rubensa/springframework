@@ -7,6 +7,7 @@ package org.springframework.aop.framework;
 
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.interceptor.*;
 
 
 /**

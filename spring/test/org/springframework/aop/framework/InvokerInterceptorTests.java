@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 
 import junit.framework.TestCase;
 
+import org.springframework.aop.interceptor.InvokerInterceptor;
+import org.springframework.aop.support.DefaultInterceptionAroundAdvisor;
 import org.springframework.beans.IOther;
 
 /**

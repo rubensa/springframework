@@ -8,9 +8,10 @@ package org.springframework.aop.framework;
 import junit.framework.TestCase;
 
 import org.aopalliance.intercept.Interceptor;
-import org.springframework.aop.framework.support.SimpleIntroductionAdvice;
 import org.springframework.aop.interceptor.AbstractQaInterceptor;
 import org.springframework.aop.interceptor.DebugInterceptor;
+import org.springframework.aop.interceptor.InvokerInterceptor;
+import org.springframework.aop.support.SimpleIntroductionAdvice;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;

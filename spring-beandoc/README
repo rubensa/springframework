@@ -5,8 +5,7 @@ http://springframework.sourceforge.net/beandoc/
 
 ** IMPORTANT NOTE **
 
-At the present time, this tool should be considered alpha software.
-Darren Davison, Jan 2005.
+At the present time, this tool is BETA software.
 
 
 
@@ -25,7 +24,7 @@ programmatically, from the command line or as an ANT task.
 beandoc requires J2SE 1.4+, JDOM 1.0, commons-logging and spring-core 1.1.4+.
 The "lib" directory may contain additional build dependencies that are not
 required at runtime.  In order to generate graphs, a platform dependent 
-implementation of GraphViz (http://www.graphvix.org) is required too.
+implementation of GraphViz (http://www.graphviz.org) is required too.
 
 
 3. BUILDING BEANDOC
@@ -40,3 +39,6 @@ All runtime dependencies are copied to the distribution directory when the
 beandoc JAR file is built and contains all files required to run the beandoc
 tool programmatically or from the command line.  In order to use the ANT
 task, you will obviously also need to have ANT available.
+
+
+Darren Davison, Feb 2005.

@@ -78,7 +78,7 @@ public class DelegatingIntroductionInterceptorTests extends TestCase {
 		TestBean target = new TestBean();
 		
 		ProxyFactory pf = new ProxyFactory(target);
-		pf.addAdvisor(0, new DefaultIntroductionAdvisor(ii));;
+		pf.addAdvisor(0, new DefaultIntroductionAdvisor(ii));
 		
 		//assertTrue(Arrays.binarySearch(pf.getProxiedInterfaces(), TimeStamped.class) != -1);
 		TimeStamped ts = (TimeStamped) pf.getProxy();
@@ -144,7 +144,7 @@ public class DelegatingIntroductionInterceptorTests extends TestCase {
 		public long getTimeStamp() {
 			return t;
 		}
-	};
+	}
 	
 	// test when target implements the interface: should get interceptor by preference
 	public void testIntroductionMasksTargetImplementation() throws Exception {

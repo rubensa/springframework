@@ -93,7 +93,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 		class YouCantSeeThis {
 			void hidden() {
 			}
-		};
+		}
 		YouCantSeeThis mine = new YouCantSeeThis();
 		try {
 			ProxyFactory pf = new ProxyFactory(mine);

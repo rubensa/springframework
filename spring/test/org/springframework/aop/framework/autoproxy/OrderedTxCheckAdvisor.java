@@ -51,7 +51,7 @@ public class OrderedTxCheckAdvisor extends StaticMethodMatcherPointcutAdvisor im
 			}
 			super.before(m, args, target);
 		}
-	};
+	}
 
 
 	public void setOrder(int order) {

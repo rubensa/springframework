@@ -67,7 +67,7 @@ public class EjbSupportTests extends TestCase {
 				throw new UnsupportedOperationException("ejbPassivate");
 			}
 
-		};
+		}
 		
 		MySfsb sfsb = new MySfsb();
 		sfsb.setBeanFactoryLocator(bfl);

@@ -186,7 +186,7 @@ public class ProxyFactoryTests extends TestCase {
 			public int compareTo(Object arg0) {
 				throw new UnsupportedOperationException("compareTo");
 			}
-		};
+		}
 		TestBeanSubclass raw = new TestBeanSubclass();
 		ProxyFactory factory = new ProxyFactory(raw);
 		assertEquals("Found correct number of interfaces", 4, factory.getProxiedInterfaces().length);

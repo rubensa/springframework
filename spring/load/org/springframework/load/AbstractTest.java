@@ -212,7 +212,7 @@ public abstract class AbstractTest implements Test, BeanNameAware {
 	public final double getTestsPerSecondCount() {
 		double res = 0.0;
 		double totalTime = runningTimer.getTotalTime();
-		double testCompleted = (double) getTestsCompletedCount();
+		double testCompleted = getTestsCompletedCount();
 		
 		if (testCompleted == 0.0) 
 			return 0.0;

@@ -62,7 +62,7 @@ public class PointcutsTests extends TestCase {
 	
 	// Subclass used for matching
 	public static class MyTestBean extends TestBean {
-	};
+	}
 	
 	public static Pointcut myTestBeanSetterPointcut = new StaticMethodMatcherPointcut() {
 		public ClassFilter getClassFilter() {
@@ -87,7 +87,7 @@ public class PointcutsTests extends TestCase {
 	
 	// Still more specific class
 	public static class MyTestBeanSubclass extends MyTestBean {
-	};
+	}
 	
 	public static Pointcut myTestBeanSubclassGetterPointcut = new StaticMethodMatcherPointcut() {
 		public ClassFilter getClassFilter() {

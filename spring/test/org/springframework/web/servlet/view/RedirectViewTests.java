@@ -38,7 +38,7 @@ public class RedirectViewTests extends TestCase {
 				return super.queryProperties(model);
 			}
 
-		};
+		}
 		TestRedirectView rv = new TestRedirectView();
 		rv.setUrl(url);
 		

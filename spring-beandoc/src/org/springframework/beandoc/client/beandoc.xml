@@ -20,6 +20,7 @@
     			<ref local="htmlTransformer"/>
     			<ref local="htmlNavigationTransformer"/>
     			<ref local="htmlIndexTransformer"/>
+    			<ref local="htmlMainTransformer"/>
     			<ref local="graphVizTransformer"/>
     		</list>
     	</property>    	
@@ -34,6 +35,8 @@
     <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.HtmlNavigationTransformer"/>
     
     <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.HtmlIndexTransformer"/>
+    
+    <bean id="htmlMainTransformer" class="org.springframework.beandoc.output.HtmlMainTransformer"/>
     
     <bean id="htmlTransformer" class="org.springframework.beandoc.output.HtmlDetailTransformer"/>
     

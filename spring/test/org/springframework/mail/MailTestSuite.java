@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -264,6 +265,31 @@ public class MailTestSuite extends TestCase {
 		}
 	}
 
+	public void testJavaMailSenderWithCustomSession() throws MailException, MessagingException {
+		final Session session = Session.getInstance(new Properties());
+		MockJavaMailSender sender = new MockJavaMailSender() {
+			protected Transport getTransport(Session sess) throws NoSuchProviderException {
+				assertEquals(session, sess);
+				return super.getTransport(session);
+			}
+		};
+		sender.setSession(session);
+		sender.setHost("host");
+		sender.setUsername("username");
+		sender.setPassword("password");
+
+		MimeMessage mimeMessage = sender.createMimeMessage();
+		mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("you@mail.org"));
+		sender.send(mimeMessage);
+
+		assertEquals(sender.transport.getConnectedHost(), "host");
+		assertEquals(sender.transport.getConnectedUsername(), "username");
+		assertEquals(sender.transport.getConnectedPassword(), "password");
+		assertTrue(sender.transport.isCloseCalled());
+		assertEquals(1, sender.transport.getSentMessages().size());
+		assertEquals(mimeMessage, sender.transport.getSentMessage(0));
+	}
+
 	public void testFailedSimpleMessage() throws MessagingException, IOException, MailException {
 		MockJavaMailSender sender = new MockJavaMailSender();
 		sender.setHost("host");
@@ -327,9 +353,10 @@ public class MailTestSuite extends TestCase {
 
 	private static class MockJavaMailSender extends JavaMailSenderImpl {
 
-		private final MockTransport transport = new MockTransport(session, null);
+		private MockTransport transport;
 
-		protected Transport getTransport() throws NoSuchProviderException {
+		protected Transport getTransport(Session session) throws NoSuchProviderException {
+			this.transport = new MockTransport(session, null);
 			return transport;
 		}
 	}

@@ -41,6 +41,7 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 	
 	private MethodOverrides methodOverrides = new MethodOverrides();
 
+
 	/**
 	 * Create a new bean definition.
 	 * @param pvs the PropertyValues to be applied to a new instance of the bean
@@ -64,14 +65,20 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 		return null;
 	}
 
+	/**
+	 * Specify method overrides for the bean, if any.
+	 */
+	public void setMethodOverrides(MethodOverrides methodOverrides) {
+		this.methodOverrides = methodOverrides;
+	}
+	
+	/**
+	 * Return method overrides for the bean, if any.
+	 */
 	public MethodOverrides getMethodOverrides() {
 		return this.methodOverrides;
 	}
-	
-	public void setMethodOverrides(MethodOverrides lookupOverrides) {
-		this.methodOverrides = lookupOverrides;
-	}
-	
+
 	/**
 	 * Set a description of the resource that this bean definition
 	 * came from (for the purpose of showing context in case of errors).

@@ -22,20 +22,24 @@ import java.lang.reflect.Method;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
- * Interface responsible for creating instances corresponding
- * to a root bean definition. This is pulled out into
- * a strategy as various approaches are possible, including
- * using CGLIB to create subclasses on the fly to support
+ * Interface responsible for creating instances corresponding to a
+ * root bean definition.
+ *
+ * <p>This is pulled out into a strategy as various approaches are possible,
+ * including using CGLIB to create subclasses on the fly to support
  * Method Injection.
+ *
  * @author Rod Johnson
  * @version $Id$
  */
 public interface InstantiationStrategy {
 	
-	Object instantiate(RootBeanDefinition rbd, BeanFactory owner);
+	Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner);
 	
-	Object instantiate(RootBeanDefinition rbd, BeanFactory owner, Constructor ctor, Object[] args);
+	Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner,
+										 Constructor ctor, Object[] args);
 	
-	Object instantiate(RootBeanDefinition rbd, BeanFactory owner, Method factoryMethod, Object[] args);
+	Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner,
+										 Method factoryMethod, Object[] args);
 	
 }

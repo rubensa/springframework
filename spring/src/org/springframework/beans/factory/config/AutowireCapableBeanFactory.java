@@ -9,7 +9,7 @@ import org.springframework.beans.factory.BeanFactory;
  * for existing bean instances.
  * @author Juergen Hoeller
  * @since 04.12.2003
- * $Id$
+ * @version $Id$
  */
 public interface AutowireCapableBeanFactory extends BeanFactory {
 

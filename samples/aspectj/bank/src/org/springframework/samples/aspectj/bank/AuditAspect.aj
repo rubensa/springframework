@@ -18,9 +18,19 @@ package org.springframework.samples.aspectj.bank;
 
 
 /**
- * WOULD BE FINE EXCEPT FOR per-instance config?
- * Shared config would work? Is the new state in the class?
- * Is it per-this??
+ * Demonstrates how a singleton aspect can introduce additional state into advised objects.
+ * Whereas the only option in Spring's own AOP framework is to have a distinct mixin
+ * object per advised target, AspectJ allows us to add additional fields and methods
+ * to the advised object itself. This means that the aspect doesn't need to be threadsafe:
+ * it's not holding the state itself.
+ * <p>
+ * This aspect makes Account implement the Audited interface, adding a numberOfChanges
+ * field to Account.
+ * <p>
+ * The "quiet" property is configured by Springt using Dependency Injection.
+ * Note that only Setter Injection is available to configure aspects, as there is no constructor.
+ * We obtain aspect instances using the static aspectOf() method, and can then invoke setter methods
+ * on them.
  * @author Rod Johnson
  * @version $Id$
  */

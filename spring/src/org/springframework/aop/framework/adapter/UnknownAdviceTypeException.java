@@ -9,7 +9,8 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.AopConfigException;
 
 /**
- * 
+ * Exception thrown when an attempt is made to use an unsupported
+ * Advisor or Advice type.
  * @author Rod Johnson
  * @version $Id$
  */

@@ -21,7 +21,7 @@ import com.meterware.httpunit.WebResponse;
 /**
  * AllTests
  * 
- * Not every use case is covered here since the point is to exrcise the 
+ * Not every use case is covered here since the point is to exercise the 
  * Spring code rather than the application code.  Tests implemented here 
  * are sufficient to check all aspects of Spring that the sample app
  * makes use of.

@@ -6,8 +6,6 @@ import java.util.List;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
-import org.springframework.util.StringUtils;
-
 /**
  * Combined exception, composed of individual binding exceptions.
  * An object of this class is created at the beginning of the binding

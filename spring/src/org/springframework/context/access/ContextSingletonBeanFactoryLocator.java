@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.access.BeanFactoryLocator;
 import org.springframework.beans.factory.access.SingletonBeanFactoryLocator;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -33,6 +32,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * @author Colin Sampaleanu
  * @version $Revision$
  * @see org.springframework.context.access.DefaultLocatorFactory
+ * @version $Id$
  */
 public class ContextSingletonBeanFactoryLocator extends SingletonBeanFactoryLocator {
 

@@ -5,7 +5,6 @@ import java.util.Properties;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
-import org.springframework.beans.PropertyValue;
 
 /**
  * A property resource configurer that overrides bean property values in an application
@@ -35,6 +34,7 @@ import org.springframework.beans.PropertyValue;
  * @author Juergen Hoeller
  * @since 12.03.2003
  * @see PropertyPlaceholderConfigurer
+ * @version $Id$
  */
 public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 

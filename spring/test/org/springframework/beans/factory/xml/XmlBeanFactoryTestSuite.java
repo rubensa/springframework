@@ -207,6 +207,13 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertTrue(inherits.getAge() == 1);
 	}
 
+	public void testGetBeansOfTypeWithParentWithoutClass() {
+		XmlBeanFactory parent = new XmlBeanFactory(new ClassPathResource("parent.xml", getClass()));
+		Map tbs = parent.getBeansOfType(TestBean.class, true, true);
+		assertEquals(2, tbs.size());
+		assertTrue(parent.isSingleton("inheritedTestBeanWithoutClass"));
+	}
+
 	public void testDependenciesMaterializeThis() throws Exception {
 		InputStream pis = getClass().getResourceAsStream("dependenciesMaterializeThis.xml");
 		XmlBeanFactory bf = new XmlBeanFactory(pis);

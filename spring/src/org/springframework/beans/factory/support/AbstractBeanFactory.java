@@ -253,11 +253,13 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory {
 			}
 			else {
 				RootBeanDefinition bd = getMergedBeanDefinition(beanName, false);
-				beanClass = bd.getBeanClass();
+				if (bd.hasBeanClass()) {
+					beanClass = bd.getBeanClass();
+				}
 				singleton = bd.isSingleton();
 			}
 			// in case of FactoryBean, return singleton status of created object if not a dereference
-			if (FactoryBean.class.isAssignableFrom(beanClass) && !isFactoryDereference(name)) {
+			if (beanClass != null && FactoryBean.class.isAssignableFrom(beanClass) && !isFactoryDereference(name)) {
 				FactoryBean factoryBean = (FactoryBean) getBean(FACTORY_BEAN_PREFIX + beanName);
 				return factoryBean.isSingleton();
 			}

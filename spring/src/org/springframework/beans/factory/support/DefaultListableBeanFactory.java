@@ -102,16 +102,31 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		List matches = new ArrayList();
 		Iterator it = this.beanDefinitionNames.iterator();
 		while (it.hasNext()) {
-			String name = (String) it.next();
-			if (type == null || type.isAssignableFrom(getMergedBeanDefinition(name, false).getBeanClass())) {
-				matches.add(name);
+			String beanName = (String) it.next();
+			if (isBeanDefinitionTypeMatch(beanName, type)) {
+				matches.add(beanName);
 			}
 		}
 		return (String[]) matches.toArray(new String[matches.size()]);
 	}
 
-	public boolean containsBeanDefinition(String name) {
-		return this.beanDefinitionMap.containsKey(name);
+	/**
+	 * Determine whether the bean definition with the given name matches
+	 * the given type.
+	 * @param beanName the name of the bean to check
+	 * @param type class or interface to match, or null for all bean names
+	 * @return whether the type matches
+	 */
+	protected boolean isBeanDefinitionTypeMatch(String beanName, Class type) {
+		if (type == null) {
+			return true;
+		}
+		RootBeanDefinition rbd = getMergedBeanDefinition(beanName, false);
+		return (rbd.hasBeanClass() && type.isAssignableFrom(rbd.getBeanClass()));
+	}
+
+	public boolean containsBeanDefinition(String beanName) {
+		return this.beanDefinitionMap.containsKey(beanName);
 	}
 
 	public Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans)

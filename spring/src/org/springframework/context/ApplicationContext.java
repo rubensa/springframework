@@ -58,14 +58,6 @@ public interface ApplicationContext extends MessageSource, ListableBeanFactory, 
 	long getStartupDate();
 
 	/**
-	 * Return context options. These control reloading etc.
-	 * <p>ApplicationContext implementations may subclass ContextOptions to
-	 * add additional properties. It must always be a bean.
-	 * @return context options (must not be null).
-	 */
-	ContextOptions getOptions();
-
-	/**
 	 * Notify all listeners registered with this application of an application
 	 * event. Events may be framework events (such as RequestHandledEvent)
 	 * or application-specific events.

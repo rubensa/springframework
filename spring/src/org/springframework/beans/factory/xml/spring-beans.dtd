@@ -30,11 +30,19 @@
 	$Id$
 -->
 
+<!--
+	Element containing informative text describing the purpose of the enclosing
+	element. Always optional.
+	Used primarily for user documentation of XML bean definition documents.
+-->
+<!ELEMENT description (#PCDATA)>
+
 <!-- 
 	The document root.
 	At least one bean definition is required.
 -->
 <!ELEMENT beans (
+		description?,
         bean+
 )>
 
@@ -50,7 +58,8 @@
 	Defines a single named bean.
 -->
 <!ELEMENT bean (
-        (constructor-arg | property)*
+	description?,
+    (constructor-arg | property)*
 )>
 
 <!--
@@ -175,7 +184,8 @@
 	This is an alternative to "autowire constructor".
 -->
 <!ELEMENT constructor-arg (
-        (value | ref | list | map | props)
+	description?,
+    (value | ref | list | map | props)
 )>
 
 <!--
@@ -192,7 +202,8 @@
 	beans in the same or related factories, lists, maps and properties.
 -->
 <!ELEMENT property (
-        (value | ref | list | map | props)
+	description?,
+   (value | ref | list | map | props)
 )>
 
 <!--

@@ -43,5 +43,14 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		pf.addAdvice(0, ti);
 		return pf.getProxy();
 	}
+	
+	/**
+	 * Bit of a hack: we need at least one test method on this class
+	 * (as opposed to inherited test methods)
+	 * to interest Eclipse in running it as a test case
+	 */
+	public void testMe() {
+		
+	}
 
 }

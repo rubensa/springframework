@@ -62,14 +62,14 @@
                     <strong>Description:</strong><br/>
                     <xsl:value-of select="beans/description"/>
                 </p>
-		                
-			    <p class="beanAttributeSummary">
-					<strong>Attributes</strong>
-					<table summary="Attribute list for this context file">
-						<xsl:apply-templates select="beans/@*"/>
-					</table>
-				</p>	
-				
+                        
+                <p class="beanAttributeSummary">
+                    <strong>Attributes</strong>
+                    <table summary="Attribute list for this context file">
+                        <xsl:apply-templates select="beans/@*"/>
+                    </table>
+                </p>    
+                
                 <br style="clear:both"/>
 
                 <a name="summary"><xsl:comment>::</xsl:comment></a>
@@ -95,7 +95,7 @@
                 <xsl:apply-templates select="beans/bean"/>
                 
                 <p id="pageFooter">
-                	<xsl:value-of select="beans/@beandocPageFooter"/>
+                    <xsl:value-of select="beans/@beandocPageFooter"/>
                 </p>
             </body>
         </html>
@@ -108,31 +108,31 @@
      * attributes) for a given node
     -->
     <xsl:template match="@*">
-		<xsl:if test="substring(name(), 1, 7) != 'beandoc'">
-		<tr><td class="keyLabel"><xsl:value-of select="name()"/></td>
-		<td>
-		<xsl:choose>
-			<xsl:when test="name()='class'">
-				<xsl:choose>
-					<xsl:when test="../@beandocJavaDoc">
-						<a class="classValue mono" href="{../@beandocJavaDoc}" target="secondary">
-							<xsl:value-of select="."/>
-						</a>
-					</xsl:when>
-					<xsl:otherwise>                     
-						<span class="classValue mono"><xsl:value-of select="."/></span>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:when>
-			<xsl:when test="name()='parent'">
-				<a class="classValue mono" href="{../@beandocHtmlFileName}#{.}">
-					<img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
-				</a> 
-			</xsl:when>
-			<xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
-		</xsl:choose>
-		</td></tr>
-		</xsl:if>
+        <xsl:if test="substring(name(), 1, 7) != 'beandoc'">
+        <tr><td class="keyLabel"><xsl:value-of select="name()"/></td>
+        <td>
+        <xsl:choose>
+            <xsl:when test="name()='class'">
+                <xsl:choose>
+                    <xsl:when test="../@beandocJavaDoc">
+                        <a class="classValue mono" href="{../@beandocJavaDoc}" target="secondary">
+                            <xsl:value-of select="."/>
+                        </a>
+                    </xsl:when>
+                    <xsl:otherwise>                     
+                        <span class="classValue mono"><xsl:value-of select="."/></span>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:when test="name()='parent'">
+                <a class="classValue mono" href="{../@beandocHtmlFileName}#{.}">
+                    <img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
+                </a> 
+            </xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+        </xsl:choose>
+        </td></tr>
+        </xsl:if>
     </xsl:template>
     
     
@@ -187,11 +187,11 @@
         </xsl:if>       
         
         <p class="beanAttributeSummary">
-			<strong>Attributes</strong>
-			<table summary="Attribute list for this bean">
-				<xsl:apply-templates select="./@*"/>
-			</table>
-		</p>
+            <strong>Attributes</strong>
+            <table summary="Attribute list for this bean">
+                <xsl:apply-templates select="./@*"/>
+            </table>
+        </p>
         
         <!-- ctor args / dependencies / properties -->
         <xsl:if test="count(./constructor-arg)>0">
@@ -203,12 +203,15 @@
             </tbody>
         </table>
         </xsl:if>
-        <xsl:if test="count(./property)>0">
-        <p><strong>Dependencies and properties:</strong></p>
+        
+        <xsl:if test="count(./property)>0 or count(./lookup-method)>0 or count(./replaced-method)>0">
+        <p><strong>Dependencies, properties and method injection:</strong></p>
         <table class="invisibleTable" summary="List of dependencies and public properties">
             <tbody>
                 <!-- properties -->
-                <xsl:apply-templates select="./property"/>                  
+                <xsl:apply-templates select="./property"/>
+                <xsl:apply-templates select="./lookup-method"/>
+                <xsl:apply-templates select="./replaced-method"/>
             </tbody>
         </table>
         </xsl:if>
@@ -246,7 +249,44 @@
     
     
 
-    <xsl:template match="value" name="value">
+    <xsl:template match="lookup-method">
+        <tr>
+            <td class="keyLabel">
+                lookup-method
+            </td>
+            <td>
+                name: <xsl:value-of select="@name"/><br/>
+                bean: 
+                <a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{@bean}">
+                    <img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="@bean"/>
+                </a>
+            </td>   
+        </tr>
+    </xsl:template>
+    
+    
+    <xsl:template match="replaced-method">
+        <tr>
+            <td class="keyLabel">
+                replaced-method
+            </td>
+            <td>
+                name: <xsl:value-of select="@name"/><br/>
+                replacer: 
+                <a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{@replacer}">
+                    <img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="@replacer"/>
+                </a>
+                <xsl:if test="count(./arg-type)>0">
+                    <br/><br/><strong>arg-types:</strong><br/>
+                    <xsl:apply-templates/>
+                </xsl:if>
+            </td>   
+        </tr>
+    </xsl:template>
+    
+    
+    
+    <xsl:template match="value | arg-type" name="value">
         <xsl:value-of select="."/><br/>
     </xsl:template>   
     

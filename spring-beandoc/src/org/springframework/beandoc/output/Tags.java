@@ -24,7 +24,7 @@ package org.springframework.beandoc.output;
  * @since 1.0
  */
 public class Tags {
-    
+
     public static final String TAGNAME_BEANS = "beans";
 
     public static final String TAGNAME_BEAN = "bean";
@@ -32,6 +32,10 @@ public class Tags {
     public static final String TAGNAME_IDREF = "idref";
 
     public static final String TAGNAME_REF = "ref";
+    
+    public static final String TAGNAME_LOOKUP = "lookup-method";
+
+    public static final String TAGNAME_REPLACE = "replaced-method";
 
     public static final String TAGNAME_DESCRIPTION = "description";
 

@@ -97,7 +97,7 @@ public class OptimizedCglibProxyTests extends CglibProxyTests {
 			}
 		};
 		AdvisedSupport pc = new AdvisedSupport(new Class[] { ITestBean.class });
-		pc.setExposeInvocation(true);
+		pc.addInterceptor(ExposeInvocationInterceptor.INSTANCE);
 		pc.addInterceptor(mi);
 	
 		// We don't care about the object

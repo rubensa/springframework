@@ -100,7 +100,7 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 			};
 		
 			AdvisedSupport pc = new AdvisedSupport(new Class[] { ITestBean.class, IOther.class });
-			pc.setExposeInvocation(true);
+			pc.addInterceptor(ExposeInvocationInterceptor.INSTANCE);
 			TrapTargetInterceptor tii = new TrapTargetInterceptor() {
 				public Object invoke(MethodInvocation invocation) throws Throwable {
 					// Assert that target matches BEFORE invocation returns

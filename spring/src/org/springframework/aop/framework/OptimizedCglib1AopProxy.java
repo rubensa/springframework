@@ -83,9 +83,7 @@ final class OptimizedCglib1AopProxy extends Cglib1AopProxy implements MethodFilt
 	public final Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
 	
 		MethodInvocation invocation = null;
-		MethodInvocation oldInvocation = null;
 		Object oldProxy = null;
-		boolean setInvocationContext = false;
 		boolean setProxyContext = false;	
 		
 		try {
@@ -111,18 +109,6 @@ final class OptimizedCglib1AopProxy extends Cglib1AopProxy implements MethodFilt
 			
 			invocation = new OptimizedCglibMethodInvocation(proxy, target, targetClass, method, args, 
 							targetClass, chain, methodProxy);
-
-		
-			if (this.advised.exposeInvocation) {
-				// Make invocation available if necessary.
-				// Save the old value to reset when this method returns
-				// so that we don't blow away any existing state
-				oldInvocation = AopContext.setCurrentInvocation(invocation);
-				// We need to know whether we actually set it, as
-				// this block may not have been reached even if exposeInvocation
-				// is true
-				setInvocationContext = true;
-			}
 			
 			if (this.advised.exposeProxy) {
 				// Make invocation available if necessary
@@ -142,12 +128,7 @@ final class OptimizedCglib1AopProxy extends Cglib1AopProxy implements MethodFilt
 			}
 			return retVal;
 		}
-		finally {
-			// Never need to release			
-			if (setInvocationContext) {
-				// Restore old invocation, which may be null
-				AopContext.setCurrentInvocation(oldInvocation);
-			}
+		finally {			
 			if (setProxyContext) {
 				// Restore old proxy
 				AopContext.setCurrentProxy(oldProxy);

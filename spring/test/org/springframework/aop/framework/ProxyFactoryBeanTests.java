@@ -203,7 +203,6 @@ public class ProxyFactoryBeanTests extends TestCase {
 
 	public void testCanGetFactoryReferenceAndManipulate() {
 		ProxyFactoryBean config = (ProxyFactoryBean) factory.getBean("&test1");
-		assertTrue(config.getExposeInvocation() == false);
 		assertEquals("Have one advisors", 1, config.getAdvisors().length);
 		
 		ITestBean tb = (ITestBean) factory.getBean("test1");

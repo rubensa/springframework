@@ -25,13 +25,6 @@ import org.springframework.aop.Advisor;
 public interface Advised {
 	
 	/**
-	 * Get whether the factory should expose the AOP Alliance method invocation as a ThreadLocal
-	 * @return whether the factory should expose the AOP Alliance method invocation as a ThreadLocal
-	 * @see AopContext
-	 */
-	boolean getExposeInvocation();
-	
-	/**
 	 * Get whether the factory should expose the proxy as a ThreadLocal. 
 	 * This can be necessary if a target object needs to invoke a method on itself
 	 * benefitting from advice. (If it invokes a method on <code>this</code> no advice

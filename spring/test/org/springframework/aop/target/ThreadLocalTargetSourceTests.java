@@ -10,6 +10,7 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.springframework.aop.interceptor.SideEffectBean;
+import org.springframework.beans.ITestBean;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 
 /**
@@ -44,6 +45,22 @@ public class ThreadLocalTargetSourceTests extends TestCase {
 	 */
 	protected void tearDown() {
 		this.beanFactory.destroySingletons();
+	}
+	
+	/**
+	 * Check we can use two different ThreadLocalTargetSources
+	 * managing objects of different types without them interfering
+	 * with one another.
+	 */
+	public void testUseDifferentManagedInstancesInSameThread() {
+			SideEffectBean apartment = (SideEffectBean) beanFactory.getBean("apartment");
+		assertEquals(INITIAL_COUNT, apartment.getCount() );
+		apartment.doWork();
+		assertEquals(INITIAL_COUNT + 1, apartment.getCount() );
+	
+		ITestBean test = (ITestBean) beanFactory.getBean("threadLocal2");
+		assertEquals("Rod", test.getName());
+		assertEquals("Kerry", test.getSpouse().getName());
 	}
 
 	public void testReuseInSameThread() {

@@ -35,9 +35,10 @@ public final class ThreadLocalTargetSource extends AbstractPrototypeTargetSource
 	
 	/**
 	 * ThreadLocal holding the target associated with the current
-	 * thread.
+	 * thread. Unlike most ThreadLocals, which are static, this variable
+	 * is meant to be per thread per instance of the ThreadLocalTargetSource class.
 	 */
-	private static ThreadLocal holders = new ThreadLocal();
+	private ThreadLocal holders = new ThreadLocal();
 	
 	/**
 	 * Level of indirection so that we can clear the references out of

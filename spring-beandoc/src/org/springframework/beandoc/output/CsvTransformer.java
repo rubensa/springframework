@@ -61,6 +61,7 @@ public class CsvTransformer implements Transformer {
                 out.close();
                 
             } catch (IOException e) {
+                // should be handled properly!
                 e.printStackTrace();
             }
         }

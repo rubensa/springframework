@@ -23,7 +23,7 @@
 
     <programlisting>input.files=/projects/my-spring-project/*.xml
 output.dir=/projects/my-spring-project/beandoc/
-graphVizTransformer.dotExe=C:/Program Files/ATT/GraphViz/bin/dot.exe</programlisting>
+graphVizCompiler.dotExe=C:/Program Files/ATT/GraphViz/bin/dot.exe</programlisting>
 
     <para>The above values are saved in a properties file, the location and
     name of which can be anything you like, but I'll assume it's been saved as
@@ -86,7 +86,7 @@ ml ../target/output/ /projects/my-spring-project/beandoc.properties</programlist
     </sect2>
 
     <sect2>
-      <title>Running from an Ant script</title>
+      <title id="running-ant">Running from an Ant script</title>
 
       <para>Once again, the samples directory contains an example build file
       showing how to use BeanDoc as an Ant task, and a couple of shell scripts
@@ -293,7 +293,7 @@ graphVizDecorator.graphYSize=8.5</programlisting>
   </sect1>
 
   <sect1>
-    <title>Advanced configuration</title>
+    <title id="running-advanced">Advanced configuration</title>
 
     <para>As you may already have worked out, the beandoc.properties file is
     used to post-process a Spring bean factory that the BeanDoc tool uses to
@@ -340,37 +340,6 @@ htmlDetailTransformer.templateName=classpath:my/detail/stylesheet.xsl</programli
       context files for more information. If you need additional attributes or
       amended elements, you will need to define your own Decorator and add it
       to the decorator map. See <xref linkend="extending-decorators" /></para>
-    </sect2>
-
-    <sect2>
-      <title>Replacing context file</title>
-
-      <para>Should you have a need to define your own
-      <literal>Decorator</literal> or <literal>Transformer</literal>
-      implementations (see <xref linkend="extending" />) or if you wish to add
-      newly configured beans based on existing implementations such as the
-      <literal>EchoTransformer</literal>, you will need to tell BeanDoc to use
-      a different context definition file. This can be achieved via the Ant
-      task with an attribute to the <literal>beandoc</literal> task;</para>
-
-      <programlisting>&lt;!--
-  ant task definition specifying a new context file for complete control
-  over the beandoc operation.
---&gt;
-&lt;beandoc 
-  inputFiles="${basedir}/petclinic/*.xml" 
-  outputDir="/some/other/outputdir/html/"
-  beandocContext="${basedir}/alternative-beandoc.xml"
-/&gt;</programlisting>
-
-      <para>A sample context definition file is in the samples folder of the
-      BeanDoc distribution which will get you started.</para>
-    </sect2>
-
-    <sect2>
-      <title>Interacting programatically</title>
-
-      <para>[todo]</para>
     </sect2>
   </sect1>
 </chapter>

@@ -24,8 +24,14 @@
     			<ref local="htmlIndexTransformer"/>
 				<ref local="htmlNavigationTransformer"/>
     			<ref local="htmlMainTransformer"/> 
-			    <ref local="htmlDetailTransformer"/>    
-    			<ref local="graphVizTransformer"/>  
+			    <ref local="htmlDocTransformer"/>    
+			    <ref local="htmlImageMapTransformer"/>    
+    			<ref local="dotFileTransformer"/>  
+    		</list>
+    	</property>    	    	
+    	<property name="compilers">
+    		<list>
+				<ref local="htmlGraphVizCompiler"/>
     		</list>
     	</property>    	
     </bean>   
@@ -60,14 +66,26 @@
     	<property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
     </bean>
     
-    <bean id="htmlDetailTransformer" class="org.springframework.beandoc.output.HtmlDetailTransformer">
+    <bean id="htmlDocTransformer" class="org.springframework.beandoc.output.SimpleTransformer">
     	<description>
 	    	Transformer generating an HTML document for each input DOM.  A summary of beans followed by
 	    	the detailed configuration of each follows.
 	    </description>
     	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/doc.xsl</value></property>
+    	<property name="fileExtension"><value>.html</value></property>
+    </bean>
+    
+    <bean id="htmlImageMapTransformer" class="org.springframework.beandoc.output.SimpleTransformer">
+    	<description>
+	    	Transformer generating an HTML document for each input DOM.  A placeholder for an image map is
+	    	included that the HtmlCompiler will use to insert the generated image map over the graph.
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/map.xsl</value></property>
+    	<property name="fileExtension"><value>-graph.html</value></property>
     </bean>
       
-	<bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer"/>
+	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer"/>
+	
+	<bean id="htmlGraphVizCompiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
     
 </beans>

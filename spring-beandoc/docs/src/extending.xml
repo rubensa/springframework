@@ -128,16 +128,85 @@
                 out.close();
                 
             } catch (IOException e) {
+                // should be handled properly!
                 e.printStackTrace();
             }
         }
     }
 }</programlisting>
+
+    <note>
+      <para>The class is instructive only, it clearly doesn't attempt to
+      handle exceptions correctly or ensure that resources are flushed or
+      closed under such cases.</para>
+    </note>
+
+    <para>The two classes detailed above are included in the main source tree
+    of BeanDoc and compiled into spring-beandoc.jar. If you do want to try
+    them out, you only need folllow the instructions in the next
+    section.</para>
+  </sect1>
+
+  <sect1>
+    <title>Writing DocumentCompilers</title>
+
+    <para>[todo]</para>
   </sect1>
 
   <sect1>
     <title>Supplying a new context definition file</title>
 
-    <para>[todo]</para>
+    <para>If you are extending BeanDoc with your own classes such as those
+    outlined in this chapter, you will need to instruct the ContextProcessor
+    implementation to use them. BeanDoc uses a Spring bean factory to
+    configure itself and the Ant task has an attribute that permits you to
+    specify a context definition file to override the internal one. This is
+    what you must do in order to make use of your new
+    <literal>Decorator</literal> or <literal>Transformer</literal>
+    implementations.</para>
+
+    <para>The samples directory contains a context file that includes the CSV
+    output classes as part of the <literal>List</literal> of
+    <literal>Decorator</literal> and <literal>Transformer</literal>
+    implementations supplied to the processor;</para>
+
+    <programlisting>&lt;bean id="processor" class="org.springframework.beandoc.DefaultContextProcessor"&gt;
+    &lt;description&gt;
+        main processor for generating output
+    &lt;/description&gt;
+    &lt;constructor-arg index="0"&gt;&lt;value&gt;${input.files}&lt;/value&gt;&lt;/constructor-arg&gt;
+    &lt;constructor-arg index="1"&gt;&lt;value&gt;${output.dir}&lt;/value&gt;&lt;/constructor-arg&gt;
+    &lt;property name="decorators"&gt;
+        &lt;list&gt;
+            &lt;ref local="javaDocDecorator"/&gt;
+            &lt;ref local="htmlDecorator"/&gt; 
+            &lt;ref local="graphVizDecorator"/&gt;
+            <emphasis role="bold">&lt;ref local="csvDecorator"/&gt;</emphasis> 
+        &lt;/list&gt;
+    &lt;/property&gt;
+    &lt;property name="transformers"&gt;
+        &lt;list&gt;
+            &lt;ref local="htmlIndexTransformer"/&gt;
+            &lt;ref local="htmlNavigationTransformer"/&gt;
+            &lt;ref local="htmlMainTransformer"/&gt; 
+            &lt;ref local="htmlDetailTransformer"/&gt;    
+            &lt;ref local="graphVizTransformer"/&gt;   
+            <emphasis role="bold">&lt;ref local="csvTransformer"/&gt;</emphasis>
+        &lt;/list&gt;
+    &lt;/property&gt;     
+&lt;/bean&gt;</programlisting>
+
+    <para>Your <literal>&lt;beandoc/&gt;</literal> task in Ant's buildfile
+    will need to be told where your alternative context definition file is,
+    for example;</para>
+
+    <programlisting>&lt;beandoc 
+    inputFiles="${basedir}/petclinic/*.xml" 
+    outputDir="/some/other/outputdir/html/"
+    beandocContext="${basedir}/alternative-beandoc.xml"
+/&gt;</programlisting>
+
+    <para>See <xref linkend="running-ant" /> for information on running
+    BeanDoc from an Ant script.</para>
   </sect1>
 </chapter>

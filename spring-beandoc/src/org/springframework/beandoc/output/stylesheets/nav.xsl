@@ -30,7 +30,6 @@
         doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
         />
-    <xsl:param name="beandocXslGraphType">png</xsl:param> 
 
     <!--
      * Template structure of HTML output

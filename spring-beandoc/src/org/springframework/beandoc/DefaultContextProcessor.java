@@ -26,6 +26,7 @@ import org.jdom.*;
 import org.jdom.filter.ContentFilter;
 import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
+import org.springframework.beandoc.output.*;
 import org.springframework.beandoc.output.Decorator;
 import org.springframework.beandoc.output.Tags;
 import org.springframework.beandoc.output.Transformer;
@@ -67,6 +68,8 @@ public class DefaultContextProcessor implements ContextProcessor {
     private List transformers;
     
     private List decorators;
+    
+    private List compilers;
 
     private List ignoreBeans = new LinkedList();
 
@@ -196,6 +199,11 @@ public class DefaultContextProcessor implements ContextProcessor {
             if (transformers != null && transformers.size() > 0)
                 for (Iterator i = transformers.iterator(); i.hasNext();)
                     ((Transformer) i.next()).transform(contextDocuments, outputDir);          
+                    
+            // apply compilers to build final output
+            if (compilers != null && compilers.size() > 0)
+                for (Iterator i = compilers.iterator(); i.hasNext();)
+                    ((DocumentCompiler) i.next()).compile(outputDir);                      
                   
         }
         
@@ -411,6 +419,22 @@ public class DefaultContextProcessor implements ContextProcessor {
      */
     public void setDecorators(List list) {
         decorators = list;
+    }
+
+    /**
+     * @return the List of DocumentCompiler implementations that will plug various pieces of
+     * transformed output together
+     */
+    public List getCompilers() {
+        return compilers;
+    }
+
+    /**
+     * @param list the List of DocumentCompiler implementations that will plug various pieces of
+     * transformed output together
+     */
+    public void setCompilers(List list) {
+        compilers = list;
     }
 
     /**

@@ -56,7 +56,7 @@
                 
                 <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
                 <p>
-                    <a href="{$fileRoot}.{beans/@beandocGraphType}" title="View full size image">
+                    <a href="{$fileRoot}-graph.html" title="View full size image">
                         <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
                     </a>
                     

@@ -10,11 +10,16 @@ package org.springframework.rules.values;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * @author Keith Donald
  */
 public class DefaultFormModel implements FormModel {
-    private AspectAccessStrategy domainObjectAccessStrategy;
+    protected static final Log logger = LogFactory.getLog(DefaultFormModel.class);
+
+    private MutableAspectAccessStrategy domainObjectAccessStrategy;
 
     private ValueModel domainObjectHolder;
 
@@ -35,11 +40,13 @@ public class DefaultFormModel implements FormModel {
         this.domainObjectHolder = domainObjectHolder;
     }
 
-    public DefaultFormModel(AspectAccessStrategy domainObjectAccessStrategy) {
+    public DefaultFormModel(
+            MutableAspectAccessStrategy domainObjectAccessStrategy) {
         this(domainObjectAccessStrategy, true);
     }
 
-    public DefaultFormModel(AspectAccessStrategy domainObjectAccessStrategy,
+    public DefaultFormModel(
+            MutableAspectAccessStrategy domainObjectAccessStrategy,
             boolean bufferChanges) {
         this.domainObjectAccessStrategy = domainObjectAccessStrategy;
         this.commitTrigger = new ValueHolder(null);
@@ -61,7 +68,11 @@ public class DefaultFormModel implements FormModel {
         return false;
     }
 
-    protected AspectAccessStrategy getAccessStrategy() {
+    protected Class getDomainObjectClass() {
+        return domainObjectAccessStrategy.getDomainObject().getClass();
+    }
+
+    protected MutableAspectAccessStrategy getAccessStrategy() {
         return domainObjectAccessStrategy;
     }
 

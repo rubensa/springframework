@@ -16,15 +16,15 @@ package org.springframework.rules.values;
 public class AspectAdapter extends AbstractValueModel {
     private String aspect;
 
-    private AspectAccessStrategy aspectAccessStrategy;
+    private MutableAspectAccessStrategy aspectAccessStrategy;
 
-    public AspectAdapter(AspectAccessStrategy aspectAccessStrategy,
+    public AspectAdapter(MutableAspectAccessStrategy aspectAccessStrategy,
             String aspect) {
         this(null, aspectAccessStrategy, aspect);
     }
 
     public AspectAdapter(final ValueModel domainObjectHolder,
-            AspectAccessStrategy aspectAccessStrategy, String aspect) {
+            MutableAspectAccessStrategy aspectAccessStrategy, String aspect) {
         if (domainObjectHolder != null) {
             if (logger.isDebugEnabled()) {
                 logger

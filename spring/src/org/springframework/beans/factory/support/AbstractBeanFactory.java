@@ -32,6 +32,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.PropertyValuesProviderFactoryBean;
 
 /**
  * Abstract superclass that makes implementing a BeanFactory very easy.
@@ -255,9 +256,12 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory {
 				beanInstance = factory.getObject();
 
 				// Set pass-through properties
-				if (factory.getPropertyValues() != null) {
-					logger.debug("Applying pass-through properties to bean with name '" + name + "'");
-					new BeanWrapperImpl(beanInstance).setPropertyValues(factory.getPropertyValues());
+				if (factory instanceof PropertyValuesProviderFactoryBean) {
+					PropertyValues pvs = ((PropertyValuesProviderFactoryBean) factory).getPropertyValues(name);
+					if (pvs != null) {
+						logger.debug("Applying pass-through properties to bean with name '" + name + "'");
+						new BeanWrapperImpl(beanInstance).setPropertyValues(pvs);
+					}
 				}
 				// Initialization is really up to factory
 				//invokeInitializerIfNecessary(beanInstance);

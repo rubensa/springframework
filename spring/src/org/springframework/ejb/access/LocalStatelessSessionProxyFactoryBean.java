@@ -7,7 +7,6 @@ package org.springframework.ejb.access;
 
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
@@ -69,10 +68,6 @@ public class LocalStatelessSessionProxyFactoryBean extends LocalSlsbInvokerInter
 
 	public boolean isSingleton() {
 		return true;
-	}
-
-	public PropertyValues getPropertyValues() {
-		return null;
 	}
 
 }

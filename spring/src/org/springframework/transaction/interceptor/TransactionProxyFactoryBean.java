@@ -10,7 +10,6 @@ import org.springframework.aop.framework.AopProxy;
 import org.springframework.aop.framework.DefaultProxyConfig;
 import org.springframework.aop.framework.InvokerInterceptor;
 import org.springframework.aop.framework.MethodPointcut;
-import org.springframework.beans.PropertyValues;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -144,10 +143,6 @@ public class TransactionProxyFactoryBean extends DefaultProxyConfig implements F
 
 	public boolean isSingleton() {
 		return true;
-	}
-
-	public PropertyValues getPropertyValues() {
-		return null;
 	}
 
 }

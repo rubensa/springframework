@@ -20,7 +20,7 @@ import org.springframework.beans.factory.support.AbstractFactoryBean;
  * @since 10-Mar-2003
  * version $Id$
  */
-public class DummyFactory extends AbstractFactoryBean implements InitializingBean {
+public class DummyFactory extends AbstractFactoryBean implements InitializingBean, PropertyValuesProviderFactoryBean {
 	
 	public static final String SINGLETON_NAME = "Factory singleton";
 	

@@ -254,7 +254,7 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 	 * Check that passthrough values work
 	 * @throws Exception
 	 */
-	public void testFactoryPassesThroughPropertyValues() throws Exception {
+	public void testPassthroughFactoryPassesThroughPropertyValues() throws Exception {
 		TestBean tb = (TestBean) getBeanFactory().getBean("factoryPassThrough");
 		assertTrue("Name property was passed through: incorrect value was '" + tb.getName() + "'", 
 				tb.getName().equals("passThrough"));

@@ -36,7 +36,7 @@ import org.springframework.transaction.CountingTxManager;
  * Abstract tests for EnterpriseServices. Subclasses must
  * load the appropriate bean factory defining the necessary beans
  * and their transaction attributes.
- * See the enterpriseServics.xml file for definitions of beans;
+ * See the enterpriseServices.xml file for definitions of beans;
  * define the EnterpriseServices bean in a separate file to
  * change how attributes are source. 
  * @author Rod Johnson

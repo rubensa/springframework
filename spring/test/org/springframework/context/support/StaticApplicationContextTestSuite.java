@@ -99,20 +99,35 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 				           bean.getClass().getName().indexOf("EnhancedByCGLIB") != -1);
 			}
 		}
+		ACATest aca = (ACATest) getListableBeanFactory().getBean("aca");
+		aca.getApplicationContext();
+		aca.getApplicationContext();
+		ACATest acaPr = (ACATest) getListableBeanFactory().getBean("aca-prototype");
+		acaPr.getApplicationContext();
 		TestInterceptor ti = (TestInterceptor) getListableBeanFactory().getBean("testInterceptorForCreator");
 		assertEquals(2, ti.nrOfInvocations);
+		TestAutoProxyCreator tapc = (TestAutoProxyCreator) getListableBeanFactory().getBean("testAutoProxyCreator");
+		assertEquals(3, tapc.testInterceptor.nrOfInvocations);
 	}
 
 
 	public static class TestAutoProxyCreator extends AbstractAutoProxyCreator {
+
+		public TestInterceptor testInterceptor = new TestInterceptor();
 
 		public TestAutoProxyCreator() {
 			setProxyInterfacesOnly(false);
 			setOrder(0);
 		}
 
-		protected boolean isBeanToProxy(Object bean, String name, RootBeanDefinition definition) {
-			return (!(bean instanceof StaticMessageSource));
+		protected Object[] getInterceptorsAndPointcutsForBean(Object bean, String name,
+		                                                      RootBeanDefinition definition) {
+			if (bean instanceof StaticMessageSource)
+				return null;
+			else if (name.startsWith("aca"))
+				return new Object[] {testInterceptor};
+			else
+				return new Object[0];
 		}
 	}
 

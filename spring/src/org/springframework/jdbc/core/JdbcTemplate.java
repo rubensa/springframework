@@ -37,6 +37,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.JdkVersion;
 import org.springframework.dao.DataAccessException;
@@ -270,6 +271,10 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		return (List) query(sql, new RowCallbackHandlerResultSetExtractor(rch));
 	}
 
+	public List query(String sql, RowMapper rowMapper) throws DataAccessException {
+		return query(sql, new RowMapperResultReader(rowMapper));
+	}
+
 	public List queryForList(String sql) throws DataAccessException {
 		return (List) query(sql, new ListResultSetExtractor());
 	}
@@ -432,6 +437,26 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 	public List query(String sql, final Object[] args, RowCallbackHandler rch)
 			throws DataAccessException {
 		return query(sql, new ArgPreparedStatementSetter(args), rch);
+	}
+
+	public List query(PreparedStatementCreator psc, RowMapper rowMapper)
+			throws DataAccessException {
+		return query(psc, new RowMapperResultReader(rowMapper));
+	}
+
+	public List query(String sql, PreparedStatementSetter pss, RowMapper rowMapper)
+			throws DataAccessException {
+		return query(sql, pss, new RowMapperResultReader(rowMapper));
+	}
+
+	public List query(String sql, Object[] args, int[] argTypes, RowMapper rowMapper)
+			throws DataAccessException {
+		return query(sql, args, argTypes, new RowMapperResultReader(rowMapper));
+	}
+
+	public List query(String sql, Object[] args, RowMapper rowMapper)
+			throws DataAccessException {
+		return query(sql, args, new RowMapperResultReader(rowMapper));
 	}
 
 	public List queryForList(String sql, final Object[] args) throws DataAccessException {

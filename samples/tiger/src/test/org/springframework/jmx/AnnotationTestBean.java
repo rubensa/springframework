@@ -9,7 +9,7 @@ import org.springframework.jmx.metadata.support.annotations.ManagedAttribute;
  */
 @ManagedResource(objectName="bean:name=testBean4", description="My Managed Bean", log=true,
         logFile="jmx.log", currencyTimeLimit=15, persistPolicy="OnUpdate", persistPeriod=200,
-        persistLocation="foo", persistName="bar")
+        persistLocation="./foo", persistName="bar.jmx")
 public class AnnotationTestBean implements IJmxTestBean {
 
    private String name;

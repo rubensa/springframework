@@ -11,7 +11,6 @@ import java.lang.annotation.Inherited;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Inherited()
 public @interface ManagedAttribute {
     String defaultValue() default "";
     String description() default "";

@@ -23,20 +23,21 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 	private List adapters = new LinkedList();
 	
 	public DefaultAdvisorAdapterRegistry() {
-		// Register well-known adapters
+		// register well-known adapters
 		registerAdvisorAdapter(new BeforeAdviceAdapter());
-		registerAdvisorAdapter(new ThrowsAdviceAdapter());
 		registerAdvisorAdapter(new AfterReturningAdviceAdapter());
+		registerAdvisorAdapter(new ThrowsAdviceAdapter());
 	}
 
 	public Advisor wrap(Object advice) throws UnknownAdviceTypeException {
-		if (advice instanceof Advisor)
+		if (advice instanceof Advisor) {
 			return (Advisor) advice;
-		if (advice instanceof Interceptor)
+		}
+		if (advice instanceof Interceptor) {
 			return new DefaultInterceptionAroundAdvisor((Interceptor) advice);
-		
-		for (int i = 0; i < adapters.size(); i++) {
-			AdvisorAdapter adapter = (AdvisorAdapter) adapters.get(i);
+		}
+		for (int i = 0; i < this.adapters.size(); i++) {
+			AdvisorAdapter adapter = (AdvisorAdapter) this.adapters.get(i);
 			if (adapter.supportsAdvice(advice)) {
 				return adapter.wrap(advice);
 			}
@@ -45,11 +46,11 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 	}
 
 	public Interceptor getInterceptor(Advisor advisor) throws UnknownAdviceTypeException {
-		if (advisor instanceof InterceptionAroundAdvisor)
+		if (advisor instanceof InterceptionAroundAdvisor) {
 			return ((InterceptionAroundAdvisor) advisor).getInterceptor();
-		
-		for (int i = 0; i < adapters.size(); i++) {
-			AdvisorAdapter adapter = (AdvisorAdapter) adapters.get(i);
+		}
+		for (int i = 0; i < this.adapters.size(); i++) {
+			AdvisorAdapter adapter = (AdvisorAdapter) this.adapters.get(i);
 			if (adapter.supportsAdvisor(advisor)) {
 				return adapter.getInterceptor(advisor);
 			}
@@ -58,7 +59,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 	}
 
 	public void registerAdvisorAdapter(AdvisorAdapter adapter) {
-		adapters.add(adapter);
+		this.adapters.add(adapter);
 	}
 
 }

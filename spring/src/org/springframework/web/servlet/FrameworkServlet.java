@@ -50,9 +50,14 @@ import org.springframework.web.util.WebUtils;
  * If not explicitly specified, the context implementation is supposed to build a
  * default location from the namespace of the servlet.
  *
+ * <p>Note: In case of multiple config locations, later bean definitions will
+ * override ones defined in earlier loaded files, at least when using one of
+ * Spring's default ApplicationContext implementations. This can be leveraged
+ * to deliberately override certain bean definitions via an extra XML file.
+ *
  * <p>The default namespace is "'servlet-name'-servlet", e.g. "test-servlet" for a
  * servlet-name "test" (leading to a "/WEB-INF/test-servlet.xml" default location
- * with XmlWebApplicationContext). The namespace can also be explicitly set via
+ * with XmlWebApplicationContext). The namespace can also be set explicitly via
  * the "namespace" servlet init-param.
  *
  * @author Rod Johnson

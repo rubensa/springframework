@@ -13,6 +13,9 @@ import org.springframework.beans.BeansException;
  *
  * <p>Note that most beans will choose to receive references to collaborating
  * beans via respective bean properties.
+ * 
+ * <strong>Note, </strong>If the bean also implements InitializingBean, this
+ * method will be invoked after InitializingBean's <code>afterPropertiesSet</code>. 
  *
  * @author Rod Johnson
  * @since 11-Mar-2003

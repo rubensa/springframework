@@ -30,7 +30,11 @@ import org.springframework.util.ClassLoaderUtils;
  */
 public class ClassLoaderAnalyzerInterceptor implements MethodInterceptor {
 
-	protected final Log logger = LogFactory.getLog(getClass());
+	/**
+	 * Static to avoid serializing the logger
+	 */
+	protected static final Log logger = LogFactory.getLog(ClassLoaderAnalyzerInterceptor.class);
+
 
 	public Object invoke(MethodInvocation pInvocation) throws Throwable {
 		logger.debug("Begin class loader analysis");

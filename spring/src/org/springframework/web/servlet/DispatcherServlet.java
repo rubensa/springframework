@@ -367,6 +367,7 @@ public class DispatcherServlet extends FrameworkServlet {
 					for (int i = 0; i < mappedHandler.getInterceptors().length; i++) {
 						HandlerInterceptor interceptor = mappedHandler.getInterceptors()[i];
 						if (!interceptor.preHandle(processedRequest, response, mappedHandler.getHandler())) {
+							triggerAfterCompletion(mappedHandler, interceptorIndex, processedRequest, response, null);
 							return;
 						}
 						interceptorIndex = i;

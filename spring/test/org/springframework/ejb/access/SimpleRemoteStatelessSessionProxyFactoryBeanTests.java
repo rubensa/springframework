@@ -53,9 +53,9 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 		
 		SimpleRemoteStatelessSessionProxyFactoryBean fb = new SimpleRemoteStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
+		fb.setResourceRef(true);
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
-		fb.setInContainer(true);
 
 		// Need lifecycle methods
 		fb.afterPropertiesSet();
@@ -93,9 +93,9 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 	
 		SimpleRemoteStatelessSessionProxyFactoryBean fb = new SimpleRemoteStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
+		fb.setResourceRef(true);
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
-		fb.setInContainer(true);
 	
 		// Need lifecycle methods
 		fb.afterPropertiesSet();
@@ -133,7 +133,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 	
 		SimpleRemoteStatelessSessionProxyFactoryBean fb = new SimpleRemoteStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
-		fb.setInContainer(false);	// no java:comp/env prefix
+		// rely on default setting of resourceRef=false, no auto addition of java:/comp/env prefix
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		assertEquals(fb.getBusinessInterface(), MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
@@ -175,7 +175,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 
 		SimpleRemoteStatelessSessionProxyFactoryBean fb = new SimpleRemoteStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
-		fb.setInContainer(false);	// no java:comp/env prefix
+		// rely on default setting of resourceRef=false, no auto addition of java:/comp/env prefix
 		fb.setBusinessInterface(MyLocalBusinessMethods.class);
 		assertEquals(fb.getBusinessInterface(), MyLocalBusinessMethods.class);
 		fb.setJndiTemplate(jt);
@@ -216,7 +216,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 
 		SimpleRemoteStatelessSessionProxyFactoryBean fb = new SimpleRemoteStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
-		fb.setInContainer(false);	// no java:comp/env prefix
+		// rely on default setting of resourceRef=false, no auto addition of java:/comp/env prefix
 		// Don't set business interface
 		fb.setJndiTemplate(jt);
 		

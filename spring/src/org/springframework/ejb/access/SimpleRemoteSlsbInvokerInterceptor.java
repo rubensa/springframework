@@ -41,11 +41,11 @@ public class SimpleRemoteSlsbInvokerInterceptor extends AbstractRemoteSlsbInvoke
 	
 	/**
 	 * Constructor for use as JavaBean.
-	 * Sets "inContainer" to false by default.
-	 * @see #setInContainer
+	 * Sets "resourceRef" to false by default.
+	 * @see #setResourceRef
 	 */
 	public SimpleRemoteSlsbInvokerInterceptor() {
-		setInContainer(false);
+		setResourceRef(false);
 	}
 	
 	/**
@@ -53,9 +53,9 @@ public class SimpleRemoteSlsbInvokerInterceptor extends AbstractRemoteSlsbInvoke
 	 * @see org.springframework.jndi.AbstractJndiLocator#setJndiName
 	 * @see org.springframework.jndi.AbstractJndiLocator#setInContainer
 	 */
-	public SimpleRemoteSlsbInvokerInterceptor(String jndiName, boolean inContainer) throws AspectException {
+	public SimpleRemoteSlsbInvokerInterceptor(String jndiName, boolean resourceRef) throws AspectException {
 		setJndiName(jndiName);
-		setInContainer(inContainer);
+		setResourceRef(resourceRef);
 		try {
 			afterPropertiesSet();
 		}

@@ -60,6 +60,7 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 		
 		LocalStatelessSessionProxyFactoryBean fb = new LocalStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
+		fb.setResourceRef(true);
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
 		
@@ -94,7 +95,7 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 	
 		LocalStatelessSessionProxyFactoryBean fb = new LocalStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
-		fb.setInContainer(false);	// no java:comp/env prefix
+		fb.setResourceRef(false);	// no java:comp/env prefix
 		fb.setBusinessInterface(MyBusinessMethods.class);
 		assertEquals(fb.getBusinessInterface(), MyBusinessMethods.class);
 		fb.setJndiTemplate(jt);
@@ -135,9 +136,9 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 
 		SimpleRemoteStatelessSessionProxyFactoryBean fb = new SimpleRemoteStatelessSessionProxyFactoryBean();
 		fb.setJndiName(jndiName);
+		fb.setResourceRef(true);
 		// Don't set business interface
 		fb.setJndiTemplate(jt);
-		fb.setInContainer(true);
 
 		// Check it's a singleton
 		assertTrue(fb.isSingleton());

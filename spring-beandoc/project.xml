@@ -4,15 +4,15 @@
   <artifactId>spring-beandoc</artifactId>
   <name>spring-beandoc</name>
   <groupId>springframework</groupId>
-  <currentVersion>0.3</currentVersion>
+  <currentVersion>0.4</currentVersion>
   <organization>
     <name>Darren Davison</name>
-    <url>http://springframework.sourceforge.net/beandoc/</url>
+    <url>http://opensource.atlassian.com/confluence/spring/display/BDOC/Home</url>
   </organization>
   <inceptionYear>2005</inceptionYear>
   <logo>/images/logo.gif</logo>
   <description>BeanDoc is the tool that facilitates documentation and graphing of Spring bean factories and application context files. Whilst very easy to use, it is designed to be flexible and extensible to meet most needs.</description>
-  <url>http://springframework.sourceforge.net/beandoc/</url>
+  <url>http://opensource.atlassian.com/confluence/spring/display/BDOC/Home</url>
   <repository>
     <connection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/springframework:spring-beandoc</connection>
     <developerConnection>scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/springframework:spring-beandoc</developerConnection>
@@ -20,9 +20,9 @@
   </repository>
   <versions>
     <version>
-      <id>0.2</id>
-      <name>0.2</name>
-      <tag>ALPHA_0_2</tag>
+      <id>0.3</id>
+      <name>0.3</name>
+      <tag>ALPHA_0_3</tag>
     </version>
   </versions>
   <developers>

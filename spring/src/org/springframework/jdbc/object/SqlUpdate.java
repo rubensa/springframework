@@ -16,13 +16,11 @@
 
 package org.springframework.jdbc.object;
 
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
-import org.springframework.jdbc.core.support.KeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 /**
  * RdbmsOperation subclass representing a SQL update.
@@ -161,23 +159,12 @@ public class SqlUpdate extends SqlOperation {
 	 * Method to execute the update given arguments and 
 	 * retrieve the generated keys using a KeyHolder.
 	 * @param args array of object arguments
-	 * @param generatedKeys List that will hold the generated keys
+	 * @param generatedKeyHolder KeyHolder that will hold the generated keys
 	 * @return the number of rows affected by the update
 	 */
-	public int update(Object[] args, KeyHolder keyHolder) throws DataAccessException {
-		return update(args, keyHolder.getKeyList());
-	}
-
-	/**
-	 * Method to execute the update given arguments and 
-	 * retrieve the generated keys with a List.
-	 * @param args array of object arguments
-	 * @param generatedKeys List that will hold the generated keys
-	 * @return the number of rows affected by the update
-	 */
-	public int update(Object[] args, List generatedKeys) throws DataAccessException {
+	public int update(Object[] args, KeyHolder generatedKeyHolder) throws DataAccessException {
 		validateParameters(args);
-		int rowsAffected = getJdbcTemplate().update(newPreparedStatementCreator(args), generatedKeys);
+		int rowsAffected = getJdbcTemplate().update(newPreparedStatementCreator(args), generatedKeyHolder);
 		checkRowsAffected(rowsAffected);
 		return rowsAffected;
 	}

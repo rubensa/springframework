@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.support.KeyHolder;
 
 /**
  * Interface that specifies a basic set of JDBC operations.
@@ -377,11 +378,11 @@ public interface JdbcOperations {
 	 * Issue an update using a PreparedStatementCreator to provide SQL and any
 	 * required parameters.  Generetaed keys will to be returned by the List parameter.
 	 * @param psc object that provides SQL and any necessary parameters
-	 * @param generatedKeys List that will hold the generated keys
+	 * @param generatedKeyHolder KeyHolder that will hold the generated keys
 	 * @return the number of rows affected
 	 * @throws DataAccessException if there is any problem issuing the update
 	 */
-	int update(PreparedStatementCreator psc, List generatedKeys) throws DataAccessException;
+	int update(PreparedStatementCreator psc, KeyHolder generatedKeyHolder) throws DataAccessException;
 
 	/**
 	 * Issue an update using a PreparedStatementSetter to set bind parameters,

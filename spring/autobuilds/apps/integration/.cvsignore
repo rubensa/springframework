@@ -1,0 +1,7 @@
+target
+dist
+release
+bin
+build.properties
+*.log
+junit-reports

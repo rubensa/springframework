@@ -136,7 +136,7 @@ productList.url=/WEB-INF/jsp/productlist.jsp</programlisting>
       <para>To be able to use Tiles, you have to configure it using files
       containing definitions (for basic information on definitions and other
       Tiles concepts, please have a look at <ulink
-      url="http://jakarta.apache.org/struts"></ulink>. In Spring this is done
+      url="http://jakarta.apache.org/struts"></ulink>). In Spring this is done
       using the <literal>TilesConfigurer</literal>. Have a look at the
       following piece of example ApplicationContext configuration:
       <programlisting>&lt;bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles.TilesConfigurer"&gt;
@@ -376,7 +376,7 @@ runtime.log.logsystem.log4j.category=com.mycompany.myapplication </programlistin
         <para>Alternatively, you can specify velocity properties directly in
         the bean definition for the Velocity config bean by replacing the
         "configLocation" property with the following inline
-        properties..</para>
+        properties.</para>
 
         <programlisting>&lt;property name="velocityProperties"&gt;
     &lt;props&gt;

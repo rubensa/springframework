@@ -394,7 +394,6 @@
 				<include name="lib/jotm/**"/>
 				<include name="lib/junit/**"/>
 				<include name="lib/log4j/**"/>
-				<include name="lib/mockobjects/**"/>
 				<include name="lib/poi/**"/>
 				<include name="lib/quartz/**"/>
 				<include name="lib/regexp/**"/>

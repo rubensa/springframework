@@ -104,7 +104,7 @@ public class FreeMarkerConfigurer extends FreeMarkerConfigurationFactory
 	 * Post-processes the config to ensure that the Spring macro library can be resolved
 	 * and imported by application templates: A ClassTemplateLoader for this package is
 	 * added to the FreeMarker configuration.
-	 * @see freemarker.cache.ClassTemplateLoader(Class)
+	 * @see freemarker.cache.ClassTemplateLoader
 	 */
 	protected void postProcessConfiguration(Configuration config) {
 		TemplateLoader loader = config.getTemplateLoader();

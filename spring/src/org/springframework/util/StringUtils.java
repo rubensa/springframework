@@ -307,7 +307,6 @@ public abstract class StringUtils {
 	 * String. E.g. useful for toString() implementations.
 	 * @param c Collection to display
 	 * @param delim delimiter to use (probably a ",")
-	 * @param prefix string to start each element with
 	 */
 	public static String collectionToDelimitedString(Collection c, String delim) {
 		return collectionToDelimitedString(c, delim, "", "");

@@ -116,18 +116,15 @@ public class PreparedStatementCreatorFactory {
 	}
 
 	/**
-	 * Set to indicate prepared statements should be capable of returning
-	 * auto generated keys.
-	 * @param returnGeneratedKeys Set to true to be able to retrieve the 
-	 * generated keys.
+	 * Set whether prepared statements should be capable of returning
+	 * auto-generated keys.
 	 */
 	public void setReturnGeneratedKeys(boolean returnGeneratedKeys) {
 		this.returnGeneratedKeys = returnGeneratedKeys;
 	}
 
 	/**
-	 * Set the column names of the auto generated keys.
-	 * @param name The names of the columns for the auto generated keys 
+	 * Set the column names of the auto-generated keys.
 	 */
 	public void setGeneratedKeysColumnNames(String[] names) {
 		this.generatedKeysColumnNames = names;
@@ -206,7 +203,8 @@ public class PreparedStatementCreatorFactory {
 					}
 				}
 				catch (AbstractMethodError ex) {
-					throw new InvalidDataAccessResourceUsageException("The JDBC driver does not support retrieval of auto generated keys", ex);
+					throw new InvalidDataAccessResourceUsageException("The JDBC driver is not compliant to JDBC 3.0 and thus " +
+																														"does not support retrieval of auto generated keys", ex);
 				}
 			}
 			else if (resultSetType == ResultSet.TYPE_FORWARD_ONLY && !updatableResults) {

@@ -43,14 +43,18 @@ public abstract class AbstractReflectionInvokerInterceptor implements MethodInte
 	 * @see org.aopalliance.intercept.MethodInterceptor#invoke(MethodInvocation)
 	 */
 	public Object invoke(MethodInvocation invocation) throws Throwable {
+		
+		// Ask subclass for the target
+		Object target = getTarget();
 		// Set the target on the invocation
+		
 		if (invocation instanceof MethodInvocationImpl) {
-			((MethodInvocationImpl) invocation).setTarget(getTarget());
+			((MethodInvocationImpl) invocation).setTarget(target);
 		}
 		
 		// Use reflection to invoke the method
 		try {
-			Object rval = invocation.getMethod().invoke(getTarget(), invocation.getArguments());
+			Object rval = invocation.getMethod().invoke(target, invocation.getArguments());
 			return rval;
 		}
 		catch (InvocationTargetException ex) {

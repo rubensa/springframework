@@ -109,7 +109,6 @@ public abstract class SqlQuery extends SqlOperation {
 	 * significant.
 	 */
 	public List execute(final Object[] parameters) throws DataAccessException {
-		validateParameters(parameters);
 		return execute(parameters, null);
 	}
 
@@ -207,10 +206,12 @@ public abstract class SqlQuery extends SqlOperation {
 	 */
 	public Object findObject(Object[] parameters, Map context) throws DataAccessException {
 		List l = execute(parameters, context);
-		if (l.size() == 0)
+		if (l.size() == 0) {
 			return null;
-		if (l.size() > 1)
-			throw new InvalidDataAccessApiUsageException("Result is not unique. Found " + l.size());
+		}
+		if (l.size() > 1) {
+			throw new InvalidDataAccessApiUsageException("Result is not unique. Found " + l.size() + " objects");
+		}
 		return l.get(0);
 	}
 

@@ -59,7 +59,7 @@ class UnionPointcut implements Pointcut, Serializable {
 		return mm; 
 	}
 	
-	private class PointcutUnionMethodMatcher implements MethodMatcher {
+	private class PointcutUnionMethodMatcher implements MethodMatcher, Serializable {
 
 		public boolean matches(Method m, Class targetClass) {
 			return (a.getClassFilter().matches(targetClass) && a.getMethodMatcher().matches(m, targetClass)) || 

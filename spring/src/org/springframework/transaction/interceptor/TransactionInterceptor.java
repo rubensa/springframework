@@ -180,8 +180,8 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	 */
 	private void onThrowable(MethodInvocation invocation, TransactionAttribute txAtt, TransactionStatus status, Throwable ex) {
 		if (txAtt.rollbackOn(ex)) {
-			logger.error("Invoking rollback for transaction on method '" + invocation.getMethod().getName() +
-			             "' due to throwable [" + ex + "]");
+			logger.info("Invoking rollback for transaction on method '" + invocation.getMethod().getName() +
+									"' due to throwable [" + ex + "]");
 			try {
 				this.transactionManager.rollback(status);
 			}

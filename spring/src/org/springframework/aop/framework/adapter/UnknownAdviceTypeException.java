@@ -25,7 +25,7 @@ package org.springframework.aop.framework.adapter;
 public class UnknownAdviceTypeException extends IllegalArgumentException {
 	
 	public UnknownAdviceTypeException(Object advice) {
-		super("No adapter for Advice of class '" + advice.getClass().getName() + "'");
+		super("No adapter for Advice " + (advice != null ? "of class [" + advice.getClass().getName() + "]" : "[null]"));
 	}
 
 }

@@ -16,3 +16,6 @@ test.excludes=**/Abstract*
 
 # Compile with debug code - on by default, you may wish to set to off
 debug=off
+
+# Required to build the documentation
+docbook.dir=/path/to/docbook/directory

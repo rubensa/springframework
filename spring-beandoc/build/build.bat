@@ -1,4 +1,15 @@
 @echo off
-rem I only really put this here to use as a target for TextPad on 'Doze
+rem I only put this here to use as a target for TextPad on 'Doze
 
-ant dist
+if "%1" == "" goto :dist
+
+:target
+  call ant %1
+  goto :end
+  
+:dist
+  call ant dist
+  goto :end
+  
+:end
+

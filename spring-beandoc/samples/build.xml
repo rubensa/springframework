@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<project name="spring-beandoc-sample" basedir="." default="beandoc">
+
+    <property name="lib.dir" value="../target/dist" />
+    
+    <!-- load the beandoc props just to get the output dir so we can clean it -->
+    <property file="${basedir}/beandoc.properties" />
+
+    <path id="main-classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init">
+        <taskdef name="beandoc" classname="org.springframework.beandoc.client.AntTask">
+            <classpath refid="main-classpath"/>
+        </taskdef>
+        <mkdir dir="${output.dir}" />
+    </target>
+
+    <!-- clean the output dir and regen beandocs based on props file -->
+    <target name="beandoc" depends="init">
+        <delete>
+            <fileset dir="${output.dir}" includes="**/*" />
+        </delete>
+        
+        <beandoc 
+            beandocProps="${basedir}/beandoc.properties"
+        />
+        
+        <!--
+        	alternative task overriding input and output locations that may be defined in the
+        	beandoc.properties file
+        -->
+        <!--
+        <beandoc 
+            inputFiles="${basedir}/petclinic/*.xml" 
+            outputDir="/some/other/outputdir/html/"
+            beandocProps="${basedir}/beandoc.properties"
+        />
+        -->
+        
+        <!--
+        	alternative task overriding input and output locations that may be defined in the
+        	beandoc.properties file, and also specifying a new context file for complete control
+        	over the beandoc operation.  If all you want to do is specify different XSLT templates
+        	then you can specify them in the beandoc.properties file - see the sample one for
+        	information.
+        -->
+        <!--
+        <beandoc 
+            inputFiles="${basedir}/petclinic/*.xml" 
+            outputDir="/some/other/outputdir/html/"
+            beandocContext="${basedir}/alternative-beandoc.xml"
+        />
+        -->
+    </target>
+
+</project>

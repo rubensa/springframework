@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="overview">
+  <title>Overview</title>
+
+  <sect1>
+    <title>Project goals</title>
+
+    <para>Spring BeanDoc is a tool for documenting context definition files
+    used in <ulink url="http://www.springframework.org">Spring</ulink>
+    projects...</para>
+  </sect1>
+
+  <sect1>
+    <title>Obtaining the sources</title>
+
+    <para>CVS access / release downloads</para>
+
+    <sect2>
+      <title>Project structure</title>
+
+      <para>Directory structure</para>
+    </sect2>
+
+    <sect2>
+      <title>Building the sources</title>
+
+      <para>Ant buld file / scripts</para>
+    </sect2>
+  </sect1>
+</chapter>

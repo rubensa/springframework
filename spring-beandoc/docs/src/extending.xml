@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="extending">
+  <title>Extending BeanDoc</title>
+
+  <sect1>
+    <title>Implementable interfaces</title>
+
+    <para>...</para>
+  </sect1>
+
+  <sect1>
+    <title>Writing Decorators</title>
+
+    <para>...</para>
+  </sect1>
+
+  <sect1>
+    <title>Writing Transformers</title>
+
+    <para>...</para>
+  </sect1>
+
+  <sect1>
+    <title>Supplying a new context definition file</title>
+
+    <para>...</para>
+  </sect1>
+</chapter>

@@ -24,20 +24,42 @@
     
     
     <target name="usage">
-        <echo message=""/>
-        <echo message="${project.title} build file"/>
-        <echo message="------------------------------------------------------"/>
-        <echo message=""/>
-        <echo message="Available targets are:"/>
-        <echo message=""/>
-        <echo message="build       --> compile classes and place in ${target.classes.dir}"/>
-        <echo message="dist        --> create JAR files and dependencies and place in ${target.dist.dir}"/>
-        <echo message="tests       --> run tests and place reports in ${target.junit.reports.dir}"/>
-        <echo message="testsummary --> Run test suite and generate test summary in ${target.junit.reports.dir}"/>
-        <echo message="javadoc     --> build API documentation and place in ${target.javadocs.dir}"/>
-        <echo message="refdoc      --> build reference documentation and place in ${target.refdocs.dir}"/>
-        <echo message="clean       --> remove all build artifacts, reports etc."/>
-        <echo message=""/>
+        <echo>
+        ${project.title} build file
+        ------------------------------------------------------
+        
+        Available targets are:
+        
+        build         --> compile classes and place in 
+                          ${target.classes.dir}
+                          
+        dist          --> create JAR files and dependencies and place in 
+                          ${target.dist.dir}
+                          
+        tests         --> run tests and place reports in 
+                          ${target.junit.reports.dir}
+                          
+        testsummary   --> Run test suite and generate test summary in 
+                          ${target.junit.reports.dir}
+                          
+        docapi        --> builds API documentation in 
+                          ${target.javadocs.dir}
+                          
+        docpdf        --> builds reference documentation as PDF in 
+                          ${target.refdocs.pdf.dir}
+                          
+        dochtml       --> builds reference documentation as chunked HTML in 
+                          ${target.refdocs.html.dir}
+                          
+        dochtmlsingle --> builds reference documentation as single HTML file in 
+                          ${target.refdocs.html.dir}
+                          
+        docall        --> builds all documentation (HTML, PDF and JavaDoc) to locations above
+                          
+        docclean      --> remove all documentation and intermediate documentation artifacts
+        
+        clean         --> remove all build artifacts, reports etc.
+        </echo>
     </target>
 
 
@@ -109,12 +131,24 @@
             </fileset>
         </copy>
     </target>
+	
+	
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    	 target: docclean
+    	 depends: 
+    	 notes: 
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <target name="docclean" description="Delete documentation">
+		<delete quiet="true" dir="${target.refdocs.pdf.dir}"/>
+		<delete quiet="true" dir="${target.refdocs.html.dir}"/>
+		<delete quiet="true" dir="${target.javadocs.dir}"/>
+	</target>
     
     
     <!-- 
     	Create API docs 
     -->
-    <target name="javadoc" description="Generate framework Javadocs.">
+    <target name="docapi" description="Generate framework Javadocs.">
 		<mkdir dir="${target.javadocs.dir}"/>
 
 		<javadoc sourcepath="${src.dir}" destdir="${target.javadocs.dir}" windowtitle="Spring Framework"
@@ -127,6 +161,133 @@
 			</packageset>
 		</javadoc>
 
+	</target>
+
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    	 target: docpdf
+    	 depends: 
+    	 notes: 
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <target name="docpdf" description="Compile reference documentation to pdf">
+		<mkdir dir="${target.refdocs.pdf.dir}"/>
+		<mkdir dir="${target.refdocs.pdf.dir}/images"/>
+
+		<copy todir="${target.refdocs.pdf.dir}/images">
+			<fileset dir="${refdocs.src.dir}/images">
+				<include name="*.gif"/>
+				<include name="*.svg"/>
+				<include name="*.jpg"/>
+			</fileset>
+		</copy>
+
+		<java failonerror="yes" classname="com.icl.saxon.StyleSheet" fork="true" dir="${refdocs.src.dir}">
+			<classpath>
+				<fileset dir="${docbook.dir}/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg value="-o"/>
+			<arg value="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
+			<arg value="${refdocs.src.dir}/index.xml"/>
+			<arg value="${refdocs.src.dir}/styles/fopdf.xsl"/>
+		</java>
+
+		<java classname="org.apache.fop.apps.Fop" fork="true" dir="${refdocs.src.dir}">
+			<classpath>
+				<fileset dir="${docbook.dir}/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg value="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
+			<arg value="${target.refdocs.pdf.dir}/spring-beandoc.pdf"/>
+		</java>
+
+		<delete file="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
+		<delete dir="${target.refdocs.pdf.dir}/images"/>
+	</target>
+
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    	 target: dochtml
+    	 depends: 
+    	 notes: 
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <target name="dochtml" description="Compile reference documentation to chunked html">
+		<mkdir dir="${target.refdocs.html.dir}"/>
+		<mkdir dir="${target.refdocs.html.dir}/styles"/>
+		
+		<copy todir="${target.refdocs.html.dir}/images">
+			<fileset dir="${refdocs.src.dir}/images">
+				<include name="*.gif"/>
+				<include name="*.svg"/>
+				<include name="*.jpg"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.refdocs.html.dir}/styles">
+			<fileset dir="${refdocs.src.dir}/styles">
+				<include name="*.css"/>
+			</fileset>
+		</copy>
+
+		<java classname="com.icl.saxon.StyleSheet" fork="true" dir="${target.refdocs.html.dir}">
+			<classpath>
+				<fileset dir="${docbook.dir}/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg value="${refdocs.src.dir}/index.xml"/>
+			<arg value="${refdocs.src.dir}/styles/html_chunk.xsl"/>
+		</java>
+	</target>
+
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    	 target: dochtmlsingle
+    	 depends: 
+    	 notes: 
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <target name="dochtmlsingle" description="Compile reference documentation to single html">
+		<mkdir dir="${target.refdocs.html.dir}"/>
+		<mkdir dir="${target.refdocs.html.dir}/styles"/>
+
+		<copy todir="${target.refdocs.html.dir}/images">
+			<fileset dir="${refdocs.src.dir}/images">
+				<include name="*.gif"/>
+				<include name="*.svg"/>
+				<include name="*.jpg"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${target.refdocs.html.dir}/styles">
+			<fileset dir="${refdocs.src.dir}/styles">
+				<include name="*.css"/>
+			</fileset>
+		</copy>
+
+		<java classname="com.icl.saxon.StyleSheet" fork="true" dir="${refdocs.src.dir}">
+			<classpath>
+				<fileset dir="${docbook.dir}/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg value="-o"/>
+			<arg value="${target.refdocs.html.dir}/index.html"/>
+			<arg value="${refdocs.src.dir}/index.xml"/>
+			<arg value="${refdocs.src.dir}/styles/html.xsl"/>
+		</java>
+	</target>
+
+
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    	 target: docall
+    	 depends: docapi,dochtml,docpdf,docapi
+    	 notes: 
+         ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <target name="docall"
+		depends="docapi,dochtml,docpdf"
+		description="Generate and copy all reference and api documentation">
 	</target>
 	
 	
@@ -228,6 +389,23 @@
 
 		</junitreport>
 
+	</target>
+	
+	
+	
+	<!--
+		Release zip file generation
+	-->
+	<target name="release" depends="dist,docpdf" description="Build distribution units and all documentation.  Generate release zip">
+		<delete file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
+		<copy file="${target.refdocs.pdf.dir}/spring-beandoc.pdf" todir="${basedir}"/>
+		<zip zipfile="${target.dist.dir}/${project.name}-${project.version}.zip">
+			<fileset dir="${basedir}">
+				<exclude name="target/**/*"/>
+				<exclude name="docs/**/*"/>
+			</fileset>
+		</zip>
+		<delete file="${basedir}/spring-beandoc.pdf"/>
 	</target>
     
 </project>

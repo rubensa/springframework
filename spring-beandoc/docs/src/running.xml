@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="running">
+  <title>Running BeanDoc</title>
+
+  <sect1>
+    <title>Simple configuration</title>
+
+    <para>Setup inputs and outputs; sys props, cmd line/Ant attribs,
+    beandoc.properties</para>
+
+    <sect2>
+      <title>HTML output</title>
+
+      <para>JavaDoc locations, CSS, Title</para>
+    </sect2>
+
+    <sect2>
+      <title>Graphing output</title>
+
+      <para>colours, image types</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Running with Ant</title>
+
+    <para>Ant task, sample scripts</para>
+  </sect1>
+
+  <sect1>
+    <title>Running with CLI</title>
+
+    <para>Scripts</para>
+  </sect1>
+
+  <sect1>
+    <title>Advanced configuration</title>
+
+    <para>supplying XSLT templates, advanced graphing options, defining new
+    context files</para>
+  </sect1>
+</chapter>

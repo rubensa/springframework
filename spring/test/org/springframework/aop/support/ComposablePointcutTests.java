@@ -9,8 +9,7 @@ import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.beans.TestBean;
-import org.springframework.core.HasRootCause;
-import org.springframework.core.NestedCheckedException;
+import org.springframework.core.NestedRuntimeException;
 
 /**
  * 
@@ -68,17 +67,16 @@ public class ComposablePointcutTests extends TestCase {
 		pc.intersection(cf);
 		assertFalse(pc.getClassFilter().matches(Object.class));
 		assertTrue(pc.getClassFilter().matches(Exception.class));
-		pc.intersection(new RootClassFilter(HasRootCause.class));
+		pc.intersection(new RootClassFilter(NestedRuntimeException.class));
 		assertFalse(pc.getClassFilter().matches(Exception.class));
-		assertTrue(pc.getClassFilter().matches(NestedCheckedException.class));
+		assertTrue(pc.getClassFilter().matches(NestedRuntimeException.class));
 		assertFalse(pc.getClassFilter().matches(String.class));
 		pc.union(new RootClassFilter(String.class));
 		assertFalse(pc.getClassFilter().matches(Exception.class));
 		assertTrue(pc.getClassFilter().matches(String.class));
-		assertTrue(pc.getClassFilter().matches(NestedCheckedException.class));
+		assertTrue(pc.getClassFilter().matches(NestedRuntimeException.class));
 	}
-	
-	
+
 	public void testUnionMethodMatcher() {
 		// Matches the getAge() method in any class
 		ComposablePointcut pc = new ComposablePointcut(ClassFilter.TRUE, GET_AGE_METHOD_MATCHER);

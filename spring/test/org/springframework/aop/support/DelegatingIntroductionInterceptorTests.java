@@ -6,15 +6,15 @@
 package org.springframework.aop.support;
 
 import junit.framework.TestCase;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.easymock.MockControl;
+
 import org.springframework.aop.InterceptionIntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.framework.TimeStamped;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
-import org.springframework.core.TimeStamped;
 
 /**
  * 

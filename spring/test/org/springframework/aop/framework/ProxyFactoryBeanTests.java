@@ -24,8 +24,8 @@ import org.springframework.aop.framework.support.AopUtils;
 import org.springframework.aop.interceptor.DebugInterceptor;
 import org.springframework.aop.interceptor.NopInterceptor;
 import org.springframework.aop.interceptor.SideEffectBean;
-import org.springframework.aop.support.DynamicMethodMatcherPointcutAroundAdvisor;
 import org.springframework.aop.support.DefaultInterceptionIntroductionAdvisor;
+import org.springframework.aop.support.DynamicMethodMatcherPointcutAroundAdvisor;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.BeanCreationException;
@@ -33,7 +33,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.TimeStamped;
 import org.springframework.core.io.ClassPathResource;
 
 /**
@@ -454,7 +453,7 @@ public class ProxyFactoryBeanTests extends TestCase {
 			fail("Should require target name");
 		}
 		catch (BeanCreationException ex) {
-			assertTrue(ex.getRootCause() instanceof AopConfigException);
+			assertTrue(ex.getCause() instanceof AopConfigException);
 		}
 	}
 	

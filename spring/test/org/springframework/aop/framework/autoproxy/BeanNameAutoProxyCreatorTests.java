@@ -12,13 +12,13 @@ import junit.framework.TestCase;
 import org.springframework.aop.framework.CountingBeforeAdvice;
 import org.springframework.aop.framework.Lockable;
 import org.springframework.aop.framework.LockedException;
+import org.springframework.aop.framework.TimeStamped;
 import org.springframework.aop.framework.support.AopUtils;
 import org.springframework.aop.interceptor.NopInterceptor;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.TimeStamped;
 
 /**
  * EnterpriseServices test that ources attributes from source-level metadata.

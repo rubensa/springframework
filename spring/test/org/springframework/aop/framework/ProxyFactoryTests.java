@@ -6,8 +6,8 @@
 package org.springframework.aop.framework;
 
 import junit.framework.TestCase;
-
 import org.aopalliance.intercept.Interceptor;
+
 import org.springframework.aop.Advisor;
 import org.springframework.aop.interceptor.NopInterceptor;
 import org.springframework.aop.support.DefaultBeforeAdvisor;
@@ -16,7 +16,6 @@ import org.springframework.aop.support.DefaultInterceptionIntroductionAdvisor;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
-import org.springframework.core.TimeStamped;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.StringUtils;
 

@@ -589,9 +589,9 @@ public class JdbcTemplateTestSuite extends TestCase {
 			mockPs.executeBatch();
 			psControl.setThrowable(sex);
 			
-			// Should we force the PreparedStatement to be closed as below?
-			//mockPs.close();
-			//psControl.setVoidCallable(1);
+			// Should we force the PreparedStatement to be closed as below? -- Yes, we should close what we open
+			mockPs.close();
+			psControl.setVoidCallable(1);
 			psControl.activate();
 		
 			MockConnection con = MockConnectionFactory.update(sql, mockPs);
@@ -824,8 +824,8 @@ public class JdbcTemplateTestSuite extends TestCase {
 		psControl.setThrowable(sex);
 		
 		// Insist on trying to close PreparedStatement
-		//mockPs.close();
-		//psControl.setVoidCallable(1);
+		mockPs.close();
+		psControl.setVoidCallable(1);
 		psControl.activate();
 	
 		MockConnection con = MockConnectionFactory.update(sql, mockPs);

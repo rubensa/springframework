@@ -13,12 +13,13 @@ import junit.framework.TestCase;
 
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
+import org.springframework.beans.DerivedTestBean;
+import org.springframework.beans.IndexedTestBean;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.DummyFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.util.ClassLoaderUtils;
 import org.springframework.web.servlet.HandlerAdapter;
-import org.springframework.web.servlet.mvc.DemoController;
 
 /**
  * 
@@ -76,12 +77,11 @@ public class BeanFactoryUtilsTests extends TestCase {
 	}
 
 	public void testHierarchicalNamesWithMatchOnlyInRoot() throws Exception {
-		List names = Arrays.asList(BeanFactoryUtils.beanNamesIncludingAncestors(this.listableFactory, DemoController.class));
+		List names = Arrays.asList(BeanFactoryUtils.beanNamesIncludingAncestors(this.listableFactory, IndexedTestBean.class));
 		assertEquals(1, names.size());
-		assertTrue(names.contains("demoController"));
-
+		assertTrue(names.contains("indexedBean"));
 		// Distinguish from default ListableBeanFactory behaviour
-		assertTrue(listableFactory.getBeanDefinitionNames(DemoController.class).length == 0);
+		assertTrue(listableFactory.getBeanDefinitionNames(IndexedTestBean.class).length == 0);
 	}
 
 	public void testNoBeansOfType() {

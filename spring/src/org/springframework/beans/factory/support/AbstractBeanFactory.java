@@ -638,6 +638,10 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory {
 		this.singletonCache.clear();
 	}
 
+	public PropertyValues getPropertyValues(String beanName) {
+		return getBeanDefinition(beanName).getPropertyValues();
+	}
+
 
 	//---------------------------------------------------------------------
 	// Abstract method to be implemented by concrete subclasses

@@ -5,8 +5,6 @@
 
 package org.springframework.context;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.core.io.Resource;
@@ -69,18 +67,19 @@ public interface ApplicationContext extends ListableBeanFactory, HierarchicalBea
 	 * Return a Resource handle for the specified resource.
 	 * The handle should always be a reusable resource descriptor,
 	 * allowing for multiple getInputStream calls.
-	 * <ul>
+	 * <p><ul>
 	 * <li>Must support fully qualified URLs, e.g. "file:C:/test.dat".
+	 * <li>Must support classpath pseudo-URLs, e.g. "classpath:test.dat".
 	 * <li>Should support relative file paths, e.g. "WEB-INF/test.dat".
-	 * <li>May allow for absolute file paths, e.g. "C:/test.dat".
 	 * </ul>
-	 * Note that the safest way to access an absolute file path is via
-	 * a "file:" URL, as this must be supported by all implementations.
-	 * <p>Note: Callers are responsible for closing the input stream.
-	 * @param location location to the resource
+	 * <p>Note that a Resource handle does not imply an existing resource;
+	 * you need to invoke Resource's "exists" to check for existence.
+	 * @param location resource location
 	 * @return Resource handle
-	 * @throws IOException if the resource could not be resolved
+	 * @see org.springframework.core.io.Resource#exists
+	 * @see org.springframework.core.io.Resource#getInputStream
+	 * @see org.springframework.core.io.ResourceEditor#CLASSPATH_URL_PREFIX
 	 */
-	Resource getResource(String location) throws IOException;
+	Resource getResource(String location);
 
 }

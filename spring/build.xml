@@ -186,6 +186,7 @@
 			<fileset dir="${target.classes.dir}">
 				<include name="org/springframework/context/**"/>
 				<include name="org/springframework/ejb/**"/>
+				<include name="org/springframework/jms/**"/>
 				<include name="org/springframework/jndi/**"/>
 				<include name="org/springframework/mail/**"/>
 				<include name="org/springframework/remoting/**"/>

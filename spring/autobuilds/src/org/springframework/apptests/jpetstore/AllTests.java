@@ -62,6 +62,21 @@ public class AllTests extends AbstractTestCase {
     }
     
     /**
+     * help page - chk freemarker config
+     */
+    public void testHelpPage() {
+		try {
+			wc = new WebConversation();
+			resp = wc.getResponse( testServer + "/jpetstore/shop/help.do?param=freemarker" );
+            String html = resp.getText();
+            assertTrue("Expected parameter to be echoed in freemarker view", html.indexOf("Parameter: freemarker") > -1);
+                        
+        } catch (Exception e) {
+			fail("Exception: " + e);
+        }
+    }
+    
+    /**
      * complete purchase case
      */
     public void testPurchase() {

@@ -16,6 +16,8 @@
 
 package org.springframework.beans;
 
+import java.io.Serializable;
+
 /**
  * Class to hold information and value for an individual property.
  * Using an object here, rather than just storing all properties in a
@@ -32,7 +34,7 @@ package org.springframework.beans;
  * @see PropertyValues
  * @see BeanWrapper
  */
-public class PropertyValue {
+public class PropertyValue implements Serializable {
 
 	/** Property name */
 	private final String name;

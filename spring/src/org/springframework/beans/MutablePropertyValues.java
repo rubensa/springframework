@@ -17,6 +17,7 @@
 
 package org.springframework.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +34,7 @@ import org.springframework.util.StringUtils;
  * @since 13 May 2001
  * @version $Id$
  */
-public class MutablePropertyValues implements PropertyValues {
+public class MutablePropertyValues implements PropertyValues, Serializable {
 
 	/** List of PropertyValue objects */
 	private List propertyValuesList;
@@ -155,16 +156,16 @@ public class MutablePropertyValues implements PropertyValues {
 		if (old == this)
 			return changes;
 
-		// For each property value in the new set
+		// for each property value in the new set
 		for (int i = 0; i < this.propertyValuesList.size(); i++) {
 			PropertyValue newPv = (PropertyValue) this.propertyValuesList.get(i);
-			// If there wasn't an old one, add it
+			// if there wasn't an old one, add it
 			PropertyValue pvOld = old.getPropertyValue(newPv.getName());
 			if (pvOld == null) {
 				changes.addPropertyValue(newPv);
 			}
 			else if (!pvOld.equals(newPv)) {
-				// It's changed
+				// it's changed
 				changes.addPropertyValue(newPv);
 			}
 		}

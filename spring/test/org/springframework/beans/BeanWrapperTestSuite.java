@@ -100,7 +100,35 @@ public class BeanWrapperTestSuite extends TestCase {
 		}
 	}
 
-	public void testSetWrappedInstanceOfDifferentClass()throws Exception {
+	public void testReadableAndWritableForIndexedProperties() {
+		BeanWrapper bw = new BeanWrapperImpl(IndexedTestBean.class);
+
+		assertTrue(bw.isReadableProperty("array"));
+		assertTrue(bw.isReadableProperty("list"));
+		assertTrue(bw.isReadableProperty("set"));
+		assertTrue(bw.isReadableProperty("map"));
+		assertFalse(bw.isReadableProperty("xxx"));
+
+		assertTrue(bw.isWritableProperty("array"));
+		assertTrue(bw.isWritableProperty("list"));
+		assertTrue(bw.isWritableProperty("set"));
+		assertTrue(bw.isWritableProperty("map"));
+		assertFalse(bw.isWritableProperty("xxx"));
+
+		assertTrue(bw.isReadableProperty("array[0]"));
+		assertTrue(bw.isReadableProperty("list[0]"));
+		assertTrue(bw.isReadableProperty("set[0]"));
+		assertTrue(bw.isReadableProperty("map[key1]"));
+		assertFalse(bw.isReadableProperty("array[key1]"));
+
+		assertTrue(bw.isWritableProperty("array[0]"));
+		assertTrue(bw.isWritableProperty("list[0]"));
+		assertTrue(bw.isWritableProperty("set[0]"));
+		assertTrue(bw.isWritableProperty("map[key1]"));
+		assertFalse(bw.isWritableProperty("array[key1]"));
+	}
+
+	public void testSetWrappedInstanceOfDifferentClass() {
 		ThrowsException tex = new ThrowsException();
 		BeanWrapper bw = new BeanWrapperImpl(tex);
 

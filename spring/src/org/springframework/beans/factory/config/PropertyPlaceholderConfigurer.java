@@ -104,6 +104,8 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 
 	private int systemPropertiesMode = SYSTEM_PROPERTIES_MODE_FALLBACK;
 
+	private boolean ignoreUnresolvablePlaceholders = false;
+
 
 	/**
 	 * Set the prefix that a placeholder string starts with.
@@ -147,6 +149,14 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 	 */
 	public void setSystemPropertiesModeName(String constantName) throws IllegalArgumentException {
 		this.systemPropertiesMode = constants.asNumber(constantName).intValue();
+	}
+
+	/**
+	 * Set whether to ignore unresolvable placeholders. Default is false:
+	 * An exception will be thrown if a placeholder cannot not be resolved.
+	 */
+	public void setIgnoreUnresolvablePlaceholders(boolean ignoreUnresolvablePlaceholders) {
+		this.ignoreUnresolvablePlaceholders = ignoreUnresolvablePlaceholders;
 	}
 
 
@@ -334,6 +344,10 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 					logger.debug("Resolving placeholder '" + placeholder + "' to [" + propVal + "]");
 					strVal = strVal.substring(0, startIndex) + propVal + strVal.substring(endIndex+1);
 					startIndex = strVal.indexOf(this.placeholderPrefix, startIndex + propVal.length());
+				}
+				else if (this.ignoreUnresolvablePlaceholders) {
+					// return unprocessed value
+					return strVal;
 				}
 				else {
 					throw new BeanDefinitionStoreException("Could not resolve placeholder '" + placeholder + "'");

@@ -252,9 +252,11 @@
 
 <!--
 	Bean definitions can specify zero or more constructor arguments.
-	They correspond to either a specific index of the constructor argument list
-	or are supposed to be matched generically by type.
 	This is an alternative to "autowire constructor".
+	Arguments correspond to either a specific index of the constructor argument
+	list or are supposed to be matched generically by type.
+	Note: A single generic argument value will just be used once, rather than
+	potentially matched multiple times (as of Spring 1.1).
 	constructor-arg elements are also used in conjunction with the factory-method
 	element to construct beans using static or instance factory methods.
 -->

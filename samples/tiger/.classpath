@@ -7,6 +7,6 @@
 	<classpathentry kind="var" path="SPRING_BASE/lib/jakarta-commons/commons-logging.jar"/>
 	<classpathentry sourcepath="ECLIPSE_HOME/plugins/org.eclipse.jdt.source_3.0.0/src/org.junit_3.8.1/junitsrc.zip" kind="var" path="JUNIT_HOME/junit.jar"/>
 	<classpathentry kind="var" path="SPRING_BASE/lib/jakarta-commons/commons-collections.jar"/>
-	<classpathentry kind="var" path="SPRING_BASE/lib/j2ee/servlet.jar"/>
+	<classpathentry kind="var" path="SPRING_BASE/lib/j2ee/servlet-api.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

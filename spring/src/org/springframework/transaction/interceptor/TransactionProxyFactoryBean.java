@@ -206,9 +206,9 @@ public class TransactionProxyFactoryBean extends ProxyConfig implements FactoryB
 		}
 		else {
 			// rely on default pointcut
-			proxyFactory.addAdvisor(new TransactionAttributeSourceTransactionAroundAdvisor(transactionInterceptor));
+			proxyFactory.addAdvisor(new TransactionAttributeSourceAdvisor(transactionInterceptor));
 			// could just do the following, but it's usually less efficient because of AOP advice chain caching
-			//proxyFactory.addInterceptor(transactionInterceptor);
+			// proxyFactory.addInterceptor(transactionInterceptor);
 		}
 
 		if (this.postInterceptors != null) {

@@ -28,8 +28,6 @@ import junit.framework.TestCase;
 import org.easymock.MockControl;
 
 import org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor;
-import org.springframework.jdbc.support.nativejdbc.JBossNativeJdbcExtractor;
-import org.springframework.jdbc.support.nativejdbc.NativeJdbcExtractor;
 import org.springframework.jdbc.support.nativejdbc.SimpleNativeJdbcExtractor;
 
 /**
@@ -101,17 +99,8 @@ public class NativeJdbcExtractorTests extends TestCase {
 		rsControl.verify();
 	}
 
-	public void testJBossNativeJdbcExtractor() throws SQLException {
-		JBossNativeJdbcExtractor extractor = new JBossNativeJdbcExtractor();
-		runCommonTests(extractor);
-	}
-
 	public void testCommonsDbcpNativeJdbcExtractor() throws SQLException {
 		CommonsDbcpNativeJdbcExtractor extractor = new CommonsDbcpNativeJdbcExtractor();
-		runCommonTests(extractor);
-	}
-
-	private void runCommonTests(NativeJdbcExtractor extractor) throws SQLException {
 		assertFalse(extractor.isNativeConnectionNecessaryForNativeStatements());
 
 		MockControl conControl = MockControl.createControl(Connection.class);

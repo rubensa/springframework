@@ -51,6 +51,12 @@ public abstract class SqlCall extends RdbmsOperation {
 	private boolean function = false;
 
 	/**
+	 * Flag used to indicate that the sql for this call should be used exactly as it is
+	 * defined.  No need to add the escape syntax and parameter place holders.
+	 */
+	private boolean sqlReadyForUse = false;
+
+	/**
 	 * Call string as defined in java.sql.CallableStatement.
 	 * String of form {call add_invoice(?, ?, ?)}
 	 * or {? = call get_invoice_count(?)} if isFunction is set to true
@@ -75,7 +81,21 @@ public abstract class SqlCall extends RdbmsOperation {
 	}
 
 	/**
-	 * Get the flag used to indicate that this call is for a function.
+	 * @return Returns the sqlReadyForUse indicating whether the sql can be used as is.
+	 */
+	public boolean isSqlReadyForUse() {
+		return sqlReadyForUse;
+	}
+	/**
+	 * @param sqlReadyForUse The sqlReadyForUse to set to indicate whether sql can be used as is.
+	 * @todo Generated comment
+	 */
+	public void setSqlReadyForUse(boolean sqlReadyForUse) {
+		this.sqlReadyForUse = sqlReadyForUse;
+	}
+
+	/**
+	 * Get the call string.
 	 * @return boolean
 	 */
 	public String getCallString() {
@@ -106,28 +126,34 @@ public abstract class SqlCall extends RdbmsOperation {
 	 * @see RdbmsOperation#compileInternal()
 	 */
 	protected final void compileInternal() {
-		List parameters = getDeclaredParameters();
-		int firstParameter = 0;
-		if (isFunction()) {
-			this.callString = "{? = call " + getSql() + "(";
-			firstParameter = 1;
+		
+		if (isSqlReadyForUse()) {
+			this.callString = getSql();
 		}
 		else {
-			this.callString = "{call " + getSql() + "(";
-		}
-		for (int i = firstParameter; i < parameters.size(); i++) {
-			SqlParameter p = (SqlParameter) parameters.get(i);
-			if ((p instanceof SqlReturnResultSet)) {
-				firstParameter++;
+			List parameters = getDeclaredParameters();
+			int firstParameter = 0;
+			if (isFunction()) {
+				this.callString = "{? = call " + getSql() + "(";
+				firstParameter = 1;
 			}
 			else {
-				if (i > firstParameter) {
-					this.callString += ", ";
-				}
-				this.callString += "?";
+				this.callString = "{call " + getSql() + "(";
 			}
+			for (int i = firstParameter; i < parameters.size(); i++) {
+				SqlParameter p = (SqlParameter) parameters.get(i);
+				if ((p instanceof SqlReturnResultSet)) {
+					firstParameter++;
+				}
+				else {
+					if (i > firstParameter) {
+						this.callString += ", ";
+					}
+					this.callString += "?";
+				}
+			}
+			this.callString += ")}";
 		}
-		this.callString += ")}";
 
 		logger.info("Compiled stored procedure. Call string is [" + getCallString() + "]");
 

@@ -112,7 +112,10 @@ public class ResponseTimeMonitorImpl implements ResponseTimeMonitor {
 	 * data recorded by this object.
 	 */
 	public String toString() {
-		return "hits=" + getAccessCount() + "; avg=" + getAverageResponseTimeMillis() + "; best=" + getBestResponseTimeMillis() + "; worst=" + getWorstResponseTimeMillis();
+		return "hits=" + getAccessCount() + 
+			"; avg=" + getAverageResponseTimeMillis() + 
+			"; best=" + getBestResponseTimeMillis() + 
+			"; worst=" + getWorstResponseTimeMillis();
 	}
 
 }

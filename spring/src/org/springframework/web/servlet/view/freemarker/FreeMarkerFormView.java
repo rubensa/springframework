@@ -26,8 +26,8 @@ import org.springframework.web.servlet.tags.BindStatusHelper;
 
 
 /**
- * VelocityFormView is a simple extension of <code>VelocityView</code> that 
- * enables the implicit use of Spring's form based Velocity macros.  Note 
+ * FreeMarkerFormView is a simple extension of <code>FreeMarkerView</code> that 
+ * enables the implicit use of Spring's form based FreeMarker macros.  Note 
  * that this class is <b>not</b> required for templates that use html forms 
  * <b>unless</b> you wish to take advantage of the Spring helper macros.
  * 
@@ -44,9 +44,9 @@ public class FreeMarkerFormView extends FreeMarkerView {
 	private BindStatusHelper helper;
 
     /**
-     * This method will expose an object to the VelocityContext of type 
+     * This method will expose an object to the FreeMarker model of type 
      * BindStatusHelper and be accessible in macros as $springBindStatusHelper.  
-     * Principally this is used by the Spring Velocity form helper macros.
+     * Principally this is used by the Spring FreeMarker form helper macros.
      * 
      * @see BindStatusHelper
      * @see org.springframework.web.servlet.view.freemarker.FreeMarkerView#exposeHelpers

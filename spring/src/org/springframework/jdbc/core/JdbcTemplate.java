@@ -225,13 +225,14 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		return doWithResultSetFromStaticQuery(sql, new ObjectResultSetExtractor(requiredType));
 	}
 
+	public long queryForLong(String sql) throws DataAccessException {
+		return ((Long) queryForObject(sql, Long.class)).longValue();
+	}
+
 	public int queryForInt(String sql) throws DataAccessException {
 		return ((Integer) queryForObject(sql, Integer.class)).intValue();
 	}
 
-	public long queryForLong(String sql) throws DataAccessException {
-		return ((Long) queryForObject(sql, Long.class)).longValue();
-	}
 
 	//-------------------------------------------------------------------------
 	// Query methods dealing with prepared statements
@@ -369,6 +370,10 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 					}
 				}),
 				new ObjectResultSetExtractor(requiredType));
+	}
+
+	public long queryForLong(String sql, final Object[] args) throws DataAccessException {
+		return ((Long) queryForObject(sql, args, Long.class)).longValue();
 	}
 
 	public int queryForInt(String sql, final Object[] args) throws DataAccessException {

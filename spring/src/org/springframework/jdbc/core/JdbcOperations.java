@@ -73,6 +73,21 @@ public interface JdbcOperations {
 	Object queryForObject(String sql, Class requiredType) throws DataAccessException;
 
 	/**
+	 * Execute a query that results in a long value, given static SQL.
+	 * <p>Uses a JDBC Statement, not a PreparedStatement. If you want to execute
+	 * a static query with a PreparedStatement, use the overloaded queryForLong
+	 * method with null as argument array.
+	 * <p>This method is useful for running static SQL with a known outcome.
+	 * The query is expected to be a single row/single column query that results
+	 * in a long value.
+	 * @param sql SQL query to execute
+	 * @return the long value
+	 * @throws DataAccessException if there is any problem executing the query
+	 * @see #queryForLong(String, Object[])
+	 */
+	long queryForLong(String sql) throws DataAccessException;
+
+	/**
 	 * Execute a query that results in an int value, given static SQL.
 	 * <p>Uses a JDBC Statement, not a PreparedStatement. If you want to execute
 	 * a static query with a PreparedStatement, use the overloaded queryForInt
@@ -174,6 +189,21 @@ public interface JdbcOperations {
 	 */
 	Object queryForObject(String sql, final Object[] args, Class requiredType)
 	    throws DataAccessException;
+
+	/**
+	 * Query given SQL to create a prepared statement from SQL and a
+	 * list of arguments to bind to the query, resulting in a long value.
+	 * <p>This method is useful for running static SQL with a known outcome.
+	 * The query is expected to be a single row/single column query that results
+	 * in a long value.
+	 * @param sql SQL to execute
+	 * @param args arguments to bind to the query
+	 * (leaving it to the PreparedStatement to guess the respective SQL type)
+	 * @return the long value
+	 * @throws DataAccessException if the query fails
+	 * @see #queryForLong(String)
+	 */
+	long queryForLong(String sql, final Object[] args) throws DataAccessException;
 
 	/**
 	 * Query given SQL to create a prepared statement from SQL and a

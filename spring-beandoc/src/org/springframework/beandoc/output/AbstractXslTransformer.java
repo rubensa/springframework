@@ -254,7 +254,9 @@ public abstract class AbstractXslTransformer implements Transformer {
     }
 
     /**
-     * loads and compile the stylesheet used in generating document output.
+     * loads and compile the stylesheet used in generating document output.  If the supplied
+     * template name cannot be compiled to a binary template representation, a BeanDocException
+     * will be thrown here.
      * 
      * @param templateName a standard Spring <code>Resource</code> that can contain any
      *      value that the underlying resource loading classes can understand.  See the 

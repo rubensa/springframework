@@ -57,6 +57,17 @@ public class DefaultContextProcessorTests extends TestCase {
         }
     }
     
+    public void testNullProxyMapThrowsException() {
+        try {
+            dcp.setMergeProxies(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Exception e) {
+            fail("Method should throw IllegalArgumentException");
+        }
+    }
+    
     public void testMiscMarkup() {        
         try {
             DefaultContextProcessor dcpMisc = new DefaultContextProcessor(

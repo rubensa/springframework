@@ -17,6 +17,7 @@
 package org.springframework.beandoc.output;
 
 import org.jdom.Element;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 
@@ -97,6 +98,7 @@ public class HtmlDecorator extends SimpleDecorator {
      *      that the CSS file can be found which is used to skin the beandoc output.
      */
     public void setCssUrl(String cssUrl) {
+        Assert.hasText(cssUrl);
         this.cssUrl = cssUrl;
     }
 
@@ -120,6 +122,7 @@ public class HtmlDecorator extends SimpleDecorator {
      * @param title the page title used in documentation output
      */
     public void setTitle(String title) {
+        Assert.hasText(title);
         this.title = title;
     }
 
@@ -139,6 +142,7 @@ public class HtmlDecorator extends SimpleDecorator {
      * @param footer the value to use as a footer for each beandoc page
      */
     public void setFooter(String footer) {
+        Assert.hasText(footer);
         this.footer = footer;
     }
     

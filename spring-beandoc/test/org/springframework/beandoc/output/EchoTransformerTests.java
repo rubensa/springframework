@@ -68,27 +68,25 @@ public class EchoTransformerTests extends TestCase {
         EchoTransformer et = new EchoTransformer();
         StringWriter sw = new StringWriter();
         et.setWriter(sw);
-        et.setWriter(null);
-        et.setPrettyPrint(false);
-        
-        et.transform(docs, new File(System.getProperty("user.home")));
-        
-        assertTrue(sw.toString().indexOf(expect) > -1);
+        try {
+            et.setWriter(null);
+            fail();
+        } catch(IllegalArgumentException e) {
+            // ok
+            return;
+        }
+        fail();
     }
     
     public void testInvalidWriter() {
         EchoTransformer et = new EchoTransformer();
-        Writer w = new Writer() {
-            public void close() throws IOException {
-            }
-            public void flush() throws IOException {
-            }
+        et.setWriter(new Writer() {
+            public void close() throws IOException { }
+            public void flush() throws IOException { }
             public void write(char[] cbuf, int off, int len) throws IOException {
-                throw new IOException("Not a very useful writer is it?");
-            }            
-        };
-        et.setWriter(w);
-        et.setWriter(null);
+                throw new IOException("Not a very useful Writer is it?");
+            }
+        });
         et.setPrettyPrint(true);
 
         try {

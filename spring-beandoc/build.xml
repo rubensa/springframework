@@ -489,13 +489,14 @@
         description="Generate and copy all reference and api documentation">
     </target>
 	
-	
-	<target name="webdocs"
-		depends="testsummary,docapi,clover.html"
-		description="Docs, reports for website upload">
-	
+	<target name="webtar"
+		description="tar/compress test results, coverage, apidoc and refdoc for web site upload">
+		<delete file="${target.dist.dir}/beandoc.tbz2"/>
 		<tar destfile="${target.dist.dir}/beandoc.tbz2" compression="bzip2">
 			<tarfileset dir="${target.clover.html.dir}" prefix="clover/">
+				<include name="**/*"/>
+			</tarfileset>
+			<tarfileset dir="${target.junit.summary.dir}" prefix="junit/">
 				<include name="**/*"/>
 			</tarfileset>
 			<tarfileset dir="${target.javadocs.dir}" prefix="apidoc/">
@@ -504,9 +505,16 @@
 			<tarfileset dir="${target.refdocs.html.dir}" prefix="refdoc/">
 			    <include name="**/*"/>
 			</tarfileset>
+			<tarfileset dir="${target.refdocs.dir}" prefix="">
+			    <include name="images/**"/>
+			</tarfileset>
 		</tar>
-		
 	</target>
+	
+	
+	<target name="webdocs"
+		depends="testsummary,clover.html,dochtml,docapi,webtar"
+		description="Docs, reports for website upload"/>
 	
 	<!--
         Release zip file generation

@@ -60,6 +60,35 @@ public class HtmlDecoratorTests extends TestCase {
         }
     }
     
+    public void testNulls() {
+        try {
+            hd.setCssUrl(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+        
+        try {
+            hd.setFooter(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }        
+
+        try {
+            hd.setTitle(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        } 
+    }
+    
     public void testRootElementDecoration() {
         assertEquals("default.css", hd.getCssUrl());
         hd.setCssUrl("http://my.intranet.server/beandoc.css");

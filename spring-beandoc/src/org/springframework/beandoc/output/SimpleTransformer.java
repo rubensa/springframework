@@ -16,6 +16,7 @@
 
 package org.springframework.beandoc.output;
 
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
@@ -57,6 +58,7 @@ public class SimpleTransformer extends AbstractXslTransformer {
      * @param fileExtension the extension to use in the transformed file
      */
     public void setFileExtension(String fileExtension) {
+        Assert.hasLength(fileExtension);
         this.fileExtension = fileExtension;
     }
 

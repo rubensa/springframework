@@ -370,6 +370,50 @@ graphs.rankBeans[1]=com\.foo\.bar.*</programlisting>
           freedom to optimise layouts.</para>
         </note>
       </sect3>
+
+      <sect3>
+        <title>Selectively merging proxy beans</title>
+
+        <para>This option is most useful if your context files contain proxies
+        and targets where the target bean is not modelled as an anonymous
+        inner bean. There are several reasons for wanting to do this such as
+        making the un-proxied target available to unit tests. However, when
+        graphing the context, you only want to show the proxy with
+        dependencies of the inner bean looking like dependencies of the proxy
+        instead. By default, the graphs will show your proxy and its target as
+        two separate beans.</para>
+
+        <para>In beandoc.properties, you specify one or more RegEx expressions
+        that match either the class name or the id of the <emphasis
+        role="bold">proxy</emphasis> bean and set the value of the name of the
+        property that has a reference to its target. Typically this is
+        "target". Here's an example of a context configuration highlighting
+        the problem;</para>
+
+        <programlisting>&lt;beans&gt;
+  &lt;bean id="myProxy" class="com.foo.bar.SomeProxy"&gt;
+    &lt;property name="target"&gt;&lt;ref local="myProxyTarget"/&gt;&lt;/property&gt;
+  &lt;/bean&gt;
+
+  &lt;bean id="myProxyTarget"/&gt;
+&lt;/beans&gt;</programlisting>
+
+        <para>Ensure when picking a regular expression that matches your proxy
+        beans that you don't inadvertently match more beans than you intended
+        - remeber, the match will occur against <emphasis
+        role="bold">either</emphasis> id/name or class attributes. The two
+        beans above can be merged with the following line in
+        <literal>beandoc.properties</literal>;</para>
+
+        <programlisting>processor.mergeProxies[^myProxy$]=target</programlisting>
+
+        <para>The RegEx is very restrictive, being guaranteed to exactly match
+        a single bean with a name or id "myProxy". If you wanted all of your
+        <literal>SomeProxy</literal> classes to be matched, you could perhaps
+        write instead;</para>
+
+        <programlisting>processor.mergeProxies[com\.foo.*SomeProxy$]=target</programlisting>
+      </sect3>
     </sect2>
   </sect1>
 
@@ -386,7 +430,7 @@ graphs.rankBeans[1]=com\.foo\.bar.*</programlisting>
     file in the source code
     (<literal>org.springframework.beandoc.client.beandoc.xml</literal>) in
     conjunction with the <ulink
-    url="http://springframework.sourceforge.net/beandoc/api/">beandoc
+    url="http://springframework.sourceforge.net/beandoc/apidoc/">beandoc
     API</ulink> in order to see exactly what properties you have available for
     configuration.</para>
 

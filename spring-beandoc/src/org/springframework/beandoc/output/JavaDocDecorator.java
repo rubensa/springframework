@@ -23,6 +23,7 @@ import java.util.TreeMap;
 
 import org.jdom.Element;
 import org.jdom.filter.ElementFilter;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
@@ -110,8 +111,7 @@ public class JavaDocDecorator extends SimpleDecorator {
      * @see #addLocation(String, String)
      */
     public void setLocations(SortedMap map) {
-        if (map == null)
-            throw new IllegalArgumentException("Locations cannot be null");
+        Assert.notNull(map, "locations cannot be null");
         locations = map;
     }
 

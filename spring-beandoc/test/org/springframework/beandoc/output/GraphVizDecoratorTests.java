@@ -64,6 +64,89 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd.init();
     }
     
+    public void testNulls() {
+        try {
+            gvd.setBeanShape(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+        
+        try {
+            gvd.setColourBeans(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }        
+
+        try {
+            gvd.setDefaultFillColour(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }  
+
+        try {
+            gvd.setFontName(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }  
+
+        try {
+            gvd.setIgnoreBeans(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+
+        try {
+            gvd.setOutputType(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+
+        try {
+            gvd.setOutputType(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+
+        try {
+            gvd.setRankBeans(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+
+        try {
+            gvd.setRatio(null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            // ok
+        } catch (Throwable t) {
+            fail("IllegalArgumentException should be thrown instead");
+        }
+    }
+    
     public void testDefaults() {
         assertEquals(10, gvd.getFontSize());
         assertEquals("helvetica", gvd.getFontName());
@@ -178,7 +261,7 @@ public class GraphVizDecoratorTests extends TestCase {
             // null colour illegal
             gvd.addColourBeans(".*", null);
             fail();
-        } catch (BeanDocException e) {
+        } catch (IllegalArgumentException e) {
             // ok
         }
     }

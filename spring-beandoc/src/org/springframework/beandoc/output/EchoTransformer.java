@@ -22,6 +22,7 @@ import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.beandoc.BeanDocException;
+import org.springframework.util.Assert;
 
 /**
  * Transformer that simply echoes the XML representation of the decorated DOM.  Useful for
@@ -61,11 +62,11 @@ public class EchoTransformer implements Transformer {
      * Set the Writer that you wish output to be directed to.  Defaults to an OutputStreamWriter
      * around System.out
      * 
-     * @param writer
+     * @param writer which must not be null (throws IllegalArgumentException)
      */
     public void setWriter(Writer writer) {
-        if (writer != null)
-            this.writer = writer;
+        Assert.notNull(writer);
+        this.writer = writer;
     }
 
     /**

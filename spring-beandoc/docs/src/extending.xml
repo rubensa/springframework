@@ -29,7 +29,7 @@
     involved in adding the required files to produce additional output from
     that already produced by the tool. If you're genuinely of need of this
     stuff, the <ulink
-    url="http://springframework.sourceforge.net/beandoc/api/">API
+    url="http://springframework.sourceforge.net/beandoc/apidoc/">API
     documentation</ulink> is going to be your most important resource.</para>
 
     <para>Our trivial example will create a <literal>Transformer</literal>
@@ -81,18 +81,17 @@
     
 }</programlisting>
 
-    <para>The default context processor implementation in BeanDoc will in pass
+    <para>The default context processor implementation in BeanDoc will pass in
     the array of JDOM <literal><ulink
     url="http://www.jdom.org/docs/apidocs/org/jdom/Document.html">Document</ulink></literal>s
     that it has built in order that the implementation might amend values or
     add attributes. A convenience implementation of this interface called
-    <literal>SimpleDecorator</literal> subsequently iterates each <ulink
-    url="http://www.jdom.org/docs/apidocs/org/jdom/Element.html"><literal>Element</literal></ulink>
-    of each <literal>Document</literal> and calls a protected
-    <literal>decorateElement()</literal> method for subclasses to fill out. A
-    subclass can specify a <literal>Filter</literal> to restrict the
-    <literal>Element</literal> types it is presented with for decoration This
-    is what we'll do here;</para>
+    <literal>SimpleDecorator</literal> subsequently iterates each
+    <literal>Element</literal> of each <literal>Document</literal> and calls a
+    protected <literal>decorateElement()</literal> method for subclasses to
+    fill out. A subclass can specify a <literal>Filter</literal> to restrict
+    the <literal>Element</literal> types it is presented with for decoration
+    This is the pattern we'll follow here;</para>
 
     <programlisting>public class CsvDecorator extends SimpleDecorator {
 
@@ -123,10 +122,11 @@
     context. All the other information we need for our transformation to the
     CSV file is already available.</para>
 
-    <para>One more caveat when writing <literal>Decorator</literal>s: you can
-    add attributes and change the value of <literal>Element</literal>s in the
-    context, but any attempt to ADD new <literal>Element</literal>s will
-    result in a runtime exception.</para>
+    <remark>One more important point to note when writing
+    <literal>Decorator</literal>s: you can add or change attributes and change
+    the value of <literal>Element</literal>s, but any attempt to change the
+    structure of the DOM by adding, removing or moving
+    <literal>Element</literal>s will result in a runtime exception.</remark>
   </sect1>
 
   <sect1>
@@ -272,9 +272,9 @@
         <para>It may appear more natural to nest the "csv" beans as anonymous
         inner beans instead of supplying <literal>&lt;ref&gt;</literal> tags
         for them in the <literal>&lt;list&gt;</literal>s. Remember though that
-        unless they are top level beans with a referenceable id you will be
+        unless they are top level beans with a referenceable id, you will be
         unable to post-process them by setting properties in
-        beandoc.properties.</para>
+        <literal>beandoc.properties</literal>.</para>
       </note>Your <literal>&lt;beandoc/&gt;</literal> task in Ant's buildfile
     will need to be told where your alternative context definition file is,
     for example;</para>

@@ -24,6 +24,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.filter.AbstractFilter;
 import org.jdom.filter.ElementFilter;
+import org.springframework.util.Assert;
 
 /**
  * Abstract implementation of the <code>Decorator</code> interface which 
@@ -85,8 +86,7 @@ public abstract class SimpleDecorator implements Decorator {
      * @param elementFilter
      */
     public void setFilter(ElementFilter elementFilter) {
-        if (elementFilter == null)
-            throw new IllegalArgumentException("Null elementFilter is not permitted");
+        Assert.notNull(elementFilter, "Null elementFilter is not permitted");
         this.elementFilter = elementFilter;
     }
     
@@ -100,10 +100,7 @@ public abstract class SimpleDecorator implements Decorator {
      * @param tagNames
      */
     public void setFilterNames(String[] tagNames) {
-        if (tagNames == null || tagNames.length == 0)
-            throw new IllegalArgumentException(
-                "Cannot have null or empty array of names for Element filter"
-            );
+        Assert.notEmpty(tagNames, "Cannot have null or empty array of names for Element filter");
         
         this.elementFilter = new ElementFilter(tagNames[0]);
         if (tagNames.length == 1)

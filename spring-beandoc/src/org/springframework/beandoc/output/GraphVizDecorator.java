@@ -24,6 +24,7 @@ import org.jdom.Element;
 import org.springframework.beandoc.BeanDocException;
 import org.springframework.beandoc.util.MatchedPatternCallback;
 import org.springframework.beandoc.util.PatternMatcher;
+import org.springframework.util.Assert;
 
 
 /**
@@ -194,7 +195,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      *      RGB values
      */
     public void setDefaultFillColour(String colour) {
-        defaultFillColour = colour;
+        Assert.hasText(colour);
+        defaultFillColour = colour.trim();
     }
 
     /**
@@ -207,6 +209,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @see #addColourBeans
      */
     public void setColourBeans(Map colours) {
+        Assert.notNull(colours, "colours cannot be null");
         for (Iterator i = colours.entrySet().iterator(); i.hasNext();) {
             Map.Entry entry = (Entry) i.next();
             try {
@@ -229,13 +232,11 @@ public class GraphVizDecorator extends SimpleDecorator {
      *      suffixed with a wildcard (*) but does not use RegEx matching.  A null value will
      *      be ignored
      * @param colour the colour as an RGB HEX triplet to fill the bean with.  May not be null
-     * @throws BeanDocException if the colour value is null and the pattern is valid
      */
     public void addColourBeans(String pattern, String colour) {
         if (pattern == null) return;
-        if (colour == null)
-            throw new BeanDocException("Cannot have a [null] colour");
-        colourBeans.put(pattern, colour);
+        Assert.hasText(colour);
+        colourBeans.put(pattern, colour.trim());
     }
 
     /**
@@ -252,7 +253,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @param shape the shape for bean nodes in generated graphs.
      */
     public void setBeanShape(String shape) {
-        beanShape = shape;
+        Assert.hasText(shape);
+        beanShape = shape.trim();
     }
 
     /**
@@ -262,7 +264,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * on most platforms
      */
     public void setFontName(String font) {
-        fontName = font;
+        Assert.hasText(font);
+        fontName = font.trim();
     }
 
     /**
@@ -316,7 +319,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @see #setGraphYSize
      */
     public void setRatio(String ratio) {
-        this.ratio = ratio;
+        Assert.hasText(ratio);
+        this.ratio = ratio.trim();
     }
 
     /**
@@ -360,7 +364,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * PNG files.
      */
     public void setOutputType(String graphType) {
-        outputType = graphType;
+        Assert.hasText(graphType);
+        outputType = graphType.trim();
     }
 
     /**
@@ -384,11 +389,12 @@ public class GraphVizDecorator extends SimpleDecorator {
      * be excluded from the output documents.  The preferred way to modify this list is 
      * through the {@link #addIgnoreBeans} convenience method.
      * 
-     * @param list a <code>List</code> of patterns of bean names to be excluded from graphs
+     * @param ignoreBeans a <code>List</code> of patterns of bean names to be excluded from graphs
      * @see #addIgnoreBeans
      */
-    public void setIgnoreBeans(List list) {
-        ignoreBeans = list;
+    public void setIgnoreBeans(List ignoreBeans) {
+        Assert.notNull(ignoreBeans, "ignoreBeans cannot be null");
+        this.ignoreBeans = ignoreBeans;
     }    
 
     /**
@@ -412,10 +418,11 @@ public class GraphVizDecorator extends SimpleDecorator {
      * similar beans are graphed.  Specifically, a ranked set of beans will all 
      * appear on the same rank (row) of a graph.
      * 
-     * @param rankedBeans the List of patterns of grouped beans
+     * @param rankBeans the List of patterns of grouped beans
      */
-    public void setRankBeans(List rankedBeans) {
-        this.rankBeans = rankedBeans;
+    public void setRankBeans(List rankBeans) {
+        Assert.notNull(rankBeans, "rankBeans cannot be null");
+        this.rankBeans = rankBeans;
     }    
 
     /**

@@ -38,6 +38,7 @@ import org.springframework.beans.factory.xml.BeansDtdResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.Assert;
 
 /**
  * Default implementation of the <code>ContextProcessor</code> interface that generates documentation
@@ -589,9 +590,10 @@ public class DefaultContextProcessor implements ContextProcessor {
      * that the target is referenced under.  Typically this will be 'target'.  Map values must be String
      * objects specifying a bean property and not RegEx expressions or other object.
      *  
-     * @param map
+     * @param map which cannot be null and will throw IllegalArgumentException if it is.
      */
     public void setMergeProxies(Map map) {
+        Assert.notNull(map);
         mergeProxies = map;
     }
 

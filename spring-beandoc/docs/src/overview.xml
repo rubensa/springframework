@@ -17,8 +17,7 @@
         <imagedata align="center" fileref="images/main.png" />
       </imageobject>
 
-      <caption><para>Sample output showing JPetStore main
-      page</para></caption>
+      <caption><para>Sample output showing a JPetStore page</para></caption>
     </mediaobject>
 
     <para>The tool documents a multi-file application context in a repeatable,
@@ -60,9 +59,9 @@
       <title>Releases</title>
 
       <para>If you don't wish to track CVS you can <ulink
-      url="http://springframework.sourceforge.net/beandoc/">download release
-      files</ulink> which contain all of the project sources, samples and
-      compiled documentation instead.</para>
+      url="http://opensource.atlassian.com/confluence/spring/display/BDOC/Home">download
+      release files</ulink> which contain all of the project sources, samples
+      and compiled documentation instead.</para>
     </sect2>
 
     <sect2>

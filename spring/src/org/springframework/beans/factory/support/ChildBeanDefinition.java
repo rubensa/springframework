@@ -40,12 +40,6 @@ public class ChildBeanDefinition extends AbstractBeanDefinition {
 		}
 	}
 
-	public boolean equals(Object obj) {
-		if (!(obj instanceof ChildBeanDefinition))
-			return false;
-		return super.equals(obj) && ((ChildBeanDefinition) obj).getParentName().equals(this.getParentName());
-	}
-
 	public String toString() {
 		return "Child bean definition with parent '" + getParentName() + "'";
 	}

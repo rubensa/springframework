@@ -77,7 +77,7 @@ public abstract class AbstractBeanDefinition {
 
 	/**
 	 * Set whether this bean should be lazily initialized.
-	 * Only applicable for a singleton bean.
+	 * Only applicable to a singleton bean.
 	 * If false, it will get instantiated on startup by bean factories
 	 * that perform eager initialization of singletons.
 	 */
@@ -92,17 +92,14 @@ public abstract class AbstractBeanDefinition {
 		return lazyInit;
 	}
 
+	/**
+	 * Validate this bean definition.
+	 * @throws BeanDefinitionValidationException in case of validation failure
+	 */
 	public void validate() throws BeanDefinitionValidationException {
 		if (this.lazyInit && !this.singleton) {
-			throw new BeanDefinitionValidationException("Lazy initialization is just applicable for singleton beans");
+			throw new BeanDefinitionValidationException("Lazy initialization is just applicable to singleton beans");
 		}
-	}
-
-	public boolean equals(Object other) {
-		if (!(other instanceof AbstractBeanDefinition))
-			return false;
-		AbstractBeanDefinition obd = (AbstractBeanDefinition) other;
-		return this.propertyValues.changesSince(obd.propertyValues).getPropertyValues().length == 0;
 	}
 
 }

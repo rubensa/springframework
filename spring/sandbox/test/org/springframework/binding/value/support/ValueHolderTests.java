@@ -13,7 +13,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.springframework.binding.value.ValueModel;
-import org.springframework.util.closure.Closure;
+import org.springframework.core.closure.Closure;
 
 /**
  * 

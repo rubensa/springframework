@@ -18,7 +18,7 @@ public class MailTestSuite extends TestCase {
 
 	public void testBeanProperties() throws Exception {
 		MockControl msControl = EasyMock.niceControlFor(MailSender.class);
-		MailSender ms = (MailSender) msControl.getMock();
+		MailSender ms = (MailSender)msControl.getMock();
 		msControl.activate();
 
 		MailTemplate mt = new MailTemplate(ms);
@@ -41,6 +41,10 @@ public class MailTestSuite extends TestCase {
 
 	public void testMissconfiguredMailSettings() throws Exception {
 		MailTemplate mt = new MailTemplate();
+		MockControl msControl = EasyMock.niceControlFor(MailSender.class);
+		MailSender ms = (MailSender)msControl.getMock();
+		msControl.activate();
+		mt.setMailSender(ms);
 		try {
 			mt.sendMail(new MailCallback() {
 				public void configure(MailSettings mailSettings) {
@@ -55,20 +59,46 @@ public class MailTestSuite extends TestCase {
 		}
 	}
 
-	public void testWithNullMailSettings() throws Exception {
+	public void testNullMailSettings() throws Exception {
 		MailTemplate mt = new MailTemplate();
+		MockControl msControl = EasyMock.niceControlFor(MailSender.class);
+		MailSender ms = (MailSender)msControl.getMock();
+		msControl.activate();
+		mt.setMailSender(ms);
 		mt.setMailSettings(null);
 		try {
 			mt.sendMail(new MailCallback() {
 				public void configure(MailSettings mailSettings) {
-					mailSettings.setMailTo("xxx@yahoo.com");
-					mailSettings.setMailFrom("xxx@org.springframework.com");
 				}
 			});
 			fail("Should throw MailTemplateIllegalStateException");
 		}
 		catch (MailTemplateIllegalStateException ex) {
 			//Expected
+		}
+	}
+
+	public void testConfiguredMailSettings() throws Exception {
+		MailTemplate mt = new MailTemplate();
+		MockControl msControl = EasyMock.niceControlFor(MailSender.class);
+		MailSender ms = (MailSender)msControl.getMock();
+		msControl.activate();
+		mt.setMailSender(ms);
+
+		try {
+			mt.sendMail(new MailCallback() {
+				public void configure(MailSettings mailSettings) {
+					mailSettings.setMailTo("xxx@yahoo.com");
+					mailSettings.setMailFrom("xxx@org.springframework.com");
+					mailSettings.setMailSubject("test");
+					mailSettings.setMailText("test");
+					mailSettings.setMailHost("localhost");
+				}
+
+			});
+		}
+		catch (IllegalStateException ex) {
+			fail("Should not throw IllegalStateException");
 		}
 	}
 }

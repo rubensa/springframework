@@ -21,25 +21,12 @@ import javax.servlet.ServletException;
 import junit.framework.TestCase;
 
 /**
- * 
  * @author Rod Johnson
  * @since 23-Jul-2003
  * @version $Id$
  */
 public class RegexpMethodPointcutTests extends TestCase {
 
-	/**
-	 * Constructor for RegexpMethodPointcutTests.
-	 * @param arg0
-	 */
-	public RegexpMethodPointcutTests(String arg0) {
-		super(arg0);
-	}
-	
-	/**
-	 * Matches nothing
-	 * @throws Exception
-	 */
 	public void testNoPatternSupplied() throws Exception {
 		RegexpMethodPointcut rpc = new RegexpMethodPointcut();
 		assertFalse(rpc.matches(Object.class.getMethod("hashCode", null), String.class));

@@ -41,6 +41,7 @@ import org.springframework.aop.target.HotSwappableTargetSource;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
+import org.springframework.util.StopWatch;
 
 /**
  * @author Rod Johnson
@@ -170,6 +171,44 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		assertNull(tb.getName());
 		tb.setName(name);
 		assertEquals(name, tb.getName());
+	}
+	
+	/**
+	 * This is primarily a test for the efficiency of our
+	 * usage of CGLIB. If we create too many classes with
+	 * CGLIB this will be slow or will run out of memory
+	 * TODO reenable this
+	 *
+	 */
+	public void xtestManyProxies() {
+		int howmany = 10000;
+		StopWatch sw = new StopWatch();
+		sw.start(getClass() + getName() + ": create " + howmany + " proxies");
+		testManyProxies(howmany);
+		sw.stop();
+		System.out.println(sw);
+		// Set a performance benchmark
+		// It's pretty generous so as not to cause failures
+		// on slow machines
+		assertTrue("Proxy creation was too slow", 
+			sw.getTotalTimeSecs() < 10);
+	}
+	
+	private void testManyProxies(int howmany) {
+		int age1 = 33;
+		int age2 = 37;
+		String name = "tony";
+
+		TestBean target1 = new TestBean();
+		target1.setAge(age1);
+		ProxyFactory pf1 = new ProxyFactory(target1);
+		pf1.addInterceptor(new NopInterceptor());
+		pf1.addInterceptor(new NopInterceptor());
+		ITestBean proxies[] = new ITestBean[howmany];
+		for (int i = 0; i < howmany; i++) {
+			proxies[i] = (ITestBean) createAopProxy(pf1).getProxy();
+			assertEquals(age1, proxies[i].getAge());
+		}
 	}
 	
 	/**

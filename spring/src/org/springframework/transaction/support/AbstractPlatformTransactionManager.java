@@ -200,9 +200,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 					TransactionSynchronizationManager.triggerBeforeCompletion();
 				}
 				if (status.isNewTransaction()) {
-					if (status.isDebug()) {
-						logger.debug("Initiating transaction commit");
-					}
+					logger.info("Initiating transaction commit");
 					doCommit(status);
 				}
 				triggerAfterCompletion(status, TransactionSynchronization.STATUS_COMMITTED, null);
@@ -254,9 +252,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				TransactionSynchronizationManager.triggerBeforeCompletion();
 			}
 			if (status.isNewTransaction()) {
-				if (status.isDebug()) {
-					logger.debug("Initiating transaction rollback");
-				}
+				logger.info("Initiating transaction rollback");
 				doRollback(status);
 			}
 			else if (status.getTransaction() != null) {

@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
  
-package org.springframework.beans.factory.support;
+package org.springframework.beans.factory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -89,7 +89,7 @@ public abstract class BeanFactoryUtils {
 	 * (also applies to FactoryBeans)
 	 * @param includeFactoryBeans whether to include FactoryBeans too or just normal beans
 	 * @return the Map of bean instances, or an empty Map if none
-	 * @throws BeansException if the beans could not be created
+	 * @throws org.springframework.beans.BeansException if the beans could not be created
 	 */
 	public static Map beansOfTypeIncludingAncestors(ListableBeanFactory lbf, Class type,
 																									boolean includePrototypes, boolean includeFactoryBeans)
@@ -122,8 +122,8 @@ public abstract class BeanFactoryUtils {
 	 * (also applies to FactoryBeans)
 	 * @param includeFactoryBeans whether to include FactoryBeans too or just normal beans
 	 * @return the Map of bean instances, or an empty Map if none
-	 * @throws NoSuchBeanDefinitionException if 0 or more than 1 beans of the given type were found
-	 * @throws BeansException if the bean could not be created
+	 * @throws org.springframework.beans.factory.NoSuchBeanDefinitionException if 0 or more than 1 beans of the given type were found
+	 * @throws org.springframework.beans.BeansException if the bean could not be created
 	 */
 	public static Object beanOfTypeIncludingAncestors(ListableBeanFactory lbf, Class type,
 	                                                  boolean includePrototypes, boolean includeFactoryBeans)
@@ -146,8 +146,8 @@ public abstract class BeanFactoryUtils {
 	 * (also applies to FactoryBeans)
 	 * @param includeFactoryBeans whether to include FactoryBeans too or just normal beans
 	 * @return the Map of bean instances, or an empty Map if none
-	 * @throws NoSuchBeanDefinitionException if 0 or more than 1 beans of the given type were found
-	 * @throws BeansException if the bean could not be created
+	 * @throws org.springframework.beans.factory.NoSuchBeanDefinitionException if 0 or more than 1 beans of the given type were found
+	 * @throws org.springframework.beans.BeansException if the bean could not be created
 	 */
 	public static Object beanOfType(ListableBeanFactory lbf, Class type,
 	                                boolean includePrototypes, boolean includeFactoryBeans)
@@ -168,8 +168,8 @@ public abstract class BeanFactoryUtils {
 	 * @param lbf the bean factory
 	 * @param type type of bean to match
 	 * @return the Map of bean instances, or an empty Map if none
-	 * @throws NoSuchBeanDefinitionException if 0 or more than 1 beans of the given type were found
-	 * @throws BeansException if the bean could not be created
+	 * @throws org.springframework.beans.factory.NoSuchBeanDefinitionException if 0 or more than 1 beans of the given type were found
+	 * @throws org.springframework.beans.BeansException if the bean could not be created
 	 */
 	public static Object beanOfType(ListableBeanFactory lbf, Class type) throws BeansException {
 		return beanOfType(lbf, type, true, true);

@@ -5,7 +5,7 @@
 
 package org.springframework.beans.factory.support;
 
-import org.springframework.beans.PropertyValues;
+import org.springframework.beans.MutablePropertyValues;
 
 /**
  * Bean definition for beans whose class is defined by their ancestry. PropertyValues
@@ -21,7 +21,7 @@ public class ChildBeanDefinition extends AbstractBeanDefinition {
 	/**
 	 * Create a new ChildBeanDefinition for the given parent.
 	 */
-	public ChildBeanDefinition(String parentName, PropertyValues pvs) {
+	public ChildBeanDefinition(String parentName, MutablePropertyValues pvs) {
 		super(pvs);
 		this.parentName = parentName;
 	}

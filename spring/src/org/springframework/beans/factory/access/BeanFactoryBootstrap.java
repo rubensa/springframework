@@ -3,11 +3,13 @@
  * of the Apache Software License.
  */
  
-package org.springframework.beans.factory.support;
+package org.springframework.beans.factory.access;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 
 /**
  * One singleton to rule them all.
@@ -60,7 +62,7 @@ public class BeanFactoryBootstrap {
 	/**
 	 * Return the singleton instance of the bootstrap factory
 	 * @return BeanFactoryBootstrap
-	 * @throws BeansException
+	 * @throws org.springframework.beans.BeansException
 	 */
 	public static BeanFactoryBootstrap getInstance() throws BeansException {
 		if (startupException != null)

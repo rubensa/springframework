@@ -32,7 +32,7 @@ import org.springframework.beans.BeansException;
  * @author Rod Johnson
  * @since 16 April 2001
  * @version $Id$
- * @see org.springframework.beans.factory.support.BeanFactoryUtils
+ * @see BeanFactoryUtils
  * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#registerSingleton
  */
 public interface ListableBeanFactory extends BeanFactory {

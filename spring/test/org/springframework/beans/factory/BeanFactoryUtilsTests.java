@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
 
-package org.springframework.beans.factory.support;
+package org.springframework.beans.factory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,8 +14,7 @@ import junit.framework.TestCase;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.IndexedTestBean;
 import org.springframework.beans.TestBean;
-import org.springframework.beans.factory.DummyFactory;
-import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.support.StaticListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.HandlerAdapter;
@@ -47,7 +46,7 @@ public class BeanFactoryUtilsTests extends TestCase {
 
 	/**
 	 * Check that override doesn't count as too separate beans
-	 * @throws Exception
+	 * @throws java.lang.Exception
 	 */
 	public void testHierarchicalCountBeansWithOverride() throws Exception {
 		// Leaf count

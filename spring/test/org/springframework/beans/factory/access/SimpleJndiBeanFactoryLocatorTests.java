@@ -8,8 +8,6 @@ package org.springframework.beans.factory.access;
 import junit.framework.TestCase;
 
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.access.SimpleJndiBeanFactoryLocator;
-import org.springframework.beans.factory.support.BootstrapException;
 import org.springframework.jndi.support.SimpleNamingContextBuilder;
 
 /**

@@ -46,6 +46,8 @@ import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.beans.factory.config.ConstructorArgumentValues;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 
 /**
  * Abstract superclass that makes implementing a BeanFactory very easy.
@@ -378,22 +380,14 @@ public abstract class AbstractBeanFactory implements AutowireCapableBeanFactory,
 		return ignoreDependencyTypes;
 	}
 
-	public PropertyValues getPropertyValues(String beanName) {
+	public MutablePropertyValues getPropertyValues(String beanName) throws BeansException {
 		return getBeanDefinition(beanName).getPropertyValues();
 	}
 
-	/**
-	 * Register property value for a specific bean, overriding an existing value.
-	 * If no previous value exists, a new one will be added.
-	 * <p>This is intended for bean factory post processing, i.e. overriding
-	 * certain property values after parsing the original bean definitions.
-	 * @param beanName name of the bean
-	 * @param pv property name and value
-	 * @throws BeansException if the property values of the specified bean are immutable
-	 * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor
-	 */
-	public void overridePropertyValue(String beanName, PropertyValue pv) throws BeansException {
-		getBeanDefinition(beanName).addPropertyValue(pv);
+	public ConstructorArgumentValues getConstructorArgumentValues(String beanName) throws BeansException {
+		AbstractBeanDefinition bd = getBeanDefinition(beanName);
+		return (bd instanceof RootBeanDefinition ?
+		    ((RootBeanDefinition) bd).getConstructorArgumentValues() : null);
 	}
 
 	public void registerAlias(String beanName, String alias) throws BeanDefinitionStoreException {
@@ -484,7 +478,7 @@ public abstract class AbstractBeanFactory implements AutowireCapableBeanFactory,
 			RootBeanDefinition rbd = new RootBeanDefinition(getMergedBeanDefinition(cbd.getParentName(), true));
 			// override properties
 			for (int i = 0; i < cbd.getPropertyValues().getPropertyValues().length; i++) {
-				rbd.addPropertyValue(cbd.getPropertyValues().getPropertyValues()[i]);
+				rbd.getPropertyValues().addPropertyValue(cbd.getPropertyValues().getPropertyValues()[i]);
 			}
 			// override settings
 			rbd.setSingleton(cbd.isSingleton());

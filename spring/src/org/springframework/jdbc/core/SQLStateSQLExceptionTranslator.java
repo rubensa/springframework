@@ -48,16 +48,18 @@ public class SQLStateSQLExceptionTranslator implements SQLExceptionTranslator {
 	 * @see SQLExceptionTranslator#translate(String,String,SQLException)
 	 */
 	public DataAccessException translate(String task, String sql, SQLException sqlex) {
-		logger.warn("Translating SQLException with SQLState='" + sqlex.getSQLState() + "' and errorCode=" + sqlex.getErrorCode() + 
-						" and message=" + sqlex.getMessage() + "; sql was '" + sql + "'");
-			
-		String sqlstate = sqlex.getSQLState();
-		if (sqlstate != null && sqlstate.length() >= 2) {
-			String classCode = sqlstate.substring(0, 2);
-			if (BAD_SQL_CODES.contains(classCode))
+		logger.warn("Translating SQLException with SQLState '" + sqlex.getSQLState() + "' and errorCode '" + sqlex.getErrorCode() +
+						"' and message [" + sqlex.getMessage() + "]; SQL was [" + sql + "] for task [" + task + "]");
+
+		String sqlState = sqlex.getSQLState();
+		if (sqlState != null && sqlState.length() >= 2) {
+			String classCode = sqlState.substring(0, 2);
+			if (BAD_SQL_CODES.contains(classCode)) {
 				return new BadSqlGrammarException("(" + task + "): SQL grammatical error '" + sql + "'", sql, sqlex);
-			if (INTEGRITY_VIOLATION_CODES.contains(classCode))
+			}
+			else if (INTEGRITY_VIOLATION_CODES.contains(classCode)) {
 				return new DataIntegrityViolationException("(" + task + "): data integrity violated by SQL '" + sql + "'", sqlex);
+			}
 		}
 		
 		// We couldn't identify it more precisely

@@ -1,9 +1,0 @@
-.classes
-.livetestclasses
-.loadclasses
-.testclasses
-bin
-dist
-junit-reports
-release
-*.log

@@ -41,6 +41,7 @@ import org.springframework.aop.target.HotSwappableTargetSource;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
+import org.springframework.util.SerializationTestUtils;
 import org.springframework.util.StopWatch;
 
 /**
@@ -209,6 +210,18 @@ public abstract class AbstractAopProxyTests extends TestCase {
 			proxies[i] = (ITestBean) createAopProxy(pf1).getProxy();
 			assertEquals(age1, proxies[i].getAge());
 		}
+	}
+	
+	
+	public void testSerializationAdviceAndTargetNotSerializable() throws Exception {
+		TestBean tb = new TestBean();
+		
+		ProxyFactory pf = new ProxyFactory(tb);
+		
+		pf.addInterceptor(new NopInterceptor());
+		ITestBean proxy = (ITestBean) createAopProxy(pf).getProxy();
+		
+		assertFalse(SerializationTestUtils.isSerializable(proxy));
 	}
 	
 	/**

@@ -6,7 +6,7 @@
 package org.springframework.aop.target;
 
 import org.springframework.aop.support.DelegatingIntroductionInterceptor;
-import org.springframework.aop.support.SimpleIntroductionAdvisor;
+import org.springframework.aop.support.DefaultInterceptionIntroductionAdvisor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanInitializationException;
@@ -96,9 +96,9 @@ public abstract class AbstractPoolingTargetSource extends AbstractPrototypeTarge
 	 * @return an IntroductionAdvisor that providing a mixin
 	 * exposing statistics about the pool maintained by this object
 	 */
-	public SimpleIntroductionAdvisor getPoolingConfigMixin() {
+	public DefaultInterceptionIntroductionAdvisor getPoolingConfigMixin() {
 		DelegatingIntroductionInterceptor dii = new DelegatingIntroductionInterceptor(this);
-		return new SimpleIntroductionAdvisor(dii, PoolingConfig.class);
+		return new DefaultInterceptionIntroductionAdvisor(dii, PoolingConfig.class);
 	}
 
 }

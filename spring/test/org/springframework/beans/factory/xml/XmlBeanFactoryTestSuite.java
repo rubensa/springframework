@@ -301,6 +301,10 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 	}
 
 	public void testBuildCollectionFromMixtureOfReferencesAndValues() throws Exception {
+		// Ensure that a test runner like Eclipse, that keeps the same JVM up,
+		// will get fresh static values
+		MixedCollectionBean.resetStaticState();
+		
 		InputStream is = getClass().getResourceAsStream("collections.xml");
 		XmlBeanFactory xbf = new XmlBeanFactory(is);
 		//assertTrue("5 beans in reftypes, not " + xbf.getBeanDefinitionCount(), xbf.getBeanDefinitionCount() == 5);

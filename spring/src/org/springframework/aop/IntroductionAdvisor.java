@@ -5,6 +5,8 @@
  
 package org.springframework.aop;
 
+import org.springframework.aop.framework.AopConfigException;
+
 /**
  * Superinterface for advisors that perform one or more
  * AOP <b>introductions</b>.
@@ -31,5 +33,13 @@ public interface IntroductionAdvisor extends Advisor {
 	 * @return the additional interfaces introduced by this Advisor
 	 */
 	Class[] getInterfaces();
+	
+	/**
+	 * Can the advised interfaces be implemented by the 
+	 * introduction advice? Invoked before adding an IntroductionAdvisor.
+	 * @throws AopConfigException if the advised interfaces can't
+	 * be implemented by the introduction advice
+	 */
+	void validateInterfaces() throws AopConfigException;
 
 }

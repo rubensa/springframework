@@ -17,6 +17,10 @@ import java.util.Collection;
 public class MixedCollectionBean {
 
 	protected static int nrOfInstances = 0;
+	
+	public static void resetStaticState() {
+		nrOfInstances = 0;
+	}
 
 	private Collection jumble;
 

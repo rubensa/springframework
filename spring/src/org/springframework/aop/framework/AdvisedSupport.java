@@ -13,10 +13,10 @@ import java.util.Set;
 
 import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
-
 import org.springframework.aop.Advisor;
 import org.springframework.aop.InterceptionAroundAdvisor;
 import org.springframework.aop.InterceptionIntroductionAdvisor;
+import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.Pointcut;
@@ -216,7 +216,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		addAdvisor(new DefaultThrowsAdvisor(throwsAdvice));
 	}
 
-	// TODO what about removing a ProxyInterceptor?
+
 	public final boolean removeInterceptor(Interceptor interceptor) {
 		boolean removed = false;
 		for (int i = 0; i < this.advisors.size() && !removed; i++) {
@@ -291,23 +291,14 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		adviceChanged();
 	}
 	
-	public void addAdvisor(int pos, InterceptionIntroductionAdvisor advice) throws AopConfigException {
-		// Check interfaces before changing anything in object state
-		for (int i = 0; i < advice.getInterfaces().length; i++) {
-			if (!advice.getInterfaces()[i].isInterface()) {
-				throw new AopConfigException("Class '" + advice.getInterfaces()[i].getName() + "' is not an interface; cannot be used in an introduction");
-			}
-			 if (!advice.getIntroductionInterceptor().implementsInterface(advice.getInterfaces()[i])) {
-			 	throw new AopConfigException("IntroductionInterceptor [" + advice.getIntroductionInterceptor() + "] " +
-			 			"does not implement interface '" + advice.getInterfaces()[i].getName() + "' specified in introduction advice");
-			 }
-		 }
+	public void addAdvisor(int pos, IntroductionAdvisor advisor) throws AopConfigException {
+		advisor.validateInterfaces();
 		
-		// If we passed that we can make the change	 
-		for (int i = 0; i < advice.getInterfaces().length; i++) {
-			 addInterface(advice.getInterfaces()[i]);
+		// If the advisor passed validation we can make the change	 
+		for (int i = 0; i < advisor.getInterfaces().length; i++) {
+			 addInterface(advisor.getInterfaces()[i]);
 		 }
-		addAdvisorInternal(pos, advice);
+		addAdvisorInternal(pos, advisor);
 	}
 
 	public void addAdvisor(int pos, Advisor advisor) {

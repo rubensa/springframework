@@ -55,6 +55,12 @@ public class SQLStateSQLExceptionTranslator implements SQLExceptionTranslator {
 						"' and message [" + sqlex.getMessage() + "]; SQL was [" + sql + "] for task [" + task + "]");
 
 		String sqlState = sqlex.getSQLState();
+		// Some JDBC drivers nest the actual exception from a batched update - need to get the nested one
+		if (sqlState == null) {
+			SQLException nestedEx = sqlex.getNextException();
+			if (nestedEx != null)
+				sqlState = nestedEx.getSQLState();
+		}
 		if (sqlState != null && sqlState.length() >= 2) {
 			String classCode = sqlState.substring(0, 2);
 			if (BAD_SQL_CODES.contains(classCode)) {

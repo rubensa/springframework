@@ -222,8 +222,10 @@
         </table>
         </xsl:if>
         
-        <div class="beanFooter"><a href="#top">back to top</a></div>
-        <hr/>
+        <xsl:if test="parent::*[name()='beans']">
+	        <div class="beanFooter"><a href="#top">back to top</a></div>
+	        <hr/>
+	    </xsl:if>
     </xsl:template>
     
     

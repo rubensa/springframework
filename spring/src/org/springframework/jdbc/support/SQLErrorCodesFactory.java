@@ -113,7 +113,7 @@ public class SQLErrorCodesFactory {
 				else
 				rdbmsErrorCodes.put(ec.getDatabaseProductName(), ec);
 			}
-			logger.warn("SQLErrorCodes loaded " + rdbmsErrorCodes.keySet());
+			logger.info("SQLErrorCodes loaded " + rdbmsErrorCodes.keySet());
 		}
 		catch (BeanDefinitionStoreException be) {
 			logger.warn("Error loading error codes from config file.  Message = " + be.getMessage());

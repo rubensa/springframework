@@ -19,9 +19,9 @@ import org.springframework.beans.TestBean;
  * @since 13-Mar-2003
  * @version $Id$
  */
-public class JDKDynamicProxyTests extends AbstractAopProxyTests {
+public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 
-	public JDKDynamicProxyTests(String arg0) {
+	public JdkDynamicProxyTests(String arg0) {
 		super(arg0);
 	}
 	

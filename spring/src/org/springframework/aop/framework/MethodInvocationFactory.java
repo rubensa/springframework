@@ -7,6 +7,8 @@ package org.springframework.aop.framework;
 
 import java.lang.reflect.Method;
 
+import org.aopalliance.intercept.MethodInvocation;
+
 /**
  * Factory for method invocations.
  * @author Rod Johnson
@@ -14,7 +16,7 @@ import java.lang.reflect.Method;
  */
 public interface MethodInvocationFactory {
 	
-	MethodInvocationImpl getMethodInvocation(ProxyConfig pc, Object proxy, Method method, Object[] args);
+	MethodInvocation getMethodInvocation(ProxyConfig pc, Object proxy, Method method, Object[] args);
 	
 	/**
 	 * Clear state

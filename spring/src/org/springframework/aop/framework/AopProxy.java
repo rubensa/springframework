@@ -14,6 +14,7 @@ import net.sf.cglib.Enhancer;
 import net.sf.cglib.MethodInterceptor;
 import net.sf.cglib.MethodProxy;
 
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -87,7 +88,7 @@ public class AopProxy implements InvocationHandler {
 	 */
 	public final Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 	
-		MethodInvocationImpl invocation = this.methodInvocationFactory.getMethodInvocation(this.config, proxy, method, args);
+		MethodInvocation invocation = this.methodInvocationFactory.getMethodInvocation(this.config, proxy, method, args);
 		
 		if (this.config.getExposeInvocation()) {
 			// Make invocation available if necessary

@@ -10,3 +10,4 @@ build.properties
 bin
 junit-reports
 libold
+classes

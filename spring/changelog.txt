@@ -83,6 +83,7 @@ Package org.springframework.scheduling
 * added "jobSchedulingDataLocation" property to SchedulerFactoryBean, supporting Quartz 1.3's job definition XML files
 * added "dataSource" property to SchedulerFactoryBean, for using a Spring-managed DataSource as Quartz job store
 * added "overwriteExistingJobs" property to SchedulerFactoryBean, to control overwriting of persistent jobs
+* added "concurrent" property to MethodInvokingJobDetailFactoryBean to support Stateful jobs if needed
 
 Package org.springframework.transaction
 * added "PROPAGATION_NESTED" to TransactionDefinition, for specifying a nested transacton

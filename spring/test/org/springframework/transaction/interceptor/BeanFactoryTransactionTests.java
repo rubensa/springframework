@@ -22,6 +22,7 @@ import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.transaction.CountingTxManager;
 import org.springframework.transaction.DummyTxManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -127,7 +128,7 @@ public class BeanFactoryTransactionTests extends TestCase {
 	 */
 	public void testDynamicTargetSource() throws NoSuchMethodException {
 		// Install facade
-		DummyTxManager txMan = new DummyTxManager();
+		CountingTxManager txMan = new CountingTxManager();
 		PlatformTransactionManagerFacade.delegate = txMan;
 		
 		TestBean tb = (TestBean) factory.getBean("hotSwapped");

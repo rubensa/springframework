@@ -115,7 +115,7 @@ public abstract class FrameworkPortlet extends PortletBean {
 	 * portlet render requests to servlet requests in order to leverage the view support
 	 * in org.springframework.web.view.
 	 */
-	public static final String DEFAULT_VIEW_RENDERER_SERVLET = "/view";
+	public static final String DEFAULT_VIEW_RENDERER_SERVLET = "/WEB-INF/servlet/view";
 
 	/** Custom PortletApplicationContext implementation class */
 	private Class contextClass = DEFAULT_CONTEXT_CLASS;

@@ -9,14 +9,9 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.metadata.Attributes;
-import org.springframework.transaction.interceptor.RollbackRuleAttribute;
-import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
-import org.springframework.transaction.interceptor.TransactionAttribute;
-import org.springframework.transaction.interceptor.TransactionAttributeSource;
 
 /**
  * Implementation of TransactionAttributeSource that uses
@@ -54,7 +49,7 @@ public class AttributesTransactionAttributeSource implements TransactionAttribut
 	 * @return null if the method is non-transactional
 	 * @see org.springframework.transaction.interceptor.TransactionAttributeSource#getTransactionAttribute(org.aopalliance.intercept.MethodInvocation)
 	 */
-	public TransactionAttribute getTransactionAttribute(MethodInvocation mi) {
+	public TransactionAttribute getTransactionAttribute(Method method, Class targetClass) {
 		// TODO change to method and target class
 		
 //		Class targetClass = mi.getMethod().getDeclaringClass();
@@ -62,12 +57,7 @@ public class AttributesTransactionAttributeSource implements TransactionAttribut
 //			targetClass = mi.getThis().getClass();
 //		}
 
-	
-		// TODO add knowledge about target class?
-		
-		Method method = mi.getMethod();
-		
-		// TODO!?
+
 		List atts = this.attributes.getAttributes(method);
 		TransactionAttribute txAtt = findTransactionAttribute(atts);
 		if (txAtt != null)

@@ -26,24 +26,40 @@ import java.beans.PropertyChangeEvent;
  */
 public class TypeMismatchException extends PropertyAccessException {
 
+	private final Class requiredType;
+
+	/**
+	 * Create a new TypeMismatchException.
+	 * @param propertyChangeEvent the PropertyChangeEvent that resulted in the problem
+	 * @param requiredType the required target type
+	 */
 	public TypeMismatchException(PropertyChangeEvent propertyChangeEvent, Class requiredType) {
-		super("Cannot convert property value of type [" +
-		      (propertyChangeEvent.getNewValue() != null ?
-		       propertyChangeEvent.getNewValue().getClass().getName() : null) +
-		      "] to required type [" + requiredType.getName() + "]" +
-					(propertyChangeEvent.getPropertyName() != null ?
-					 " for property '" + propertyChangeEvent.getPropertyName() + "'" : ""),
-					propertyChangeEvent);
+		this(propertyChangeEvent, requiredType, null);
 	}
 
+	/**
+	 * Create a new TypeMismatchException.
+	 * @param propertyChangeEvent the PropertyChangeEvent that resulted in the problem
+	 * @param requiredType the required target type
+	 * @param ex the root cause
+	 */
 	public TypeMismatchException(PropertyChangeEvent propertyChangeEvent, Class requiredType, Throwable ex) {
-		super("Failed to convert property value of type [" +
+		super(propertyChangeEvent,
+					"Failed to convert property value of type [" +
 		      (propertyChangeEvent.getNewValue() != null ?
 		       propertyChangeEvent.getNewValue().getClass().getName() : null) +
 		      "] to required type [" + requiredType.getName() + "]" +
 					(propertyChangeEvent.getPropertyName() != null ?
 					 " for property '" + propertyChangeEvent.getPropertyName() + "'" : ""),
-					propertyChangeEvent, ex);
+					ex);
+		this.requiredType = requiredType;
+	}
+
+	/**
+	 * Return the required target type.
+	 */
+	public Class getRequiredType() {
+		return requiredType;
 	}
 
 	public String getErrorCode() {

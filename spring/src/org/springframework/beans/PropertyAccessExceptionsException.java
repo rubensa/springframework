@@ -42,11 +42,12 @@ public class PropertyAccessExceptionsException extends BeansException {
 	private final PropertyAccessException[] propertyAccessExceptions;
 
 	/**
-	 * Create new empty PropertyAccessExceptionsException.
-	 * We'll add errors to it as we attempt to bind properties.
+	 * Create a new PropertyAccessExceptionsException.
+	 * @param beanWrapper the BeanWrapper that wraps the target object
+	 * @param propertyAccessExceptions the List of PropertyAccessExceptions
 	 */
-	protected PropertyAccessExceptionsException(BeanWrapper beanWrapper,
-	                                            PropertyAccessException[] propertyAccessExceptions) {
+	public PropertyAccessExceptionsException(BeanWrapper beanWrapper,
+																					 PropertyAccessException[] propertyAccessExceptions) {
 		super("");
 		this.beanWrapper = beanWrapper;
 		this.propertyAccessExceptions = propertyAccessExceptions;

@@ -27,12 +27,12 @@ import java.beans.PropertyChangeEvent;
 public class MethodInvocationException extends PropertyAccessException {
 
 	/**
-	 * Constructor to use when an exception results from a PropertyChangeEvent.
-	 * @param ex Throwable raised by invoked method
+	 * Create a new MethodInvocationException.
 	 * @param propertyChangeEvent PropertyChangeEvent that resulted in an exception
+	 * @param ex Throwable raised by invoked method
 	 */
-	public MethodInvocationException(Throwable ex, PropertyChangeEvent propertyChangeEvent) {
-		super("Property '" + propertyChangeEvent.getPropertyName() + "' threw exception", propertyChangeEvent, ex);
+	public MethodInvocationException(PropertyChangeEvent propertyChangeEvent, Throwable ex) {
+		super(propertyChangeEvent, "Property '" + propertyChangeEvent.getPropertyName() + "' threw exception", ex);
 	}
 
 	public String getErrorCode() {

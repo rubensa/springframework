@@ -28,14 +28,25 @@ import org.springframework.core.ErrorCoded;
  */
 public abstract class PropertyAccessException extends BeansException implements ErrorCoded {
 
-	private PropertyChangeEvent propertyChangeEvent;
+	private final PropertyChangeEvent propertyChangeEvent;
 
-	public PropertyAccessException(String msg, PropertyChangeEvent propertyChangeEvent) {
+	/**
+	 * Create a new PropertyAccessException.
+	 * @param propertyChangeEvent the PropertyChangeEvent that resulted in the problem
+	 * @param msg the detail message
+	 */
+	public PropertyAccessException(PropertyChangeEvent propertyChangeEvent, String msg) {
 		super(msg);
 		this.propertyChangeEvent = propertyChangeEvent;
 	}
 
-	public PropertyAccessException(String msg, PropertyChangeEvent propertyChangeEvent, Throwable ex) {
+	/**
+	 * Create a new PropertyAccessException.
+	 * @param propertyChangeEvent the PropertyChangeEvent that resulted in the problem
+	 * @param msg the detail message
+	 * @param ex the root cause
+	 */
+	public PropertyAccessException(PropertyChangeEvent propertyChangeEvent, String msg, Throwable ex) {
 		super(msg, ex);
 		this.propertyChangeEvent = propertyChangeEvent;
 	}

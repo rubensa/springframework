@@ -488,6 +488,13 @@ public class ProxyFactoryBeanTests extends TestCase {
 		public Class[] getInterfaces() {
 			return new Class[] { AddedGlobalInterface.class };
 		}
+
+		/**
+		 * @see org.springframework.aop.Advice#isPerInstance()
+		 */
+		public boolean isPerInstance() {
+			return false;
+		}
 		
 	}
 	

@@ -16,8 +16,15 @@
 
 package org.springframework.transaction.interceptor;
 
+import java.io.Serializable;
+import java.util.Properties;
+
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionException;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.util.SerializationTestUtils;
 
 /**
  * Mock object based tests for TransactionInterceptor.
@@ -45,12 +52,36 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 	}
 	
 	/**
-	 * Bit of a hack: we need at least one test method on this class
-	 * (as opposed to inherited test methods)
-	 * to interest Eclipse in running it as a test case
+	 * A TransactionInterceptor should be serializable if its 
+	 * PlatformTransactionManager is.
 	 */
-	public void testMe() {
-		
+	public void testSerializableWithAttributeProperties() throws Exception {
+		TransactionInterceptor ti = new TransactionInterceptor();
+		Properties p = new Properties();
+		p.setProperty("methodName", "PROPAGATION_REQUIRED");
+		ti.setTransactionAttributes(p);
+		PlatformTransactionManager ptm = new SerializableTransactionManager();
+		ti.setTransactionManager(ptm);
+		ti = (TransactionInterceptor) SerializationTestUtils.serializeAndDeserialize(ti);
+		// Check that logger survived deserialization
+		assertNotNull(ti.logger);
+		assertTrue(ti.getTransactionManager() instanceof SerializableTransactionManager);
 	}
 
+	/**
+	 * We won't use this: we just want to know it's serializable.
+	 * Static to avoid holding a reference to this enclosing class.
+	 */
+	private static class SerializableTransactionManager implements PlatformTransactionManager, Serializable {
+		public TransactionStatus getTransaction(TransactionDefinition definition) throws TransactionException {
+			throw new UnsupportedOperationException();
+		}
+		public void commit(TransactionStatus status) throws TransactionException {
+			throw new UnsupportedOperationException();
+		}
+		public void rollback(TransactionStatus status) throws TransactionException {
+			throw new UnsupportedOperationException();
+		}
+		
+	}
 }

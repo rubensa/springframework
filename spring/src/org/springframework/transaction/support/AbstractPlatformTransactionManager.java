@@ -353,7 +353,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 						defStatus.releaseHeldSavepoint();
 					}
 					else if (status.isNewTransaction()) {
-						logger.info("Initiating transaction commit");
+						logger.debug("Initiating transaction commit");
 						doCommit(defStatus);
 					}
 				}
@@ -412,7 +412,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 					defStatus.rollbackToHeldSavepoint();
 				}
 				else if (status.isNewTransaction()) {
-					logger.info("Initiating transaction rollback");
+					logger.debug("Initiating transaction rollback");
 					doRollback(defStatus);
 				}
 				else if (defStatus.getTransaction() != null) {
@@ -422,7 +422,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 					doSetRollbackOnly(defStatus);
 				}
 				else {
-					logger.info("Should roll back transaction but cannot - no transaction available");
+					logger.warn("Should roll back transaction but cannot - no transaction available");
 				}
 			}
 			catch (RuntimeException ex) {

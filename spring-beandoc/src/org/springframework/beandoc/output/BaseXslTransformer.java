@@ -17,6 +17,8 @@
 package org.springframework.beandoc.output;
 
 import java.io.*;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -160,6 +162,18 @@ public abstract class BaseXslTransformer implements Transformer {
             Node node = convertJdomToW3C(doc);
 
             javax.xml.transform.Transformer trans = templates.newTransformer();
+			
+			// apply any subclass supplied parameters to the transformer
+            Map parameters = getParameters(doc);
+			if (parameters != null) {
+				for (Iterator iter = parameters.entrySet().iterator(); iter.hasNext();) {
+					Map.Entry entry = (Map.Entry) iter.next();
+					trans.setParameter(entry.getKey().toString(), entry.getValue());
+				}
+				if (logger.isDebugEnabled()) {
+					logger.debug("Added parameters [" + parameters + "] to transformer object");
+				}
+			}
 
             // trans.setOutputProperty(OutputKeys.ENCODING, encoding);
             trans.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -172,6 +186,19 @@ public abstract class BaseXslTransformer implements Transformer {
         } catch (Exception e) {
             logger.error("Unable to transform contextDocument with input file name [" + inputFileName + "]", e);
         }        
+    }
+
+    /**
+     * Subclasses may optionally generate and return a Map of stylesheet
+     * parameters that will be included in the transform.  The default 
+     * implementation returns null.
+     * 
+     * @param doc the Document about to be transformed
+     * @return a Map of stylesheet parameter names and their corresponding values.  The 
+     * 		parameter names must be defined in the stylesheet itself.
+     */
+    protected Map getParameters(Document doc) {
+        return null;
     }
 
     /**

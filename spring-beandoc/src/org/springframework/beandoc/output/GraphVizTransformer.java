@@ -19,8 +19,10 @@ package org.springframework.beandoc.output;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -37,9 +39,11 @@ import org.springframework.util.StringUtils;
  * @since 1.0
  */
 public class GraphVizTransformer extends BaseXslTransformer {
+
+    private static final String XSLPARAM_GRAPHTYPE = "beandocXslGraphType";
     
     private static final String DEFAULT_XSL_RESOURCE = 
-        "/org/springframework/beandoc/transform/stylesheets/dot.xsl";    
+        "/org/springframework/beandoc/output/stylesheets/dot.xsl";    
     
     private static final String CONSOLIDATED_XML_FILENAME = "consolidated.xml"; 
     
@@ -104,6 +108,8 @@ public class GraphVizTransformer extends BaseXslTransformer {
             try {
                 Process dot = Runtime.getRuntime().exec(dotExe + dotArgs);
                 dot.waitFor();
+                if (removeDotFiles) dotFile.delete();
+                
             } catch (IOException ioe) {
                 logger.warn("Problem attempting to draw graph from dot file [" + dotFile.getAbsolutePath() + "]", ioe);
             } catch (InterruptedException e) {
@@ -126,6 +132,15 @@ public class GraphVizTransformer extends BaseXslTransformer {
         
         // transform it
         doXslTransform(context, outputDirectory);
+    }
+    
+    /**
+     * @see org.springframework.beandoc.output.BaseXslTransformer#getParameters
+     */
+    protected Map getParameters(Document doc) {
+        Map params = new HashMap();
+        params.put(XSLPARAM_GRAPHTYPE, graphOutputType);
+        return params;
     }
     
     // ---------------------------------------------------------------------

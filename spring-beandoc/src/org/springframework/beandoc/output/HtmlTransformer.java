@@ -38,10 +38,10 @@ import org.springframework.util.StringUtils;
 public class HtmlTransformer extends BaseXslTransformer {
     
     private static final String DEFAULT_XSL_RESOURCE = 
-        "/org/springframework/beandoc/transform/stylesheets/doc.xsl";    
+        "/org/springframework/beandoc/output/stylesheets/doc.xsl";    
     
     private static final String MEDIA_RESOURCES = 
-        "classpath:/org/springframework/beandoc/transform/media/*";
+        "classpath:/org/springframework/beandoc/output/media/*";
     
     /**
      * default constructor uses the included stylesheet to generate HTML

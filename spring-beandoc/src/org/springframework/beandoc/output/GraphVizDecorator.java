@@ -36,21 +36,21 @@ import org.springframework.core.io.Resource;
  */
 public class GraphVizDecorator extends SimpleDecorator {
 
-    private static final String ATTRIBUTE_GRAPH_NAME = "beandocGraphName";
+    protected static final String ATTRIBUTE_GRAPH_NAME = "beandocGraphName";
   
-    private static final String ATTRIBUTE_GRAPH_FONTNAME = "beandocGraphFontName";
+    protected static final String ATTRIBUTE_GRAPH_FONTNAME = "beandocGraphFontName";
 	
-	private static final String ATTRIBUTE_GRAPH_FONTSIZE = "beandocGraphFontSize";
+    protected static final String ATTRIBUTE_GRAPH_FONTSIZE = "beandocGraphFontSize";
 	
-    private static final String ATTRIBUTE_GRAPH_SIZE = "beandocGraphSize";
+    protected static final String ATTRIBUTE_GRAPH_SIZE = "beandocGraphSize";
   
-    private static final String ATTRIBUTE_GRAPH_RATIO = "beandocGraphRatio";
+    protected static final String ATTRIBUTE_GRAPH_RATIO = "beandocGraphRatio";
 	
-	private static final String ATTRIBUTE_GRAPH_BEANSHAPE = "beandocGraphBeanShape";
+    protected static final String ATTRIBUTE_GRAPH_BEANSHAPE = "beandocGraphBeanShape";
 	
-	private static final String ATTRIBUTE_GRAPH_LABELLOCATION = "beandocGraphLabelLocation";
+    protected static final String ATTRIBUTE_GRAPH_LABELLOCATION = "beandocGraphLabelLocation";
 	
-	private static final String ATTRIBUTE_COLOUR = "beandocFillColour";
+    protected static final String ATTRIBUTE_COLOUR = "beandocFillColour";
     
     private String graphFontName = "helvetica";
     
@@ -85,7 +85,7 @@ public class GraphVizDecorator extends SimpleDecorator {
     
     /**
      * Decorates root element with graph type attributes and each bean element
-     * as required with
+     * as required with colour information.
      * 
      * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement(org.jdom.Element)
      */
@@ -93,7 +93,7 @@ public class GraphVizDecorator extends SimpleDecorator {
         if (element.isRootElement()) {
             element.setAttribute(ATTRIBUTE_GRAPH_FONTNAME, graphFontName);
 			element.setAttribute(ATTRIBUTE_GRAPH_FONTSIZE, String.valueOf(graphFontSize));
-			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, String.valueOf(graphRatio));		
+			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, graphRatio);		
 			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, graphBeanShape);
 			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(graphLabelLocation));
         }

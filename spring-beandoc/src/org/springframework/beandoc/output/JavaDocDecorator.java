@@ -37,7 +37,7 @@ import org.springframework.util.StringUtils;
  */
 public class JavaDocDecorator extends SimpleDecorator {
 
-    private static final String ATTRIBUTE_JAVADOC = "beandocJavaDoc";
+    protected static final String ATTRIBUTE_JAVADOC = "beandocJavaDoc";
 
     private static String javaVersion = System.getProperty("java.specification.version");
     

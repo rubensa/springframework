@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.metadata.commons.CommonsAttributeCompilerUtils;
 
 /**
  * Metadata auto proxy creator test that sources attributes 
@@ -23,6 +24,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class CommonsAttributesMetadataAutoProxyTest extends AbstractMetadataAutoProxyTests {
 	
+	static {
+		// If we're within an IDE, compile the attributes programmatically
+		CommonsAttributeCompilerUtils.compileAttributesIfNecessary("**/autoproxy/metadata/*.java");
+	}
+	
 	/**
 	 * Constructor for ProxyFactoryBeanTests.
 	 * @param arg0
@@ -31,7 +37,7 @@ public class CommonsAttributesMetadataAutoProxyTest extends AbstractMetadataAuto
 		super(arg0);
 	}
 	
-	
+
 	protected BeanFactory getBeanFactory() throws IOException {
 		// Load from classpath, NOT a file path
 		BeanFactory bf = new ClassPathXmlApplicationContext(new String[] {

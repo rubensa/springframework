@@ -16,21 +16,23 @@
 
 package org.springframework.aop.framework.adapter;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.Interceptor;
+
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 
 /**
+ * Default implementation of the AdvisorAdapterRegistry interface.
  * @author Rod Johnson
  * @version $Id$
  */
 public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 	
-	private List adapters = new LinkedList();
+	private final List adapters = new ArrayList();
 	
 	public DefaultAdvisorAdapterRegistry() {
 		// register well-known adapters

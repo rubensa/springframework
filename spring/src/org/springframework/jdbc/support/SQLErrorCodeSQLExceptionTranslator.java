@@ -60,7 +60,8 @@ public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslato
 	
 	/** Fallback translator to use if SQLError code matching doesn't work */
 	private SQLExceptionTranslator fallback = new SQLStateSQLExceptionTranslator();
-	
+
+
 	/**
 	 * Constructor for use as a JavaBean.
 	 * The SqlErrorCodes or DataSource property must be set.
@@ -89,9 +90,17 @@ public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslato
 	}
 	
 	/**
+	 * Set custom error codes to be used for translation
+	 * @param sec custom error codes to use
+	 */
+	public void setSqlErrorCodes(SQLErrorCodes sec) {
+		this.sqlErrorCodes = sec;
+	}
+
+	/**
 	 * Set the DataSource.
-	 * Setting this property will cause a connection to be obtained from the 
-	 * DataSource to get the metadata
+	 * <p>Setting this property will cause a connection to be obtained
+	 * from the DataSource to get the metadata.
 	 * @param ds DataSource to use to find metadata and establish which error
 	 * codes are usable
 	 */
@@ -108,13 +117,6 @@ public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslato
 		this.fallback = fallback;
 	}
 
-	/**
-	 * Set custom error codes to be used for translation
-	 * @param sec custom error codes to use
-	 */
-	public void setSqlErrorCodes(SQLErrorCodes sec) {
-		this.sqlErrorCodes = sec;		
-	}
 
 	public DataAccessException translate(String task, String sql, SQLException sqlex) {
 		// first, try custom translation

@@ -18,10 +18,14 @@ package org.springframework.aop.support;
 
 import org.springframework.aop.ClassFilter;
 
-
+/**
+ * Static methods useful for composing ClassFilters.
+ * @author Rod Johnson
+ * @since 11-Nov-2003
+ * @version $Id$
+ */
 public abstract class ClassFilters {
-	
-	
+
 	public static ClassFilter union(ClassFilter a, ClassFilter b) {
 		return new UnionClassFilter(new ClassFilter[] { a, b } );
 	}

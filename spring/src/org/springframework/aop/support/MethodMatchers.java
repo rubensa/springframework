@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 import org.springframework.aop.MethodMatcher;
 
 /**
- * Static methods useful for composing Pointcuts. A MethodMatcher may be
+ * Static methods useful for composing MethodMatchers. A MethodMatcher may be
  * evaluated statically (based on method and target class) or need further
  * evaluation dynamically (based on arguments at the time of method invocation).
  * @author Rod Johnson

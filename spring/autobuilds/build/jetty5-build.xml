@@ -14,6 +14,12 @@
 	<property name="appserver.distname" value="Jetty-${jetty5.version}" />
 	<property name="deploy.dir" value="webapps" />
 	
+	
+	<path id="server-classpath">
+		<fileset dir="${servers.install.dir}/${appserver.distname}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
 
 	<!--
 		usage
@@ -87,6 +93,8 @@ autobuilds directory for information.
 			<jvmarg value="-Djetty.port=${autobuilds.server.http.port}" />
     	  	<jvmarg value="-Djetty.home=${servers.install.dir}/${appserver.distname}" />
     	  	<arg value="etc/${target.app}.xml" />
+			
+			<classpath refid="server-classpath" />
 
       	</java>
 	</target>

@@ -27,6 +27,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
@@ -216,7 +217,7 @@ public class SQLErrorCodesFactory {
 				String dbName = (String) dbmdInfo.get("DatabaseProductName");
 				String driverVersion = (String) dbmdInfo.get("DriverVersion");
 				// special check for DB2
-				if (dbName != null && dbName.startsWith("DB2/")) {
+				if (dbName != null && dbName.startsWith("DB2")) {
 					dbName = "DB2";
 				}
 				if (dbName != null) {

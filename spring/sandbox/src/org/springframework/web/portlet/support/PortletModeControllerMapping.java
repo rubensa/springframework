@@ -28,11 +28,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContextException;
 
 /**
- * Abstract base class for PortletMode-mapped HandlerMapping implementations.
+ *  PortletMode - mapped PortletControllerMapping implementation
  * Provides infrastructure for mapping controllers to PortletModes.
  *
  * @author William G. Thompson, Jr.
- * @version $Revision$
+ * @version $Id$
  */
 public class PortletModeControllerMapping extends AbstractPortletControllerMapping {
 

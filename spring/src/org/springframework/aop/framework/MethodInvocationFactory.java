@@ -19,9 +19,9 @@ public interface MethodInvocationFactory {
 	MethodInvocation getMethodInvocation(ProxyConfig pc, Object proxy, Method method, Object[] args);
 	
 	/**
-	 * Clear state
-	 *
+	 * Cache state based on ProxyConfig.
+	 * Clear any existing state.
 	 */
-	void clear();
+	void refresh(ProxyConfig pc);
 
 }

@@ -292,7 +292,7 @@ public class ProxyFactoryBean extends ProxyConfigSupport implements FactoryBean,
 		if (this.singleton) {
 			// This object can configure the proxy directly if it's
 			// being used as a singleton
-			proxy = new AopProxy(this);
+			proxy = createAopProxy();
 		}
 		else {
 			refreshInterceptorChain();
@@ -302,7 +302,7 @@ public class ProxyFactoryBean extends ProxyConfigSupport implements FactoryBean,
 				logger.debug("Creating copy of prototype ProxyFactoryBean config: " + this);
 			ProxyConfigSupport copy = new ProxyConfigSupport();
 			copy.copyConfigurationFrom(this);
-			proxy = new AopProxy(copy);
+			proxy = copy.createAopProxy();
 		}
 		return proxy.getProxy();
 	}

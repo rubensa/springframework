@@ -77,9 +77,6 @@ public class AopProxy implements InvocationHandler {
 		this.methodInvocationFactory = methodInvocationFactory;
 	}
 	
-	public AopProxy(ProxyConfig config) throws AopConfigException {
-		this(config, new DefaultMethodInvocationFactory(config));
-	}
 	
 	/**
 	 * Implementation of InvocationHandler.invoke.

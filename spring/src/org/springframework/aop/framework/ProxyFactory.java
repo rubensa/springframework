@@ -47,7 +47,7 @@ public class ProxyFactory extends ProxyConfigSupport {
 	 * @return Object
 	 */
 	public Object getProxy() {
-		AopProxy proxy = new AopProxy(this);
+		AopProxy proxy = createAopProxy();
 		return proxy.getProxy();
 	}
 

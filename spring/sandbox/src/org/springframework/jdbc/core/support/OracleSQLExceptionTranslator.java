@@ -13,9 +13,9 @@ import java.sql.SQLException;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jdbc.core.BadSqlGrammarException;
-import org.springframework.jdbc.core.SQLExceptionTranslator;
-import org.springframework.jdbc.core.UncategorizedSQLException;
+import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.jdbc.UncategorizedSQLException;
+import org.springframework.jdbc.support.SQLExceptionTranslator;
 
 /**
  * Implementation of SQLExceptionTranslator that uses Oracle vendor code,

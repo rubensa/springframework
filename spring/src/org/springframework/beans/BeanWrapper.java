@@ -102,6 +102,15 @@ public interface BeanWrapper {
 
 
 	/**
+	 * Get the value of a property.
+	 * @param propertyName name of the property to get the value of
+	 * @return the value of the property.
+	 * @throws FatalBeanException if there is no such property, if the property
+	 * isn't readable, or if the property getter throws an exception.
+	 */
+	Object getPropertyValue(String propertyName) throws BeansException;
+
+	/**
 	 * Set a property value. This method is provided for convenience only.
 	 * The setPropertyValue(PropertyValue) method is more powerful.
 	 * @param propertyName name of the property to set value of
@@ -158,14 +167,6 @@ public interface BeanWrapper {
 	void setPropertyValues(PropertyValues pvs, boolean ignoreUnknown, PropertyValuesValidator pvsValidator)
 	    throws BeansException;
 
-	/**
-	 * Get the value of a property.
-	 * @param propertyName name of the property to get the value of
-	 * @return the value of the property.
-	 * @throws FatalBeanException if there is no such property, if the property
-	 * isn't readable, or if the property getter throws an exception.
-	 */
-	Object getPropertyValue(String propertyName) throws BeansException;
 
 	/**
 	 * Get the PropertyDescriptors standard JavaBeans introspection identified

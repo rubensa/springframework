@@ -16,6 +16,8 @@
 
 package org.springframework.beans.factory.config;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.MethodInvoker;
@@ -91,8 +93,12 @@ public class MethodInvokingFactoryBean extends MethodInvoker implements FactoryB
 		this.singleton = singleton;
 	}
 
-	public void afterPropertiesSet() throws ClassNotFoundException, NoSuchMethodException {
+	public void afterPropertiesSet()
+			throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		prepare();
+		if (this.singleton) {
+			this.singletonObject = invoke();
+		}
 	}
 
 	/**
@@ -100,14 +106,14 @@ public class MethodInvokingFactoryBean extends MethodInvoker implements FactoryB
 	 * to true, and otherwise return the value returned from invoking the
 	 * specified method.
 	 */
-	public Object getObject() throws Exception {
+	public Object getObject() throws InvocationTargetException, IllegalAccessException {
 		if (this.singleton) {
-			if (this.singletonObject == null) {
-				this.singletonObject = invoke();
-			}
 			return this.singletonObject;
 		}
-		return invoke();
+		else {
+			// prototype: new object on each call
+			return invoke();
+		}
 	}
 
 	

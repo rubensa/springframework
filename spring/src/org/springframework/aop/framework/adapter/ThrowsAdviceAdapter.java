@@ -8,7 +8,6 @@ package org.springframework.aop.framework.adapter;
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.ThrowsAdvice;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
 
 /**
  * 
@@ -22,13 +21,6 @@ class ThrowsAdviceAdapter implements AdvisorAdapter {
 	 */
 	public boolean supportsAdvice(Object advice) {
 		return advice instanceof ThrowsAdvice;
-	}
-
-	/**
-	 * @see org.springframework.aop.framework.adapter.AdvisorAdapter#wrap(java.lang.Object)
-	 */
-	public Advisor wrap(Object advice) {
-		return new DefaultPointcutAdvisor((ThrowsAdvice) advice);
 	}
 
 	/**

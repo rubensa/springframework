@@ -36,16 +36,6 @@ public interface AdvisorAdapter {
 	boolean supportsAdvice(Object advice);
 	
 	/**
-	 * Given the advice, return an Advisor wrapping it. If the
-	 * Advisor is a PointcutAdvisor, it should always match.
-	 * @param advice the supportsAdvice() method must have returned
-	 * true on this object
-	 * @return an Advisor wrapping this advice, that will apply
-	 * to all invocations.
-	 */
-	Advisor wrap(Object advice);
-	
-	/**
 	 * Return an AOP Alliance Interceptor exposing the behaviour of
 	 * the given advice to an interception-based AOP framework.
 	 * Don't worry about any Pointcut contained in the Advisor;

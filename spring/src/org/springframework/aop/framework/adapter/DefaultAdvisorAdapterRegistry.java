@@ -32,12 +32,14 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 			return (Advisor) advice;
 		}
 		if (advice instanceof Interceptor) {
-			return new DefaultPointcutAdvisor((Interceptor) advice);
+			// So well-known it doesn't even need an adapter
+			return new DefaultPointcutAdvisor(advice);
 		}
 		for (int i = 0; i < this.adapters.size(); i++) {
+			// Check that it is supported
 			AdvisorAdapter adapter = (AdvisorAdapter) this.adapters.get(i);
 			if (adapter.supportsAdvice(advice)) {
-				return adapter.wrap(advice);
+				return new DefaultPointcutAdvisor(advice);
 			}
 		}
 		throw new UnknownAdviceTypeException(advice);
@@ -54,7 +56,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 				return adapter.getInterceptor(advisor);
 			}
 		}
-		throw new UnknownAdviceTypeException(advisor);
+		throw new UnknownAdviceTypeException(advisor.getAdvice());
 	}
 
 	public void registerAdvisorAdapter(AdvisorAdapter adapter) {

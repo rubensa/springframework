@@ -8,7 +8,6 @@ package org.springframework.aop.framework.adapter;
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.MethodAfterReturningAdvice;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
 
 /**
  * Adapter to enable AfterReturningAdvisor and MethodAfterReturningAdvice
@@ -26,12 +25,6 @@ class AfterReturningAdviceAdapter implements AdvisorAdapter {
 		return advice instanceof MethodAfterReturningAdvice;
 	}
 
-	/**
-	 * @see org.springframework.aop.framework.adapter.AdvisorAdapter#wrap(java.lang.Object)
-	 */
-	public Advisor wrap(Object advice) {
-		return new DefaultPointcutAdvisor((MethodAfterReturningAdvice) advice);
-	}
 
 	/**
 	 * @see org.springframework.aop.framework.adapter.AdvisorAdapter#getInterceptor(org.springframework.aop.Advisor)

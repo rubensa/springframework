@@ -5,7 +5,6 @@
  
 package org.springframework.aop.framework.adapter;
 
-import org.springframework.aop.Advisor;
 import org.springframework.aop.framework.AopConfigException;
 
 /**
@@ -18,10 +17,6 @@ public class UnknownAdviceTypeException extends AopConfigException {
 	
 	public UnknownAdviceTypeException(Object advice) {
 		super("No adapter for Advice of class '" + advice.getClass().getName() + "'");
-	}
-	
-	public UnknownAdviceTypeException(Advisor advisor) {
-		super("Cannot create Interceptor for unknown advisor type:'" + advisor.getClass().getName() + "'");
 	}
 
 }

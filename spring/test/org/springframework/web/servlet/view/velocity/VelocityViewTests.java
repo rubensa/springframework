@@ -17,6 +17,7 @@ import com.mockobjects.servlet.MockHttpServletResponse;
 import junit.framework.TestCase;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.app.tools.VelocityFormatter;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -249,14 +250,17 @@ public class VelocityViewTests extends TestCase {
 		VelocityView vv = new VelocityView() {
 			protected void mergeTemplate(Template template, Context context, HttpServletResponse response) throws Exception {
 				assertTrue(template == expectedTemplate);
+				assertTrue(response == expectedResponse);
 				assertEquals("myValue", context.get("myHelper"));
+				assertTrue(context.get("velocityFormatter") instanceof VelocityFormatter);
+
 				assertTrue(context.get("dateTool") instanceof DateTool);
 				DateTool dateTool = (DateTool) context.get("dateTool");
 				assertTrue(dateTool.getLocale().equals(Locale.CANADA));
+
 				assertTrue(context.get("numberTool") instanceof NumberTool);
 				NumberTool numberTool = (NumberTool) context.get("numberTool");
 				assertTrue(numberTool.getLocale().equals(Locale.CANADA));
-				assertTrue(response == expectedResponse);
 			}
 			protected void exposeHelpers(Context vContext, HttpServletRequest request) throws Exception {
 				vContext.put("myHelper", "myValue");
@@ -264,6 +268,7 @@ public class VelocityViewTests extends TestCase {
 		};
 		vv.setUrl(templateName);
 		vv.setApplicationContext(wac);
+		vv.setVelocityFormatterAttribute("velocityFormatter");
 		vv.setDateToolAttribute("dateTool");
 		vv.setNumberToolAttribute("numberTool");
 		vv.render(new HashMap(), req, expectedResponse);

@@ -202,7 +202,8 @@ public interface BeanWrapper {
 	 * the property descriptor or checking the value in case of an indexed or
 	 * mapped element.
 	 * @param propertyName property to check status for
-	 * @return the property type for the particular property
+	 * @return the property type for the particular property, or null if not
+	 * determinable (can only happen with an indexed or mapped element)
 	 * @throws InvalidPropertyException if there is no such property
 	 */
 	Class getPropertyType(String propertyName) throws BeansException;

@@ -34,9 +34,9 @@ public interface FactoryBean {
 
 	/**
 	 * Is the bean managed by this factory a singleton or a prototype?
-	 * That is, will getBean() always return the same object?
-	 * <p>The singleton status of a FactoryBean will generally
-	 * be provided by the owning BeanFactory.
+	 * That is, will getObject() always return the same object?
+	 * <p>The singleton status of the FactoryBean itself will
+	 * generally be provided by the owning BeanFactory.
 	 * @return if this bean is a singleton
 	 */
 	boolean isSingleton();

@@ -11,7 +11,7 @@
 <project name="autobuilds-jetty4" basedir="." default="usage">
 
 	
-	<property name="appserver.distname" value="Jetty-${jetty4.version}" />
+	<property name="appserver.distname" value="jetty-${jetty4.version}" />
 	<property name="deploy.dir" value="webapps" />
 	
 

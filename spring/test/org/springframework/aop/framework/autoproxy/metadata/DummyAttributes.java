@@ -34,7 +34,8 @@ public class DummyAttributes extends MapAttributes {
 		register(TxClassWithClassAttribute.class, new Object[] { new DefaultTransactionAttribute(), pa });
 		register(TxClassWithClassAttribute.class.getMethod("echoException", new Class[] { Exception.class }), echoAtts);
 		
-		
+		register(ThreadLocalTestBean.class, new Object[] { new ThreadLocalAttribute() });
+		register(PrototypeTestBean.class, new Object[] { new PrototypeAttribute() });
 		
 		register(ModifiableTestBean.class, new Object[] { new ModifiableAttribute() });
 	}

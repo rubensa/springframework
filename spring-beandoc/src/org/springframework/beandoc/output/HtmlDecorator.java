@@ -17,7 +17,6 @@
 package org.springframework.beandoc.output;
 
 import org.jdom.Element;
-import org.springframework.beandoc.ContextProcessor;
 import org.springframework.util.StringUtils;
 
 
@@ -28,7 +27,7 @@ import org.springframework.util.StringUtils;
  * @since 1.0
  */
 public class HtmlDecorator extends SimpleDecorator {
-    
+
     private static final String DEFAULT_CSS_FILE = "context.css";
   
     private static final String ATTRIBUTE_CSS_NAME = "beandocCssLocation";
@@ -38,6 +37,10 @@ public class HtmlDecorator extends SimpleDecorator {
     private String contextCssUrl = DEFAULT_CSS_FILE;
     
     private String title = "Application Context";    
+    
+    private String thisFileName;  
+    
+    private String thisHtmlFileName;
 
     /**
      * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement
@@ -46,11 +49,19 @@ public class HtmlDecorator extends SimpleDecorator {
         if (element.isRootElement()) {
             // add CSS file locations
             element.setAttribute(ATTRIBUTE_CSS_NAME, contextCssUrl);
+            thisFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
+            thisHtmlFileName = StringUtils.replace(thisFileName, ".xml", ".html");
         }
         
-        String fileName = element.getAttributeValue(ContextProcessor.ATTRIBUTE_BD_FILENAME);
-        if (fileName != null)
-            element.setAttribute(ATTRIBUTE_HTML_NAME, StringUtils.replace(fileName, ".xml", ".html"));
+        String refFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
+        if (refFileName != null) {
+            String htmlFileName = StringUtils.replace(refFileName, ".xml", ".html");
+            element.setAttribute(ATTRIBUTE_HTML_NAME, htmlFileName);
+        }
+        
+        String tag = element.getName();
+        if (tag.equals(Tags.TAGNAME_BEAN) || tag.equals(Tags.TAGNAME_DESCRIPTION))
+            element.setAttribute(ATTRIBUTE_HTML_NAME, thisHtmlFileName);
             
     }
 

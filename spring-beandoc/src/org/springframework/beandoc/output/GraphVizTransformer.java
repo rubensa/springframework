@@ -18,15 +18,10 @@ package org.springframework.beandoc.output;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beandoc.ContextProcessor;
 import org.springframework.util.StringUtils;
 
 /**
@@ -46,10 +41,10 @@ public class GraphVizTransformer extends BaseXslTransformer {
         "/org/springframework/beandoc/output/stylesheets/dot.xsl";    
     
     private static final String CONSOLIDATED_XML_FILENAME = "consolidated.xml"; 
-    
-    private String dotExe;
 
     private String graphOutputType = "png";
+    
+    private String dotExe;
     
     private boolean removeDotFiles = true;
 
@@ -77,6 +72,8 @@ public class GraphVizTransformer extends BaseXslTransformer {
         // store values - we need them to post process the context
         this.outputDirectory = outputDirectory;
         this.contextDocuments = contextDocuments;
+        String consolidatedImage = contextDocuments[0].getRootElement().getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_CONSOLIDATED);
+        this.graphOutputType = StringUtils.unqualify(consolidatedImage);
     }
 
     /**
@@ -125,7 +122,7 @@ public class GraphVizTransformer extends BaseXslTransformer {
         Document context = new Document();
         // use root element from first input
         Element beans = (Element) contextDocuments[0].getRootElement().clone();
-        beans.setAttribute(ContextProcessor.ATTRIBUTE_BD_FILENAME, CONSOLIDATED_XML_FILENAME);
+        beans.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, CONSOLIDATED_XML_FILENAME);
         context.setRootElement(beans);
         for (int i = 0; i < contextDocuments.length; i++) 
             beans.addContent(contextDocuments[i].getRootElement().cloneContent());        
@@ -161,24 +158,6 @@ public class GraphVizTransformer extends BaseXslTransformer {
     }
 
     /**
-     * Determines the format of the graphing output.  Some options are;
-     * <ul>
-     *   <li><b>png</b> (Portable Network Graphics)</li>
-     *   <li><b>gif</b> (Graphics Interchange Format)</li>
-     *   <li><b>jpg</b> (JPEG)</li>
-     *   <li><b>svg</b> (Scalable Vector Graphics)</li>
-     * </ul>
-     * 
-     * @param graphType the output format for graphs.  Default is <b>png</b> which
-     * is a very efficient format in terms of file size and highly recommended over
-     * gif and jpg if your viewer supports it.  Most modern browsers can display 
-     * PNG files.
-     */
-    public void setGraphOutputType(String graphType) {
-        graphOutputType = graphType;
-    }
-
-    /**
      * A series of intermediate files (.dot files) are
      * created which is what GraphViz uses to actually generate the graphs.  Usually
      * these wil not be needed after the graphs are generated and so by default are
@@ -198,19 +177,6 @@ public class GraphVizTransformer extends BaseXslTransformer {
      */
     public String getDotExe() {
         return dotExe;
-    }
-
-    /**
-     * The type of output that the GraphViz 'dot' program should create from the
-     * intermediate .dot files.  Default is PNG.  See {@link #setGraphOutputType} for 
-     * some of the optional formats supported
-     * 
-     * @return the type of graph output that will be generated from the 
-     *      .dot files
-     * @see #setGraphOutputType
-     */
-    public String getGraphOutputType() {
-        return graphOutputType;
     }
 
     /**

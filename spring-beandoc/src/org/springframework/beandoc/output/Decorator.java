@@ -21,14 +21,23 @@ import org.jdom.Document;
 
 /**
  * Decorator implementations have the opportunity to modufy the DOM trees built by a 
- * Processor instance.  They can optionally add elements and attributes to elements
- * that may be required by one or more Transformer instances.
+ * Processor instance.  They can optionally add attributes (but not elements) to any 
+ * part of the DOM for subsequent use by one or more Transformer instances.
  * 
  * @author Darren Davison
  * @since 1.0
  */
 public interface Decorator {
 
+    /**
+     * Decorators act incrementally, this method allows the implementor to further modify
+     * nay previously modified DOM trees by previous <code>Decorator</code>s.  Note that any
+     * attempt to add new nodes (Elements) to the DOM will result in a runtime error.  Only
+     * addition and modification of attributes is permitted.
+     * 
+     * @param contextDocuments an array of Document objects representing the in-memory
+     *      tree of the input files supplied to the beandoc <code>ContextProcessor</code>. 
+     */
     public void decorate(Document[] contextDocuments);
     
 }

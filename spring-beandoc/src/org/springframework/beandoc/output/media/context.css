@@ -27,23 +27,25 @@
 
 /* default font family for all elements */
 * {
-	font-family: arial,helvetica,sans-serif;
+	font-family: tahoma,verdana,arial,helvetica,sans-serif;
 }
 
 body {
-	font-size: 80%;
+	font-size: 75%;
 	background-color: white;
 }
 
 h1 {
+	font-family: arial,helvetica,sans-serif;
 	font-size: 140%;
 	text-align: center;
 	background-color: #ccccff;
 	border: 1px solid #808080;
-	padding: 5px;
+	padding: 2px;
 }
 
 h2 {
+	font-family: arial,helvetica,sans-serif;
 	font-size: 120%;
 	border-bottom: 1px solid #c0c0c0;
 	background-color: #eeeeff;
@@ -92,9 +94,12 @@ td {
 }
 
 th {
+	font-family: arial,helvetica,sans-serif;
+	font-size: 75%;
 	background-color: #eeeeee;
 	border: 1px solid #cccccc;
 	text-align: left;
+	padding:2px;
 }
 
 th.abstractTitle {

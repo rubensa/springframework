@@ -29,22 +29,6 @@ import java.io.IOException;
  */
 public interface ContextProcessor {
     
-    public static final String TAGNAME_BEAN = "bean";
-
-    public static final String TAGNAME_IDREF = "idref";
-
-    public static final String TAGNAME_REF = "ref";
-
-    public static final String ATTRIBUTE_PARENT = "parent";
-
-    public static final String ATTRIBUTE_NAME = "name";
-    
-    public static final String ATTRIBUTE_ID = "id";
-    
-    public static final String ATTRIBUTE_CLASSNAME = "class";
-
-    public static final String ATTRIBUTE_BD_FILENAME = "beandocFileName";
-    
     public void process() throws IOException, BeanDocException;
 
 }

@@ -105,11 +105,10 @@ public class BeanDocClient {
         // following prop requires a post-1.1.3 snapshot of Spring core
         cfgOverride.setIgnoreInvalidKeys(true);
         cfgOverride.setProperties(beandocProps);
-        cfgOverride.postProcessBeanFactory(factory);
-        
-        ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
+        cfgOverride.postProcessBeanFactory(factory);        
         
         try {
+            ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
             cp.process();
         } catch (Exception e) {
             System.err.println("Unable to run beandoc tool; " + e.getMessage());

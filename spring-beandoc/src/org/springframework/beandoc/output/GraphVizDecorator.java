@@ -16,15 +16,12 @@
 
 package org.springframework.beandoc.output;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.jdom.Element;
 import org.springframework.beandoc.BeanDocException;
-import org.springframework.beandoc.ContextProcessor;
-import org.springframework.core.io.Resource;
 
 
 
@@ -49,6 +46,8 @@ public class GraphVizDecorator extends SimpleDecorator {
     protected static final String ATTRIBUTE_GRAPH_BEANSHAPE = "beandocGraphBeanShape";
 	
     protected static final String ATTRIBUTE_GRAPH_LABELLOCATION = "beandocGraphLabelLocation";
+    
+    protected static final String ATTRIBUTE_GRAPH_CONSOLIDATED = "beandocConsolidatedImage";
 	
     protected static final String ATTRIBUTE_COLOUR = "beandocFillColour";
     
@@ -67,6 +66,8 @@ public class GraphVizDecorator extends SimpleDecorator {
     private char graphLabelLocation = 't';
     
     private String defaultFillColour = "#cfcccc";
+
+    private String graphOutputType = "png";
     
     private Map beanColours = new HashMap();
 
@@ -96,12 +97,13 @@ public class GraphVizDecorator extends SimpleDecorator {
 			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, graphRatio);		
 			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, graphBeanShape);
 			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(graphLabelLocation));
+            element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated." + graphOutputType);
         }
         
         if ("bean".equals(element.getName())) {
-			String idOrName = element.getAttributeValue(ContextProcessor.ATTRIBUTE_ID);
-			if (idOrName == null) idOrName = element.getAttributeValue(ContextProcessor.ATTRIBUTE_NAME);
-			String className = element.getAttributeValue(ContextProcessor.ATTRIBUTE_CLASSNAME);
+			String idOrName = element.getAttributeValue(Tags.ATTRIBUTE_ID);
+			if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
+			String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
 			
 			String colour = getColourForBean(idOrName, className);
 			
@@ -260,6 +262,24 @@ public class GraphVizDecorator extends SimpleDecorator {
     public void setGraphYSize(float y) {
         graphYSize = y;
     }
+
+    /**
+     * Determines the format of the graphing output.  Some options are;
+     * <ul>
+     *   <li><b>png</b> (Portable Network Graphics)</li>
+     *   <li><b>gif</b> (Graphics Interchange Format)</li>
+     *   <li><b>jpg</b> (JPEG)</li>
+     *   <li><b>svg</b> (Scalable Vector Graphics)</li>
+     * </ul>
+     * 
+     * @param graphType the output format for graphs.  Default is <b>png</b> which
+     * is a very efficient format in terms of file size and highly recommended over
+     * gif and jpg if your viewer supports it.  Most modern browsers can display 
+     * PNG files.
+     */
+    public void setGraphOutputType(String graphType) {
+        graphOutputType = graphType;
+    }
     
     /**
      * Returns a <code>Map</code> keyed by bean name or class name that is used to 
@@ -318,6 +338,19 @@ public class GraphVizDecorator extends SimpleDecorator {
 		}
 		return null;
 	}
+
+    /**
+     * The type of output that the GraphViz 'dot' program should create from the
+     * intermediate .dot files.  Default is PNG.  See {@link #setGraphOutputType} for 
+     * some of the optional formats supported
+     * 
+     * @return the type of graph output that will be generated from the 
+     *      .dot files
+     * @see #setGraphOutputType
+     */
+    public String getGraphOutputType() {
+        return graphOutputType;
+    }
     
     /**
      * Fill colour used for beans on graphs and keyed in the HTML documentation if no other

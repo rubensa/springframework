@@ -16,15 +16,9 @@
 
 package org.springframework.beandoc.output;
 
-import java.io.File;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.jdom.Element;
-import org.springframework.beandoc.ContextProcessor;
-import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
 /**
@@ -73,9 +67,9 @@ public class JavaDocDecorator extends SimpleDecorator {
      */
     protected void decorateElement(Element element) {
 	    if (element.getName().equals("bean")) {
-		    String idOrName = element.getAttributeValue(ContextProcessor.ATTRIBUTE_ID);
-		    if (idOrName == null) idOrName = element.getAttributeValue(ContextProcessor.ATTRIBUTE_NAME);
-		    String className = element.getAttributeValue(ContextProcessor.ATTRIBUTE_CLASSNAME);
+		    String idOrName = element.getAttributeValue(Tags.ATTRIBUTE_ID);
+		    if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
+		    String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
 		      
 		    String javaDoc = null;
 		    if (className != null) 

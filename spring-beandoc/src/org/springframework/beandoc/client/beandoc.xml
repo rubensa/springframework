@@ -18,6 +18,8 @@
     	<property name="transformers">
     		<list>
     			<ref local="htmlTransformer"/>
+    			<ref local="htmlNavigationTransformer"/>
+    			<ref local="htmlIndexTransformer"/>
     			<ref local="graphVizTransformer"/>
     		</list>
     	</property>    	
@@ -29,7 +31,11 @@
     
     <bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
     
-    <bean id="htmlTransformer" class="org.springframework.beandoc.output.HtmlTransformer"/>
+    <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.HtmlNavigationTransformer"/>
+    
+    <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.HtmlIndexTransformer"/>
+    
+    <bean id="htmlTransformer" class="org.springframework.beandoc.output.HtmlDetailTransformer"/>
     
     <bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer">
     	<property name="dotExe"><value>${dot.location}</value></property>

@@ -31,7 +31,7 @@ import org.jdom.filter.Filter;
  */
 public abstract class SimpleDecorator implements Decorator {
     
-    private Log logger = LogFactory.getLog(getClass());
+    protected final Log logger = LogFactory.getLog(getClass());
 
     /**
      * Permits decoration of the document by iterateing all the 

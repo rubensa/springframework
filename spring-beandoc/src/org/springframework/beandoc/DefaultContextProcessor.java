@@ -27,6 +27,7 @@ import org.jdom.filter.ContentFilter;
 import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
 import org.springframework.beandoc.output.Decorator;
+import org.springframework.beandoc.output.Tags;
 import org.springframework.beandoc.output.Transformer;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -119,9 +120,15 @@ public class DefaultContextProcessor implements ContextProcessor {
     
     /**
      * Handles each input file in turn, parsing the XML (which must validate against
-     * the DTD unless validation has been turned off in the <code>Configuration</code> -
-     * see {@link Configuration#setValidateFiles}), decorating the beans and creating 
-     * an array of in-memory DOM documents of all input files.
+     * the DTD unless validation has been turned off (see {@link #setValidateFiles})
+     * creating an array of in-memory DOM documents of all input files. 
+     * The method adds an attribute to each tag that points to another bean such as
+     * &lt;ref/&gt; tags.  This attribute contains the file name of the input file that
+     * contains the bean definition and can be used to link bean definitions for example
+     * in HTML documentation.
+     * <p> 
+     * The array of Document objects is passed to each <code>Decorator</code>
+     * configured for use which can incrementally modify the attributes in the DOM trees.
      * <p>
      * The process method is threadsafe, synchronizing on the current instance during 
      * the execution of documentation output.  A configured DefaultContextProcessor
@@ -206,7 +213,15 @@ public class DefaultContextProcessor implements ContextProcessor {
             contextDocuments[i].removeContent(filter);
             
             // set an attribute on the root element to mark the original input file
-            contextDocuments[i].getRootElement().setAttribute(ATTRIBUTE_BD_FILENAME, fileName);
+            Element root = contextDocuments[i].getRootElement();
+            root.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, fileName);
+            
+            // force a description even if empty
+            if (root.getChild(Tags.TAGNAME_DESCRIPTION) == null) {
+                Element description = new Element(Tags.TAGNAME_DESCRIPTION);
+                description.setText("[Empty Description]");
+                root.addContent(description);
+            }
         }
         return contextDocuments;
     }
@@ -222,7 +237,7 @@ public class DefaultContextProcessor implements ContextProcessor {
         for (int i = 0; i < contextDocuments.length; i++) {
             Document doc = contextDocuments[i];
             List beans = doc.getRootElement().getChildren();
-            String fileName = doc.getRootElement().getAttributeValue(ATTRIBUTE_BD_FILENAME);
+            String fileName = doc.getRootElement().getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
         
             for (Iterator j = beans.iterator(); j.hasNext();) {
                 Element bean = (Element) j.next();
@@ -244,8 +259,8 @@ public class DefaultContextProcessor implements ContextProcessor {
      * @return
      */
     private String getBeanIdentifier(Element bean) {
-        String id = bean.getAttributeValue(ATTRIBUTE_ID);
-        if (id == null) return bean.getAttributeValue(ATTRIBUTE_NAME);
+        String id = bean.getAttributeValue(Tags.ATTRIBUTE_ID);
+        if (id == null) return bean.getAttributeValue(Tags.ATTRIBUTE_NAME);
         return id;
     }
 
@@ -262,24 +277,24 @@ public class DefaultContextProcessor implements ContextProcessor {
             String tag = element.getName();
             String referencedBean;
             try {
-                if (TAGNAME_REF.equals(tag) || TAGNAME_IDREF.equals(tag)) {            
+                if (Tags.TAGNAME_REF.equals(tag) || Tags.TAGNAME_IDREF.equals(tag)) {            
                     referencedBean = element.getAttributeValue("bean");
                     if (referencedBean != null)
-                        element.setAttribute(ATTRIBUTE_BD_FILENAME, (String) beanMap.get(referencedBean));
+                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(referencedBean));
                     else
-                        element.setAttribute(ATTRIBUTE_BD_FILENAME, (String) beanMap.get(element.getAttributeValue("local")));
+                        element.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, (String) beanMap.get(element.getAttributeValue("local")));
                     
                 }
                     
-                if (TAGNAME_BEAN.equals(tag) && element.getAttribute(ATTRIBUTE_PARENT) != null) {
+                if (Tags.TAGNAME_BEAN.equals(tag) && element.getAttribute(Tags.ATTRIBUTE_PARENT) != null) {
                     element.setAttribute(
-                        ATTRIBUTE_BD_FILENAME, 
-                        (String) beanMap.get(element.getAttributeValue(ATTRIBUTE_PARENT))
+                    Tags.ATTRIBUTE_BD_FILENAME, 
+                        (String) beanMap.get(element.getAttributeValue(Tags.ATTRIBUTE_PARENT))
                     );
                     logger.debug(
                         "decorated " + element + 
-                        " with [" + ATTRIBUTE_BD_FILENAME + 
-                        "=" + element.getAttributeValue(ATTRIBUTE_BD_FILENAME) + "]"
+                        " with [" + Tags.ATTRIBUTE_BD_FILENAME + 
+                        "=" + element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME) + "]"
                     );
                 }
                 

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.xpath.XPath;
 import org.springframework.beandoc.output.Transformer;
@@ -51,6 +52,7 @@ public class DefaultContextProcessorTests extends TestCase {
     public void setUp() {
         try {
             dcp = new DefaultContextProcessor(testInputs, testOutputDir);
+            dcp.setValidateFiles(false);
         } catch (IOException e) {
             fail();
         }
@@ -100,8 +102,9 @@ public class DefaultContextProcessorTests extends TestCase {
             public void transform(Document[] contextDocuments, File outputDir) {
                 assertEquals(2, contextDocuments.length);                
                 try {
-                    XPath xpath = XPath.newInstance("beans/bean[@id=foo]/property[@name=bar]/ref");               
-                    assertEquals("context2.xml", xpath.valueOf(contextDocuments[0]));
+                    Element root = contextDocuments[0].getRootElement();
+                    String refFile = ((Element) XPath.selectSingleNode(root, ".//bean[@id='foo']/property[@name='bar']/ref/@bean")).getText();
+                    assertEquals("context2.xml", refFile);
                 } catch (JDOMException e) {
                     fail();                    
                 }

@@ -31,7 +31,6 @@ import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.DOMOutputter;
 import org.springframework.beandoc.BeanDocException;
-import org.springframework.beandoc.ContextProcessor;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.w3c.dom.Node;
@@ -52,7 +51,7 @@ import org.w3c.dom.Node;
  */
 public abstract class BaseXslTransformer implements Transformer {
 
-    protected Log logger = LogFactory.getLog(getClass());
+    protected final Log logger = LogFactory.getLog(getClass());
     
     private String templateName;
     
@@ -87,15 +86,16 @@ public abstract class BaseXslTransformer implements Transformer {
     }
 
     /**
-     * Creates an output file in the specified location for each supplied document
-     * re-using the same compiled stylesheet for each.  Just prior to performing the
-     * transformation for each document, the initTransform method is called giving
-     * subclasses the ability to perform one-off tasks.
+     * Implements the <code>Transformer</code> API and sanity checks some configuration aspects
+     * before beginning the transformation workflow.  The <code>initTransform</code> method is first
+     * called, returning on any thrown Exception.  After successful initialisation and XSL processing, the
+     * <code>postTransform()</code> method is called to perform cleanup or additional
+     * tasks.
      * 
      * @see org.springframework.beandoc.output.Transformer#dotFile
      * @see #initTransform
      */
-    public void transform(Document[] contextDocuments, File outputDir) {
+    public final void transform(Document[] contextDocuments, File outputDir) {
         
         if (this.templates == null)
             throw new IllegalStateException("Transformer has not been initialized with a stylesheet");
@@ -107,9 +107,10 @@ public abstract class BaseXslTransformer implements Transformer {
             return;
         }
         
-        for (int i = 0; i < contextDocuments.length; i++)
-            doXslTransform(contextDocuments[i], outputDir);
+        // delegate to internal tx method
+        handleTransform(contextDocuments, outputDir);
         
+        // offer cleanup opportunity
         postTransform();
     }
 
@@ -123,23 +124,20 @@ public abstract class BaseXslTransformer implements Transformer {
      */
     protected void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
     }
-    
-    /**
-     * Return the name of the output file (relative to the configured output directory) that
-     * this transformer will use to generate output to.  Subclasses should implement this
-     * method according to their output needs
-     * 
-     * @param inputFileName the original file name (not including path) of the context file
-     * @return the output file name to use
-     */
-    protected abstract String getOutputForDocument(String inputFileName);
 
     /**
-     * Perform any finalization or one-off tasks after the actual transformation of the
-     * context documents with the configured stylesheet.  Default implementation does
-     * nothing.
+     * Creates an output file in the specified location for each supplied document
+     * re-using the same compiled stylesheet for each.   Subclasses can override this
+     * behaviour if, for example, they don't want to have each document handled in 
+     * sequence.  In this case, the subclass can still make use of the <code>doXslTransform</code>
+     * method aas a library function.
+     * 
+     * @param contextDocuments the array of DOM trees about to be transformed
+     * @param File the file handle for the output directory
      */
-    protected void postTransform() {
+    protected void handleTransform(Document[] contextDocuments, File outputDir) {
+        for (int i = 0; i < contextDocuments.length; i++)
+            doXslTransform(contextDocuments[i], outputDir);
     }
 
     /**
@@ -152,8 +150,10 @@ public abstract class BaseXslTransformer implements Transformer {
     protected final void doXslTransform(Document doc, File outputDir) {
         String inputFileName = null;
         try {
-            inputFileName = doc.getRootElement().getAttributeValue(ContextProcessor.ATTRIBUTE_BD_FILENAME);
+            inputFileName = doc.getRootElement().getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             File outputFile = new File(outputDir, getOutputForDocument(inputFileName));
+            logger.info("Generating output [" + outputFile.getName() + "]");
+            
             Result result = new StreamResult(
                 new BufferedOutputStream(
                     new FileOutputStream(outputFile)
@@ -162,18 +162,18 @@ public abstract class BaseXslTransformer implements Transformer {
             Node node = convertJdomToW3C(doc);
 
             javax.xml.transform.Transformer trans = templates.newTransformer();
-			
-			// apply any subclass supplied parameters to the transformer
+            
+            // apply any subclass supplied parameters to the transformer
             Map parameters = getParameters(doc);
-			if (parameters != null) {
-				for (Iterator iter = parameters.entrySet().iterator(); iter.hasNext();) {
-					Map.Entry entry = (Map.Entry) iter.next();
-					trans.setParameter(entry.getKey().toString(), entry.getValue());
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("Added parameters [" + parameters + "] to transformer object");
-				}
-			}
+            if (parameters != null) {
+                for (Iterator iter = parameters.entrySet().iterator(); iter.hasNext();) {
+                    Map.Entry entry = (Map.Entry) iter.next();
+                    trans.setParameter(entry.getKey().toString(), entry.getValue());
+                }
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Added parameters [" + parameters + "] to transformer object");
+                }
+            }
 
             // trans.setOutputProperty(OutputKeys.ENCODING, encoding);
             trans.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -195,10 +195,28 @@ public abstract class BaseXslTransformer implements Transformer {
      * 
      * @param doc the Document about to be transformed
      * @return a Map of stylesheet parameter names and their corresponding values.  The 
-     * 		parameter names must be defined in the stylesheet itself.
+     *      parameter names must be defined in the stylesheet itself.
      */
     protected Map getParameters(Document doc) {
         return null;
+    }
+    
+    /**
+     * Return the name of the output file (relative to the configured output directory) that
+     * this transformer will use to generate output to.  Subclasses should implement this
+     * method according to their output needs
+     * 
+     * @param inputFileName the original file name (not including path) of the context file
+     * @return the output file name to use
+     */
+    protected abstract String getOutputForDocument(String inputFileName);
+
+    /**
+     * Perform any finalization or one-off tasks after the actual transformation of the
+     * context documents with the configured stylesheet.  Default implementation does
+     * nothing.
+     */
+    protected void postTransform() {
     }
 
     /**

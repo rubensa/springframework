@@ -10,6 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import org.aopalliance.intercept.AspectException;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.framework.MethodInvocationImpl;
 import org.springframework.aop.framework.ProxyInterceptor;
 
@@ -26,6 +28,9 @@ import org.springframework.aop.framework.ProxyInterceptor;
  * @version $Id$
  */
 public abstract class AbstractReflectionInvokerInterceptor implements MethodInterceptor, ProxyInterceptor {
+	
+	/** Commons logging logger */
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	/**
 	 * Subclasses must implement this method to return the

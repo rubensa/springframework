@@ -286,6 +286,9 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory {
 	 */
 	private Object createBean(String name, Map newlyCreatedBeans) throws BeansException {
 		RootBeanDefinition mergedBeanDefinition = getMergedBeanDefinition(name);
+		
+		mergedBeanDefinition.dependencyCheck(name);
+				
 		logger.debug("Creating instance of bean '" + name + "' with merged definition [" + mergedBeanDefinition + "]");
 		BeanWrapper instanceWrapper = new BeanWrapperImpl(mergedBeanDefinition.getBeanClass());
 		Object bean = instanceWrapper.getWrappedInstance();

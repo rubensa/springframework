@@ -58,6 +58,18 @@
 <!ATTLIST bean class CDATA #IMPLIED>
 <!ATTLIST bean parent CDATA #IMPLIED>
 
+<!--
+	Optional attribute controlling whether to check whether all this
+	beans dependencies, expressed in its properties, are satisfied.
+	Default is no dependency checking.
+	"simple" type dependency checking includes primitives and String
+	"object" includes collaborators (other beans in the factory)
+	"all" includes both types of dependency checking
+	
+-->
+<!ATTLIST bean dependencyCheck (none|objects|simple|all) "none"> 
+
+
 <!-- 
 	Optional attribute for the name of the custom initialization method
 	to invoke after setting bean properties. The method must have no arguments,
@@ -80,10 +92,8 @@
 
 	Singletons are most commonly used, and are ideal for multi-threaded
 	service objects.
-	
-	Todo default=true 
 -->
-<!ATTLIST bean singleton CDATA #IMPLIED>
+<!ATTLIST bean singleton (true|false) "true"> 
 
 <!--
 	Optional. Can be used to create an alias

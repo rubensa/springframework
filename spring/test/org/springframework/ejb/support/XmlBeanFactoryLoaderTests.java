@@ -5,28 +5,18 @@
  
 package org.springframework.ejb.support;
 
-
 import junit.framework.TestCase;
 
 import org.springframework.beans.factory.support.BootstrapException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.jndi.support.SimpleNamingContextBuilder;
 
 /**
- * 
  * @author Rod Johnson
  * @version $Id$
  */
 public class XmlBeanFactoryLoaderTests extends TestCase {
 
-	/**
-	 * Constructor for SlsbEndpointBeanTests.
-	 * @param arg0
-	 */
-	public XmlBeanFactoryLoaderTests(String arg0) {
-		super(arg0);
-	}
-	
-	
 	public void testBeanFactoryPathRequiredFromJndiEnvironment() throws Exception {
 		// Set up initial context but don't bind anything
 		SimpleNamingContextBuilder sncb = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
@@ -80,4 +70,31 @@ public class XmlBeanFactoryLoaderTests extends TestCase {
 		}
 	}
 	
+	public void testBeanFactoryPathFromJndiEnvironmentWithSingleFile() throws Exception {
+		SimpleNamingContextBuilder sncb = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
+
+		String path = "/org/springframework/beans/factory/xml/collections.xml";
+
+		// Set up initial context
+		sncb.bind(XmlBeanFactoryLoader.BEAN_FACTORY_PATH_ENVIRONMENT_KEY, path);
+
+		XmlBeanFactoryLoader xbfl = new XmlBeanFactoryLoader();
+		BeanFactory bf = xbfl.loadBeanFactory();
+		assertTrue(bf.containsBean("rod"));
+	}
+
+	public void testBeanFactoryPathFromJndiEnvironmentWithMultipleFiles() throws Exception {
+		SimpleNamingContextBuilder sncb = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
+
+		String path = "/org/springframework/beans/factory/xml/collections.xml /org/springframework/beans/factory/xml/parent.xml";
+
+		// Set up initial context
+		sncb.bind(XmlBeanFactoryLoader.BEAN_FACTORY_PATH_ENVIRONMENT_KEY, path);
+
+		XmlBeanFactoryLoader xbfl = new XmlBeanFactoryLoader();
+		BeanFactory bf = xbfl.loadBeanFactory();
+		assertTrue(bf.containsBean("rod"));
+		assertTrue(bf.containsBean("inheritedTestBean"));
+	}
+
 }

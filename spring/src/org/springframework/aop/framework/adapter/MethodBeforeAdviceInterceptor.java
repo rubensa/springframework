@@ -16,6 +16,8 @@
 
 package org.springframework.aop.framework.adapter;
 
+import java.io.Serializable;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -28,11 +30,15 @@ import org.springframework.aop.MethodBeforeAdvice;
  *
  * <p>Used internally by the AOP framework: application developers should not need
  * to use this class directly.
+ * 
+ * <p>You can use this class to wrap Spring MethodBeforeAdvice implementations
+ * for use in other AOP frameworks supporting the AOP Alliance
+ * interfaces.
  *
  * @author Rod Johnson
  * @version $Id$
  */
-final class MethodBeforeAdviceInterceptor implements MethodInterceptor {
+public final class MethodBeforeAdviceInterceptor implements MethodInterceptor, Serializable {
 	
 	private MethodBeforeAdvice advice;
 	

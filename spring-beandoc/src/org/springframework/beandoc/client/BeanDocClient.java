@@ -24,10 +24,7 @@ import java.util.Properties;
 import org.springframework.beandoc.ContextProcessor;
 import org.springframework.beandoc.output.Decorator;
 import org.springframework.beandoc.output.Transformer;
-import org.springframework.beans.factory.config.PropertyOverrideConfigurer;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.beans.factory.BeanFactory;
 
 /**
  * Command line client for the beandoc tool.  Loads and runs a 
@@ -44,8 +41,8 @@ import org.springframework.core.io.ClassPathResource;
  * @since 1.0
  */
 public class BeanDocClient {
-    
-	/**
+	
+    /**
 	 * Default boot strapper for the beandoc client.  Command line parameter should be
 	 * the location of a properties file, either as a file pointer or as a classpath
 	 * location.  Any default Spring Resource strategy should work.
@@ -90,18 +87,7 @@ public class BeanDocClient {
             System.exit(99);
         }
 		        
-		ClassPathResource res = new ClassPathResource
-			("/org/springframework/beandoc/client/beandoc.xml");
-        XmlBeanFactory factory = new XmlBeanFactory(res);
-        PropertyPlaceholderConfigurer cfgPlacehoder = new PropertyPlaceholderConfigurer();
-        cfgPlacehoder.setProperties(beandocProps);
-        cfgPlacehoder.postProcessBeanFactory(factory);
-        
-        PropertyOverrideConfigurer cfgOverride = new PropertyOverrideConfigurer();        
-        // following prop requires >= 1.1.4 spring-core.jar
-        cfgOverride.setIgnoreInvalidKeys(true);
-        cfgOverride.setProperties(beandocProps);
-        cfgOverride.postProcessBeanFactory(factory);        
+        BeanFactory factory = SpringLoader.getBeanFactory(beandocProps);
         
         try {
             ContextProcessor cp = (ContextProcessor) factory.getBean("processor");

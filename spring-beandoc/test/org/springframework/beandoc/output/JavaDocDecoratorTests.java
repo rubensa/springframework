@@ -72,8 +72,7 @@ public class JavaDocDecoratorTests extends TestCase {
             e = new Element("bean");
             e.setAttribute("class", "org.springframework.samples.SomeClass");
             jdd.decorateElement(e);            
-            assertNull(
-                e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+            assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
                                 
         } catch (Exception e) {
             fail();

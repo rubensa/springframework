@@ -51,11 +51,13 @@
                         <xsl:choose>
                             <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
                             <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
-                            <xsl:otherwise>[anonymous inner bean]</xsl:otherwise>
+                            <xsl:otherwise>ignore</xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <a href="{@beandocHtmlFileName}#{$beandocId}" target="mainframe"><xsl:value-of select="$beandocId"/></a>
-                    <br/>
+                    <xsl:if test="$beandocId != 'ignore'">
+	                    <a href="{@beandocHtmlFileName}#{$beandocId}" target="mainframe"><xsl:value-of select="$beandocId"/></a>
+		                <br/>
+	                </xsl:if>
                 </xsl:for-each>
             </body>
             

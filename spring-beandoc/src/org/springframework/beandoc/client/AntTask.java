@@ -16,8 +16,14 @@
 
 package org.springframework.beandoc.client;
 
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Properties;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.springframework.beandoc.ContextProcessor;
+import org.springframework.beans.factory.BeanFactory;
 
 /**
  * @author Darren Davison
@@ -25,7 +31,26 @@ import org.apache.tools.ant.Task;
  */
 public class AntTask extends Task {
 
-    public void execute() throws BuildException {
-        super.execute();
+    private static final String BEANDOC_PREFIX = "beandoc.";
+    
+    private Properties beandocProps = new Properties();
+
+    public void execute() throws BuildException {      
+        Hashtable antProps = getProject().getProperties();
+        for (Iterator i = antProps.keySet().iterator(); i.hasNext();) {
+            String nextKey = (String) i.next();
+            if (nextKey.startsWith(BEANDOC_PREFIX))
+                beandocProps.put(((String) nextKey).substring(BEANDOC_PREFIX.length()), antProps.get(nextKey));
+                
+        }
+        
+		BeanFactory factory = SpringLoader.getBeanFactory(beandocProps);	
+		
+		try {
+		    ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
+		    cp.process();
+		} catch (Exception e) {
+		    throw new BuildException(e);
+		}
     }
 }

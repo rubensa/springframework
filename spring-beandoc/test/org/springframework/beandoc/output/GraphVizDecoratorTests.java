@@ -39,7 +39,9 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd.addBeanColours("*Validator", "RED");
         gvd.addBeanColours("org.springframework.samples*", "BLUE");
         gvd.addBeanColours("simpleForm*", "GREEN");
-        gvd.addBeanColours("*.foo.bar", "YELLOW");        
+        gvd.addBeanColours("*.foo.bar", "YELLOW");       
+        
+        gvd.setDefaultFillColour("BLACK");
     }
     
     /*
@@ -102,6 +104,10 @@ public class GraphVizDecoratorTests extends TestCase {
         e1.setAttribute("class", "org.springframework.samples.foo.Bar");
         gvd.decorateElement(e1);
         assertEquals("BLUE", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+        
+        e1.setAttribute("class", "something.else");
+        gvd.decorateElement(e1);
+        assertEquals("BLACK", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
     }
     
 }

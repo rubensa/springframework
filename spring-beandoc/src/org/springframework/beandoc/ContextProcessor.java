@@ -29,6 +29,16 @@ import java.io.IOException;
  */
 public interface ContextProcessor {
     
+    /**
+     * Responsible for taking configured inputs and generating all required
+     * beandoc output in whatever format has been requested.  Implementations
+     * could read and write file system resources, network streams or handle
+     * IO in a completely custom manner.
+     * 
+     * @throws IOException if the inputs cannot be read, or if the output stream
+     *      fails for any reason.
+     * @throws BeanDocException when any other processing failure occurs.
+     */
     public void process() throws IOException, BeanDocException;
 
 }

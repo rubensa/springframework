@@ -298,12 +298,16 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 		AbstractBeanDefinition beanDefinition = parseBeanDefinition(ele, id, defaultDependencyCheck, defaultAutowire);
 
 		if (id == null || "".equals(id)) {
-			if (aliases.isEmpty()) {
-				throw new BeanDefinitionStoreException(beanDefinition + " has neither id nor name");
-			}
-			id = (String) aliases.remove(0);
-			if (logger.isDebugEnabled()) {
+			if (!aliases.isEmpty()) {
+				id = (String) aliases.remove(0);
 				logger.debug("No XML id specified - using '" + id + "' as id and " + aliases + " as aliases");
+			}
+			else if (beanDefinition instanceof RootBeanDefinition) {
+				id = ((RootBeanDefinition) beanDefinition).getBeanClass().getName();
+				logger.debug("Neither XML id nor name specified - using bean class name [" + id + "] as id");
+			}
+			else {
+				throw new BeanDefinitionStoreException(beanDefinition + " has neither id nor name nor bean class");
 			}
 		}
 

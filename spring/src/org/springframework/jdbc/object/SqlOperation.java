@@ -28,13 +28,24 @@ public abstract class SqlOperation extends RdbmsOperation {
 	 */
 	private PreparedStatementCreatorFactory preparedStatementFactory;
 
-	/**
-	 * Boolean enabling us to create PreparedStatementCreators
-	 * that can return prepared statements capable of returning
-	 * updatable result sets.
-	 */
 	private boolean updatableResults;
-	
+
+	/**
+	 * Set whether to create PreparedStatementCreators that return prepared
+	 * statements capable of returning updatable result sets.
+	 */
+	protected void setUpdatableResults(boolean updatableResults) {
+		this.updatableResults = updatableResults;
+	}
+
+	/**
+	 * Return whether created PreparedStatementCreators will return prepared
+	 * statements capable of returning updatable result sets.
+	 */
+	protected boolean isUpdatableResults() {
+		return updatableResults;
+	}
+
 	/**
 	 * Return a PreparedStatementCreator to perform an operation
 	 * with this parameters.
@@ -73,20 +84,6 @@ public abstract class SqlOperation extends RdbmsOperation {
 	 * This implementation does nothing.
 	 */
 	protected void onCompileInternal() {
-	}
-
-	/**
-	 * @return Returns the updatableResults flag.
-	 */
-	protected boolean isUpdatableResults() {
-		return updatableResults;
-	}
-
-	/**
-	 * @param updatable The updatableResults flag to set.
-	 */
-	protected void setUpdatableResults(boolean updatableResults) {
-		this.updatableResults = updatableResults;
 	}
 
 }

@@ -7,4 +7,4 @@ fi
 
 mkdir ../target/beandoc
 CLASSPATH=.:../target/dist/spring-beandoc.jar:../target/dist/spring-core.jar:../target/dist/jdom.jar:../target/dist/commons-logging.jar
-java -cp $CLASSPATH org.springframework.beandoc.client.BeanDocClient $1
+java -cp $CLASSPATH org.springframework.beandoc.client.BeanDocClient --properties $1

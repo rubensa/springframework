@@ -678,7 +678,7 @@ recommend sticking to 'spring' --&gt;
 ...
     Name:
     #springFormInput("command.name" "")&lt;br&gt;
-    #showErrors("&lt;br&gt;" "")&lt;br&gt;</programlisting></para>
+    #springShowErrors("&lt;br&gt;" "")&lt;br&gt;</programlisting></para>
 
           <para>The formInput macro takes the path parameter (command.name)
           and an additional attributes parameter which is empty in the example

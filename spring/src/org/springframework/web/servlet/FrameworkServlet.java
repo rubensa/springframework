@@ -21,7 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.RequestHandledEvent;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.context.support.XmlWebApplicationContext;
-import org.springframework.web.util.WebUtils;
 
 /**
  * Base servlet for servlets within the web framework. Allows integration
@@ -331,13 +330,13 @@ public abstract class FrameworkServlet extends HttpServletBean {
 			if (failureCause != null) {
 				logger.error("Could not complete request", failureCause);
 				this.webApplicationContext.publishEvent(
-				    new RequestHandledEvent(this, WebUtils.getRequestUri(request), processingTime, request.getRemoteAddr(),
+				    new RequestHandledEvent(this, request.getRequestURI(), processingTime, request.getRemoteAddr(),
 				                            request.getMethod(), getServletConfig().getServletName(), failureCause));
 			}
 			else {
 				logger.debug("Successfully completed request");
 				this.webApplicationContext.publishEvent(
-				    new RequestHandledEvent(this, WebUtils.getRequestUri(request), processingTime, request.getRemoteAddr(),
+				    new RequestHandledEvent(this, request.getRequestURI(), processingTime, request.getRemoteAddr(),
 				                            request.getMethod(), getServletConfig().getServletName()));
 			}
 		}

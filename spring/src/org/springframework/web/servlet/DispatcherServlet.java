@@ -31,7 +31,6 @@ import org.springframework.web.servlet.mvc.throwaway.ThrowawayControllerHandlerA
 import org.springframework.web.servlet.mvc.throwaway.ValidatableThrowawayControllerHandlerAdapter;
 import org.springframework.web.servlet.theme.FixedThemeResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.util.WebUtils;
 
 /**
  * Concrete front controller for use within the web MVC framework.
@@ -329,7 +328,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	 */
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.debug("DispatcherServlet with name '" + getServletName() + "' received request for [" +
-		             WebUtils.getRequestUri(request) + "]");
+		             request.getRequestURI() + "]");
 
 		// Make framework objects available for handlers
 		request.setAttribute(WEB_APPLICATION_CONTEXT_ATTRIBUTE, getWebApplicationContext());
@@ -356,7 +355,7 @@ public class DispatcherServlet extends FrameworkServlet {
 			mappedHandler = getHandler(processedRequest);
 			if (mappedHandler == null || mappedHandler.getHandler() == null) {
 				// if we didn't find a handler
-				pageNotFoundLogger.warn("No mapping for [" + WebUtils.getRequestUri(processedRequest) +
+				pageNotFoundLogger.warn("No mapping for [" + request.getRequestURI() +
 																"] in DispatcherServlet with name '" + getServletName() + "'");
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 				return;
@@ -451,7 +450,7 @@ public class DispatcherServlet extends FrameworkServlet {
 
 			HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
 			long lastModified = ha.getLastModified(request, mappedHandler.getHandler());
-			logger.debug("Last-Modified value for [" + WebUtils.getRequestUri(request) + "] is [" + lastModified + "]");
+			logger.debug("Last-Modified value for [" + request.getRequestURI() + "] is [" + lastModified + "]");
 			return lastModified;
 		}
 		catch (Exception ex) {

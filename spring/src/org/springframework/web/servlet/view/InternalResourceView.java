@@ -13,7 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.util.WebUtils;
+import org.springframework.web.util.UrlPathHelper;
 
 /**
  * Wrapper for a JSP or other resource within the same web application.
@@ -64,7 +64,7 @@ public class InternalResourceView extends AbstractUrlBasedView {
 		}
 
 		// if already included, include again, else forward
-		if (request.getAttribute(WebUtils.INCLUDE_URI_REQUEST_ATTRIBUTE) != null) {
+		if (request.getAttribute(UrlPathHelper.INCLUDE_URI_REQUEST_ATTRIBUTE) != null) {
 			rd.include(request, response);
 			logger.debug("Included resource [" + getUrl() + "] in InternalResourceView '" + getName() + "'");
 		}

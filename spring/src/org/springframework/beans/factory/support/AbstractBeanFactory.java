@@ -40,7 +40,6 @@ import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.FactoryBeanCircularReferenceException;
-import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
@@ -69,7 +68,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
  * @since 15 April 2001
  * @version $Id$
  */
-public abstract class AbstractBeanFactory implements HierarchicalBeanFactory, ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory implements ConfigurableBeanFactory {
 
 	/**
 	 * Used to dereference a FactoryBean and distinguish it from

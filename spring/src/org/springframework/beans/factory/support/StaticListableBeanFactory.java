@@ -69,10 +69,6 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		return null;
 	}
 
-	public void autowireExistingBean(Object existingBean, int autowireMode, boolean dependencyCheck) {
-		throw new UnsupportedOperationException("StaticListableBeanFactory does not support autowiring");
-	}
-
 	public int getBeanDefinitionCount() {
 		return this.beans.size();
 	}

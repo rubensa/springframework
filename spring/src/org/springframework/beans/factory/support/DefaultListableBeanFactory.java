@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
@@ -122,6 +123,34 @@ public class DefaultListableBeanFactory extends AbstractBeanFactory
 			}
 		}
 		return result;
+	}
+
+
+	//---------------------------------------------------------------------
+	// Implementation of AutowireCapableBeanFactory
+	//---------------------------------------------------------------------
+
+	public Object autowireConstructor(Class beanClass) {
+		RootBeanDefinition bd = new RootBeanDefinition(beanClass, null);
+		bd.setAutowire(RootBeanDefinition.AUTOWIRE_CONSTRUCTOR);
+		return autowireConstructor(beanClass.getName(), bd).getWrappedInstance();
+	}
+
+	public void autowireExistingBean(Object existingBean, int autowireMode, boolean dependencyCheck)
+			throws BeansException {
+		if (autowireMode != AUTOWIRE_BY_NAME && autowireMode != AUTOWIRE_BY_TYPE) {
+			throw new IllegalArgumentException("Just constants AUTOWIRE_BY_NAME and AUTOWIRE_BY_TYPE allowed");
+		}
+		RootBeanDefinition bd = new RootBeanDefinition(existingBean.getClass(), null);
+		bd.setAutowire(autowireMode);
+		if (dependencyCheck) {
+			bd.setDependencyCheck(RootBeanDefinition.DEPENDENCY_CHECK_OBJECTS);
+		}
+		populateBean(existingBean.getClass().getName(), bd, new BeanWrapperImpl(existingBean));
+	}
+
+	public Object applyBeanPostProcessors(Object existingBean, String name) throws BeansException {
+		return super.applyBeanPostProcessors(existingBean, name);
 	}
 
 

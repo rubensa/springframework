@@ -20,8 +20,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ParameterMapper;
 import org.springframework.jdbc.core.SqlParameter;
@@ -98,9 +98,6 @@ public abstract class StoredProcedure extends SqlCall {
 	 */
 	public Map execute(final Map inParams) throws DataAccessException {
 		validateParameters(inParams.values().toArray());
-		if (logger.isDebugEnabled()) {
-			logger.debug("Executing call [" + getCallString() + "]");
-		}
 		return getJdbcTemplate().call(newCallableStatementCreator(inParams), getDeclaredParameters());
 	}
 
@@ -121,9 +118,6 @@ public abstract class StoredProcedure extends SqlCall {
 	 * stored procedure has been called.
 	 */
 	public Map execute(final ParameterMapper inParamMapper) throws DataAccessException {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Executing call [" + getCallString() + "] using ParameterMapper");
-		}
 		return getJdbcTemplate().call(newCallableStatementCreator(inParamMapper), getDeclaredParameters());
 	}
 

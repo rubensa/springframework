@@ -149,15 +149,8 @@ public class SqlUpdate extends SqlOperation {
 	 */
 	public int update(Object[] args) throws DataAccessException {
 		validateParameters(args);
-		if (logger.isDebugEnabled()) {
-			logger.debug("Executing update statement [" + getSql() + "]");
-		}
 		int rowsAffected = getJdbcTemplate().update(newPreparedStatementCreator(args));
-
 		checkRowsAffected(rowsAffected);
-		if (logger.isDebugEnabled()) {
-			logger.debug(rowsAffected + " rows affected by SQL update [" + getSql() + "]");
-		}
 		return rowsAffected;
 	}
 

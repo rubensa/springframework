@@ -198,7 +198,7 @@ public class MethodInvocationImpl implements MethodInvocation {
 		
 		if (this.currentInterceptor == this.interceptorsAndDynamicMethodMatchers.size() - 1) {
 			exhausted = true;
-			return AopProxy.invokeJoinpointUsingReflection(target, method, arguments);
+			return AopProxyUtils.invokeJoinpointUsingReflection(target, method, arguments);
 		}
 		
 		// We begin with -1 and increment early

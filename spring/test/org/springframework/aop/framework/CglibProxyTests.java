@@ -37,7 +37,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 	
 	protected AopProxy createAopProxy(AdvisedSupport as) {
 		as.setProxyTargetClass(true);
-		return new AopProxy(as);
+		return new Cglib1AopProxy(as);
 	}
 	
 	protected boolean requiresTarget() {
@@ -46,8 +46,7 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 	
 	public void testNullConfig() {
 		try {
-			// TODO change
-			AopProxy aop = new AopProxy(null);
+			Cglib1AopProxy aop = new Cglib1AopProxy(null);
 			aop.getProxy();
 			fail("Shouldn't allow null interceptors");
 		} 
@@ -79,10 +78,10 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 		mockTargetSource.setTarget(raw);
 		AdvisedSupport pc = new AdvisedSupport(new Class[] {});
 		pc.setTargetSource(mockTargetSource);
-		AopProxy aop = new AopProxy(pc);
+		AopProxy aop = new Cglib1AopProxy(pc);
 
 		Object proxy = aop.getProxy();
-		assertTrue("Proxy is CGLIB enhanced", proxy.getClass().getName().indexOf("$$") != -1);
+		assertTrue("Proxy is CGLIB enhanced", AopUtils.isCglibProxy(proxy));
 		assertTrue(proxy instanceof ITestBean);
 		assertTrue(proxy instanceof TestBean);
 		TestBean tb = (TestBean) proxy;

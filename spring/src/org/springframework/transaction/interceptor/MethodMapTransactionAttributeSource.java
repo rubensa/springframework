@@ -75,7 +75,7 @@ public class MethodMapTransactionAttributeSource extends AbstractTransactionAttr
 		String className = name.substring(0, lastDotIndex);
 		String methodName = name.substring(lastDotIndex + 1);
 		try {
-			Class clazz = Class.forName(className);
+			Class clazz = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
 			addTransactionalMethod(clazz, methodName, attr);
 		}
 		catch (ClassNotFoundException ex) {

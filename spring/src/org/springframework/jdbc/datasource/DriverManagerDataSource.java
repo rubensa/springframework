@@ -67,7 +67,7 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 	public void setDriverClassName(String driverClassName) throws CannotGetJdbcConnectionException {
 		this.driverClassName = driverClassName;
 		try {
-			Class.forName(this.driverClassName);
+			Class.forName(this.driverClassName, true, Thread.currentThread().getContextClassLoader());
 			logger.info("Loaded JDBC driver: " + this.driverClassName);
 		}
 		catch (ClassNotFoundException ex) {

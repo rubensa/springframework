@@ -31,6 +31,8 @@ import freemarker.template.TemplateException;
  *
  * <p>Exposes the following JavaBean properties:
  * <ul>
+ * <li><b>templateContext</b>: the context (directory / root path) in which 
+ * templates will be searched for.
  * <li><b>url</b>: the location of the FreeMarker template to be wrapped,
  * relative to the FreeMarker template context (directory).
  * </ul>

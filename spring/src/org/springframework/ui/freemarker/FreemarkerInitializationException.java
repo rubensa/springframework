@@ -16,11 +16,20 @@ import org.springframework.core.NestedRuntimeException;
  */
 public class FreemarkerInitializationException extends NestedRuntimeException {
 	
-	public FreemarkerInitializationException(String msg) {
+	/**
+	 * create exception with a message
+     * @param msg
+     */
+    public FreemarkerInitializationException(String msg) {
 		super(msg);
 	}
 	
-	public FreemarkerInitializationException(String msg, Exception ex) {
+	/**
+	 * create nested exception
+     * @param msg
+     * @param ex
+     */
+    public FreemarkerInitializationException(String msg, Exception ex) {
 		super(msg, ex);
 	}
 }

@@ -333,6 +333,7 @@
 				<include name="lib/cos/**"/>
 				<include name="lib/dom4j/**"/>
 				<include name="lib/easymock/**"/>
+				<include name="lib/freemarker/**"/>
 				<include name="lib/hsqldb/**"/>
 				<include name="lib/hibernate/**"/>
 				<include name="lib/ibatis/**"/>

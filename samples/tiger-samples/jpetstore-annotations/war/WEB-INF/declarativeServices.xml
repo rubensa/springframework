@@ -42,7 +42,7 @@
 	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
 		<property name="transactionManager"><ref bean="transactionManager"/></property>
 		<property name="transactionAttributeSource">
-			<bean class="org.springframework.transaction.interceptor.AttributesTransactionAttributeSource">
+			<bean class="org.springframework.transaction.annotations.AnnotationsTransactionAttributeSource">
 				<property name="attributes"><ref bean="attributes"/></property>
 			</bean>
 		</property>
@@ -53,6 +53,6 @@
 		implementation of org.springframework.metadata.Attributes to source
 		attributes from a different source.
 	-->
-	<bean id="attributes" class="org.springframework.metadata.commons.CommonsAttributes"/>
+	<bean id="attributes" class="org.springframework.metadata.annotations.AnnotationsAttributes"/>
 	
 </beans>

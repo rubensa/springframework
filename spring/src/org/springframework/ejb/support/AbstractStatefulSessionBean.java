@@ -5,7 +5,7 @@
 
 package org.springframework.ejb.support;
 
-import javax.ejb.CreateException;
+import org.springframework.beans.factory.support.BootstrapException;
 
 /**
  * Convenient superclass for stateful session beans.
@@ -23,9 +23,11 @@ public abstract class AbstractStatefulSessionBean extends AbstractSessionBean {
 
 	/**
 	 * Load a Spring BeanFactory namespace. Exposed for subclasses
-	 * to load a BeanFactory in their ejbCreate() methods.
+	 * to load a BeanFactory in their ejbCreate() methods. Those 
+	 * callers would normally want to catch BootstrapException and
+	 * rethrow it as {@link javax.ejb.CreateException}.
 	 */
-	protected void loadBeanFactory() throws CreateException {
+	protected void loadBeanFactory() throws BootstrapException {
 		super.loadBeanFactory();
 	}
 

@@ -62,7 +62,7 @@ public abstract class AbstractMessageDrivenBean
 	 * <p>Unfortunately we can't load the BeanFactory in setSessionContext(),
 	 * as ResourceManager access isn't permitted and the BeanFactory may require it.
 	 */
-	public void ejbCreate() throws CreateException {
+	public void ejbCreate() {
 		loadBeanFactory();
 		onEjbCreate();
 	}
@@ -75,6 +75,6 @@ public abstract class AbstractMessageDrivenBean
 	 * to an ejbCreate() method.
 	 * @throws CreateException
 	 */
-	protected abstract void onEjbCreate() throws CreateException;
+	protected abstract void onEjbCreate();
 
 }

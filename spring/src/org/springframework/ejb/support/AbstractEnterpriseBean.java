@@ -5,7 +5,6 @@
 
 package org.springframework.ejb.support;
 
-import javax.ejb.CreateException;
 import javax.ejb.EnterpriseBean;
 
 import org.apache.commons.logging.Log;
@@ -49,16 +48,11 @@ abstract class AbstractEnterpriseBean implements EnterpriseBean {
 	 * shouldn't be called directly by user-created subclasses.
 	 * @see org.springframework.ejb.support.AbstractStatelessSessionBean#ejbCreate()
 	 */
-	void loadBeanFactory() throws CreateException {
+	void loadBeanFactory() throws BootstrapException {
 		if (this.beanFactoryLoader == null) {
 			this.beanFactoryLoader = new XmlBeanFactoryLoader();
 		}
-		try {
-			this.beanFactory = this.beanFactoryLoader.loadBeanFactory();
-		}
-		catch (BootstrapException ex) {
-			throw new CreateException(ex.getMessage());
-		}
+		this.beanFactory = this.beanFactoryLoader.loadBeanFactory();
 	}
 
 	/**

@@ -16,11 +16,6 @@
 
 package org.springframework.beandoc.client;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
-
 import org.springframework.beandoc.ContextProcessor;
 import org.springframework.beandoc.output.Decorator;
 import org.springframework.beandoc.output.Transformer;
@@ -65,20 +60,45 @@ public class BeanDocClient {
 	 * can be switched to gif, jpg or svg as desired</td></tr>
 	 * </table>
 	 * 
-	 * @param args must consist of one resolvable Resources to be used as
-	 *      properties file.
+	 * @param args command line parameters.  
+	 * 		<ul><li>If a single parameter is offered, it is taken 
+	 * 		to be the location of a properties file containing all mandatory and optional
+	 * 		configuration properties for the beandoc tool.</li>
+	 * 		<li>If two parameters are supplied, they are the input files (comma separated) 
+	 * 		and output directory respectively.M/li>
+	 * 		<li>Three parameters specify input file(s), output directory and location of
+	 * 		properties file</li></ul>
 	 */
 	public static void main(String[] args) {
 	    
-	    Properties beandocProps = new Properties();
+		String inputs = null;
+		String output = null;
+		String props = null;
 	    	    
-		if (args.length < 1) {
+		switch (args.length) {
+		    case 0:
 			usage();
 			System.exit(99);
+			break;
+		
+			case 1:
+		    props = args[0];
+		    break;
+		    
+		    case 3:    
+		    props = args[2];
+		    // ok to fall through
+		
+			case 2:  		
+		    inputs = args[0];
+		    output = args[1];	
+		    break;
+		    
 		}
     
 		try {
-            BeanFactory factory = SpringLoader.getBeanFactory(args[0]);
+            BeanFactory factory = 
+                SpringLoader.getBeanFactory(new SpringLoaderCommand(inputs, output, props));
             ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
             cp.process();
                     
@@ -93,7 +113,9 @@ public class BeanDocClient {
 	 */
 	private static void usage() {
 		StringBuffer usg = new StringBuffer("Usage:\n")
-			.append("java org.springframework.beandoc.client.BeanDocClient beandoc.properties");
+			.append("java org.springframework.beandoc.client.BeanDocClient [input file(s)] [output directory] [beandoc.properties]\n\n")
+			.append("Either a properties file, or BOTH input and output files, or all three arguments must\n")
+			.append("be specified.");
         
 		System.out.println(usg.toString());
 	}

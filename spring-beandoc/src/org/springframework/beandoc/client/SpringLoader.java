@@ -37,7 +37,11 @@ import org.springframework.core.io.ClassPathResource;
  */
 class SpringLoader {
     
-	private static final String BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
+    private static final String PROP_INPUT_FILES = "input.files";
+    
+    private static final String PROP_OUTPUT_DIR = "output.dir";
+    
+    private static final String BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
     
     private static final String SYSTEM_PROPS_QUALIFIER = "springbeandoc.";
         
@@ -46,13 +50,10 @@ class SpringLoader {
      * Loads and configures (post-processes) a BeanFactory from an inernal
      * definition file.
      * 
-     * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
-     *      mandatory properties are specified as parmeters to this method or as System properties 
-     *      using a "springbeandoc." qualifier (ie <code>springbeandoc.input.files=...</code> in 
-     *      place of <code>input.files=...</code>)
+     * @param command the configuration needed to bootstrap the context for beandoc
      * @return the BeanFactory post-processed by the properties supplied
      */
-    static BeanFactory getBeanFactory(String beandocPropsLocation) throws Exception {
+    static BeanFactory getBeanFactory(SpringLoaderCommand command) throws Exception {
         
         Properties beandocProps = new Properties();    
         
@@ -61,15 +62,24 @@ class SpringLoader {
             try {
                 String nextProp = (String) enum.nextElement();
                 if (nextProp.startsWith(SYSTEM_PROPS_QUALIFIER))
-                    beandocProps.put(nextProp.substring(SYSTEM_PROPS_QUALIFIER.length()), System.getProperty(nextProp));
+                    beandocProps.put(
+                        nextProp.substring(SYSTEM_PROPS_QUALIFIER.length()), 
+                        System.getProperty(nextProp)
+                    );
                     
             } catch (Exception e) {
                 // ignore and continue
             }
         
         // load user props if specified, overriding any values from the System
-        if (beandocPropsLocation != null)
-            beandocProps.load(new FileInputStream(beandocPropsLocation));
+        if (command.getBeandocPropsLocation() != null)
+            beandocProps.load(new FileInputStream(command.getBeandocPropsLocation()));
+        
+        // finally, override with command line (or equiv) I/O attributes
+        if (command.getInputFiles() != null)
+            beandocProps.put(PROP_INPUT_FILES, command.getInputFiles());
+        if (command.getOutputDir() != null)
+            beandocProps.put(PROP_OUTPUT_DIR, command.getOutputDir());
         
 	    ClassPathResource res = new ClassPathResource(BEANDOC_XML);
 	    XmlBeanFactory factory = new XmlBeanFactory(res);

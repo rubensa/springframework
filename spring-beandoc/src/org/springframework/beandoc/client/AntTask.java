@@ -16,9 +16,7 @@
 
 package org.springframework.beandoc.client;
 
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Properties;
+import java.io.File;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -38,7 +36,11 @@ import org.springframework.beans.factory.BeanFactory;
 public class AntTask extends Task {
 
     private String beandocProps;
-
+    
+    private File outputDir;
+    
+    private String inputFiles;
+    
     /**
      * Load and run the default beandoc processor wrapping any <code>Exception</code> as
      * an Ant <code>BuildException</code>.
@@ -47,7 +49,10 @@ public class AntTask extends Task {
      */
     public void execute() throws BuildException {  		
 		try {            
-            BeanFactory factory = SpringLoader.getBeanFactory(beandocProps);
+            BeanFactory factory = 
+                SpringLoader.getBeanFactory(
+                    new SpringLoaderCommand(inputFiles, outputDir.getAbsolutePath(), beandocProps)
+                );
             ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
             cp.process();
             
@@ -66,6 +71,14 @@ public class AntTask extends Task {
      */
     public void setBeandocProps(String beandocProps) {
         this.beandocProps = beandocProps;
+    }
+
+    public void setInputFiles(String inputFiles) {
+        this.inputFiles = inputFiles;
+    }
+    
+    public void setOutputDir(File outputDir) {
+        this.outputDir = outputDir;
     }
 
 }

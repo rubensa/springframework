@@ -23,7 +23,7 @@ public class DataSourceTransactionObject {
 	/**
 	 * Create DataSourceTransactionObject for new ConnectionHolder.
 	 */
-	public DataSourceTransactionObject() {
+	protected DataSourceTransactionObject() {
 	}
 
 	/**

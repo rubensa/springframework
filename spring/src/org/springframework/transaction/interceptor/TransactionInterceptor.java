@@ -49,8 +49,9 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	 */
 	public static TransactionStatus currentTransactionStatus() throws AspectException {
 		TransactionStatus status = (TransactionStatus) currentTransactionStatus.get();
-		if (status == null)
-			throw new NoTransactionException("No transaction status in scope");
+		if (status == null) {
+			throw new NoTransactionException("No TransactionInterceptor-managed TransactionStatus in scope");
+		}
 		return status;
 	}
 
@@ -180,7 +181,8 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	 * Handle a throwable.
 	 * We may commit or roll back, depending on our configuration.
 	 */
-	private void onThrowable(MethodInvocation invocation, TransactionAttribute txAtt, TransactionStatus status, Throwable ex) {
+	private void onThrowable(MethodInvocation invocation, TransactionAttribute txAtt,
+	                         TransactionStatus status, Throwable ex) {
 		if (txAtt.rollbackOn(ex)) {
 			logger.info("Invoking rollback for transaction on method '" + invocation.getMethod().getName() +
 									"' due to throwable [" + ex + "]");

@@ -86,7 +86,7 @@ public class BeanFactoryTransactionTests extends TestCase {
 		ptmControl.verify();
 
 		// Install facade expecting a call
-		final TransactionStatus ts = new DefaultTransactionStatus(null, true, false, false);
+		final TransactionStatus ts = new DefaultTransactionStatus(null, true, false, false, null);
 		ptm = new PlatformTransactionManager() {
 			private boolean invoked;
 			public TransactionStatus getTransaction(TransactionDefinition definition)

@@ -17,32 +17,47 @@ public class CountingTxManager extends AbstractPlatformTransactionManager {
 	public int commits;
 	public int rollbacks;
 	public int inflight;
-	private boolean rollbackOnly;
+	public boolean rollbackOnly;
 
-	protected Object doGetTransaction() throws TransactionException {
+	protected Object doGetTransaction() {
 		return new Object();
 	}
 
-	protected boolean isExistingTransaction(Object transaction) throws TransactionException {
+	protected boolean isExistingTransaction(Object transaction) {
 		return false;
 	}
 
-	protected void doBegin(Object transaction, TransactionDefinition definition) throws TransactionException {
+	protected void doBegin(Object transaction, TransactionDefinition definition) {
 		++inflight;
 	}
 
-	protected void doCommit(DefaultTransactionStatus status) throws TransactionException {
+	protected Object doSuspend(Object transaction) {
+		return null;
+	}
+
+	protected void doResume(Object transaction, Object suspendedResources)
+	    throws TransactionException {
+	}
+
+	protected boolean isRollbackOnly(Object transaction) throws TransactionException {
+		return false;
+	}
+
+	protected void doCommit(DefaultTransactionStatus status) {
 		++commits;
 		--inflight;
 	}
 
-	protected void doRollback(DefaultTransactionStatus status) throws TransactionException {
+	protected void doRollback(DefaultTransactionStatus status) {
 		++rollbacks;
 		--inflight;
 	}
 
-	protected void doSetRollbackOnly(DefaultTransactionStatus status) throws TransactionException {
+	protected void doSetRollbackOnly(DefaultTransactionStatus status) {
 		rollbackOnly = true;
+	}
+
+	protected void doCleanupAfterCompletion(Object transaction) {
 	}
 
 }

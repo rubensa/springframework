@@ -1,37 +1,25 @@
 
 package org.springframework.web.servlet.mvc;
 
-import javax.servlet.ServletException;
-
 import junit.framework.TestCase;
 
 import org.springframework.web.mock.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @version $Id$
  * @author Rod Johnson
  * @since March 2, 2003
- * 
+ * @version $Id$
  */
 public class ParameterizableViewControllerTestSuite extends TestCase {
 
-	/**
-	 * Constructor for ParameterizableViewControllerTestSuite.
-	 * @param arg0
-	 */
-	public ParameterizableViewControllerTestSuite(String arg0) {
-		super(arg0);
-	}
-	
-	
 	public void testPropertyNotSet() throws Exception {
 		ParameterizableViewController pvc = new ParameterizableViewController();
 		try {
-			pvc.afterPropertiesSet();
+			pvc.initApplicationContext();
 			fail("should require viewName property to be set");
 		}
-		catch (ServletException ex){
+		catch (IllegalArgumentException ex){
 			// ok
 		}
 	}
@@ -40,7 +28,7 @@ public class ParameterizableViewControllerTestSuite extends TestCase {
 		String viewName = "viewName";
 		ParameterizableViewController pvc = new ParameterizableViewController();
 		pvc.setViewName(viewName);
-		pvc.afterPropertiesSet();
+		pvc.initApplicationContext();
 		// We don't care about the params
 		ModelAndView mv = pvc.handleRequest(new MockHttpServletRequest(null, "GET", "foo.html"), null);
 		assertTrue("model has no data", mv.getModel().size() == 0);

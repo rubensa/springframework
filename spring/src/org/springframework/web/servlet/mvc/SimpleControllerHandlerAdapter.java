@@ -1,12 +1,8 @@
 package org.springframework.web.servlet.mvc;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.context.support.WebApplicationObjectSupport;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,9 +25,8 @@ public class SimpleControllerHandlerAdapter implements HandlerAdapter {
 	}
 	
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler)
-	    throws ServletException, IOException {
-		Controller controller = (Controller) handler;
-		return controller.handleRequest(request, response);
+			throws Exception {
+		return ((Controller) handler).handleRequest(request, response);
 	}
 	
 	public long getLastModified(HttpServletRequest request, Object handler) {

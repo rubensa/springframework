@@ -1,1 +1,0 @@
-Additional Spring samples.

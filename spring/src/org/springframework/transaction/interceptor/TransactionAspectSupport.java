@@ -260,7 +260,7 @@ public class TransactionAspectSupport implements InitializingBean {
 	 * @param txInfo information about the current transaction
 	 */
 	protected void doCommitTransactionAfterReturning(TransactionInfo txInfo) {
-		if (txInfo != null && txInfo.hasTransaction()) {
+		if (txInfo != null && txInfo.hasTransaction() && txInfo.transactionStatus.isNewTransaction()) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Invoking commit for transaction on " + txInfo.joinpointIdentification());
 			}

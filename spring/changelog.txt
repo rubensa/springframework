@@ -44,6 +44,7 @@ Package org.springframework.dao
 * fixed DataAccessUtils' "requiredUniqueResult" method, to correctly throw an IncorrectResultSizeDataAccessException
 
 Package org.springframework.jdbc
+* added a new SqlTypeValue abstract class with a callback method "setTypeValue" that will handle all database specific code
 * DataSourceUtils' "closeConnectionIfNecessary" logs error on SQLException rather than rethrowing an exception
 * removed CannotCloseJdbcConnectionException, as it is not used anymore
 * DataSourceTransactionManager closes JDBC Connection if "doBegin" fails

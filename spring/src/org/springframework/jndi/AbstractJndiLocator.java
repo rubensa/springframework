@@ -98,7 +98,7 @@ public abstract class AbstractJndiLocator implements InitializingBean {
 	 * contain it. Default is true.
 	 * <p>Note: Will only get applied if no other scheme like "java:" is given.
 	 */
-	public final void setInContainer(boolean inContainer) {
+	public void setInContainer(boolean inContainer) {
 		this.inContainer = inContainer;
 	}
 

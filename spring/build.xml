@@ -118,7 +118,7 @@
 			<classpath refid="all-libs"/>
 		</javac>
 
-		<rmic base="${target.classes.dir}" classname="org.springframework.remoting.rmi.RemoteInvocationWrapper"/>
+		<rmic base="${target.classes.dir}" classname="org.springframework.remoting.rmi.RmiInvocationWrapper"/>
 
 		<copy todir="${target.classes.dir}" preservelastmodified="true">
 			<fileset dir="${src.dir}">

@@ -16,6 +16,8 @@
 
 package org.springframework.mail;
 
+import java.util.Date;
+
 import org.springframework.util.StringUtils;
 
 /**
@@ -39,15 +41,20 @@ public class SimpleMailMessage {
 
 	private String from;
 
+	private String replyTo;
+
 	private String[] to;
 
 	private String[] cc;
 
 	private String[] bcc;
 
+	private Date sentDate;
+
 	private String subject;
 
 	private String text;
+
 
 	/**
 	 * Create new SimpleMailMessage.
@@ -60,6 +67,7 @@ public class SimpleMailMessage {
 	 */
 	public SimpleMailMessage(SimpleMailMessage original) {
 		this.from = original.getFrom();
+		this.replyTo = original.getReplyTo();
 		if (original.getTo() != null) {
 			this.to = new String[original.getTo().length];
 			System.arraycopy(original.getTo(), 0, this.to, 0, original.getTo().length);
@@ -72,9 +80,11 @@ public class SimpleMailMessage {
 			this.bcc = new String[original.getBcc().length];
 			System.arraycopy(original.getBcc(), 0, this.bcc, 0, original.getBcc().length);
 		}
+		this.sentDate = original.getSentDate();
 		this.subject = original.getSubject();
 		this.text = original.getText();
 	}
+
 
 	public void setFrom(String from) {
 		this.from = from;
@@ -82,6 +92,14 @@ public class SimpleMailMessage {
 
 	public String getFrom() {
 		return this.from;
+	}
+
+	public void setReplyTo(String replyTo) {
+		this.replyTo = replyTo;
+	}
+
+	public String getReplyTo() {
+		return replyTo;
 	}
 
 	public void setTo(String to) {
@@ -120,6 +138,14 @@ public class SimpleMailMessage {
 		return bcc;
 	}
 
+	public void setSentDate(Date sentDate) {
+		this.sentDate = sentDate;
+	}
+
+	public Date getSentDate() {
+		return sentDate;
+	}
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
@@ -136,14 +162,17 @@ public class SimpleMailMessage {
 		return this.text;
 	}
 
+
 	public String toString() {
 		StringBuffer sb = new StringBuffer("SimpleMailMessage: ");
-		sb.append("from: " + this.getFrom()+ "; ");
-		sb.append("to: " +  StringUtils.arrayToCommaDelimitedString(this.getTo()) + "; ");
-		sb.append("cc: " + StringUtils.arrayToCommaDelimitedString(this.getCc()) + "; ");
-		sb.append("bcc: " + StringUtils.arrayToCommaDelimitedString(this.getBcc()) + "; ");
-		sb.append("subject: " + this.getSubject()+ "; ");
-		sb.append("text: " + this.getText());
+		sb.append("from=").append(this.from).append("; ");
+		sb.append("replyTo=").append(this.replyTo).append("; ");
+		sb.append("to=").append( StringUtils.arrayToCommaDelimitedString(this.to)).append("; ");
+		sb.append("cc=").append(StringUtils.arrayToCommaDelimitedString(this.cc)).append("; ");
+		sb.append("bcc=").append(StringUtils.arrayToCommaDelimitedString(this.bcc)).append("; ");
+		sb.append("sentDate=").append(this.sentDate).append("; ");
+		sb.append("subject=").append(this.subject).append("; ");
+		sb.append("text=").append(this.text);
 		return sb.toString();
 	}
 

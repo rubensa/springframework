@@ -161,6 +161,9 @@ public class JavaMailSenderImpl implements JavaMailSender {
 				if (simpleMessage.getFrom() != null) {
 					message.setFrom(simpleMessage.getFrom());
 				}
+				if (simpleMessage.getReplyTo() != null) {
+					message.setReplyTo(simpleMessage.getReplyTo());
+				}
 				if (simpleMessage.getTo() != null) {
 					message.setTo(simpleMessage.getTo());
 				}
@@ -169,6 +172,9 @@ public class JavaMailSenderImpl implements JavaMailSender {
 				}
 				if (simpleMessage.getBcc() != null) {
 					message.setBcc(simpleMessage.getBcc());
+				}
+				if (simpleMessage.getSentDate() != null) {
+					message.setSentDate(simpleMessage.getSentDate());
 				}
 				if (simpleMessage.getSubject() != null) {
 					message.setSubject(simpleMessage.getSubject());

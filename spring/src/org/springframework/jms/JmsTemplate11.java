@@ -223,6 +223,21 @@ public class JmsTemplate11 extends AbstractJmsTemplate {
         }
     }
     
+	public void send(String d, final Object o) {
+		if (this.getJmsConverter() == null) {
+			logger.warn("No JmsConverter. Check configuration of JmsSender");
+			return;
+		} else {
+			send(d, new MessageCreator() {
+				public Message createMessage(Session session)
+					throws JMSException {
+					return getJmsConverter().toMessage(o, session);
+				}
+			});
+		}
+	}
+    
+    
     public void send(Destination d, final Object o, final MessagePostProcessor postProcessor) {
         if (this.getJmsConverter() == null) {
             logger.warn("No JmsConverter. Check configuration of JmsSender");

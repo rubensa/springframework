@@ -7,7 +7,7 @@
  */
 package org.springframework.rules.reporting;
 
-import org.springframework.rules.UnaryPredicate;
+import org.springframework.rules.Constraint;
 
 /**
  * @author  Keith Donald
@@ -22,7 +22,7 @@ public interface ValidationResults {
     /**
      * @return Returns the violatedConstraint.
      */
-    public UnaryPredicate getViolatedConstraint();
+    public Constraint getViolatedConstraint();
 
     /**
      * @return Returns the violatedCount.

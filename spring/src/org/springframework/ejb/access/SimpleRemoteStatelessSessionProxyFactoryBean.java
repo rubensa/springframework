@@ -53,9 +53,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBean extends SimpleRemoteSl
 		if (this.businessInterface == null) {
 			throw new IllegalArgumentException("businessInterface is required");
 		}
-		ProxyFactory pf = new ProxyFactory(new Class[] { this.businessInterface });
-		pf.addInterceptor(this);
-		this.proxy = pf.getProxy();
+		this.proxy = ProxyFactory.getProxy(this.businessInterface, this);
 	}
 
 	public Object getObject() {

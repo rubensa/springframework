@@ -40,7 +40,7 @@ public class CsvTransformer implements Transformer {
         for (int i = 0; i < contextDocuments.length; i++) {
             Document doc = contextDocuments[i];
             File outputFile = new File(
-                outputDir, doc.getRootElement().getAttributeValue("beandocFileName")
+                outputDir, doc.getRootElement().getAttributeValue("beandocFileName") + ".csv"
             );
             
             try {
@@ -53,10 +53,12 @@ public class CsvTransformer implements Transformer {
                     csvLine = 
                         bean.getAttributeValue(CsvDecorator.ATTRIBUTE_COUNTER) + "," +
                         bean.getAttributeValue("id") + "," + 
-                        bean.getAttributeValue("class") + "\\n";
-                    
+                        bean.getAttributeValue("class") + "\n";
+
+                    out.write(csvLine);
                 }
-                out.write(csvLine);
+                out.flush();
+                out.close();
                 
             } catch (IOException e) {
                 e.printStackTrace();

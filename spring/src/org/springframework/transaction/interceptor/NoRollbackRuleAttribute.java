@@ -10,7 +10,7 @@ package org.springframework.transaction.interceptor;
  * behaviour to the RollbackRule superclass.
  * @author Rod Johnson
  * @since 09-Apr-2003
- * @version $Revision$
+ * @version $Id$
  */
 public class NoRollbackRuleAttribute extends RollbackRuleAttribute {
 
@@ -19,6 +19,10 @@ public class NoRollbackRuleAttribute extends RollbackRuleAttribute {
 	 */
 	public NoRollbackRuleAttribute(String exceptionName) {
 		super(exceptionName);
+	}
+	
+	public String toString() {
+		return "No" + super.toString();
 	}
 
 }

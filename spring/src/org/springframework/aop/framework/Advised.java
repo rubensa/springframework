@@ -103,15 +103,6 @@ public interface Advised {
 	boolean removeInterceptor(Interceptor interceptor);
 	
 	/**
-	 * Can return null if there is no target, in which case interfaces and
-	 * advice supply all behaviour. Returns true if we have
-	 * a target interceptor. A target interceptor must be the last
-	 * interceptor in the chain.
-	 * @return Object
-	 */
-	Object getTarget();
-	
-	/**
 	 * Should we proxy the target class as well as any interfaces?
 	 * Can use this to force CGLIB proxying.
 	 * @return whether we proxy the target class as well as any interfaces

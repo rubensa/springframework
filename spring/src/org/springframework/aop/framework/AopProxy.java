@@ -124,7 +124,7 @@ public class AopProxy implements InvocationHandler {
 			}
 			else {
 				// We need to create a method invocation...
-				invocation = advised.getMethodInvocationFactory().getMethodInvocation(this.advised, proxy, method, targetClass, args, chain);
+				invocation = advised.getMethodInvocationFactory().getMethodInvocation(proxy, method, targetClass, advised.getTarget(), args, chain, advised);
 			
 				if (this.advised.getExposeInvocation()) {
 					// Make invocation available if necessary.

@@ -21,10 +21,10 @@ public class SimpleMethodInvocationFactory implements MethodInvocationFactory {
 	/**
 	 * @see org.springframework.aop.framework.MethodInvocationFactory#getMethodInvocation(org.springframework.aop.framework.Advised, java.util.List, java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
 	 */
-	public MethodInvocation getMethodInvocation(Advised advised, Object proxy, Method method, Class targetClass, Object[] args, List interceptorsAndDynamicInterceptionAdvice) {
+	public MethodInvocation getMethodInvocation(Object proxy, Method method, Class targetClass, Object target, Object[] args, List interceptorsAndDynamicInterceptionAdvice, AdvisedSupport advised) {
 		return new MethodInvocationImpl(
 			proxy,
-			advised.getTarget(),
+			target,
 			method.getDeclaringClass(),
 			method,
 			args,

@@ -17,9 +17,9 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public interface MethodInvocationFactory {
 	
-	MethodInvocation getMethodInvocation(Advised pc, Object proxy,
-								Method method, Class targetClass, Object[] args, 
-								List interceptorsAndDynamicInterceptionAdvice);
+	MethodInvocation getMethodInvocation(Object proxy, Method method,
+								Class targetClass, Object target, Object[] args, 
+								List interceptorsAndDynamicInterceptionAdvice, AdvisedSupport advised);
 	
 	void release(MethodInvocation mi);
 	

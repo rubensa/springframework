@@ -213,7 +213,8 @@ public class AopProxyTests extends TestCase {
 	
 	public static class TargetChecker extends NeedsToSeeProxy {
 		protected void checkAdvised(Advised advised) {
-			assertEquals(advised.getTarget(), this);
+			// TODO replace this check: no longer possible
+			//assertEquals(advised.getTarget(), this);
 		}
 	};
 	
@@ -512,7 +513,7 @@ public class AopProxyTests extends TestCase {
 		TrapTargetInterceptor tii = new TrapTargetInterceptor() {
 			public Object invoke(MethodInvocation invocation) throws Throwable {
 				// Assert that target matches BEFORE invocation returns
-				assertTrue(invocation.getThis() == expectedTarget);
+				assertEquals("Target is correct", expectedTarget, invocation.getThis());
 				return super.invoke(invocation);
 			}
 		};

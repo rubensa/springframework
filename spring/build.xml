@@ -802,15 +802,12 @@
 
 	</target>
 
-	<target name="sandboxjar" depends="build,build-sandbox,initdist" description="Creates spring.jar including the sandbox">
 
-		<delete file="${dist.dir}/spring.jar"/>
+	<target name="sandboxjar" depends="build,build-sandbox,initdist" description="Create jar with sandbox classes">
 
-		<jar jarfile="${dist.dir}/spring.jar">
-			<fileset dir="${target.classes.dir}">
-				<include name="META-INF/**"/>
-				<include name="org/springframework/**"/>
-			</fileset>
+		<delete file="${dist.dir}/spring-sandbox.jar"/>
+
+		<jar jarfile="${dist.dir}/spring-sandbox.jar">
 			<fileset dir="${sandbox.target.classes.dir}">
 				<include name="META-INF/**"/>
 				<include name="org/springframework/**"/>
@@ -821,6 +818,5 @@
 		</jar>
 
 	</target>
-
 
 </project>

@@ -73,7 +73,7 @@ public class InvokerInterceptorTests extends TestCase {
 		l.add(new DefaultInterceptionAroundAdvisor(ii));
 
 		Method m = Demo.class.getMethod("doSomething", null);
-			MethodInvocationImpl invocation = new MethodInvocationImpl(null, t, m.getDeclaringClass(), //?
+			MethodInvocationImpl invocation = new MethodInvocationImpl(null, test, m.getDeclaringClass(), //?
 	m, null, null, l // list
 		);
 		try {
@@ -81,7 +81,7 @@ public class InvokerInterceptorTests extends TestCase {
 			fail("Should throw exception");
 		}
 		catch (Exception thrown) {
-			assertTrue(thrown == t);
+			assertEquals(t, thrown);
 		}
 	}
 

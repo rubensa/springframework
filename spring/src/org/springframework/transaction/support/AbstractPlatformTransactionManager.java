@@ -88,7 +88,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	protected final Log logger = LogFactory.getLog(getClass());
 
 	/** Constants instance for AbstractPlatformTransactionManager */
-	private final Constants constants = new Constants(AbstractPlatformTransactionManager.class);
+	private static final Constants constants = new Constants(AbstractPlatformTransactionManager.class);
 
 	private int transactionSynchronization = SYNCHRONIZATION_ALWAYS;
 

@@ -114,7 +114,7 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 	public static final int SYSTEM_PROPERTIES_MODE_OVERRIDE = 2;
 
 
-	private final Constants constants = new Constants(PropertyPlaceholderConfigurer.class);
+	private static final Constants constants = new Constants(PropertyPlaceholderConfigurer.class);
 
 	private String placeholderPrefix = DEFAULT_PLACEHOLDER_PREFIX;
 

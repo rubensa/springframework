@@ -159,11 +159,13 @@ public class SQLErrorCodesFactory {
 				DatabaseMetaData dbmd = con.getMetaData();
 				if (dbmd != null) {
 					String dbName = dbmd.getDatabaseProductName();
+					String driverVersion = dbmd.getDriverVersion();
 					// special check for DB2
 					if (dbName != null && dbName.startsWith("DB2/"))
 						dbName = "DB2";
 					if (dbName != null) {
 						logger.info("Database Product Name is " + dbName);
+						logger.info("Driver Version is " + driverVersion);
 						SQLErrorCodes sec = (SQLErrorCodes) rdbmsErrorCodes.get(dbName);
 						if (sec != null)
 							return sec;

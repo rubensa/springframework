@@ -72,7 +72,7 @@ autobuilds directory for information.
 	-->
 	<target name="deploy" depends="extract-server">
 		<copy todir="${servers.install.dir}/${appserver.distname}/${deploy.dir}">
-			<fileset dir="${spring.root.dir}/samples/${target.app}/dist">
+			<fileset dir="${spring.samples.dir}/${target.app}/dist">
 				<include name="*" />
 				<exclude name="**/autobuild*" />
 			</fileset>
@@ -114,16 +114,8 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<echo message="##  Stopping server ${target.server}" />
 		<echo message="##  ----------------------------------------------------------------" />
-		<java 
-			classname="com.caucho.server.http.HttpServer"
-			output="${reports.dir}/${target.server}_server.log"
-			fork="true">
 		
-			<jvmarg value="-Dresin.home=${servers.install.dir}/${appserver.distname}" />
-      		
-      		<classpath refid="server-classpath" />
-      		
-      	</java>
+		<echo message="Unable to automatically stop resin servers.  Please Ctrl-C in the command window that started the build"/>
 	</target>
 	
 </project>

@@ -79,7 +79,7 @@ autobuilds directory for information.
 	-->
 	<target name="deploy" depends="extract-server">
 		<copy todir="${servers.install.dir}/${appserver.distname}/${deploy.dir}">
-			<fileset dir="${spring.root.dir}/samples/${target.app}/dist">
+			<fileset dir="${spring.samples.dir}/${target.app}/dist">
 				<include name="*" />
 				<exclude name="**/autobuild*" />
 			</fileset>
@@ -127,7 +127,6 @@ autobuilds directory for information.
 		<echo message="##  ----------------------------------------------------------------" />
 		<java 
 			classname="org.apache.catalina.startup.Bootstrap"
-			output="${reports.dir}/${target.server}_server.log"
 			fork="true">
 		
 			<arg value="stop"/>

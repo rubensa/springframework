@@ -50,12 +50,14 @@ if [ ! -f $SERVER-build.xml ]; then
 	exit 2
 fi
 
-if [ ! -d ../../samples/$APP ]; then
-    echo "Don't know about application $APP"
+if [ ! -f ../../samples/$APP/.autobuilds ]; then
+    echo "Don't know about application $APP or application is not configured for autobuilds"
     exit 3
 fi
 
 # ensure environment exists for 1st use
-$ANT setup
+$ANT -q setup > /dev/null
+echo Please see the file $BUILDLOG for build logging and unit test results
 $ANT -logger $LOGGER -logfile $BUILDLOG $DOCVS $KEEPALIVE -Dtarget.app=$APP -Dtarget.server=$SERVER main
+
 exit 0

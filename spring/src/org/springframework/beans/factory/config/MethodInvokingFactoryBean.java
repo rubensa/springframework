@@ -59,7 +59,7 @@ import org.springframework.util.MethodInvoker;
  * &lt;bean id="javaVersion" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
  *   &lt;property name="targetObject">&lt;ref local='sysProps'/>&lt;/property>
  *   &lt;property name="targetMethod">&lt;value>getProperty&lt;/value>&lt;/property>
- *   &lt;property name="args">
+ *   &lt;property name="arguments">
  *     &lt;list>
  *       &lt;value>|java.version|&lt;/value>
  *     &lt;/list>
@@ -76,12 +76,12 @@ public class MethodInvokingFactoryBean extends MethodInvoker implements FactoryB
 
 	private boolean singleton = true;
 
-	// stores the method call result in the singleton case
+	/** method call result in the singleton case */
 	private Object singletonObject;
 
 	/**
-	 * Set if a singleton should be created, or a new object on each request
-	 * else. Default is true.
+	 * Set if a singleton should be created, or a new object on each
+	 * request else. Default is true.
 	 */
 	public void setSingleton(boolean singleton) {
 		this.singleton = singleton;

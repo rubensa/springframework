@@ -18,7 +18,7 @@ package org.springframework.aop.framework;
 
 import java.lang.reflect.Method;
 
-import org.springframework.aop.MethodAfterReturningAdvice;
+import org.springframework.aop.AfterReturningAdvice;
 
 
 /**
@@ -27,7 +27,7 @@ import org.springframework.aop.MethodAfterReturningAdvice;
  * @author Rod Johnson
  * @version $Id$
  */
-public class CountingAfterReturningAdvice extends MethodCounter implements MethodAfterReturningAdvice {
+public class CountingAfterReturningAdvice extends MethodCounter implements AfterReturningAdvice {
 	public void afterReturning(Object o, Method m, Object[] args, Object target) throws Throwable {
 		count(m);
 	}

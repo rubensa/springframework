@@ -18,7 +18,7 @@ package org.springframework.aop.framework.adapter;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.aop.MethodAfterReturningAdvice;
+import org.springframework.aop.AfterReturningAdvice;
 
 
 /**
@@ -32,9 +32,9 @@ import org.springframework.aop.MethodAfterReturningAdvice;
  */
 final class AfterReturningAdviceInterceptor implements MethodInterceptor {
 	
-	private MethodAfterReturningAdvice advice;
+	private AfterReturningAdvice advice;
 	
-	public AfterReturningAdviceInterceptor(MethodAfterReturningAdvice advice) {
+	public AfterReturningAdviceInterceptor(AfterReturningAdvice advice) {
 		this.advice = advice;
 	}
 

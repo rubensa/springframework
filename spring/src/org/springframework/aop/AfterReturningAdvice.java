@@ -16,11 +16,12 @@
 
 package org.springframework.aop;
 
+import java.lang.reflect.Method;
+
 import org.aopalliance.aop.Advice;
 
-
 /**
- * Superinterface for all after returning advice. Such advice is invoked
+ * After returning advice is invoked
  * only on normal method return, not if an exception is thrown.
  * Such advice can see the return value, but cannot change it.
  * @see org.springframework.aop.MethodAfterReturningAdvice
@@ -28,5 +29,7 @@ import org.aopalliance.aop.Advice;
  * @version $Id$
  */
 public interface AfterReturningAdvice extends Advice {
+	
+	void afterReturning(Object returnValue, Method m, Object[] args, Object target) throws Throwable;
 
 }

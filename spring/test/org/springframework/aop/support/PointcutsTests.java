@@ -108,17 +108,9 @@ public class PointcutsTests extends TestCase {
 	
 	public static Pointcut allClassGetterPointcut = Pointcuts.GETTERS;
 	
-	public static Pointcut allClassGetAgePointcut = new StaticMethodMatcherPointcut() {
-		public boolean matches(Method m, Class targetClass) {
-			return m.getName().equals("getAge");
-		}
-	};
+	public static Pointcut allClassGetAgePointcut = new NameMatchMethodPointcut().addMethodName("getAge");
 	
-	public static Pointcut allClassGetNamePointcut = new StaticMethodMatcherPointcut() {
-		public boolean matches(Method m, Class targetClass) {
-			return m.getName().equals("getName");
-		}
-	};
+	public static Pointcut allClassGetNamePointcut = new NameMatchMethodPointcut().addMethodName("getName");
 	
 	
 	public PointcutsTests(String s) {

@@ -563,6 +563,8 @@
 
 			<!-- Need files loaded as resources -->
 			<classpath location="${test.dir}"/>
+			
+			<classpath location="${dist.dir}/spring-mock.jar"/>
 
 			<classpath refid="all-libs"/>
 

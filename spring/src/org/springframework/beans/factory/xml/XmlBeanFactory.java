@@ -315,8 +315,8 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 		}
 		
 		if (el.hasAttribute(DEPENDENCY_CHECK_ATTRIBUTE)) {
-			// Default is singleton
-			// Can override by making non-singleton if desired
+			// Default is "none"
+			// Can override by making "objects", "simple", "all"
 			dependencyCheck = el.getAttribute(DEPENDENCY_CHECK_ATTRIBUTE);
 		}
 		

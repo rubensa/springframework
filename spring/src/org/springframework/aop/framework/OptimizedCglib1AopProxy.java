@@ -72,8 +72,7 @@ final class OptimizedCglib1AopProxy extends Cglib1AopProxy implements MethodFilt
 			this.target = advised.getTargetSource().getTarget();
 		}
 		catch (Exception ex) {
-			// TODO fix exception
-			throw new AopConfigException("Fix me");
+			throw new AopConfigException("Cannot get target from static TargetSource", ex);
 		}
 	}
 	

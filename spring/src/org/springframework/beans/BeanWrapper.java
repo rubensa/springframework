@@ -180,10 +180,20 @@ public interface BeanWrapper {
 	/**
 	 * Get the property descriptor for a particular property.
 	 * @param propertyName property to check status for
-	 * @return the property descriptor for a particular property
+	 * @return the property descriptor for the particular property
 	 * @throws FatalBeanException if there is no such property
 	 */
 	PropertyDescriptor getPropertyDescriptor(String propertyName) throws BeansException;
+
+	/**
+	 * Determine the property type for a particular property, either checking
+	 * the property descriptor or checking the value in case of an indexed or
+	 * mapped element.
+	 * @param propertyName property to check status for
+	 * @return the property type for the particular property
+	 * @throws FatalBeanException if there is no such property
+	 */
+	Class getPropertyType(String propertyName) throws BeansException;
 
 	/**
 	 * Return whether this property is readable.

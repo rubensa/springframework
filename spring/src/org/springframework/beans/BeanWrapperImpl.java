@@ -288,11 +288,7 @@ public class BeanWrapperImpl implements BeanWrapper {
 	 * @return last component of the path (the property on the target bean)
 	 */
 	private String getFinalPath(String nestedPath) {
-		String finalPath = nestedPath.substring(nestedPath.lastIndexOf(NESTED_PROPERTY_SEPARATOR) + 1);
-		if (logger.isDebugEnabled() && !nestedPath.equals(finalPath)) {
-			logger.debug("Final path in nested property value '" + nestedPath + "' is '" + finalPath + "'");
-		}
-		return finalPath;
+		return nestedPath.substring(nestedPath.lastIndexOf(NESTED_PROPERTY_SEPARATOR) + 1);
 	}
 
 	/**
@@ -306,7 +302,6 @@ public class BeanWrapperImpl implements BeanWrapper {
 		if (pos > -1) {
 			String nestedProperty = propertyPath.substring(0, pos);
 			String nestedPath = propertyPath.substring(pos + 1);
-			logger.debug("Navigating to nested property '" + nestedProperty + "' of property path '" + propertyPath + "'");
 			BeanWrapperImpl nestedBw = getNestedBeanWrapper(nestedProperty);
 			return nestedBw.getBeanWrapperForPropertyPath(nestedPath);
 		}
@@ -840,6 +835,21 @@ public class BeanWrapperImpl implements BeanWrapper {
 			return nestedBw.getPropertyDescriptor(getFinalPath(propertyName));
 		}
 		return this.cachedIntrospectionResults.getPropertyDescriptor(propertyName);
+	}
+
+	public Class getPropertyType(String propertyName) throws BeansException {
+		Class type = null;
+		try {
+			type = getPropertyDescriptor(propertyName).getPropertyType();
+		}
+		catch (BeansException ex) {
+			// probably an indexed or mapped element
+			Object value = getPropertyValue(propertyName);
+			if (value != null) {
+				type = value.getClass();
+			}
+		}
+		return type;
 	}
 
 	public boolean isReadableProperty(String propertyName) {

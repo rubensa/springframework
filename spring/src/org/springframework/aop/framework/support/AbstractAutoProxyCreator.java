@@ -174,7 +174,6 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 		}
 	}
 
-
 	/**
 	 * Create an invoker interceptor to wrap the bean.
 	 * Subclasses can override this if they want to use a custom invoker,
@@ -192,7 +191,7 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 	 * Return whether the given bean is to be proxied,
 	 * and what additional interceptors and pointcuts to apply.
 	 * @param bean the new bean instance
-	 * @param name the name of the bean
+	 * @param beanName the beanName of the bean
 	 * @return an array of additional interceptors for the particular bean;
 	 * or an empty array if no additional interceptors but just the common ones;
 	 * or null if no proxy at all, not even with the common interceptors.
@@ -202,7 +201,7 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 	 * @see #DO_NOT_PROXY
 	 * @see #PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS
 	 */
-	protected abstract Object[] getInterceptorsAndPointcutsForBean(Object bean, String name)
+	protected abstract Object[] getInterceptorsAndPointcutsForBean(Object bean, String beanName)
 	    throws BeansException;
 
 }

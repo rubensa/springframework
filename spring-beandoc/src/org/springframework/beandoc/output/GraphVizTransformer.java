@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.springframework.util.StringUtils;
@@ -120,10 +121,16 @@ public class GraphVizTransformer extends BaseXslTransformer {
      */
     private void generateConsolidatedGraph() {
         Document context = new Document();
-        // use root element from first input
-        Element beans = (Element) contextDocuments[0].getRootElement().clone();
-        beans.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, CONSOLIDATED_XML_FILENAME);
+        // copy attribs from root element of first input
+        Element beans = new Element(Tags.TAGNAME_BEANS);
+        //Element beans = (Element) contextDocuments[0].getRootElement().clone();
+        for (Iterator iter = contextDocuments[0].getRootElement().getAttributes().iterator(); iter.hasNext();) {
+            Attribute attr = (Attribute) iter.next();
+            beans.setAttribute((Attribute) attr.clone());
+        }
+        beans.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, CONSOLIDATED_XML_FILENAME);        
         context.setRootElement(beans);
+        
         for (int i = 0; i < contextDocuments.length; i++) 
             beans.addContent(contextDocuments[i].getRootElement().cloneContent());        
         

@@ -121,7 +121,7 @@ public class BeanDocClient {
 	 */
 	private static void usage() {
 		StringBuffer usg = new StringBuffer("Usage:\n\n")
-			.append("java org.springframework.beandoc.client.BeanDocClient ");
+			.append("java org.springframework.beandoc.client.BeanDocClient beandoc.properties");
         
 		System.out.println(usg.toString());
 	}

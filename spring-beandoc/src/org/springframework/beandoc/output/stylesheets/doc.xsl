@@ -139,7 +139,16 @@
         </xsl:if>
         
         
-        <!-- dependencies / properties -->
+        <!-- ctor args / dependencies / properties -->
+        <xsl:if test="count(./constructor-arg)>0">
+        <p><strong>Constructor arguments:</strong></p>
+        <table class="invisibleTable">
+            <tbody>
+                <!-- ctor args -->
+                <xsl:apply-templates select="./constructor-arg"/>                  
+            </tbody>
+        </table>
+        </xsl:if>
         <xsl:if test="count(./property)>0">
         <p><strong>Dependencies and properties:</strong></p>
         <table class="invisibleTable">
@@ -161,6 +170,20 @@
     <xsl:template match="property">
         <tr>
             <td class="keyLabel"><xsl:value-of select="@name"/></td>
+            <td>
+                <xsl:apply-templates/>              
+            </td>   
+        </tr>       
+    </xsl:template>
+    
+    
+    
+    <xsl:template match="constructor-arg">
+        <tr>
+            <td class="keyLabel">
+                <xsl:if test="@index">index <xsl:value-of select="@index"/></xsl:if>
+                <xsl:if test="@type">type <xsl:value-of select="@type"/></xsl:if>
+            </td>
             <td>
                 <xsl:apply-templates/>              
             </td>   

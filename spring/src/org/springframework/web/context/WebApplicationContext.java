@@ -7,10 +7,9 @@ package org.springframework.web.context;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextException;
-import org.springframework.ui.context.ThemeSource;
 import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.ui.context.ThemeSource;
 
 /** 
  * Interface to provide configuration for a web application. This is read-only while

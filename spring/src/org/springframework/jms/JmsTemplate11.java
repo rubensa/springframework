@@ -80,7 +80,7 @@ public class JmsTemplate11 extends AbstractJmsTemplate {
 
     }
 
-    public void execute(JmsSenderCallback action) throws JmsException {
+    public void execute(ProducerCallback action) throws JmsException {
         Connection connection = null;
         try {
             connection = getConnectionFactory().createConnection();
@@ -218,6 +218,36 @@ public class JmsTemplate11 extends AbstractJmsTemplate {
                 public Message createMessage(Session session)
                     throws JMSException {
                     return getJmsConverter().toMessage(o, session);
+                }
+            });
+        }
+    }
+    
+    public void send(Destination d, final Object o, final MessagePostProcessor postProcessor) {
+        if (this.getJmsConverter() == null) {
+            logger.warn("No JmsConverter. Check configuration of JmsSender");
+            return;
+        } else {
+            send(d, new MessageCreator() {
+                public Message createMessage(Session session)
+                    throws JMSException {
+                    Message m = getJmsConverter().toMessage(o, session);
+                    return postProcessor.postProcess(m);
+                }
+            });
+        }
+    }
+    
+    public void send(String d, final Object o,  final MessagePostProcessor postProcessor) {
+        if (this.getJmsConverter() == null) {
+            logger.warn("No JmsConverter. Check configuration of JmsSender");
+            return;
+        } else {
+            send(d, new MessageCreator() {
+                public Message createMessage(Session session)
+                    throws JMSException {
+                    Message m = getJmsConverter().toMessage(o, session);
+                    return postProcessor.postProcess(m);
                 }
             });
         }

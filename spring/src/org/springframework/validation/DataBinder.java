@@ -58,6 +58,7 @@ public class DataBinder {
 
 	private String[] requiredFields;
 
+
 	/**
 	 * Create a new DataBinder instance.
 	 * @param target target object to bind onto
@@ -165,6 +166,16 @@ public class DataBinder {
 	}
 
 	/**
+	 * Set the strategy to use for resolving errors into message codes.
+	 * Applies the given strategy to the underlying errors holder.
+	 * @see BindException#setMessageCodesResolver
+	 */
+	public void setMessageCodesResolver(MessageCodesResolver messageCodesResolver) {
+		this.errors.setMessageCodesResolver(messageCodesResolver);
+	}
+
+
+	/**
 	 * Bind the given property values to this binder's target.
 	 * This call can create field errors, representing basic binding
 	 * errors like a required field (code "required"), or type mismatch
@@ -196,8 +207,9 @@ public class DataBinder {
 				PropertyValue pv = pvs.getPropertyValue(this.requiredFields[i]);
 				if (pv == null || "".equals(pv.getValue())) {
 					// create field error with code "required"
-					this.errors.addFieldError(
-							new FieldError(this.errors.getObjectName(), this.requiredFields[i], "", true, MISSING_FIELD_ERROR_CODE,
+					this.errors.addError(
+							new FieldError(this.errors.getObjectName(), this.requiredFields[i], "", true,
+														 this.errors.resolveMessageCodes(MISSING_FIELD_ERROR_CODE, this.requiredFields[i]),
 														 new Object[] {this.requiredFields[i]}, "Field '" + this.requiredFields[i] + "' is required"));
 				}
 			}
@@ -211,10 +223,11 @@ public class DataBinder {
 			PropertyAccessException[] exs = ex.getPropertyAccessExceptions();
 			for (int i = 0; i < exs.length; i++) {
 				// create field with the exceptions's code, e.g. "typeMismatch"
-				this.errors.addFieldError(
-						new FieldError(this.errors.getObjectName(), exs[i].getPropertyChangeEvent().getPropertyName(),
-													 exs[i].getPropertyChangeEvent().getNewValue(), true, exs[i].getErrorCode(), null,
-													 exs[i].getLocalizedMessage()));
+				String field = exs[i].getPropertyChangeEvent().getPropertyName();
+				this.errors.addError(
+						new FieldError(this.errors.getObjectName(), field, exs[i].getPropertyChangeEvent().getNewValue(), true,
+													 this.errors.resolveMessageCodes(exs[i].getErrorCode(), field),
+													 new Object[] {field}, exs[i].getLocalizedMessage()));
 			}
 		}
 	}

@@ -269,9 +269,6 @@
 	</target>
 
 
-	<!--
-		Note: Contained classes overlap, e.g. spring.jar contains everything.
-	-->
 	<target name="alljars" depends="modulejars,fulljar,srczip" description="Create all JAR files"/>
 
 
@@ -344,6 +341,7 @@
 				<include name="lib/jboss/**"/>
 				<include name="lib/jdo/**"/>
 				<include name="lib/jdom/**"/>
+				<include name="lib/jotm/**"/>
 				<include name="lib/junit/**"/>
 				<include name="lib/log4j/**"/>
 				<include name="lib/mockobjects/**"/>
@@ -370,6 +368,7 @@
 		</attribute-compiler>
 
  	</target>
+
 
 	<!--
 		This task depends on the Commons Attributes compile step,
@@ -664,9 +663,6 @@
 	</target>
 
 
-	<target name="refdoc"
-		depends="dochtml,dochtmlsingle,docpdf"
-		description="Generate and copy reference documentation">
-	</target>
+	<target name="refdoc" depends="dochtml,dochtmlsingle,docpdf" description="Generate and copy reference documentation"/>
 
 </project>

@@ -99,17 +99,12 @@ public class JdoTemplateTests extends TestCase {
 		PersistenceManagerFactory pmf = (PersistenceManagerFactory) pmfControl.getMock();
 		MockControl pmControl = MockControl.createControl(PersistenceManager.class);
 		PersistenceManager pm = (PersistenceManager) pmControl.getMock();
-		MockControl txControl = MockControl.createControl(Transaction.class);
-		Transaction tx = (Transaction) txControl.getMock();
 		MockControl dialectControl = MockControl.createControl(JdoDialect.class);
 		JdoDialect dialect = (JdoDialect) dialectControl.getMock();
-		pm.currentTransaction();
-		pmControl.setReturnValue(tx, 1);
-		dialect.flush(tx);
+		dialect.flush(pm);
 		dialectControl.setVoidCallable(1);
 		pmfControl.replay();
 		pmControl.replay();
-		txControl.replay();
 		dialectControl.replay();
 
 		JdoTemplate jt = new JdoTemplate(pmf);
@@ -128,7 +123,6 @@ public class JdoTemplateTests extends TestCase {
 		TransactionSynchronizationManager.unbindResource(pmf);
 		pmfControl.verify();
 		pmControl.verify();
-		txControl.verify();
 		dialectControl.verify();
 	}
 

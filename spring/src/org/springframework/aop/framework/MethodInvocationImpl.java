@@ -48,6 +48,8 @@ public class MethodInvocationImpl implements MethodInvocation {
 	 */
 	private HashMap resources;
 	
+	private boolean exhausted;
+	
 	
 	/**
 	 * Index from 0 of the current interceptor we're invoking.
@@ -191,8 +193,13 @@ public class MethodInvocationImpl implements MethodInvocation {
 	 * @see org.aopalliance.intercept.Invocation#proceed
 	 */
 	public Object proceed() throws Throwable {
-		if (this.currentInterceptor >= this.interceptorsAndDynamicMethodMatchers.size() - 1)
+		if (exhausted)
 			throw new AspectException("All interceptors have already been invoked");
+		
+		if (this.currentInterceptor == this.interceptorsAndDynamicMethodMatchers.size() - 1) {
+			exhausted = true;
+			return AopProxy.invokeJoinpointUsingReflection(target, method, arguments);
+		}
 		
 		// We begin with -1 and increment early
 
@@ -217,6 +224,7 @@ public class MethodInvocationImpl implements MethodInvocation {
 		}
 	}
 
+
 	/**
 	 * @see org.aopalliance.intercept.Invocation#cloneInstance
 	 */
@@ -229,10 +237,6 @@ public class MethodInvocationImpl implements MethodInvocation {
 	 */
 	public AttributeRegistry getAttributeRegistry() {
 		throw new UnsupportedOperationException("Likely to be removed from AOP Alliance API");
-	}
-
-	public void setTarget(Object object) {
-		this.target = object;
 	}
 
 	/**

@@ -7,7 +7,7 @@ package org.springframework.aop.framework;
 
 import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.framework.support.AopUtils;
-import org.springframework.aop.interceptor.*;
+import org.springframework.aop.target.SingletonTargetSource;
 
 
 /**
@@ -31,7 +31,7 @@ public class ProxyFactory extends AdvisedSupport {
 			throw new AopConfigException("Can't proxy null object");
 		}
 		setInterfaces(AopUtils.getAllInterfaces(target));
-		addInterceptor(new InvokerInterceptor(target));
+		setTargetSource(new SingletonTargetSource(target));
 	}
 	
 	/**

@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
 
-package org.springframework.aop.interceptor;
+package org.springframework.aop.target;
 
 import org.apache.commons.pool.ObjectPool;
 import org.apache.commons.pool.PoolableObjectFactory;
@@ -15,8 +15,8 @@ import org.springframework.beans.factory.BeanFactory;
  * @author Rod Johnson
  * @version $Id$
  */
-public class CommonsPoolingInvokerInterceptor 
-				extends AbstractPoolingInvokerInterceptor
+public class CommonsPoolTargetSource 
+				extends AbstractPoolingTargetSource
 				implements PoolableObjectFactory {
 
 	/**
@@ -27,7 +27,7 @@ public class CommonsPoolingInvokerInterceptor
 	/**
 	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
 	 */
-	protected final void createPool(BeanFactory beanFactory) throws Exception {
+	protected final void createPool(BeanFactory beanFactory) {
 		logger.info("Creating Commons object pool");
 		this.pool = createObjectPool();
 	}
@@ -47,15 +47,16 @@ public class CommonsPoolingInvokerInterceptor
 	/**
 	 * @see org.springframework.aop.interceptor.AbstractPoolingInvokerInterceptor#acquireTarget()
 	 */
-	protected Object acquireTarget() throws Exception {
+	public Object getTarget() throws Exception {
 		return this.pool.borrowObject();
 	}
 
 	/**
 	 * @see org.springframework.aop.interceptor.AbstractPoolingInvokerInterceptor#releaseTarget(java.lang.Object)
 	 */
-	protected void releaseTarget(Object target) throws Exception {
+	public void releaseTarget(Object target) throws Exception {
 		this.pool.returnObject(target);
+		
 	}
 	
 	/**

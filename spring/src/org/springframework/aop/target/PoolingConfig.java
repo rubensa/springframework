@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
  
-package org.springframework.aop.interceptor;
+package org.springframework.aop.target;
 
 /**
  * Config interface for a pooling invoker.
@@ -22,6 +22,6 @@ public interface PoolingConfig {
 	/**
 	 * @return total number of invocations on pooled invoker
 	 */
-	int getInvocations();
+//	int getInvocations();
 
 }

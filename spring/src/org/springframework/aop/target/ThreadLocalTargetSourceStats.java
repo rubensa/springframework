@@ -3,18 +3,17 @@
  * of the Apache Software License.
  */
  
-package org.springframework.aop.interceptor;
+package org.springframework.aop.target;
 
 /**
- * Statistics for a ThreadLocal invoker.
+ * Statistics for a ThreadLocal TargetSource.
  * @author Rod Johnson
- * @see org.springframework.aop.interceptor.ThreadLocalInvokerInterceptor
  * @version $Id$
  */
-public interface ThreadLocalInvokerStats {
+public interface ThreadLocalTargetSourceStats {
 	
 	/**
-	 * @return all invocations against the apartment invoker
+	 * @return all clients given one of us
 	 */
 	int getInvocations();
 

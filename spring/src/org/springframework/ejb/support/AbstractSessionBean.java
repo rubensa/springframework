@@ -41,5 +41,5 @@ abstract class AbstractSessionBean extends AbstractEnterpriseBean implements Ses
 	protected final SessionContext getSessionContext() {
 		return sessionContext;
 	}
-
+	
 }

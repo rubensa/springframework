@@ -154,7 +154,7 @@ public class EjbSupportTests extends TestCase {
 		};
 
 		AbstractJmsMessageDrivenBean mdb = new AbstractJmsMessageDrivenBean() {
-			protected void onEjbCreate() throws CreateException {
+			protected void onEjbCreate() {
 				assertTrue(getBeanFactory() == bf);
 				assertTrue(logger != null);
 			}

@@ -46,7 +46,7 @@ public class ParameterizableViewControllerTestSuite extends TestCase {
 		pvc.setViewName(viewName);
 		pvc.initApplicationContext();
 		// We don't care about the params
-		ModelAndView mv = pvc.handleRequest(new MockHttpServletRequest(null, "GET", "foo.html"), null);
+		ModelAndView mv = pvc.handleRequest(new MockHttpServletRequest("GET", "foo.html"), null);
 		assertTrue("model has no data", mv.getModel().size() == 0);
 		assertTrue("model has correct viewname", mv.getViewName().equals(viewName));
 		

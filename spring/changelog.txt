@@ -6,6 +6,7 @@ $Id$
 Changes in version 1.0 RC1 (xx.01.2003)
 ---------------------------------------
 
+* RegexpMethodPointcut now also handles multiple patterns. Backward compatible.
 * changed AbstractAutoProxyCreator interceptors property to interceptorNames to handle prototypes correctly
 * added "xdoclet/xjavadoc.jar" to release target in the framework build script (needed for building with attributes)
 * put Commons Attributes and XDoclet jars in Ant classpath instead of expecting them in Ant's lib directory

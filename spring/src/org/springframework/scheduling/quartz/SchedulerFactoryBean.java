@@ -489,6 +489,9 @@ public class SchedulerFactoryBean
 						}
 						this.scheduler.scheduleJob(trigger);
 					}
+					else if (this.overwriteExistingJobs) {
+						this.scheduler.rescheduleJob(trigger.getName(), trigger.getGroup(), trigger);
+					}
 				}
 			}
 		}

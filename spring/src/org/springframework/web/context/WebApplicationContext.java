@@ -30,21 +30,6 @@ import org.springframework.ui.context.ThemeSource;
 public interface WebApplicationContext extends ApplicationContext, ThemeSource {
 
 	/** 
-	 * Context attribute to bind root WebApplicationContext to on successful startup.
-	 */
-	String WEB_APPLICATION_CONTEXT_ATTRIBUTE_NAME = WebApplicationContext.class + ".ROOT";
-	
-	/** 
-	 * Give this context access to the standard Servlet API ServletContext for this
-	 * web application. This method amounts to an init method: implementations are
-	 * responsible for loading their URL or other config, and reloading.
-	 * @param servletContext ServletContext to use
-	 * @throws org.springframework.context.ApplicationContextException in case of initialization errors
-	 * @throws BeansException if thrown by application context methods
-	 */
-	void setServletContext(ServletContext servletContext) throws BeansException;
-	
-	/** 
 	 * Return the standard Servlet API ServletContext for this application.
 	 */
 	ServletContext getServletContext();

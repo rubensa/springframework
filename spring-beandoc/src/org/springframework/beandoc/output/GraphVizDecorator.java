@@ -138,7 +138,15 @@ public class GraphVizDecorator extends SimpleDecorator {
 			String name = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
 			if (name == null) name = "anon";
 			String idOrName = (id == null) ? name : id;
+			
+			/*
+			 * JDK 1.5 seems to have changed the behaviour of Pattern.matches(arg)
+			 * in that a null arg now throws a NPE where as JDK 1.4 didn't - it just
+			 * resulted in no match.  This has been recorded as a bug with Sun;
+			 * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6178785
+			 */
 			String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
+			if (className == null) className = "";
 			
 			// patterns of beans to be coloured
 			element.setAttribute(ATTRIBUTE_COLOUR, getDefaultFillColour());

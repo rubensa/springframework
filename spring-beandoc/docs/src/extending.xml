@@ -3,6 +3,17 @@
   <title>Extending BeanDoc</title>
 
   <sect1>
+    <title>Before extending</title>
+
+    <para>In the first instance, make sure that extending the tool is really
+    what you need to do. The standard setup is very flexible and you can
+    change the look and feel of the HTML, generate a completely different
+    output language and manipulate graphs to a high degree without writing
+    code to extend BeanDoc. Check the previous chapters if this sounds more
+    like what you want to do.</para>
+  </sect1>
+
+  <sect1>
     <title>Implementable interfaces</title>
 
     <para>Generally it should be possible to get BeanDoc to do whatever you

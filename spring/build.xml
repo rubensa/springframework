@@ -348,6 +348,7 @@
 				<include name="lib/log4j/**"/>
 				<include name="lib/mockobjects/**"/>
 				<include name="lib/poi/**"/>
+				<include name="lib/quartz/**"/>
 				<include name="lib/regexp/**"/>
 				<include name="lib/struts/**"/>
 				<include name="lib/velocity/**"/>

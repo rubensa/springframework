@@ -8,6 +8,7 @@ package org.springframework.context;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 
@@ -53,7 +54,7 @@ public interface ApplicationContext extends MessageSource, ListableBeanFactory, 
 	String getDisplayName();
 
 	/**
-	 * Return the timestamp when this context was first loaded
+	 * Return the timestamp when this context was first loaded.
 	 * @return the timestamp (ms) when this context was first loaded
 	 */
 	long getStartupDate();
@@ -71,8 +72,9 @@ public interface ApplicationContext extends MessageSource, ListableBeanFactory, 
 	 * which might for example be an XML file, properties file or
 	 * relational database schema.
 	 * @throws ApplicationContextException if the config cannot be loaded
+	 * @throws BeansException if the bean factory could not be initialized
 	 */
-	void refresh() throws ApplicationContextException;
+	void refresh() throws ApplicationContextException, BeansException;
 
 	/**
 	 * Close this application context, releasing all resources and locks

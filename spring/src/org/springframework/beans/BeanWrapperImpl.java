@@ -527,7 +527,7 @@ public class BeanWrapperImpl implements BeanWrapper {
 			throw new MethodInvocationException(ex.getTargetException(), propertyChangeEvent);
 		}
 		catch (IllegalAccessException ex) {
-			throw new FatalBeanException("illegal attempt to set property [" + pv + "] threw exception", ex);
+			throw new FatalBeanException("Illegal attempt to set property [" + pv + "] threw exception", ex);
 		}
 		catch (IllegalArgumentException ex) {
 			throw new TypeMismatchException(propertyChangeEvent, pd.getPropertyType(), ex);
@@ -640,11 +640,10 @@ public class BeanWrapperImpl implements BeanWrapper {
 			return m.invoke(object, new Object[]{new Integer(index)});
 		}
 		catch (InvocationTargetException ex) {
-			throw new FatalBeanException("getter for indexed property [" + propertyName + "] threw exception", ex);
+			throw new FatalBeanException("Getter for indexed property [" + propertyName + "] threw exception", ex);
 		}
 		catch (IllegalAccessException ex) {
-			throw new FatalBeanException("illegal attempt to get indexed property ["
-																	 + propertyName + "] threw exception", ex);
+			throw new FatalBeanException("Illegal attempt to get indexed property [" + propertyName + "] threw exception", ex);
 		}
 	}
 

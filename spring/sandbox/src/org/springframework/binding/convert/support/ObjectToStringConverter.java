@@ -34,7 +34,7 @@ import org.springframework.util.visitor.Visitor;
  * specialization. Delegates to a synchronized formatter to parse text strings.
  * @author Keith Donald
  */
-public class ToStringConverter extends AbstractFormattingConverter implements Visitor {
+public class ObjectToStringConverter extends AbstractFormattingConverter implements Visitor {
 
 	private static final String EMPTY = "[empty]";
 
@@ -52,7 +52,7 @@ public class ToStringConverter extends AbstractFormattingConverter implements Vi
 
 	private ReflectiveVisitorSupport reflectiveVisitorSupport = new ReflectiveVisitorSupport();
 
-	public ToStringConverter(FormatterLocator locator) {
+	public ObjectToStringConverter(FormatterLocator locator) {
 		super(locator);
 	}
 

@@ -257,12 +257,12 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 
 	/**
 	 * Add a new proxied interface.
-	 * @param newInterface additional interface to proxy.
+	 * @param newInterface additional interface to proxy
 	 */
 	public void addInterface(Class newInterface) {
 		this.interfaces.add(newInterface);
 		adviceChanged();
-		logger.info("Added new aspect interface: " + newInterface);
+		logger.debug("Added new aspect interface: " + newInterface);
 	}
 
 	/**

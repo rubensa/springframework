@@ -1003,7 +1003,7 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals("jenny", map.get("jen"));
 	}
 
-	public void testCollectionFactoryDefaults() {
+	public void testCollectionFactoryDefaults() throws Exception {
 		ListFactoryBean listFactory = new ListFactoryBean();
 		listFactory.setSourceList(new LinkedList());
 		listFactory.afterPropertiesSet();

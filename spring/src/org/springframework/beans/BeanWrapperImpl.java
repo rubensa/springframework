@@ -57,7 +57,7 @@ import org.springframework.util.StringUtils;
  *
  * <p>Collections custom property editors can be written against comma delimited String
  * as String arrays are converted in such a format if the array itself is not assignable.</p>
- * 
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Jean-Pierre Pawlak
@@ -307,7 +307,8 @@ public class BeanWrapperImpl implements BeanWrapper {
 
 	private PropertyChangeEvent createPropertyChangeEvent(String propertyName, Object oldValue, Object newValue)
 			throws BeansException {
-		return new PropertyChangeEvent(this.object, (propertyName != null ? this.nestedPath + propertyName : null),
+		return new PropertyChangeEvent((this.object != null ? this.object : "constructor"),
+		                               (propertyName != null ? this.nestedPath + propertyName : null),
 																	 oldValue, newValue);
 	}
 

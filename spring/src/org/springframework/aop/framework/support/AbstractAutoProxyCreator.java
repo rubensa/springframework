@@ -154,8 +154,6 @@ public abstract class AbstractAutoProxyCreator extends ProxyConfig implements Be
 			}
 			proxyFactory.setTargetSource(getTargetSource(bean, name));
 			
-			// Transaction and other APIs might require this
-			proxyFactory.setExposeInvocation(true);
 			//System.err.print(proxyFactory);
 			return proxyFactory.getProxy();
 		}

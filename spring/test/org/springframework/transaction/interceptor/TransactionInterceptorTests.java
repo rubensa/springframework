@@ -139,7 +139,7 @@ public class TransactionInterceptorTests extends TestCase {
 
 		ProxyFactory pf = new ProxyFactory(tb);
 		// Need to use programmatic rollback
-		pf.setExposeInvocation(true);
+		//pf.setExposeInvocation(true);
 		//pf.addInterceptor(new DebugInterceptor());
 		pf.addInterceptor(ti);
 		ITestBean itb = (ITestBean) pf.getProxy();

@@ -8,7 +8,7 @@ package org.springframework.jdbc.object;
 import javax.sql.DataSource;
 
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.jdbc.core.JdbcUpdateAffectedIncorrectNumberOfRowsException;
+import org.springframework.jdbc.JdbcUpdateAffectedIncorrectNumberOfRowsException;
 
 /**
  * RdbmsOperation subclass representing a SQL update.

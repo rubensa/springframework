@@ -14,11 +14,10 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.QueryExecutor;
-import org.springframework.jdbc.core.SQLExceptionTranslator;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.SqlReturnResultSet;
@@ -69,12 +68,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 	
 	
 	/**
-	 * Return the JdbcTemplate object used by this object.
+	 * Set the JDBC DataSource to obtain connections from.
 	 */
-	protected final JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
+	public final void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate.setDataSource(dataSource);
 	}
-	
+
 	/**
 	 * An alternative to the more commonly used setDataSource() when you want to
 	 * use the same JdbcTemplate in multiple RdbmsOperations. This is appropriate if the
@@ -85,31 +84,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 	public final void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
-	public final void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate.setDataSource(dataSource);
-	}
 
 	/**
-	 * Set the exception translator used in this class.
+	 * Return the JdbcTemplate object used by this object.
 	 */
-	public final void setExceptionTranslator(SQLExceptionTranslator exceptionTranslator) {
-		this.jdbcTemplate.setExceptionTranslator(exceptionTranslator);
-	}
-
-	/**
-	 * Set a custom QueryExecutor implementation.
-	 */
-	public final void setQueryExecutor(QueryExecutor queryExecutor) {
-		this.jdbcTemplate.setQueryExecutor(queryExecutor);
-	}
-
-	/**
-	 * Set whether or not we want to ignore SQLWarnings.
-	 * Default is true.
-	 */
-	public final void setIgnoreWarnings(boolean ignoreWarnings) {
-		this.jdbcTemplate.setIgnoreWarnings(ignoreWarnings);
+	protected final JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
 	}
 
 	/**

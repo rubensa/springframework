@@ -95,8 +95,8 @@ public class PreparedStatementCreatorFactory {
 				throw new InvalidDataAccessApiUsageException("SQL='" + sql + "': given " + parameters.size() + " parameter but expected " + declaredParameters.size());
 		}
 		
-		public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-			PreparedStatement ps = conn.prepareStatement(sql);
+		public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+			PreparedStatement ps = con.prepareStatement(sql);
 
 			// Set arguments: does nothing if there are no parameters
 			for (int i = 0; i < parameters.size(); i++) {

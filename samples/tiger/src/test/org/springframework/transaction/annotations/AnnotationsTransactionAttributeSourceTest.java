@@ -8,19 +8,17 @@
 package org.springframework.transaction.annotations;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.collections.ListUtils;
 import org.springframework.metadata.annotations.AnnotationsAttributes;
-import org.springframework.transaction.annotations.AnnotationsTransactionAttributeSource;
 import org.springframework.transaction.interceptor.NoRollbackRuleAttribute;
 import org.springframework.transaction.interceptor.RollbackRuleAttribute;
 import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttribute;
-
-import junit.framework.TestCase;
 
 /**
  * Test for AnnotationsTransactionAttributesSource

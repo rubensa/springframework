@@ -12,11 +12,11 @@ package org.springframework.dao;
  * @author Rod Johnson
  * @version $Id$
  */
-public class TypeMismatchDataAccessException extends DataAccessException {
+public class TypeMismatchDataAccessException extends InvalidDataAccessResourceUsageException {
 
 	/**
 	 * Constructor for TypeMismatchDataAccessException.
-	 * @param msg mesg
+	 * @param msg message
 	 * @param ex root cause
 	 */
 	public TypeMismatchDataAccessException(String msg, Throwable ex) {

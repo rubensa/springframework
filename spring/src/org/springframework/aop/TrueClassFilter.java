@@ -16,30 +16,39 @@
 
 package org.springframework.aop;
 
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
 /**
- * Filter that restricts matching of a pointcut or introduction to
- * a given set of target classes.
- *
- * <p>Can be used as part of a pointcut, or for the entire targeting
- * of an IntroductionAdvice.
- *
+ * Canonical ClassFilter instance that matches all classes.
  * @author Rod Johnson
  * @version $Id$
- * @see org.springframework.aop.Pointcut
  */
-public interface ClassFilter {
+class TrueClassFilter implements ClassFilter, Serializable {
+	
+	public static final TrueClassFilter INSTANCE = new TrueClassFilter();
 	
 	/**
-	 * Should the pointcut apply to the given interface or target class?
-	 * @param clazz candidate target class
-	 * @return whether the advice should apply to this candidate target class
+	 * Enforce Singleton
 	 */
-	boolean matches(Class clazz);
+	private TrueClassFilter() {
+	}
 
-
+	public boolean matches(Class clazz) {
+		return true;
+	}
+	
 	/**
-	 * Canonical instance of a ClassFilter that matches all classes.
+	 * Required to support serialization.
+	 * Replaces with canonical instance on deserialization,
+	 * protecting Singleton pattern. 
+	 * Alternative to overriding equals().
 	 */
-	ClassFilter TRUE = TrueClassFilter.INSTANCE;
+	private Object readResolve() throws ObjectStreamException {
+		return INSTANCE;
+	}
 
+	public String toString() {
+		return "ClassFilter.TRUE";
+	}
 }

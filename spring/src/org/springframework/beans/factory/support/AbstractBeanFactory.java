@@ -505,6 +505,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 		if (bd instanceof RootBeanDefinition) {
 			return (RootBeanDefinition) bd;
 		}
+
 		else if (bd instanceof ChildBeanDefinition) {
 			ChildBeanDefinition cbd = (ChildBeanDefinition) bd;
 			RootBeanDefinition pbd = null;
@@ -522,16 +523,18 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 																									"' - cannot be resolved without an AbstractBeanFactory parent");
 				}
 			}
+
 			// deep copy
 			RootBeanDefinition rbd = new RootBeanDefinition(pbd);
+
 			// override properties
-			for (int i = 0; i < cbd.getPropertyValues().getPropertyValues().length; i++) {
-				rbd.getPropertyValues().addPropertyValue(cbd.getPropertyValues().getPropertyValues()[i]);
-			}
+			rbd.getPropertyValues().addPropertyValues(cbd.getPropertyValues());
+
 			// override settings
 			rbd.setSingleton(cbd.isSingleton());
 			rbd.setLazyInit(cbd.isLazyInit());
 			rbd.setResourceDescription(cbd.getResourceDescription());
+			
 			return rbd;
 		}
 		else {

@@ -214,5 +214,24 @@ public abstract class StringUtils {
 	public static String collectionToCommaDelimitedString(Collection c) {
 		return collectionToDelimitedString(c, ",");
 	}
+	
+	/**
+	 * Given a fully qualified name, return a class name:
+	 * e.g. com.foo.Bar returns Bar,
+	 * com.foo.Bar$Inner returns Bar$Inner.
+	 * @param clazz class to find name for
+	 * @return the class name without the package prefix.
+	 * Will include any enclosing class name, which is also after
+	 * the dot.
+	 */
+	public static String classNameWithoutPackagePrefix(Class clazz) {
+		String name = clazz.getName();
+		int lastDotIndex = name.lastIndexOf(".");
+		// There must be characters after the ., so we don't
+		// need to program defensively for that case
+		return (lastDotIndex == -1) ?
+			name :					// default package
+		 	name.substring(lastDotIndex + 1);
+	}
 
 }

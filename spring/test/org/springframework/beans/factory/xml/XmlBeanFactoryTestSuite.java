@@ -213,7 +213,7 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		DummyBoImpl bos = (DummyBoImpl) bf.getBean("boSingleton");
 		DummyBoImpl bop = (DummyBoImpl) bf.getBean("boPrototype");
 		assertNotSame(bos, bop);
-		assertEquals(bos.dao, bop.dao);
+		assertTrue(bos.dao == bop.dao);
 	}
 
 	public void testChildOverridesParentBean() throws Exception {
@@ -1129,7 +1129,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 	}
 	
 	private void testLookupOverrideMethodsWithSetterInjection(BeanFactory xbf, String beanName, boolean singleton) {
-		
 		OverrideOneMethod oom = (OverrideOneMethod) xbf.getBean(beanName);
 		
 		if (singleton) {

@@ -69,6 +69,15 @@ public class ProxyFactoryBeanTests extends TestCase {
 		assertTrue("test1 is a dynamic proxy", Proxy.isProxyClass(test1.getClass()));
 	}
 	
+	public void testDoubleTargetSource() {
+		BeanFactory bf = new XmlBeanFactory(new ClassPathResource("proxyFactoryDoubleTargetSourceTests.xml", getClass()));
+		ITestBean tb = (ITestBean) bf.getBean("doubleTarget");
+		assertEquals("Adam", tb.getName());
+		
+		tb = (ITestBean)bf.getBean("arbitraryTarget");
+		assertEquals("Adam", tb.getName());
+	}
+	
 	public void testGetObjectTypeWithDirectTarget() {
 		BeanFactory bf = new XmlBeanFactory(new ClassPathResource("proxyFactoryTargetSourceTests.xml", getClass()));
 		
@@ -91,6 +100,8 @@ public class ProxyFactoryBeanTests extends TestCase {
 		ProxyFactoryBean pfb = (ProxyFactoryBean) bf.getBean("&viaTargetSource");
 		assertEquals("Has correct object type", TestBean.class, pfb.getObjectType());
 	}
+	
+	
 	
 	public void testGetObjectTypeWithNoTargetOrTargetSource() {
 		BeanFactory bf = new XmlBeanFactory(new ClassPathResource("proxyFactoryTargetSourceTests.xml", getClass()));

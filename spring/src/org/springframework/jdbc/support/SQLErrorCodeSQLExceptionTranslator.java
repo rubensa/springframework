@@ -123,8 +123,12 @@ public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslato
 			return dex;
 		}
 		
-		// now try error codes
-		String errorCode = Integer.toString(sqlex.getErrorCode());
+		// now try error code
+		String errorCode;
+		if (this.sqlErrorCodes.isUseSqlStateForTranslation())
+			errorCode = sqlex.getSQLState();
+		else
+			errorCode = Integer.toString(sqlex.getErrorCode());
 		if (errorCode != null) {
 			if (Arrays.binarySearch(this.sqlErrorCodes.getBadSqlGrammarCodes(), errorCode) >= 0) {
 				logTranslation(task, sql, sqlex);

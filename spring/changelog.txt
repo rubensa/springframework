@@ -41,6 +41,7 @@ Package org.springframework.jdbc.object
 Package org.springframework.jdbc.support
 * changed SQLErrorCodesFactory, it now caches database product name in a Map based on hashCode from DataSource to avoid unnecessary meta data lookups
 * added an extractDatabaseMetaData method to JdbcUtils.  This change also adds an interface named DatabaseMetaDataCallBackHandler that must be used for this method
+* added property 'useSqlStateForTranslation' to SqlErrorCodes to allow for translation of PostgreSQL state codes
 
 Package org.springframework.orm
 * fixed Hibernate Session unbinding in case of JtaTransactionManager with flush failure im beforeCommit synchronization

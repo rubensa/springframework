@@ -77,7 +77,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	/** Interfaces to be implemented by the proxy */
 	private Set interfaces = new HashSet();
 
-	private TargetSource targetSource = EMPTY_TARGET_SOURCE;
+	protected TargetSource targetSource = EMPTY_TARGET_SOURCE;
 
 	
 	private MethodInvocationFactory methodInvocationFactory;
@@ -91,7 +91,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	/** List of AdvisedSupportListener */
 	private LinkedList listeners = new LinkedList();
 	
-	private AdvisorChainFactory advisorChainFactory;
+	protected AdvisorChainFactory advisorChainFactory;
 	
 
 	/**
@@ -99,7 +99,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 */
 	public AdvisedSupport() {
 		setAdvisorChainFactory(new HashMapCachingAdvisorChainFactory());
-		setMethodInvocationFactory(new SimpleMethodInvocationFactory());
+		//setMethodInvocationFactory(new SimpleMethodInvocationFactory());
 	}
 	
 	/**

@@ -392,7 +392,8 @@ public class DispatcherServlet extends FrameworkServlet {
 			catch (Exception ex) {
 				ModelAndView exMv = null;
 				for (Iterator it = this.handlerExceptionResolvers.iterator(); exMv == null && it.hasNext();) {
-					exMv = ((HandlerExceptionResolver) it.next()).resolveException(ex, mappedHandler.getHandler());
+					HandlerExceptionResolver resolver = (HandlerExceptionResolver) it.next();
+					exMv = resolver.resolveException(request, response, mappedHandler.getHandler(), ex);
 				}
 				if (exMv != null) {
 					if (logger.isDebugEnabled()) {

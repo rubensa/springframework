@@ -338,14 +338,12 @@ realclean       --> delete ALL server installations AND downloads
 	
 	
 	<!--
-		realclean
+		clean
 		
 		removes all classes, server installs and reports
 	-->
-	<target name="realclean">
+	<target name="clean">
 		<delete dir="${target.root.dir}" />
-		<mkdir dir="${target.root.dir}" />
-		<mkdir dir="${reports.dir}" />
 	</target>	
 	
 </project>

@@ -31,7 +31,7 @@ public class LiveBenchmarkTests extends TestCase {
 	
 	private JdbcHelper jh;
 	
-	public LiveBenchmarkTests(String s) {
+	public LiveBenchmarkTests(String s)  throws Exception{
 		super(s);
 		
 		DataSource ds = new SingleConnectionDataSource("oracle.jdbc.OracleDriver", 

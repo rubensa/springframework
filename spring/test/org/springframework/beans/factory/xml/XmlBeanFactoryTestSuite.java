@@ -416,7 +416,6 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 			fail();
 		}
 		catch (MethodInvocationException ex) {
-			System.err.println("Root cause is " + ex.getRootCause());
 			assertTrue(ex.getRootCause() instanceof ServletException);
 		}
 	}

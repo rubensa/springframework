@@ -180,6 +180,7 @@
 				<include name="org/springframework/jndi/**"/>
 				<include name="org/springframework/mail/**"/>
 				<include name="org/springframework/remoting/**"/>
+				<include name="org/springframework/scheduling/**"/>
 				<include name="org/springframework/ui/**"/>
 				<include name="org/springframework/validation/**"/>
 			</fileset>

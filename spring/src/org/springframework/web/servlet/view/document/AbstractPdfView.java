@@ -66,6 +66,7 @@ public abstract class AbstractPdfView extends AbstractView {
 		document.close();
 
 		response.setContentLength(baos.size());
+		response.setContentType(getContentType());
 		ServletOutputStream out = response.getOutputStream();
 		baos.writeTo(out);
 		out.flush();
@@ -100,3 +101,4 @@ public abstract class AbstractPdfView extends AbstractView {
 																					 HttpServletResponse response) throws Exception;
 
 }
+

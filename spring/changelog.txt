@@ -102,6 +102,7 @@ Package org.springframework.web
 * added "velocityFormatter" property to VelocityView, for exposing a VelocityFormatter (part of standard Velocity)
 * relaxed exceptions for null models/null root tag name in AbstractXsltView
 * added stylesheet parameters to AbstractXsltView which subclasses can create
+* AbstractPdfView now sets the content type correctly on the response
 
 
 Changes in version 1.0 RC1 (11.2.2003)

@@ -51,6 +51,7 @@
         
         /* dependencies */
         <xsl:apply-templates select="beans/bean//ref"/>
+        <xsl:apply-templates select="beans/bean//lookup-method"/>
 	}
     </xsl:template>
 
@@ -147,7 +148,7 @@
      * show relationships (dependencies) indicated by 'ref' tags in the DOM
      *
     -->
-    <xsl:template match="ref">
+    <xsl:template match="ref|lookup-method">
         "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="@bean"/><xsl:value-of select="@local"/>" [ ]
     </xsl:template>
 

@@ -13,6 +13,14 @@ package org.springframework.transaction.interceptor;
  * @version $Id$
  */
 public class NoRollbackRuleAttribute extends RollbackRuleAttribute {
+	
+	/**
+	 * Constrct a new NoRollbackRule for the given throwable class.
+	 * @param clazz throwable class
+	 */
+	public NoRollbackRuleAttribute(Class clazz) {
+		super(clazz);
+	}
 
 	/**
 	 * Construct a new NoRollbackRule for the given exception name.

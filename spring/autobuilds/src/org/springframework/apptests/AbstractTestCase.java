@@ -6,6 +6,7 @@
 package org.springframework.apptests;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -35,10 +36,13 @@ public abstract class AbstractTestCase extends TestCase {
     public AbstractTestCase(String arg0) {
         super(arg0);
 		
-		try {
-			Properties props = new Properties();
-			props.load(new FileInputStream("build.properties"));
+		Properties props = new Properties();
 			
+		try {
+			props.load(new FileInputStream("build.properties"));
+		} catch (IOException ioe) {}
+			
+		try {
 			dataSource = new DriverManagerDataSource();
 			dataSource.setDriverClassName(props.getProperty("autobuilds.jdbc.driver", "org.hsqldb.jdbcDriver"));
 			dataSource.setUrl(props.getProperty("autobuilds.jdbc.url","jdbc:hsqldb:hsql://localhost:9001"));
@@ -47,7 +51,7 @@ public abstract class AbstractTestCase extends TestCase {
 			
 			jdbcTemplate = new JdbcTemplate(dataSource);
 			
-			testServer = "http://localhost:" + props.getProperty("autobuilds.server.http.port", "8080");
+			testServer = "http://localhost:" + props.getProperty("autobuilds.server.http.port", "13084");
 			
 		} catch (Exception e) {
 			throw new BuildException("Failed to create dataSource or jdbcTemplate - are the drivers in $ANT_HOME/lib?  " + e);

@@ -3,10 +3,13 @@
  * of the Apache Software License.
  */
 
-package org.springframework.apptests.countries;
+package org.springframework.apptests.buildtest;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
-import org.springframework.apptests.AbstractTestCase;
+import junit.framework.TestCase;
 
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebForm;
@@ -25,11 +28,12 @@ import com.meterware.httpunit.WebResponse;
  * @author Darren Davison
  * @version $Id$
  */
-public class AllTests extends AbstractTestCase {
+public class AllTests extends TestCase {
 
 	private WebConversation wc;
 	private WebResponse resp;
 	private WebForm form;
+	private String testServer;
 	
     /**
      * Constructor for AllTests.
@@ -37,13 +41,22 @@ public class AllTests extends AbstractTestCase {
      */
     public AllTests(String arg0) {
         super(arg0);  
+		Properties props = new Properties();
+		try {
+			props.load(new FileInputStream("build.properties"));
+			testServer = "http://localhost:" + props.getProperty("autobuilds.server.http.port", "8080");
+		
+		} catch (IOException ioe) {
+			testServer = "http://localhost:8080";		
+		}
+		
 		wc = new WebConversation();		      
     }
     
     public void testHomePage() {
 		try {
-            resp = wc.getResponse( testServer + "/countries/" );
-            
+            resp = wc.getResponse( testServer + "/buildtest/" );
+            assertTrue(resp.getText().indexOf("buildtest was deployed successfully") > -1);
                         
         } catch (Exception e) {
 			fail("Exception: " + e);

@@ -5,15 +5,15 @@
  
 package org.springframework.beans.factory.support;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  * Tag subclass used to hold managed elements, which may
- * include runtime bean references
+ * include runtime bean references.
  * @author Rod Johnson
  * @since 27-May-2003
  * @version $Id$
  */
-public class ManagedList extends LinkedList {
+public class ManagedList extends ArrayList {
  
 }

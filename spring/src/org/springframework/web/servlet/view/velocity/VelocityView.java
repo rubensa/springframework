@@ -102,6 +102,11 @@ public class VelocityView extends AbstractView {
  	* find the relevant VelocityEngine for this factory.
  	*/
 	protected void initApplicationContext() throws ApplicationContextException {
+		
+		if (this.templateName == null) {
+			throw new ApplicationContextException("Must set templateName property on VelocityView");
+		}
+		
 		Collection c = BeanFactoryUtils.beansOfTypeIncludingAncestors(VelocityConfiguration.class, getWebApplicationContext());
 		
 		if (c.size() == 1) {

@@ -311,18 +311,25 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 	 */
 	protected String parseString(Properties props, String strVal, String originalPlaceholder)
 	    throws BeansException {
+
 		int startIndex = strVal.indexOf(this.placeholderPrefix);
 		while (startIndex != -1) {
 			int endIndex = strVal.indexOf(this.placeholderSuffix, startIndex + this.placeholderPrefix.length());
 			if (endIndex != -1) {
 				String placeholder = strVal.substring(startIndex + this.placeholderPrefix.length(), endIndex);
-				if (originalPlaceholder == null) {
-					originalPlaceholder = placeholder;
+				String originalPlaceholderToUse = null;
+
+				if (originalPlaceholder != null) {
+					originalPlaceholderToUse = originalPlaceholder;
+					if (placeholder.equals(originalPlaceholder)) {
+						throw new BeanDefinitionStoreException("Circular placeholder reference '" + placeholder +
+																									 "' in property definitions [" + props + "]");
+					}
 				}
-				else if (placeholder.equals(originalPlaceholder)) {
-					throw new BeanDefinitionStoreException("Circular placeholder reference '" + placeholder +
-																								 "' in property definitions [" + props + "]");
+				else {
+					originalPlaceholderToUse = placeholder;
 				}
+
 				String propVal = null;
 				if (this.systemPropertiesMode == SYSTEM_PROPERTIES_MODE_OVERRIDE) {
 					propVal = System.getProperty(placeholder);
@@ -333,8 +340,9 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 				if (propVal == null && this.systemPropertiesMode == SYSTEM_PROPERTIES_MODE_FALLBACK) {
 					propVal = System.getProperty(placeholder);
 				}
+
 				if (propVal != null) {
-					propVal = parseString(props, propVal, originalPlaceholder);
+					propVal = parseString(props, propVal, originalPlaceholderToUse);
 					logger.debug("Resolving placeholder '" + placeholder + "' to [" + propVal + "]");
 					strVal = strVal.substring(0, startIndex) + propVal + strVal.substring(endIndex+1);
 					startIndex = strVal.indexOf(this.placeholderPrefix, startIndex + propVal.length());

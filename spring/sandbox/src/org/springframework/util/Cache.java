@@ -10,6 +10,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -115,9 +116,17 @@ public abstract class Cache {
     public void clear() {
         map.clear();
     }
-
-    public Map contents() {
-        return Collections.unmodifiableMap(map);
+    
+    public Iterator keys() {
+        return map.keySet().iterator();
+    }
+    
+    public Iterator values() {
+        return map.values().iterator();
+    }
+    
+    public Iterator entries() {
+        return map.entrySet().iterator();
     }
 
     private Object internalGet(Object key) {

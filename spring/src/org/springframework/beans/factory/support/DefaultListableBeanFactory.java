@@ -258,7 +258,7 @@ public class DefaultListableBeanFactory extends AbstractBeanFactory
 	}
 
 	protected Map findMatchingBeans(Class requiredType) {
-		return getBeansOfType(requiredType, true, true);
+		return BeanFactoryUtils.beansOfTypeIncludingAncestors(this, requiredType, true, true);
 	}
 
 

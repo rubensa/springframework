@@ -123,7 +123,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 
 	public void setTargetSource(TargetSource ts) {
-		if (isActive() && getEnableCglibSubclassOptimizations()) {
+		if (isActive() && getOptimize()) {
 			throw new AopConfigException("Can't change target with an optimized CGLIB proxy: it has it's own target");
 		}
 		this.targetSource = ts;
@@ -412,9 +412,9 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		if (!isActive) {
 			activate();
 		}
-		boolean useCglib = getEnableCglibSubclassOptimizations() || getProxyTargetClass() || this.interfaces.isEmpty();
+		boolean useCglib = getOptimize() || getProxyTargetClass() || this.interfaces.isEmpty();
 		if (useCglib) {
-			return CglibProxyFactory.createCglibProxy(this, getEnableCglibSubclassOptimizations());
+			return CglibProxyFactory.createCglibProxy(this);
 		}
 		else {
 			return new JdkDynamicAopProxy(this);
@@ -452,10 +452,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	 */
 	private static class CglibProxyFactory {
 
-		private static AopProxy createCglibProxy(AdvisedSupport advisedSupport, boolean subclassOptimizations) {
-			return subclassOptimizations ?
-			    new OptimizedCglib1AopProxy(advisedSupport) :
-					new Cglib1AopProxy(advisedSupport);
+		private static AopProxy createCglibProxy(AdvisedSupport advisedSupport) {
+			return new Cglib2AopProxy(advisedSupport);
 		}
 	}
 

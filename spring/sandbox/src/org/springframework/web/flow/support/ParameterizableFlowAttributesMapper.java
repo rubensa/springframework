@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.web.flow;
+package org.springframework.web.flow.support;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,6 +28,9 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.util.Assert;
 import org.springframework.util.closure.Constraint;
+import org.springframework.web.flow.AttributesAccessor;
+import org.springframework.web.flow.FlowAttributesMapper;
+import org.springframework.web.flow.MutableAttributesAccessor;
 
 /**
  * Simple attributes mapper that allows mappings to be configured in the Spring

@@ -8,6 +8,9 @@ package org.springframework.ejb.support;
 import javax.ejb.MessageDrivenBean;
 import javax.ejb.MessageDrivenContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /** 
  * Convenient superclass for MDBs.
  * Doesn't require JMS, as EJB 2.1 MDBs are no longer
@@ -28,11 +31,11 @@ import javax.ejb.MessageDrivenContext;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class AbstractMessageDrivenBean 
-				extends AbstractEnterpriseBean 
-				implements MessageDrivenBean {
+public abstract class AbstractMessageDrivenBean extends AbstractEnterpriseBean
+    implements MessageDrivenBean {
 	
-	/** MessageDrivenContext passed to this object */
+	protected final Log logger = LogFactory.getLog(getClass());
+
 	private MessageDrivenContext	messageDrivenContext;
 	
 	/**
@@ -40,7 +43,6 @@ public abstract class AbstractMessageDrivenBean
 	 * @param messageDrivenContext MessageDrivenContext
 	 */
 	public void setMessageDrivenContext(MessageDrivenContext messageDrivenContext) {
-		logger.debug("setMessageContext");
 		this.messageDrivenContext = messageDrivenContext;
 	}
 	
@@ -53,13 +55,12 @@ public abstract class AbstractMessageDrivenBean
 	}
 
 	/**
-	 * Lifecycle method required by the EJB specification but not
-	 * the MessageDrivenBean interface.
-	 * <p>This implementation loads the BeanFactory. Don't override it
-	 * (although it can't be made final): code your initialization in
-	 * onEjbCreate(), which is called when the BeanFactory is available.
+	 * Lifecycle method required by the EJB specification but not the
+	 * MessageDrivenBean interface. This implementation loads the BeanFactory.
+	 * <p>Don't override it (although it can't be made final): code initialization
+	 * in onEjbCreate(), which is called when the BeanFactory is available.
 	 * <p>Unfortunately we can't load the BeanFactory in setSessionContext(),
-	 * as ResourceManager access isn't permitted and the BeanFactory may require it.
+	 * as resource manager access isn't permitted and the BeanFactory may require it.
 	 */
 	public void ejbCreate() {
 		loadBeanFactory();
@@ -72,7 +73,6 @@ public abstract class AbstractMessageDrivenBean
 	 * to ejbCreate, the BeanFactory will have been loaded here.
 	 * <p>The same restrictions apply to the work of this method as
 	 * to an ejbCreate() method.
-	 * @throws CreateException
 	 */
 	protected abstract void onEjbCreate();
 

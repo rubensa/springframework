@@ -8,7 +8,10 @@ package org.springframework.ejb.support;
 import javax.ejb.CreateException;
 import javax.ejb.EJBException;
 
-import org.springframework.beans.factory.access.BootstrapException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import org.springframework.beans.BeansException;
 
 /**
  * Convenient superclass for stateless session beans (SLSBs), minimizing
@@ -36,8 +39,10 @@ import org.springframework.beans.factory.access.BootstrapException;
  */
 public abstract class AbstractStatelessSessionBean extends AbstractSessionBean {
 
+	protected final Log logger = LogFactory.getLog(getClass());
+
 	/** 
-	 * This implementation loads the BeanFactory. Any {@link org.springframework.beans.factory.access.BootstrapException}
+	 * This implementation loads the BeanFactory. Any BeansException
 	 * thrown by loadBeanFactory is rethrown as CreateException.
 	 * <p>Don't override it (although it can't be made final): code initialization
 	 * in onEjbCreate(), which is called when the BeanFactory is available.
@@ -48,7 +53,7 @@ public abstract class AbstractStatelessSessionBean extends AbstractSessionBean {
 		try {
 			loadBeanFactory();
 		}
-		catch (BootstrapException ex) {
+		catch (BeansException ex) {
 			throw new CreateException(ex.getMessage());
 		}
 		onEjbCreate();

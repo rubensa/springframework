@@ -28,7 +28,6 @@ abstract class AbstractSessionBean extends AbstractEnterpriseBean implements Ses
 	 * @param sessionContext SessionContext context for session
 	 */
 	public void setSessionContext(SessionContext sessionContext) {
-		logger.debug("setSessionContext called on [" + this + "]");
 		this.sessionContext = sessionContext;
 	}
 			

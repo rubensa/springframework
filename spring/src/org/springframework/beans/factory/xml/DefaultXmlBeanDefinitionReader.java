@@ -189,9 +189,9 @@ public class DefaultXmlBeanDefinitionReader extends AbstractXmlBeanDefinitionRea
 			PropertyValues pvs = getPropertyValueSubElements(ele);
 
 			if (className != null) {
-				ClassLoader cl = Thread.currentThread().getContextClassLoader();
+				Class clazz = Class.forName(className, true, getBeanClassLoader());
 				ConstructorArgumentValues cargs = getConstructorArgSubElements(ele);
-				RootBeanDefinition rbd = new RootBeanDefinition(Class.forName(className, true, cl), cargs, pvs);
+				RootBeanDefinition rbd = new RootBeanDefinition(clazz, cargs, pvs);
 
 				if (ele.hasAttribute(DEPENDS_ON_ATTRIBUTE)) {
 					String dependsOn = ele.getAttribute(DEPENDS_ON_ATTRIBUTE);

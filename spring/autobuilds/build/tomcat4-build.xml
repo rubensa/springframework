@@ -66,6 +66,12 @@ autobuilds directory for information.
 				<include name="**/*" />
 			</fileset>
 		</copy>
+		
+		<!-- copy hsqldb.jar to common lib -->
+		<copy 
+			todir="${servers.install.dir}/${appserver.distname}/common/lib" 
+			file="${spring.lib.dir}/hsqldb/hsqldb.jar" 
+		/>
 	</target>
 	
 	

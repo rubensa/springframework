@@ -74,6 +74,24 @@ public class RuleBasedTransactionAttributeTests extends TestCase {
 		assertTrue(rta.rollbackOn(new RemoteException()));
 	}
 	
+	/**
+	 * Check that a rule can cause commit on a ServletException
+	 * when Exception prompts a rollback.
+	 */
+	public void testRuleForCommitOnSubclassOfChecked() {
+		List l = new LinkedList();
+		// Note that it's important to ensure that we have this as
+		// a FQN: otherwise it will match everything!
+		l.add(new RollbackRuleAttribute("java.lang.Exception"));
+		l.add(new NoRollbackRuleAttribute("ServletException"));
+		RuleBasedTransactionAttribute rta = new RuleBasedTransactionAttribute(TransactionDefinition.PROPAGATION_REQUIRED, l);
+
+		assertTrue(rta.rollbackOn(new RuntimeException()));
+		assertTrue(rta.rollbackOn(new Exception()));
+		// Check that default behaviour is overridden
+		assertFalse(rta.rollbackOn(new ServletException()));
+	}
+	
 	public void testRollbackNever() {
 		List l = new LinkedList();
 		l.add(new NoRollbackRuleAttribute("Throwable"));

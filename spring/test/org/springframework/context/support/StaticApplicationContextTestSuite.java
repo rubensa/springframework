@@ -109,7 +109,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		ACATest acaPr = (ACATest) getListableBeanFactory().getBean("aca-prototype");
 		acaPr.getApplicationContext();
 		TestInterceptor ti = (TestInterceptor) getListableBeanFactory().getBean("testInterceptorForCreator");
-		assertEquals(2, ti.nrOfInvocations);
+		assertEquals(4, ti.nrOfInvocations);
 		TestAutoProxyCreator tapc = (TestAutoProxyCreator) getListableBeanFactory().getBean("testAutoProxyCreator");
 		assertEquals(3, tapc.testInterceptor.nrOfInvocations);
 	}

@@ -39,7 +39,7 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 
 	private XmlBeanFactory factory;
 
-	public XmlBeanFactoryTestSuite() {
+	protected void setUp() {
 		parent = new ListableBeanFactoryImpl();
 		Map m = new HashMap();
 		m.put("name", "Albert");
@@ -571,18 +571,23 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 		assertTrue(rod.getSpouse().getName().equals("Kerry"));
 	}
 
-//		public void testUnsatisfiedAutowireByType() throws Exception {
-//			InputStream is = getClass().getResourceAsStream("autowire.xml");
-//			XmlBeanFactory xbf = new XmlBeanFactory(is);
-//			try {
-//				xbf.getBean("unsatisfiedAutoWireByType");
-//				fail();
-//			}
-//			catch (UnsatisfiedDependencyException ex) {
-//			
-//			}
-//
-//		}
+	public void testSatisfiedAutowireByTypeWithDefault() throws Exception {
+		InputStream is = getClass().getResourceAsStream("default-autowire.xml");
+		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		DependenciesBean rod = (DependenciesBean) xbf.getBean("rod1");
+		// Should have been autowired
+		assertNotNull(rod.getSpouse());
+		assertTrue(rod.getSpouse().getName().equals("Kerry"));
+	}
+
+	public void testSatisfiedAutowireByNameWithDefault() throws Exception {
+		InputStream is = getClass().getResourceAsStream("default-autowire.xml");
+		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		DependenciesBean rod = (DependenciesBean) xbf.getBean("rod2");
+		// Should have been autowired
+		assertNotNull(rod.getSpouse());
+		assertTrue(rod.getSpouse().getName().equals("Kerry"));
+	}
 
 
 	public static class BadInitializer {

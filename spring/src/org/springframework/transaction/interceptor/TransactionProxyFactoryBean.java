@@ -186,6 +186,18 @@ public class TransactionProxyFactoryBean implements FactoryBean, InitializingBea
 		return this.proxy;
 	}
 
+	public Class getObjectType() {
+		if (this.proxy != null) {
+			return this.proxy.getClass();
+		}
+		else if (this.target != null) {
+			return this.target.getClass();
+		}
+		else {
+			return null;
+		}
+	}
+
 	public boolean isSingleton() {
 		return true;
 	}

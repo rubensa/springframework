@@ -62,8 +62,12 @@ public class LocalStatelessSessionProxyFactoryBean extends LocalSlsbInvokerInter
 		this.proxy = pf.getProxy();
 	}
 
-	public Object getObject() throws BeansException {
+	public Object getObject() {
 		return this.proxy;
+	}
+
+	public Class getObjectType() {
+		return (this.proxy != null) ? this.proxy.getClass() : this.businessInterface;
 	}
 
 	public boolean isSingleton() {

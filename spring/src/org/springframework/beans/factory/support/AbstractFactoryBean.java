@@ -41,7 +41,6 @@ public abstract class AbstractFactoryBean implements PropertyValuesProviderFacto
 	 */
 	private boolean singleton = true;
 
-
 	/**
 	 * Implementation of PropertyValuesProviderFactoryBean interface. Not declared on
 	 * this class, but subclass can choose to treat this interface as a tag interface.
@@ -64,7 +63,15 @@ public abstract class AbstractFactoryBean implements PropertyValuesProviderFacto
 	public void setPropertyValues(PropertyValues pvs) {
 		this.pvs = pvs;
 	}
-	
+
+	/**
+	 * This implementation of getObjectType simply returns null,
+	 * meaning no hint in terms of which type this FactoryBean will create.
+	 */
+	public Class getObjectType() {
+		return null;
+	}
+
 	/**
 	 * @see org.springframework.beans.factory.FactoryBean#isSingleton()
 	 */

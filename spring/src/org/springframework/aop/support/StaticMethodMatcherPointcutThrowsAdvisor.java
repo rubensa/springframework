@@ -3,7 +3,6 @@ package org.springframework.aop.support;
 
 import java.lang.reflect.Method;
 
-import org.springframework.aop.Pointcut;
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.aop.ThrowsAdvisor;
 
@@ -13,7 +12,7 @@ import org.springframework.aop.ThrowsAdvisor;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class StaticMethodMatcherPointcutThrowsAdvisor extends StaticMethodMatcherPointcut implements ThrowsAdvisor {
+public abstract class StaticMethodMatcherPointcutThrowsAdvisor extends StaticMethodMatcherPointcutAdvisor implements ThrowsAdvisor {
 
 	private ThrowsAdvice throwsAdvice;
 	
@@ -33,14 +32,6 @@ public abstract class StaticMethodMatcherPointcutThrowsAdvisor extends StaticMet
 
 	public ThrowsAdvice getThrowsAdvice() {
 		return throwsAdvice;
-	}
-
-	public final Pointcut getPointcut() {
-		return this;
-	}
-
-	public boolean isPerInstance() {
-		throw new UnsupportedOperationException();
 	}
 
 }

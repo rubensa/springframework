@@ -15,8 +15,14 @@ import java.util.Collection;
  * @version $Id$
  */
 public class MixedCollectionBean {
-	
+
+	protected static int nrOfInstances = 0;
+
 	private Collection jumble;
+
+	public MixedCollectionBean() {
+		nrOfInstances++;
+	}
 
 	/**
 	 * @return Collection

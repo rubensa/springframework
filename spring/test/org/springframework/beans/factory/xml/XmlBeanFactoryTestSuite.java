@@ -63,7 +63,8 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		TestBean jenks = (TestBean) xbf.getBean("jenks");
 		ITestBean davesJen = dave.getSpouse();
 		ITestBean jenksJen = jenks.getSpouse();
-		assertTrue("1 jen instances", davesJen == jenksJen);
+		assertTrue("1 jen instance", davesJen == jenksJen);
+		assertTrue("1 jen instance", davesJen == jen);
 	}
 
 	public void testSingletonInheritanceFromParentFactorySingleton() throws Exception {
@@ -229,6 +230,7 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		XmlBeanFactory xbf = new XmlBeanFactory(is);
 		//assertTrue("5 beans in reftypes, not " + xbf.getBeanDefinitionCount(), xbf.getBeanDefinitionCount() == 5);
 		MixedCollectionBean jumble = (MixedCollectionBean) xbf.getBean("jumble");
+		assertEquals(1, MixedCollectionBean.nrOfInstances);
 		TestBean dave = (TestBean) xbf.getBean("david");
 		assertTrue("Expected 3 elements, not " + jumble.getJumble().size(),
 				jumble.getJumble().size() == 3);

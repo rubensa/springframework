@@ -8,10 +8,21 @@ package org.springframework.mail;
 import org.springframework.util.StringUtils;
 
 /**
- * Encapsulates properties of a simple mail such as from, to, cc, subject, text.
+ * Encapsulates properties of a simple mail such as from, to, cc,
+ * subject, text. To be sent with a MailSender implementation.
+ *
+ * <p>Consider JavaMailSender and JavaMail MimeMessages for creating
+ * more sophisticated messages, for example with attachments, special
+ * character encodings, or personal names that accompany mail addresses.
+ *
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
+ * @since 10.09.2003
  * @version $Id$
+ * @see MailSender
+ * @see org.springframework.mail.javamail.JavaMailSender
+ * @see org.springframework.mail.javamail.MimeMessagePreparator
+ * @see org.springframework.mail.javamail.MimeMessageHelper
  */
 public class SimpleMailMessage {
 

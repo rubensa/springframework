@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.aopalliance.intercept.AspectException;
-
 import org.springframework.aop.Advisor;
-import org.springframework.aop.InterceptionAroundAdvisor;
 import org.springframework.aop.InterceptionIntroductionAdvisor;
 import org.springframework.aop.Pointcut;
+import org.springframework.aop.PointcutAdvisor;
 
 /**
  * Utility methods used by the AOP framework.
@@ -164,12 +163,18 @@ public abstract class AopUtils {
 		return false;
 	}
 	
-	public static boolean canApply(Advisor advice, Class targetClass, Class[] proxyInterfaces) {
-		if (advice instanceof InterceptionIntroductionAdvisor) {
-			return ((InterceptionIntroductionAdvisor) advice).getClassFilter().matches(targetClass);
+	public static boolean canApply(Advisor advisor, Class targetClass, Class[] proxyInterfaces) {
+		if (advisor instanceof InterceptionIntroductionAdvisor) {
+			return ((InterceptionIntroductionAdvisor) advisor).getClassFilter().matches(targetClass);
 		}
-		InterceptionAroundAdvisor interceptionAdvice = (InterceptionAroundAdvisor) advice;
-		return canApply(interceptionAdvice.getPointcut(), targetClass, proxyInterfaces);
+		else if (advisor instanceof PointcutAdvisor) {
+			PointcutAdvisor pca = (PointcutAdvisor) advisor;
+			return canApply(pca.getPointcut(), targetClass, proxyInterfaces);
+		}
+		else {
+			// It doesn't have a pointcut so we assume it applies
+			return true;
+		}
 	}
 
 }

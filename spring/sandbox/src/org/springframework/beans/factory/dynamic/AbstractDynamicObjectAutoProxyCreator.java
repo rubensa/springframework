@@ -47,9 +47,9 @@ public abstract class AbstractDynamicObjectAutoProxyCreator extends AbstractAuto
 
 
 	/**
-	 * @see org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator#getInterceptorsAndAdvisorsForBean(java.lang.Object, java.lang.String, TargetSource)
+	 * @see org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator#getAdvicesAndAdvisorsForBean(java.lang.Object, java.lang.String, TargetSource)
 	 */
-	protected Object[] getInterceptorsAndAdvisorsForBean(Object bean, String beanName, TargetSource targetSource) throws BeansException {
+	protected Object[] getAdvicesAndAdvisorsForBean(Object bean, String beanName, TargetSource targetSource) throws BeansException {
 		if (targetSource == null) {
 			return DO_NOT_PROXY;
 		}

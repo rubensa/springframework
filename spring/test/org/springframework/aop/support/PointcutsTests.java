@@ -65,11 +65,7 @@ public class PointcutsTests extends TestCase {
 		}
 	};
 		
-	public static Pointcut allClassSetterPointcut = new StaticMethodMatcherPointcut() {
-		public boolean matches(Method m, Class targetClass) {
-			return m.getName().startsWith("set");
-		}
-	};
+	public static Pointcut allClassSetterPointcut = Pointcuts.SETTERS;
 	
 	// Subclass used for matching
 	public static class MyTestBean extends TestBean {
@@ -110,11 +106,7 @@ public class PointcutsTests extends TestCase {
 		}
 	};
 	
-	public static Pointcut allClassGetterPointcut = new StaticMethodMatcherPointcut() {
-		public boolean matches(Method m, Class targetClass) {
-			return m.getName().startsWith("get");
-		}
-	};
+	public static Pointcut allClassGetterPointcut = Pointcuts.GETTERS;
 	
 	public static Pointcut allClassGetAgePointcut = new StaticMethodMatcherPointcut() {
 		public boolean matches(Method m, Class targetClass) {

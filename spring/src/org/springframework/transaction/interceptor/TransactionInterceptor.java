@@ -101,6 +101,10 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 		return transactionAttributeSource;
 	}
 
+	/**
+	 * Validate required properties
+	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+	 */
 	public void afterPropertiesSet() {
 		if (this.transactionManager == null) {
 			throw new IllegalArgumentException("transactionManager is required");
@@ -111,8 +115,13 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	}
 
 	public final Object invoke(MethodInvocation invocation) throws Throwable {
-		// If this is null, the method is non-transactional
-		TransactionAttribute transAtt = this.transactionAttributeSource.getTransactionAttribute(invocation.getMethod(), null);
+		// Work out the target class: may be null.
+		// The TransactionAttributeSource should be passed the target class
+		// as well as the method, which may be from an interface
+		Class targetClass = (invocation.getThis() != null) ? invocation.getThis().getClass() : null;
+		
+		// If the transaction attribute is null, the method is non-transactional
+		TransactionAttribute transAtt = this.transactionAttributeSource.getTransactionAttribute(invocation.getMethod(), targetClass);
 		TransactionStatus status = null;
 		TransactionStatus oldTransactionStatus = null;
 		

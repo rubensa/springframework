@@ -21,14 +21,14 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 public class DummyAttributes extends MapAttributes {
 
 	public DummyAttributes() throws Exception {
-		register(TxClass.class.getMethod("defaultTxAttribute", null), 
+		register(TxClassImpl.class.getMethod("defaultTxAttribute", null), 
 			new Object[] { new DefaultTransactionAttribute()});
 		Object[] echoAtts = new Object[] { 
 			new RuleBasedTransactionAttribute(),
 			new RollbackRuleAttribute("java.lang.Exception"),
 			new NoRollbackRuleAttribute("ServletException")
 		};
-		register(TxClass.class.getMethod("echoException", new Class[] { Exception.class }), echoAtts);
+		register(TxClassImpl.class.getMethod("echoException", new Class[] { Exception.class }), echoAtts);
 		
 		PoolingAttribute pa = new PoolingAttribute(10);
 		register(TxClassWithClassAttribute.class, new Object[] { new DefaultTransactionAttribute(), pa });

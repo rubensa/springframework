@@ -13,17 +13,18 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.aop.framework.support.AopUtils;
 import org.springframework.metadata.Attributes;
 
 /**
  * Implementation of TransactionAttributeSource that uses
- * attributes from the AttributeRegistry.
+ * attributes from an Attributes implementation.
  * Defaults to using class's transaction attribute if none is
  * associated with the target method.
  * Any transaction attribute associated with the target method completely
  * overrides a class transaction attribute.
  * @author Rod Johnson
- * @since 15-Apr-2003
+ * @see org.springframework.metadata.Attributes
  * @version $Id$
  */
 public class AttributesTransactionAttributeSource implements TransactionAttributeSource {
@@ -47,6 +48,12 @@ public class AttributesTransactionAttributeSource implements TransactionAttribut
 	 * @see org.springframework.transaction.interceptor.TransactionAttributeSource#getTransactionAttribute(org.aopalliance.intercept.MethodInvocation)
 	 */
 	public TransactionAttribute getTransactionAttribute(Method method, Class targetClass) {
+		
+		// The method may be on an interface, but we need attributes from the target class.
+		// The AopUtils class provides a convenience method for this. If the target class
+		// is null, the method will be unchanged.
+		method = AopUtils.getMostSpecificMethod(method, targetClass);
+		
 		Collection atts = this.attributes.getAttributes(method);
 		TransactionAttribute txAtt = findTransactionAttribute(atts);
 		if (txAtt != null)

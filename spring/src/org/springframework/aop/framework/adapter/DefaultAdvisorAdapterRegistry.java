@@ -26,6 +26,7 @@ public class DefaultAdvisorAdapterRegistry implements AdvisorAdapterRegistry {
 		// Register well-known adapters
 		registerAdvisorAdapter(new BeforeAdviceAdapter());
 		registerAdvisorAdapter(new ThrowsAdviceAdapter());
+		registerAdvisorAdapter(new AfterReturningAdviceAdapter());
 	}
 
 	public Advisor wrap(Object advice) throws UnknownAdviceTypeException {

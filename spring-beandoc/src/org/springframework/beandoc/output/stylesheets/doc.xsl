@@ -135,6 +135,11 @@
                     <img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
                 </a> 
             </xsl:when>
+            <xsl:when test="name()='depends-on'">
+                <a class="classValue mono" href="{../@beandocHtmlFileName}#{.}">
+                    <img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
+                </a> 
+            </xsl:when>
             <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
         </xsl:choose>
         </td></tr>

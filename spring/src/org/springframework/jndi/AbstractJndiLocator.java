@@ -18,7 +18,7 @@ import org.springframework.beans.factory.InitializingBean;
  * the "java:comp/env/" prefix expected by J2EE applications when accessing
  * a locally mapped (ENC - Environmental Naming Context) resource. If it
  * doesn't, the "java:comp/env/" prefix will be prepended if the "resourceRef"
- * property is true (the default is <storng>false</strong>) and no other scheme
+ * property is true (the default is <strong>false</strong>) and no other scheme
  * like "java:" is given.
  *
  * <p>Subclasses must implement the located() method to cache the results

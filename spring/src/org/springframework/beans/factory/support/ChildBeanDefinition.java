@@ -41,7 +41,7 @@ public class ChildBeanDefinition extends AbstractBeanDefinition {
 	}
 
 	public String toString() {
-		return "Child bean definition with parent '" + getParentName() + "'";
+		return "Child bean with parent '" + getParentName() + "' defined in " + getResourceDescription();
 	}
 
 }

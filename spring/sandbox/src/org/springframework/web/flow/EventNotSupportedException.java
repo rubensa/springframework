@@ -27,19 +27,19 @@ import org.springframework.util.DefaultObjectStyler;
  * state for the specified flow.
  * @author Keith Donald
  */
-public class NoSuchTransitionInStateException extends FlowNavigationException {
+public class EventNotSupportedException extends FlowNavigationException {
 
 	private TransitionableState state;
 
 	private String eventId;
 
-	public NoSuchTransitionInStateException(TransitionableState state, String eventId) {
+	public EventNotSupportedException(TransitionableState state, String eventId) {
 		super(state.getFlow());
 		this.state = state;
 		this.eventId = eventId;
 	}
 
-	public NoSuchTransitionInStateException(TransitionableState state, String eventId, Throwable cause) {
+	public EventNotSupportedException(TransitionableState state, String eventId, Throwable cause) {
 		super(state.getFlow(), cause);
 		this.state = state;
 		this.eventId = eventId;

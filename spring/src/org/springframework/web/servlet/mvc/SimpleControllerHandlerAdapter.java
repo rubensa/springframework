@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @see Controller
  * @see LastModified
  */
-public class SimpleControllerHandlerAdapter extends WebApplicationObjectSupport implements HandlerAdapter {
+public class SimpleControllerHandlerAdapter implements HandlerAdapter {
 	
 	public boolean supports(Object handler) {
 		return handler != null && Controller.class.isAssignableFrom(handler.getClass());

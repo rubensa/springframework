@@ -14,7 +14,7 @@ import org.springframework.context.config.ConfigurableApplicationContext;
 import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
 
 /**
- * Abstract mplementation of the HandlerMapping interface that recognizes 
+ * Abstract implementation of the HandlerMapping interface that recognizes 
  * metadata attributes of type PathMap on application Controllers and automatically
  * wires them into the current servlet's WebApplicationContext.
  *
@@ -55,13 +55,19 @@ public abstract class AbstractPathMapHandlerMapping extends AbstractUrlHandlerMa
 				String handlerClassName = (String) itr.next();
 				Class handlerClass = Class.forName(handlerClassName);
 				Object handler = getApplicationContext().autowire(handlerClass);
+				
+				// We now have an "autowired" handler, that may reference beans in the
+				// application context. If the application context supports it,
+				// add the new handler to the factory. This isn't necessary for
+				// the handler to work, but is useful if we want to enumerate controllers
+				// in the factory etc.
 				if (getApplicationContext() instanceof ConfigurableApplicationContext) {
 					ConfigurableListableBeanFactory beanFactory =
 							((ConfigurableApplicationContext) getApplicationContext()).getBeanFactory();
 					beanFactory.registerSingleton(handlerClassName, handler);
 				}
 
-				// There may be multiple paths mapped to this class
+				// There may be multiple paths mapped to this handler,
 				PathMap[] pathMaps = getPathMapAttributes(handlerClass);
 				for (int i = 0; i < pathMaps.length; i++) {				
 					PathMap pathMap = pathMaps[i];

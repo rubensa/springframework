@@ -25,6 +25,7 @@ import java.util.Set;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
+
 import org.springframework.aop.Advisor;
 import org.springframework.aop.AfterReturningAdvice;
 import org.springframework.aop.IntroductionAdvisor;
@@ -206,9 +207,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return this.interfaces.remove(intf);
 	}
 	
-	/**
-	 * @deprecated
-	 */
 	public void addInterceptor(Interceptor interceptor) throws AopConfigException {
 		addAdvice(interceptor);
 	}
@@ -228,10 +226,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		return false;
 	}
 
-	/**
-	 * @deprecated
-	 * @see org.springframework.aop.framework.Advised#addInterceptor(int, org.aopalliance.intercept.Interceptor)
-	 */
 	public void addInterceptor(int pos, Interceptor interceptor) throws AopConfigException {
 		addAdvice(pos, interceptor);
 	}

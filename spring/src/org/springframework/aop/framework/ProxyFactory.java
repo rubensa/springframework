@@ -20,7 +20,6 @@ import org.aopalliance.intercept.Interceptor;
 
 import org.springframework.aop.support.AopUtils;
 
-
 /**
  * Factory for AOP proxies for programmatic use, rather than via a bean
  * factory. This class provides a simple way of obtaining and configuring
@@ -31,10 +30,14 @@ import org.springframework.aop.support.AopUtils;
  */
 public class ProxyFactory extends AdvisedSupport {
 
+	/**
+	 * Create a new ProxyFactory.
+	 */
 	public ProxyFactory() {
 	}
 
 	/**
+	 * Create a new ProxyFactory.
 	 * Proxy all interfaces of the given target.
 	 */
 	public ProxyFactory(Object target) throws AopConfigException {
@@ -46,6 +49,7 @@ public class ProxyFactory extends AdvisedSupport {
 	}
 	
 	/**
+	 * Create a new ProxyFactory.
 	 * No target, only interfaces. Must add interceptors.
 	 */
 	public ProxyFactory(Class[] interfaces) {
@@ -64,8 +68,10 @@ public class ProxyFactory extends AdvisedSupport {
 	}
 
 	/**
-	 * Create new proxy for the given interface and interceptor.
-	 * Convenience method for creating a proxy for a single interceptor.
+	 * Create a new proxy for the given interface and interceptor.
+	 * <p>Convenience method for creating a proxy for a single interceptor,
+	 * assuming that the interceptor handles all calls itself rather than
+	 * delegating to a target, like in the case of remoting proxies.
 	 * @param proxyInterface the interface that the proxy should implement
 	 * @param interceptor the interceptor that the proxy should invoke
 	 * @return the new proxy
@@ -73,7 +79,7 @@ public class ProxyFactory extends AdvisedSupport {
 	public static Object getProxy(Class proxyInterface, Interceptor interceptor) {
 		ProxyFactory proxyFactory = new ProxyFactory();
 		proxyFactory.addInterface(proxyInterface);
-		proxyFactory.addInterceptor(interceptor);
+		proxyFactory.addAdvice(interceptor);
 		return proxyFactory.getProxy();
 	}
 

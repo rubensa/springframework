@@ -181,7 +181,7 @@ public class FreeMarkerConfigurationFactory {
 											"] to File: using SpringTemplateLoader");
 				}
 				config.setTemplateLoader(new SpringTemplateLoader(this.resourceLoader,
-											this.templateLoaderPath));
+																													this.templateLoaderPath));
 			}
 		}
 

@@ -7,10 +7,16 @@ package org.springframework.transaction.interceptor;
 
 import java.io.InputStream;
 import java.lang.reflect.Proxy;
+import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
-
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.aopalliance.intercept.AttributeRegistry;
 import org.easymock.MockControl;
+
+import org.springframework.aop.framework.AbstractMethodPointcut;
+import org.springframework.aop.framework.StaticMethodPointcut;
 import org.springframework.beans.DerivedTestBean;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.factory.BeanFactory;
@@ -51,7 +57,16 @@ public class BeanFactoryTransactionTests extends TestCase {
 	public void testGetsAreNotTransactionalWithProxyFactory3() throws NoSuchMethodException {
 		ITestBean testBean = (ITestBean) factory.getBean("proxyFactory3");
 		assertTrue("testBean is a full proxy", testBean instanceof DerivedTestBean);
+		InvocationCounterPointcut txnCounter = (InvocationCounterPointcut) factory.getBean("txnInvocationCounterPointcut");
+		InvocationCounterInterceptor preCounter = (InvocationCounterInterceptor) factory.getBean("preInvocationCounterInterceptor");
+		InvocationCounterInterceptor postCounter = (InvocationCounterInterceptor) factory.getBean("postInvocationCounterInterceptor");
+		txnCounter.counter = 0;
+		preCounter.counter = 0;
+		postCounter.counter = 0;
 		executeGetsAreNotTransactional(testBean);
+		assertEquals(4, txnCounter.counter);
+		assertEquals(4, preCounter.counter);
+		assertEquals(4, postCounter.counter);
 	}
 
 	public void executeGetsAreNotTransactional(ITestBean testBean) throws NoSuchMethodException {
@@ -83,9 +98,30 @@ public class BeanFactoryTransactionTests extends TestCase {
 		// TODO same as old age to avoid ordering effect for now
 		int age = 666;
 		testBean.setAge(age);
-		ptmControl.verify();
-
 		assertTrue(testBean.getAge() == age);
+		ptmControl.verify();
+	}
+
+
+	public static class InvocationCounterPointcut extends AbstractMethodPointcut implements StaticMethodPointcut {
+
+		int counter = 0;
+
+		public boolean applies(Method method, AttributeRegistry attributeRegistry) {
+			counter++;
+			return true;
+		}
+	}
+
+
+	public static class InvocationCounterInterceptor implements MethodInterceptor {
+
+		int counter = 0;
+
+		public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+			counter++;
+			return methodInvocation.proceed();
+		}
 	}
 
 }

@@ -14,24 +14,25 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.factory.groovy;
+package org.springframework.beans.factory.dynamic;
 
+import org.springframework.beans.BeansException;
 
 /**
- * Interface to be implemented by dynamic (reloadable)
- * Groovy beans, returned by the dynamicObject() method
- * of GroovyFactory.
+ * Interface to be implemented by dynamic objects,
+ * that support reloading and optionally polling for
+ * updates.
  * @author Rod Johnson
  * @version $Id$
  */
-public interface DynamicScript {
+public interface DynamicObject {
 	
-	void reload() throws GroovyScriptException;
+	void refresh() throws BeansException;
 	
 	int getLoads();
 	
-	long getLastReloadMillis();
-	
-	String getClassName();
+	long getLastRefreshMillis();
 
+	// 0 if not polling
+	int getPollIntervalSeconds();
 }

@@ -14,20 +14,19 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.factory.groovy;
+package org.springframework.beans.factory.script;
 
-
+import org.springframework.beans.factory.BeanDefinitionStoreException;
 
 /**
- * TODO use an existing spring class (JAR size?)
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public class CannotInstantiateGroovyClassException extends GroovyScriptException {
+public abstract class ScriptException extends BeanDefinitionStoreException {
 	
-	public CannotInstantiateGroovyClassException(String mesg, Exception ex) {
-		super(mesg, ex);
+	public ScriptException(String mesg, Throwable t) {
+		super(mesg, t);
 	}
 
 }

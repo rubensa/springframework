@@ -20,9 +20,10 @@ import groovy.lang.GroovyObject;
 import junit.framework.TestCase;
 
 import org.springframework.aop.support.AopUtils;
-import org.springframework.beans.factory.groovy.DynamicScript;
 import org.springframework.beans.factory.groovy.GroovyFactory;
-import org.springframework.beans.factory.groovy.ScriptNotFoundException;
+import org.springframework.beans.factory.script.CompilationException;
+import org.springframework.beans.factory.script.DynamicScript;
+import org.springframework.beans.factory.script.ScriptNotFoundException;
 
 /**
  * 

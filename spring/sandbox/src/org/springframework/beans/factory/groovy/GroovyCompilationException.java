@@ -16,17 +16,22 @@
 
 package org.springframework.beans.factory.groovy;
 
-import org.springframework.core.NestedRuntimeException;
+import org.codehaus.groovy.control.CompilationFailedException;
+import org.springframework.beans.factory.script.CompilationException;
 
 /**
- * 
+ * Exception thrown when a Groovy script can't be compiled.
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class GroovyScriptException extends NestedRuntimeException {
+public class GroovyCompilationException extends CompilationException {
 	
-	public GroovyScriptException(String mesg, Throwable t) {
-		super(mesg, t);
+	public GroovyCompilationException(String mesg, CompilationFailedException ex) {
+		super(mesg, ex);
+	}
+	
+	public CompilationFailedException groovyException() {
+		return (CompilationFailedException) getCause();
 	}
 
 }

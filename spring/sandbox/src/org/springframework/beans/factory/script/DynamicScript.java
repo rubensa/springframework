@@ -14,19 +14,20 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.factory.groovy;
+package org.springframework.beans.factory.script;
 
-import org.codehaus.groovy.control.CompilationFailedException;
+import org.springframework.beans.factory.dynamic.DynamicObject;
+
 
 /**
- * 
+ * Interface to be implemented by dynamic (reloadable)
+ * scripts.
  * @author Rod Johnson
  * @version $Id$
  */
-public class CompilationException extends GroovyScriptException {
+public interface DynamicScript extends DynamicObject, Script {
+
 	
-	public CompilationException(String mesg, CompilationFailedException ex) {
-		super(mesg, ex);
-	}
+	
 
 }

@@ -221,8 +221,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 																							 name + "': there's already [" + oldBeanDefinition + "] bound");
 			}
 			else {
-				logger.info("Overriding bean definition for bean '" + name +
-										"': replacing [" + oldBeanDefinition + "] with [" + beanDefinition + "]");
+				if (logger.isInfoEnabled()) {
+					logger.info("Overriding bean definition for bean '" + name +
+											"': replacing [" + oldBeanDefinition + "] with [" + beanDefinition + "]");
+				}
 			}
 		}
 		else {

@@ -222,6 +222,8 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory {
 		if (beanInstance == null) {
 			logger.info("Creating shared instance of singleton bean [" + name + "]");
 			beanInstance = createBean(name, true);
+			// Re-cache the instance even if already eagerly cached in createBean,
+			// as it could have been wrapped by a BeanPostProcessor
 			this.singletonCache.put(name, beanInstance);
 		}
 		else {
@@ -245,6 +247,11 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory {
 				FactoryBean factory = (FactoryBean) beanInstance;
 				logger.debug("Bean with name [" + name + "] is a factory bean");
 				beanInstance = factory.getObject();
+
+				if (beanInstance == null) {
+					throw new FatalBeanException("Factory bean [" + name + "] returned null object -- " +
+					                             "possible cause: not fully initialized due to circular bean reference");
+				}
 
 				// Set pass-through properties
 				if (factory instanceof PropertyValuesProviderFactoryBean) {
@@ -290,8 +297,7 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory {
 
 		mergedBeanDefinition.autowireByName(name);
 		
-		// Add further property values based on autowire by type
-		// if it's applied
+		// Add further property values based on autowire by type if it's applied
 		if (mergedBeanDefinition.getAutowire() == AbstractBeanDefinition.AUTOWIRE_BY_TYPE) {
 			autowireByType(name, mergedBeanDefinition, instanceWrapper);
 		}

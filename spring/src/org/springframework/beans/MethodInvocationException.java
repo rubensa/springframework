@@ -12,21 +12,21 @@ public class MethodInvocationException extends PropertyAccessException {
 
 	/**
 	 * Constructor to use when an exception results from a PropertyChangeEvent.
-	 * @param t Throwable raised by invoked method
+	 * @param ex Throwable raised by invoked method
 	 * @param propertyChangeEvent PropertyChangeEvent that resulted in an exception
 	 */
-	public MethodInvocationException(Throwable t, PropertyChangeEvent propertyChangeEvent) {
-		super("Property '" + propertyChangeEvent.getPropertyName() + "' threw exception", propertyChangeEvent, t);
+	public MethodInvocationException(Throwable ex, PropertyChangeEvent propertyChangeEvent) {
+		super("Property '" + propertyChangeEvent.getPropertyName() + "' threw exception", propertyChangeEvent, ex);
 	}
 
 	/**
 	 * Constructor to use when an exception results from a method invocation,
 	 * and there is no PropertyChangeEvent.
-	 * @param t Throwable raised by invoked method
+	 * @param ex Throwable raised by invoked method
 	 * @param methodName name of the method we were trying to invoke
 	 */
-	public MethodInvocationException(Throwable t, String methodName) {
-		super("Method '" + methodName + "' threw exception", null, t);
+	public MethodInvocationException(Throwable ex, String methodName) {
+		super("Method '" + methodName + "' threw exception", null, ex);
 	}
 
 	public String getErrorCode() {

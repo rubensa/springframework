@@ -315,6 +315,12 @@
 		<copy file="${src.dir}/org/springframework/web/servlet/tags/spring.tld"
 			todir="${dist.dir}" preservelastmodified="true"/>
 
+		<copy file="${src.dir}/org/springframework/web/servlet/view/velocity/spring.vm"
+			todir="${dist.dir}" preservelastmodified="true"/>
+
+		<copy file="${src.dir}/org/springframework/web/servlet/view/freemarker/spring.ftl"
+			todir="${dist.dir}" preservelastmodified="true"/>
+
 	</target>
 
 
@@ -359,6 +365,8 @@
 			<include name="dist/*.jar"/>
 			<include name="dist/*.dtd"/>
 			<include name="dist/*.tld"/>
+			<include name="dist/*.vm"/>
+			<include name="dist/*.ftl"/>
 			<include name="docs/**"/>
 			<exclude name="docs/reference/**"/>
 			<include name="samples/countries/**"/>

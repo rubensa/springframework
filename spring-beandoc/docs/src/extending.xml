@@ -103,11 +103,11 @@
     /**
      * create a new CSV file for each context file
      */
-    public final void transform(Document[] contextDocuments, File outputDir) {
+    public void transform(Document[] contextDocuments, File outputDir) {
         for (int i = 0; i &lt; contextDocuments.length; i++) {
             Document doc = contextDocuments[i];
             File outputFile = new File(
-                outputDir, doc.getRootElement().getAttributeValue("beandocFileName")
+                outputDir, doc.getRootElement().getAttributeValue("beandocFileName") + ".csv"
             );
             
             try {
@@ -120,13 +120,15 @@
                     csvLine = 
                         bean.getAttributeValue(CsvDecorator.ATTRIBUTE_COUNTER) + "," +
                         bean.getAttributeValue("id") + "," + 
-                        bean.getAttributeValue("class") + "\\n";
-                    
+                        bean.getAttributeValue("class") + "\n";
+
+                    out.write(csvLine);
                 }
-                out.write(csvLine);
+                out.flush();
+                out.close();
                 
             } catch (IOException e) {
-                // deal with Exception
+                e.printStackTrace();
             }
         }
     }

@@ -198,9 +198,11 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	private void onThrowable(MethodInvocation invocation, TransactionAttribute txAtt,
 	                         TransactionStatus status, Throwable ex) {
 		if (txAtt.rollbackOn(ex)) {
-			logger.info("Invoking rollback for transaction on method '" + invocation.getMethod().getName() +
-									"' in class [" + invocation.getMethod().getDeclaringClass().getName() +
-			            "] due to throwable [" + ex + "]");
+			if (logger.isInfoEnabled()) {
+				logger.info("Invoking rollback for transaction on method '" + invocation.getMethod().getName() +
+										"' in class [" + invocation.getMethod().getDeclaringClass().getName() +
+										"] due to throwable [" + ex + "]");
+			}
 			try {
 				this.transactionManager.rollback(status);
 			}
@@ -210,11 +212,12 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 			}
 		}
 		else {
-			if (logger.isDebugEnabled())
+			if (logger.isDebugEnabled()) {
 				logger.debug("Method '"	+ invocation.getMethod().getName()+ "' in class [" +
 				             invocation.getMethod().getDeclaringClass().getName() +
 				             "] threw throwable [" + ex +	"] but this does not force transaction rollback");
-			// Will still roll back if rollbackOnly is true
+			}
+			// will still roll back if rollbackOnly is true
 			this.transactionManager.commit(status);
 		}
 	}

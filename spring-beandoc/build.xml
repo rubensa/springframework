@@ -490,11 +490,29 @@
     </target>
 	
 	
+	<target name="webdocs"
+		depends="testsummary,docapi,clover.html"
+		description="Docs, reports for website upload">
+	
+		<tar destfile="${target.dist.dir}/beandoc.tbz2" compression="bzip2">
+			<tarfileset dir="${target.clover.html.dir}" prefix="clover/">
+				<include name="**/*"/>
+			</tarfileset>
+			<tarfileset dir="${target.javadocs.dir}" prefix="apidoc/">
+			    <include name="**/*"/>
+			</tarfileset>
+			<tarfileset dir="${target.refdocs.html.dir}" prefix="refdoc/">
+			    <include name="**/*"/>
+			</tarfileset>
+		</tar>
+		
+	</target>
+	
 	<!--
         Release zip file generation
     -->
     <target name="release" 
-        depends="clean,tests,dist,docpdf" 
+        depends="clean,webdocs,dist,docpdf" 
         description="Build distribution units and all documentation.  Generate release zip">
         
         <delete file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
@@ -503,7 +521,6 @@
             <fileset dir="${basedir}">
                 <exclude name="target/**/*"/>
                 <exclude name="docs/**/*"/>
-                <exclude name="lib/ant.jar"/>
             </fileset>
         </zip>
         <delete file="${basedir}/spring-beandoc.pdf"/>

@@ -45,12 +45,14 @@ public class SpringLoaderTests extends TestCase {
     }
     
     public void testGoodLoaderWithProps() {
-        String props = System.getProperty("java.io.tmpdir") + "beandoc.junit.properties";
-        File f = new File(props);
+        File tmp = new File(System.getProperty("java.io.tmpdir"));
+        File props = new File(tmp, "beandoc.junit.properties");
         
-        SpringLoaderCommand c = new SpringLoaderCommand(null, System.getProperty("java.io.tmpdir"), "Test", props);
+        SpringLoaderCommand c = new SpringLoaderCommand(null, System.getProperty("java.io.tmpdir"), "Test", props.getAbsolutePath());
         try {
-            FileWriter fw = new FileWriter(f);
+            if (!props.isFile())
+                props.createNewFile();
+            FileWriter fw = new FileWriter(props);
             fw.write("input.files=classpath:org/springframework/beandoc/beandoc.xml");
             fw.close();
             BeanFactory bf = SpringLoader.getBeanFactory(c);

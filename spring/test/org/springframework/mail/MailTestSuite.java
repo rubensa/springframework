@@ -41,7 +41,7 @@ public class MailTestSuite extends TestCase {
 
 		SimpleMailMessage messageCopy = new SimpleMailMessage(message);
 		assertEquals("me@mail.org", messageCopy.getFrom());
-		assertEquals("you@mail.org", messageCopy.getTo());
+		assertEquals("you@mail.org", messageCopy.getTo()[0]);
 
 		message.setCc(new String[] {"he@mail.org", "she@mail.org"});
 		message.setBcc(new String[] {"us@mail.org", "them@mail.org"});
@@ -49,7 +49,7 @@ public class MailTestSuite extends TestCase {
 		message.setText("my text");
 
 		assertEquals("me@mail.org", message.getFrom());
-		assertEquals("you@mail.org", message.getTo());
+		assertEquals("you@mail.org", message.getTo()[0]);
 		List ccs = Arrays.asList(message.getCc());
 		assertTrue(ccs.contains("he@mail.org"));
 		assertTrue(ccs.contains("she@mail.org"));
@@ -61,7 +61,7 @@ public class MailTestSuite extends TestCase {
 
 		messageCopy = new SimpleMailMessage(message);
 		assertEquals("me@mail.org", messageCopy.getFrom());
-		assertEquals("you@mail.org", messageCopy.getTo());
+		assertEquals("you@mail.org", messageCopy.getTo()[0]);
 		ccs = Arrays.asList(messageCopy.getCc());
 		assertTrue(ccs.contains("he@mail.org"));
 		assertTrue(ccs.contains("she@mail.org"));

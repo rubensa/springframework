@@ -287,14 +287,19 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 
 	/**
 	 * Test that properties with name as well as id creating
-	 * an alias up front
+	 * an alias up front.
 	 */
 	public void testAutoAliasing() throws Exception {
 		InputStream is = getClass().getResourceAsStream("collections.xml");
 		XmlBeanFactory xbf = new XmlBeanFactory(is);
-		TestBean tb = (TestBean) xbf.getBean("aliased");
-		TestBean alias = (TestBean) xbf.getBean("I have an alias");
-		assertTrue(tb == alias);
+		TestBean tb1 = (TestBean) xbf.getBean("aliased");
+		TestBean alias1 = (TestBean) xbf.getBean("I have an alias");
+		assertTrue(tb1 == alias1);
+		TestBean tb2 = (TestBean) xbf.getBean("multiAliased");
+		TestBean alias2 = (TestBean) xbf.getBean("alias1");
+		TestBean alias3 = (TestBean) xbf.getBean("alias2");
+		assertTrue(tb2 == alias2);
+		assertTrue(tb2 == alias3);
 	}
 
 	public void testEmptyMap() throws Exception {

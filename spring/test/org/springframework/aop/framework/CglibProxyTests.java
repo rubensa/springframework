@@ -113,7 +113,9 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 		}
 		catch (AspectException ex) {
 			// Check that stack trace is preserved
-			assertTrue(ex.getCause() instanceof CodeGenerationException);
+			// FIX: CGLIB will throw an IllegalArgumentException when trying to create a proxy
+			// of a class where the constructor is not visible - Rob Harrop
+			assertTrue((ex.getCause() instanceof CodeGenerationException) || (ex.getCause() instanceof IllegalArgumentException));
 			
 			// Check that error message is helpful
 			

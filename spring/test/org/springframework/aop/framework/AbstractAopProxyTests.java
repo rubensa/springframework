@@ -180,7 +180,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 	 * TODO reenable this
 	 *
 	 */
-	public void xtestManyProxies() {
+	public void testManyProxies() {
 		int howmany = 10000;
 		StopWatch sw = new StopWatch();
 		sw.start(getClass() + getName() + ": create " + howmany + " proxies");
@@ -191,7 +191,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		// It's pretty generous so as not to cause failures
 		// on slow machines
 		assertTrue("Proxy creation was too slow", 
-			sw.getTotalTimeSecs() < 10);
+			sw.getTotalTimeSecs() < 20);
 	}
 	
 	private void testManyProxies(int howmany) {

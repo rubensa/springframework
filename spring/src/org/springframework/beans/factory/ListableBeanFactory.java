@@ -61,6 +61,14 @@ public interface ListableBeanFactory extends BeanFactory {
 	String[] getBeanDefinitionNames(Class type);
 
 	/**
+	 * Check if this bean factory contains a bean definition with the given name.
+	 * Does not consider any hierarchy this factory may participate in.
+	 * @param name the name of the bean to look for
+	 * @return if this bean factory contains a bean definition with the given name
+	 */
+	boolean containsBeanDefinition(String name);
+
+	/**
 	 * Return the bean instances that match the given object type (including
 	 * subclasses), judging from either bean definitions or the value of
 	 * getObjectType() in the case of FactoryBeans.

@@ -91,6 +91,10 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		return (String[]) matches.toArray(new String[matches.size()]);
 	}
 
+	public boolean containsBeanDefinition(String name) {
+		return this.beans.containsKey(name);
+	}
+
 	public Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans) {
 		Map matches = new HashMap();
 		Set keys = this.beans.keySet();

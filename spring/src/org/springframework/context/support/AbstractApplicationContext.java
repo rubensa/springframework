@@ -441,6 +441,10 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 		return getBeanFactory().getBeanDefinitionNames(type);
 	}
 
+	public boolean containsBeanDefinition(String name) {
+		return getBeanFactory().containsBeanDefinition(name);
+	}
+
 	public Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans) throws BeansException {
 		return getBeanFactory().getBeansOfType(type, includePrototypes, includeFactoryBeans);
 	}

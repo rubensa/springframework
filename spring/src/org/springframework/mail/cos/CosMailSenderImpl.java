@@ -2,15 +2,15 @@ package org.springframework.mail.cos;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.oreilly.servlet.MailMessage;
 
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 
 /**
  * Simple implementation of SMTP mail sending on top of Jason Hunter's
@@ -48,15 +48,19 @@ public class CosMailSenderImpl implements MailSender {
 			try {
 				MailMessage cosMessage = new MailMessage(this.host);
 				cosMessage.from(simpleMessages[i].getFrom());
-				cosMessage.to(simpleMessages[i].getTo());
+				if (simpleMessages[i].getTo() != null) {
+					for (int j = 0; j < simpleMessages[i].getTo().length; j++) {
+						cosMessage.to(simpleMessages[i].getTo()[j]);
+					}
+				}
 				if (simpleMessages[i].getCc() != null) {
-					for (int j = 0; j < simpleMessages[j].getCc().length; j++) {
-						cosMessage.cc(simpleMessages[j].getCc()[j]);
+					for (int j = 0; j < simpleMessages[i].getCc().length; j++) {
+						cosMessage.cc(simpleMessages[i].getCc()[j]);
 					}
 				}
 				if (simpleMessages[i].getBcc() != null) {
-					for (int j = 0; j < simpleMessages[j].getBcc().length; j++) {
-						cosMessage.bcc(simpleMessages[j].getBcc()[j]);
+					for (int j = 0; j < simpleMessages[i].getBcc().length; j++) {
+						cosMessage.bcc(simpleMessages[i].getBcc()[j]);
 					}
 				}
 				cosMessage.setSubject(simpleMessages[i].getSubject());

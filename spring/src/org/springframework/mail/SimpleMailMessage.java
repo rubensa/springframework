@@ -17,7 +17,7 @@ public class SimpleMailMessage {
 
 	private String from;
 
-	private String to;
+	private String[] to;
 
 	private String[] cc;
 
@@ -38,7 +38,10 @@ public class SimpleMailMessage {
 	 */
 	public SimpleMailMessage(SimpleMailMessage original) {
 		this.from = original.getFrom();
-		this.to = original.getTo();
+		if (original.getTo() != null) {
+			this.to = new String[original.getTo().length];
+			System.arraycopy(original.getTo(), 0, this.to, 0, original.getTo().length);
+		}
 		if (original.getCc() != null) {
 			this.cc = new String[original.getCc().length];
 			System.arraycopy(original.getCc(), 0, this.cc, 0, original.getCc().length);
@@ -60,11 +63,19 @@ public class SimpleMailMessage {
 	}
 
 	public void setTo(String to) {
+		this.to = new String[] {to};
+	}
+
+	public void setTo(String[] to) {
 		this.to = to;
 	}
 
-	public String getTo() {
+	public String[] getTo() {
 		return this.to;
+	}
+
+	public void setCc(String cc) {
+		this.cc = new String[] {cc};
 	}
 
 	public void setCc(String[] cc) {
@@ -73,6 +84,10 @@ public class SimpleMailMessage {
 
 	public String[] getCc() {
 		return cc;
+	}
+
+	public void setBcc(String bcc) {
+		this.bcc = new String[] {bcc};
 	}
 
 	public void setBcc(String[] bcc) {
@@ -100,12 +115,13 @@ public class SimpleMailMessage {
 	}
 
 	public String toString() {
-		StringBuffer sb = new StringBuffer("SimpleMailMessage [");
+		StringBuffer sb = new StringBuffer("SimpleMailMessage: ");
 		sb.append("from: " + this.getFrom()+ "; ");
-		sb.append("to: " + this.getTo() + "; ");
+		sb.append("to: " +  StringUtils.arrayToCommaDelimitedString(this.getTo()) + "; ");
 		sb.append("cc: " + StringUtils.arrayToCommaDelimitedString(this.getCc()) + "; ");
+		sb.append("bcc: " + StringUtils.arrayToCommaDelimitedString(this.getBcc()) + "; ");
 		sb.append("subject: " + this.getSubject()+ "; ");
-		sb.append("text: " + this.getText() + "]");
+		sb.append("text: " + this.getText());
 		return sb.toString();
 	}
 

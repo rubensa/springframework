@@ -75,7 +75,9 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 	/** Uses a separate factory */
 	public void testRefToSeparatePrototypeInstances() throws Exception {
 		InputStream is = getClass().getResourceAsStream("reftypes.xml");
-		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		XmlBeanFactory xbf = new XmlBeanFactory();
+		xbf.setValidating(false);
+		xbf.loadBeanDefinitions(is);
 		assertTrue("6 beans in reftypes, not " + xbf.getBeanDefinitionCount(), xbf.getBeanDefinitionCount() == 6);
 		TestBean emma = (TestBean) xbf.getBean("emma");
 		TestBean georgia = (TestBean) xbf.getBean("georgia");
@@ -91,7 +93,9 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 
 	public void testRefToSingleton() throws Exception {
 		InputStream is = getClass().getResourceAsStream("reftypes.xml");
-		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		XmlBeanFactory xbf = new XmlBeanFactory();
+		xbf.setValidating(false);
+		xbf.loadBeanDefinitions(is);
 		assertTrue("6 beans in reftypes, not " + xbf.getBeanDefinitionCount(), xbf.getBeanDefinitionCount() == 6);
 		TestBean jen = (TestBean) xbf.getBean("jenny");
 		TestBean dave = (TestBean) xbf.getBean("david");
@@ -194,7 +198,9 @@ public class XmlBeanFactoryTestSuite extends AbstractListableBeanFactoryTests {
 
 	public void testCircularReferences() {
 		InputStream is = getClass().getResourceAsStream("reftypes.xml");
-		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		XmlBeanFactory xbf = new XmlBeanFactory();
+		xbf.setValidating(false);
+		xbf.loadBeanDefinitions(is);
 		TestBean jenny = (TestBean) xbf.getBean("jenny");
 		TestBean david = (TestBean) xbf.getBean("david");
 		TestBean ego = (TestBean) xbf.getBean("ego");

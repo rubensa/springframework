@@ -148,7 +148,7 @@ runbeandoc-cli.bat</programlisting>
     as attributes to the <literal>AntTask</literal> class.</para>
 
     <sect2>
-      <title>HTML</title>
+      <title>HTML and JavaDoc</title>
 
       <para>Principal properties you may wish to tweak to affect HTML output
       are the page title, page footer and the location of a CSS URI that
@@ -163,10 +163,40 @@ html.cssUrl=http://our.intranet/projects/beandoc.css</programlisting>
       <para>Default values for all of the above will be used if you don't
       specify them, and additionally, a default CSS file will be copied to the
       output location that you specify and this will be used in all HTML
-      output.</para>
+      output. For further information on configuring the HTML output, see
+      <xref linkend="running-advanced" />.</para>
 
-      <para>For further information on configuring the HTML output, see <xref
-      linkend="running-advanced" />.</para>
+      <para>Most of the beans defined in your context files will have a
+      <literal>class</literal> attribute. In many instances this will be
+      linked to the relevant JavaDoc page for that class. BeanDoc has many
+      well known JavaDoc locations built-in such as Java runtime classes,
+      SpringFramework classes and man of the Jakarta Commons projects. You may
+      however wish to add your own locations for your custom code, or override
+      existing ones if, for example, you have local copies of the JavaDoc
+      somewhere.</para>
+
+      <para>Specify the root of the apidoc for your class prefixes in
+      beandoc.properties like so;</para>
+
+      <programlisting>javadoc.locations[com.foo.bar]=http://your.local.server/apidoc/
+javadoc.locations[org.something.else]=http://another.server/javadoc/</programlisting>
+
+      <para>You can add or override as many different locations as you like.
+      More specific package names will be evaluated before less specific names
+      - so if you defined the following two locations..</para>
+
+      <programlisting>javadoc.locations[com.foo.bar]=http://www.foo.bar/apidoc/
+javadoc.locations[com.foo.bar.web]=http://your.local.server/apidoc/</programlisting>
+
+      <para>.. then classes in the <literal>com.foo.bar.web</literal> package
+      would be linked to your.local.server while all other classes in the
+      <literal>com.foo.bar</literal> hierarchy would be linked to www.foo.bar
+      instead. If you wish to suppress javadoc links for a package prefix that
+      might otherwise have links, specify the empty string as the
+      location;</para>
+
+      <programlisting>javadoc.locations[com.foo.bar]=http://www.foo.bar/apidoc/
+javadoc.locations[com.foo.bar.web]=</programlisting>
     </sect2>
 
     <sect2>

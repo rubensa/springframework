@@ -908,7 +908,7 @@ public class BeanWrapperImpl implements BeanWrapper {
 						}
 						return result;
 					}
-					else if (convertedValue.getClass().isArray()) {
+					else if (convertedValue != null && convertedValue.getClass().isArray()) {
 						// convert individual elements to array elements
 						int arrayLength = Array.getLength(convertedValue);
 						Object result = Array.newInstance(componentType, arrayLength);

@@ -89,8 +89,9 @@ public class BeanFactoryBootstrap {
 	 */
 	private BeanFactoryBootstrap() throws BeansException {
 		DefaultListableBeanFactory startupFactory = new DefaultListableBeanFactory();
+		PropertiesBeanDefinitionReader propReader = new PropertiesBeanDefinitionReader(startupFactory);
 		try {
-			startupFactory.registerBeanDefinitions(System.getProperties());
+			propReader.registerBeanDefinitions(System.getProperties());
 			this.bootstrapFactory = (BeanFactory) startupFactory.getBean(BEAN_FACTORY_BEAN_NAME);
 		}
 		catch (ClassCastException ex) {

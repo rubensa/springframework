@@ -82,11 +82,12 @@ public interface Advised {
 	
 	/**
 	 * Add the given interceptor to the tail of the advice (interceptor) chain.
-	 * This will be wrapped in a DefaultInterceptionAroundAdvisor with a pointcut
-	 * that always applies, and returned from the getAdvisors() method in this
+	 * This will be wrapped in a DefaultPointcutAdvistor with a pointcut that
+	 * always applies, and returned from the getAdvisors() method in this
 	 * wrapped form.
 	 * @param interceptor to add to the tail of the chain
 	 * @see #addInterceptor(int, Interceptor)
+	 * @see org.springframework.aop.support.DefaultPointcutAdvisor
 	 */
 	void addInterceptor(Interceptor interceptor) throws AopConfigException;
 
@@ -97,8 +98,7 @@ public interface Advised {
 	 * interceptor chain
 	 */
 	void addInterceptor(int pos, Interceptor interceptor) throws AopConfigException;
-	
-	
+
 	/** 
 	 * Add an Advisor at the end of the advisor chain.
 	 * The Advisor may be an IntroductionAdvisor, in which new interfaces

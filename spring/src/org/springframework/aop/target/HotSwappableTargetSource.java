@@ -20,10 +20,12 @@ import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.AopConfigException;
 
 /**
- * Implementation of TargetSource interface that caches a local
- * target object, but allows the target to be swapped while the application is running.
- * If configuring an object of this class in a Spring IoC container, 
- * use Type 3 (constructor-style) IoC.
+ * Implementation of TargetSource interface that caches a local target object,
+ * but allows the target to be swapped while the application is running.
+ *
+ * <p>If configuring an object of this class in a Spring IoC container,
+ * use constructor injection.
+ *
  * @author Rod Johnson
  * @version $Id$
  */
@@ -33,7 +35,7 @@ public class HotSwappableTargetSource implements TargetSource {
 	private Object target;
 
 	/**
-	 * Create a new HotSwappableTargetSource with the initial target
+	 * Create a new HotSwappableTargetSource with the initial target.
 	 * @param initialTarget initial target
 	 */
 	public HotSwappableTargetSource(Object initialTarget) {
@@ -65,9 +67,8 @@ public class HotSwappableTargetSource implements TargetSource {
 	public void releaseTarget(Object o) {
 	}
 
-
 	/**
-	 * Swap the target, returning the old target
+	 * Swap the target, returning the old target.
 	 * @param newTarget new target
 	 * @return the old target
 	 * @throws AopConfigException if the new target is invalid
@@ -81,6 +82,7 @@ public class HotSwappableTargetSource implements TargetSource {
 		this.target = newTarget;
 		return old;
 	}
+
 	/**
 	 * Two invoker interceptors are equal if they have the same target or
 	 * if the targets are equal.
@@ -89,8 +91,8 @@ public class HotSwappableTargetSource implements TargetSource {
 		if (!(other instanceof HotSwappableTargetSource)) {
 			return false;
 		}
-		HotSwappableTargetSource otherII = (HotSwappableTargetSource) other;
-		return otherII.target == this.target || otherII.target.equals(this.target);
+		HotSwappableTargetSource otherTargetSource = (HotSwappableTargetSource) other;
+		return otherTargetSource.target == this.target || otherTargetSource.target.equals(this.target);
 	}
 
 }

@@ -83,13 +83,14 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 	/** Parent bean factory, for bean inheritance support */
 	private BeanFactory parentBeanFactory;
 
+	/** Custom PropertyEditors to apply to the beans of this factory */
 	private Map customEditors = new HashMap();
-
-	/** BeanPostProcessors to apply on createBean */
-	private final List beanPostProcessors = new ArrayList();
 
 	/** Dependency types to ignore on dependency check and autowire */
 	private final Set ignoreDependencyTypes = new HashSet();
+
+	/** BeanPostProcessors to apply in createBean */
+	private final List beanPostProcessors = new ArrayList();
 
 	/** Map from alias to canonical bean name */
 	private final Map aliasMap = Collections.synchronizedMap(new HashMap());
@@ -280,6 +281,17 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 		return customEditors;
 	}
 
+	public void ignoreDependencyType(Class type) {
+		this.ignoreDependencyTypes.add(type);
+	}
+
+	/**
+	 * Return the set of classes that will get ignored for autowiring.
+	 */
+	public Set getIgnoredDependencyTypes() {
+		return ignoreDependencyTypes;
+	}
+
 	public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
 		this.beanPostProcessors.add(beanPostProcessor);
 	}
@@ -290,17 +302,6 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 	 */
 	public List getBeanPostProcessors() {
 		return beanPostProcessors;
-	}
-
-	public void ignoreDependencyType(Class type) {
-		this.ignoreDependencyTypes.add(type);
-	}
-
-	/**
-	 * Return the set of classes that will get ignored for autowiring.
-	 */
-	public Set getIgnoredDependencyTypes() {
-		return ignoreDependencyTypes;
 	}
 
 	public void registerAlias(String beanName, String alias) throws BeanDefinitionStoreException {

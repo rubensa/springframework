@@ -592,12 +592,20 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	public String toString() {
 		StringBuffer sb = new StringBuffer(getClass().getName() + ": ");
 		sb.append(this.interfaces.size()).append(" interfaces=[");
-		sb.append(StringUtils.collectionToCommaDelimitedString(this.interfaces)).append("]; ");
+		int i = 0;
+		for (Iterator itr = this.interfaces.iterator(); itr.hasNext(); ) {
+			Class intf = (Class) itr.next();
+			if (i++ > 0) {
+				sb.append(",");
+			}
+			sb.append(intf.getName());
+		}
+		sb.append("]; ");
 		sb.append(this.advisors.size()).append(" advisors=[");
-		sb.append(StringUtils.collectionToCommaDelimitedString(this.advisors)).append("]; ");
+		sb.append(StringUtils.collectionToDelimitedString(this.advisors, ",", "{", "}")).append("]; ");
 		sb.append("targetSource=[").append(this.targetSource).append("]; ");
+		sb.append(super.toString());
 		sb.append("advisorChainFactory=").append(this.advisorChainFactory);
-		sb.append(" " + super.toString());
 		return sb.toString();
 	}
 

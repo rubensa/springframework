@@ -69,4 +69,11 @@ public final class SingletonTargetSource implements TargetSource, Serializable {
 		SingletonTargetSource otherTargetSource = (SingletonTargetSource) other;
 		return ObjectUtils.nullSafeEquals(this.target, otherTargetSource.target);
 	}
+	
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "SingletonTargetSource: target=(" + target + ")";
+	}
 }

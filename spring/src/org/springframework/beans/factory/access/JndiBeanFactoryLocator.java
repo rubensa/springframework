@@ -44,10 +44,10 @@ import org.springframework.util.StringUtils;
 public class JndiBeanFactoryLocator implements BeanFactoryLocator {
 
 	/**
-	 * Any number of these characters are considered delimiters
-	 * between multiple bean factory paths in a single-String value.
+	 * Any number of these characters are considered delimiters between
+	 * multiple bean factory config paths in a single String value.
 	 */
-	public static final String BEAN_FACTORY_PATH_DELIMITERS = ",; ";
+	public static final String BEAN_FACTORY_PATH_DELIMITERS = ",; \t\n";
 
 	protected Log logger = LogFactory.getLog(getClass());
 

@@ -26,6 +26,10 @@ public class AopUtils {
 	public static boolean isJdkDynamicProxy(Object o) {
 		return Proxy.isProxyClass(o.getClass());
 	}
+	
+	public static boolean isAopProxy(Object o) {
+		return isJdkDynamicProxy(o) || isCglibProxy(o);
+	}
 
 	/**
 	 * Return all interfaces that the given object implements as array,

@@ -8,22 +8,22 @@
     <para>BeanDoc attempts to be a very flexible tool without incurring a
     steep learning curve. In the simplest configurations you only need to
     specify your inputs (one or more Spring context XML files) and an output
-    location. If you wish to take advantage of the <link
-    linkend="overview-graphviz">graphing output</link> too
-    (<emphasis>highly</emphasis> recomended) you'll additionally need to
-    specify the location of your <ulink
-    url="http://www.graphviz.org">GraphViz</ulink> executable once it's
+    location. If you wish to take advantage of the <xref
+    linkend="overview-graphviz" /> too (<emphasis>highly</emphasis>
+    recomended) you'll additionally need to specify the location of your
+    <ulink url="http://www.graphviz.org">GraphViz</ulink> executable once it's
     installed.</para>
 
     <para>BeanDoc can be run either via a command line (main method) class, or
     via an <ulink url="http://ant.apache.org">Ant</ulink> task which is
     included in the <literal>spring-beandoc.jar</literal> file. However you
     choose to run the tool, specifying configuration is in most cases
-    identical. Let's look at the simplest case; specifying inputs and outputs
-    only.</para>
+    identical. Let's look at the simplest case; specifying inputs, outputs and
+    graphing binary location only.</para>
 
     <programlisting>input.files=/projects/my-spring-project/*.xml
-output.dir=/projects/my-spring-project/beandoc/</programlisting>
+output.dir=/projects/my-spring-project/beandoc/
+graphVizTransformer.dotExe=C:/Program Files/ATT/GraphViz/bin/dot.exe</programlisting>
 
     <para>The above values are saved in a properties file, the location and
     name of which can be anything you like, but I'll assume it's been saved as
@@ -151,34 +151,226 @@ runbeandoc-cli.bat</programlisting>
     <sect2>
       <title>HTML</title>
 
-      <para></para>
+      <para>Principal properties you may wish to tweak to affect HTML output
+      are the page title, page footer and the location of a CSS URI that
+      enables you to skin the output to suit your corporate or project needs.
+      All of these are specified in the beandoc.properties file shown
+      below.</para>
+
+      <programlisting>htmlDecorator.title=My Application Context
+htmlDecorator.footer=Copyright (C) ACME Corp. 2004
+htmlDecorator.cssLocation=http://our.intranet/projects/beandoc.css</programlisting>
+
+      <para>Default values for all of the above will be used if you don't
+      specify them, and additionally, a default CSS file will be copied to the
+      output location that you specify and this will be used in all HTML
+      output.</para>
+
+      <para>For further information on configuring the HTML output, see <xref
+      linkend="running-advanced" />.</para>
     </sect2>
 
     <sect2>
       <title>Graphs</title>
 
-      <para></para>
+      <para>Graphing output is quite customisable through the beandoc
+      properties file and some of the more common options that you may wish to
+      explore are listed below. Information on BeanDoc's default graphing
+      output and the meaning of various styles, can be found in <xref
+      linkend="appendixA" />.</para>
+
+      <sect3>
+        <title>Colour</title>
+
+        <para>BeanDoc specifies a default set of colours for beans with
+        certain naming patterns. These can be added to or overridden as
+        required. You can specify colours for patterns based on the bean name
+        (id) or the bean's fully qualified class name. The format for doing so
+        is to set a property like;</para>
+
+        <para><literal>graphVizDecorator.beanColours[NameOrClassPattern]=colour</literal></para>
+
+        <para>where NameOrClassPattern is a simple (wildcarded) pattern to
+        match against. Some examples are shown below:</para>
+
+        <programlisting>graphVizDecorator.beanColours[com.foo.bar*]=#a090a0
+graphVizDecorator.beanColours[Service*]=#f0f080
+graphVizDecorator.beanColours[*Proxy]=blue</programlisting>
+
+        <para>In the examples shown, beans in the package
+        <literal>com.foo.bar</literal> will all be coloured
+        <literal>#a090a0</literal>, any bean whose name or id attribute begins
+        with the String "Service" will be coloured <literal>#f0f080</literal>
+        and any bean whose name ends in the String "Proxy" will be coloured
+        blue.</para>
+
+        <para>Note that you can also override the default colour for beans
+        with no other colour specified from the dark-gray by setting the
+        property
+        <literal>graphVizDecorator.defaultFillColour=#aaaaaa</literal> as
+        appropriate.</para>
+      </sect3>
+
+      <sect3>
+        <title>Output Type</title>
+
+        <para>By default, BeanDoc produces graph images in PNG (Portable
+        Network Graphics) format. This is a highly efficient, open standard
+        image format and is supported by the vast majority of current web
+        browsers. You can however override this format and have graphs
+        produced in other formats if desired. The relevant property is;</para>
+
+        <para><literal>graphVizDecorator.graphOutputType=[OutputType]</literal></para>
+
+        <para>Some common output types that you may like to specify
+        are;</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>png</para>
+          </listitem>
+
+          <listitem>
+            <para>gif</para>
+          </listitem>
+
+          <listitem>
+            <para>jpg</para>
+          </listitem>
+
+          <listitem>
+            <para>svg</para>
+          </listitem>
+        </itemizedlist>
+      </sect3>
+
+      <sect3>
+        <title>Label styles</title>
+
+        <para>BeanDoc attempts to use Helvetica with a point size of 10 for
+        all graph and bean labels, but again this can be overridden in your
+        beandoc.properties. Note that on Win32 platforms, this should just
+        work for any font you have installed, but for Unix/Linux it depends on
+        your font server setup and font directory locations. If you have
+        trouble on these platforms with graphs not displaying the font you
+        requested, try setting an environment variable (process will depend on
+        your particular shell) named <literal>DOTFONTPATH</literal> and
+        specify your font directories as a path separated (:) list. Below are
+        examples of setting the style attributes in beandoc.properties;</para>
+
+        <programlisting>graphVizDecorator.graphFontSize=20
+graphVizDecorator.graphFontName=Arial
+graphVizDecorator.graphLabelLocation=b</programlisting>
+
+        <para>In the above list, the <literal>graphLabelLocation</literal>
+        additionally specifies that graph titles should be at the bottom (b)
+        of the graph. By default, they are at the top (t).</para>
+      </sect3>
+
+      <sect3>
+        <title>Graph size and ratio</title>
+
+        <para>GrpahViz attempts to create graphs as space efficiently as
+        possible, however you may sometimes wish to constrain the final size
+        of a graph - in particular for printing purposes. You can modify the
+        aspect ratio of final output, or specify hard size limits (in inches)
+        of the final output. The example below will attempt to force the graph
+        to a size that can be printed on a single A4 sheet.</para>
+
+        <programlisting>graphVizDecorator.graphXSize=11.5
+graphVizDecorator.graphYSize=8.5</programlisting>
+
+        <para>Aspect ratio can be affected by specifying the value of
+        <literal>graphVizDecorator.graphRatio</literal> as a floating point
+        number.</para>
+
+        <para>Because of the extreme effect that the above properties can have
+        on output, there are no real best practices or sensible defaults - you
+        will just have to experiment and choose settings that work for your
+        particular project.</para>
+      </sect3>
     </sect2>
   </sect1>
 
   <sect1>
     <title>Advanced configuration</title>
 
-    <para>post processing of context file, supplying XSLT templates, advanced
-    graphing options, defining new context files, interacting
-    programatically</para>
+    <para>As you may already have worked out, the beandoc.properties file is
+    used to post-process a Spring bean factory that the BeanDoc tool uses to
+    configure itself. In fact, the bean factory is post-processed twice using
+    the same properties file - once to pull values for input.files and
+    output.dir, and once to push all the other values. This is what makes it
+    possible to specify any property on any named bean in the context file
+    using standard Spring methods. You should take a look at the beandoc.xml
+    file in the source code
+    (<literal>org.springframework.beandoc.client.beandoc.xml</literal>) in
+    conjunction with the <ulink
+    url="http://springframework.sourceforge.net/beandoc/api/">beandoc
+    API</ulink> in order to see exactly what properties you have available for
+    configuration.</para>
 
-    <programlisting>&lt;!--
-alternative task overriding input and output locations that may be defined in the
-beandoc.properties file, and also specifying a new context file for complete control
-over the beandoc operation.  If all you want to do is specify different XSLT templates
-then you can specify them in the beandoc.properties file - see the sample one for
-information.
+    <sect2>
+      <title>Replacing XSL templates</title>
+
+      <para>HTML and standard graphing output is fairly configurable as we've
+      so far seen, but if you really need some weird and wonderful output or
+      layout, or a different markup language altogether, then one option is to
+      define your own XSL templates for beandoc.</para>
+
+      <para>Once you have your templates, simply set the relevant properties
+      in your beandoc.properties file. You may not need to override all of
+      these and can just ignore the output you don't need.</para>
+
+      <programlisting># this one generates the frameset document
+htmlIndexTransformer.templateName=classpath:my/frameset/stylesheet.xsl
+# this one generates the navigator (All Beans)
+htmlNavigationTransformer.templateName=/filesystem/path/to/my/navigator/stylesheet.xsl
+# this one generates the index page with the consolidated graph
+htmlMainTransformer.templateName=classpath:my/main/stylesheet.xsl
+# this one generates the individual context file documents
+htmlDetailTransformer.templateName=classpath:my/detail/stylesheet.xsl</programlisting>
+
+      <para>Replacing the XSL templates means you still have to work with the
+      decorated DOM's that BeanDoc produces based on its configured
+      <literal>Map</literal> of <literal>Decorator</literal> implementations.
+      In order to see a plain text XML rendition of this DOM you can use the
+      supplied <literal>EchoTransformer</literal> and add it to the list of
+      <literal>Transformer</literal>s in BeanDoc's own context definition
+      file. See the API documentation and the next section on replacing
+      context files for more information. If you need additional attributes or
+      amended elements, you will need to define your own Decorator and add it
+      to the decorator map. See <xref linkend="extending-decorators" /></para>
+    </sect2>
+
+    <sect2>
+      <title>Replacing context file</title>
+
+      <para>Should you have a need to define your own
+      <literal>Decorator</literal> or <literal>Transformer</literal>
+      implementations (see <xref linkend="extending" />) or if you wish to add
+      newly configured beans based on existing implementations such as the
+      <literal>EchoTransformer</literal>, you will need to tell BeanDoc to use
+      a different context definition file. This can be achieved via the Ant
+      task with an attribute to the <literal>beandoc</literal> task;</para>
+
+      <programlisting>&lt;!--
+  ant task definition specifying a new context file for complete control
+  over the beandoc operation.
 --&gt;
 &lt;beandoc 
   inputFiles="${basedir}/petclinic/*.xml" 
   outputDir="/some/other/outputdir/html/"
   beandocContext="${basedir}/alternative-beandoc.xml"
 /&gt;</programlisting>
+
+      <para>A sample context definition file is in the samples folder of the
+      BeanDoc distribution which will get you started.</para>
+    </sect2>
+
+    <sect2>
+      <title>Interacting programatically</title>
+
+      <para>[todo]</para>
+    </sect2>
   </sect1>
 </chapter>

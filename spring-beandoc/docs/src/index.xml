@@ -6,6 +6,7 @@
 <!ENTITY overview           SYSTEM "overview.xml">
 <!ENTITY running            SYSTEM "running.xml">
 <!ENTITY extending          SYSTEM "extending.xml">
+<!ENTITY appendixA          SYSTEM "appendixA.xml">
 ]>
 
 <book>
@@ -31,5 +32,6 @@
         &overview;
         &running;
         &extending;
+        &appendixA;
         
 </book>

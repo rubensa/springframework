@@ -92,16 +92,31 @@
 			  	</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="beandocPeripheries">
+    		<xsl:choose>
+		  		<xsl:when test="@singleton = 'false'">
+					<xsl:value-of select="1"/>
+		  		</xsl:when>
+			  	<xsl:otherwise>
+					<xsl:value-of select="2"/>
+			  	</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		"<xsl:value-of select="$beandocId"/>" [
-        	peripheries=2, 
+        	peripheries=<xsl:value-of select="$beandocPeripheries"/>, 
 	        style=filled, 
+	        URL="<xsl:value-of select="@beandocHtmlFileName"/>#<xsl:value-of select="$beandocId"/>",
+	        <xsl:if test="@abstract = 'true'">
+	        /* abstract bean */
+	        shape=polygon, 
+	        sides=4, 
+	        skew=.3,</xsl:if>
 	        color="<xsl:value-of select="@beandocFillColour"/>"
-	        <xsl:if test="@abstract = 'true'">shape=polygon, sides=4, skew=.3</xsl:if>
 	    ];
         <xsl:if test="@parent">
         	<!-- special type of relationship - dotted line, no arrow -->
         "<xsl:value-of select="@parent"/>" -&gt; "<xsl:value-of select="@id"/><xsl:value-of select="@name"/>" [
-        	style=dotted arrowhead=none
+        	style=dotted arrowhead=none arrowtail=odot
         ];
         </xsl:if>
     </xsl:template>

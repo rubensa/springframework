@@ -3,13 +3,14 @@
   <title>Overview</title>
 
   <sect1>
-    <title>Project goals</title>
+    <title>What is BeanDoc (and why would I care?)</title>
 
     <para>Spring BeanDoc is a tool for documenting context definition files
     used in <ulink url="http://www.springframework.org">Spring</ulink>
     projects. An unmodified beandoc run produces HTML with a JavaDoc-ish look
-    and feel to it, although the tool is highly configurable and extensible to
-    meet the needs of most.</para>
+    and feel to it, and graphs of the context showing dependencies,
+    inheritance and other common constructs. However, the tool is highly
+    configurable and extensible to meet the needs of most.</para>
 
     <mediaobject>
       <imageobject>
@@ -43,16 +44,24 @@
       existing as a separate module from the main Spring sources. You can
       <ulink
       url="http://cvs.sourceforge.net/viewcvs.py/springframework/spring-beandoc/">view
-      the module</ulink> via ViewCVS or <ulink
-      url="http://sourceforge.net/cvs/?group_id=73357">check it out
-      anonymously</ulink> using normal CVS access. The module name is
-      <emphasis role="bold">spring-beandoc</emphasis>.</para>
+      the module</ulink> via ViewCVS or check it out anonymously using CVS.
+      Shown below are the commands required from the CVS command-line, see
+      your preferred tool's documentation if you wish to use that
+      instead.</para>
+
+      <programlisting>cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/springframework co spring-beandoc</programlisting>
+
+      <para>SourceForge has <ulink
+      url="http://sourceforge.net/cvs/?group_id=73357">more
+      information</ulink> on anonymous CVS access for the springframework
+      project.</para>
     </sect2>
 
     <sect2>
       <title>Releases</title>
 
-      <para>If you don't wish to track CVS you can <ulink url="???">download
+      <para>If you don't wish to track CVS you can <ulink
+      url="http://springframework.sourceforge.net/beandoc/downloads.html">download
       release files</ulink> which contain all of the project sources, samples
       and compiled documentation instead.</para>
     </sect2>

@@ -162,23 +162,43 @@
         </javadoc>
 
     </target>
+    
 
 
-    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    <target name="checkdocbuild" description="Ensure docbook libs are available">
+		<fail message="XSLT supporting lib not installed. Please see ${refdocs.src.dir}/readme.txt for instructions.">
+			<condition>
+				<not>
+					<available file="${docbook.dir}/lib"/>
+				</not>
+			</condition>
+		</fail>
+
+		<mkdir dir="${target.refdocs.dir}/images/admons"/>
+        <copy todir="${target.refdocs.dir}/images/admons">
+            <fileset dir="${refdocs.src.dir}/images/admons">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+	</target>
+	
+	
+	
+	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
          target: docpdf
          depends: 
          notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <target name="docpdf" description="Compile reference documentation to pdf">
+    <target name="docpdf" depends="checkdocbuild" description="Compile reference documentation to pdf">
         <mkdir dir="${target.refdocs.pdf.dir}"/>
         <mkdir dir="${target.refdocs.pdf.dir}/images"/>
 
         <copy todir="${target.refdocs.pdf.dir}/images">
             <fileset dir="${refdocs.src.dir}/images">
-                <include name="*.gif"/>
-                <include name="*.svg"/>
-                <include name="*.jpg"/>
-                <include name="*.png"/>
+				<include name="*.gif"/>
+				<include name="*.svg"/>
+				<include name="*.jpg"/>
+				<include name="*.png"/>
             </fileset>
         </copy>
 
@@ -214,16 +234,16 @@
          depends: 
          notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <target name="dochtml" description="Compile reference documentation to chunked html">
+    <target name="dochtml" depends="checkdocbuild" description="Compile reference documentation to chunked html">
         <mkdir dir="${target.refdocs.html.dir}"/>
         <mkdir dir="${target.refdocs.html.dir}/styles"/>
         
         <copy todir="${target.refdocs.html.dir}/images">
             <fileset dir="${refdocs.src.dir}/images">
-                <include name="*.gif"/>
-                <include name="*.svg"/>
-                <include name="*.jpg"/>
-                <include name="*.png"/>
+				<include name="*.gif"/>
+				<include name="*.svg"/>
+				<include name="*.jpg"/>
+				<include name="*.png"/>
             </fileset>
         </copy>
         
@@ -250,16 +270,16 @@
          depends: 
          notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <target name="dochtmlsingle" description="Compile reference documentation to single html">
+    <target name="dochtmlsingle" depends="checkdocbuild" description="Compile reference documentation to single html">
         <mkdir dir="${target.refdocs.html.dir}"/>
         <mkdir dir="${target.refdocs.html.dir}/styles"/>
 
         <copy todir="${target.refdocs.html.dir}/images">
             <fileset dir="${refdocs.src.dir}/images">
-                <include name="*.gif"/>
-                <include name="*.svg"/>
-                <include name="*.jpg"/>
-                <include name="*.png"/>
+				<include name="*.gif"/>
+				<include name="*.svg"/>
+				<include name="*.jpg"/>
+				<include name="*.png"/>
             </fileset>
         </copy>
         

@@ -90,8 +90,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Load bean definitions from the given resource.
-	 * @param resource XML resource to load bean definitions from
+	 * Load bean definitions from the specified XML file.
+	 * @param resource the resource descriptor for the XML file
 	 * @throws BeansException in case of loading or parsing errors
 	 */
 	public void loadBeanDefinitions(Resource resource) throws BeansException {
@@ -109,7 +109,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			docBuilder.setEntityResolver(this.entityResolver != null ? this.entityResolver : new BeansDtdResolver());
 			is = resource.getInputStream();
 			Document doc = docBuilder.parse(is);
-			loadBeanDefinitions(doc, resource);
+			registerBeanDefinitions(doc, resource);
 		}
 		catch (ParserConfigurationException ex) {
 			throw new BeanDefinitionStoreException("Parser configuration exception parsing XML from " + resource, ex);
@@ -135,13 +135,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	}
 
 	/**
-	 * Load bean definitions from the given DOM document.
+	 * Register the bean definitions contained in the given DOM document.
 	 * All calls go through this.
 	 * @param doc the DOM document
+	 * @throws BeansException in case of parsing errors
 	 */
-	public void loadBeanDefinitions(Document doc, Resource resource) throws BeansException {
+	public void registerBeanDefinitions(Document doc, Resource resource) throws BeansException {
 		XmlBeanDefinitionParser parser = (XmlBeanDefinitionParser) BeanUtils.instantiateClass(this.parserClass);
-		parser.loadBeanDefinitions(getBeanFactory(), getBeanClassLoader(), doc, resource);
+		parser.registerBeanDefinitions(getBeanFactory(), getBeanClassLoader(), doc, resource);
 	}
 
 

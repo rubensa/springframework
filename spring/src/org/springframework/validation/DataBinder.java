@@ -81,7 +81,7 @@ public class DataBinder {
 	 * @param propertyEditor editor to register
 	 */
 	public void registerCustomEditor(Class requiredType, PropertyEditor propertyEditor) {
-		registerCustomEditor(requiredType, null, propertyEditor);
+		this.errors.getBeanWrapper().registerCustomEditor(requiredType, propertyEditor);
 	}
 
 	/**

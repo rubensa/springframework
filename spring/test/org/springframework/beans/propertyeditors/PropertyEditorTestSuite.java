@@ -156,6 +156,13 @@ public class PropertyEditorTestSuite extends TestCase {
 		assertEquals("org.springframework.beans.TestBean", classEditor.getAsText());
 	}
 
+	public void testClassEditorWithArray() {
+		PropertyEditor classEditor = new ClassEditor();
+		classEditor.setAsText("org.springframework.beans.TestBean[]");
+		assertEquals(TestBean[].class, classEditor.getValue());
+		assertEquals("org.springframework.beans.TestBean[]", classEditor.getAsText());
+	}
+
 	public void testFileEditor() {
 		PropertyEditor fileEditor = new FileEditor();
 		fileEditor.setAsText("C:/test/myfile.txt");

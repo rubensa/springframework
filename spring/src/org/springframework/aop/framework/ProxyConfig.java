@@ -62,9 +62,8 @@ public class ProxyConfig {
 	 */
 	private boolean frozen;
 	
-	/** Factory used to create AopProxy's. */
+	/** Factory used to create AopProxy instances */
 	private AopProxyFactory aopProxyFactory = new DefaultAopProxyFactory();
-
 
 	
 	/**

@@ -6,13 +6,15 @@
  */
 package org.springframework.rules.closure;
 
+import java.io.Serializable;
+
 import org.springframework.rules.BinaryClosure;
 import org.springframework.util.Assert;
 
-public abstract class AbstractBinaryClosure implements BinaryClosure {
+public abstract class AbstractBinaryClosure implements BinaryClosure, Serializable {
 
     public Object call(Object argument1) {
-        if (argument1 == null) {
+        if (argument1 == null || argument1 == NULL_VALUE) {
             argument1 = new Object[0];
         }
         Assert.isTrue(argument1.getClass().isArray(),

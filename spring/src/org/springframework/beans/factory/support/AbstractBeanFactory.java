@@ -339,6 +339,15 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 		this.singletonCache.put(beanName, singletonObject);
 	}
 
+	/**
+	 * Remove the bean with the given name from the singleton cache of this factory.
+	 * <p>To be able to clean up eager registration of a singleton if creation failed.
+	 * @param beanName the name of the bean
+	 */
+	protected void removeSingleton(String beanName) {
+		this.singletonCache.remove(beanName);
+	}
+
 	public void destroySingletons() {
 		if (logger.isInfoEnabled()) {
 			logger.info("Destroying singletons in factory {" + this + "}");

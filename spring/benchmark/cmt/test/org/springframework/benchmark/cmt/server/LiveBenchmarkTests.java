@@ -13,13 +13,13 @@ import javax.sql.DataSource;
 import junit.framework.TestCase;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.support.ClasspathBeanDefinitionRegistryLocation;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.jdbc.core.JdbcHelper;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
-
 import org.springframework.benchmark.cmt.data.Item;
 import org.springframework.benchmark.cmt.data.Order;
 import org.springframework.benchmark.cmt.data.User;
+import org.springframework.jdbc.core.JdbcHelper;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 /**
  * 
@@ -63,7 +63,7 @@ public class LiveBenchmarkTests extends TestCase {
 	
 	protected void setUp() {
 		InputStream is = getClass().getResourceAsStream("test.xml");
-		BeanFactory bf = new XmlBeanFactory(is);
+		BeanFactory bf = new XmlBeanFactory(is, new ClasspathBeanDefinitionRegistryLocation("test.xml"));
 		benchmark = (Benchmark) bf.getBean("benchmark");
 	}
 	

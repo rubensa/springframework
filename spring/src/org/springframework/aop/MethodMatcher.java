@@ -86,20 +86,6 @@ public interface MethodMatcher {
 	/**
 	 * Canonical instance that matches all methods.
 	 */
-	MethodMatcher TRUE = new MethodMatcher() {
-
-		public boolean isRuntime() {
-			return false;
-		}
-
-		public boolean matches(Method m, Class targetClass) {
-			return true;
-		}
-
-		public boolean matches(Method m, Class targetClass, Object[] args) {
-			// should never be invoked as isRuntime returns false
-			throw new UnsupportedOperationException();
-		}
-	};
+	MethodMatcher TRUE = TrueMethodMatcher.INSTANCE;
 
 }

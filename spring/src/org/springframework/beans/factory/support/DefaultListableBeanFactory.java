@@ -230,7 +230,7 @@ public class DefaultListableBeanFactory extends AbstractBeanFactory
 	// Implementation of superclass abstract methods
 	//---------------------------------------------------------------------
 
-	protected AbstractBeanDefinition getBeanDefinition(String beanName) throws BeansException {
+	public AbstractBeanDefinition getBeanDefinition(String beanName) throws BeansException {
 		AbstractBeanDefinition bd = (AbstractBeanDefinition) this.beanDefinitionMap.get(beanName);
 		if (bd == null) {
 			throw new NoSuchBeanDefinitionException(beanName, toString());

@@ -1083,7 +1083,7 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory, Co
 	 * @throws NoSuchBeanDefinitionException if the bean definition cannot be resolved
 	 * @throws BeansException in case of errors
 	 */
-	protected abstract AbstractBeanDefinition getBeanDefinition(String beanName) throws BeansException;
+	public abstract AbstractBeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
 	/**
 	 * Return the names of the beans that depend on the given bean.

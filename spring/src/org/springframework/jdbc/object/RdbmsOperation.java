@@ -56,16 +56,15 @@ public abstract class RdbmsOperation implements InitializingBean {
 	private boolean compiled;
 
 	/**
-	 * Add anonymous parameters, specifying only their SQL types as defined in the
-	 * java.sql.Types class.
-	 * <br>Parameter ordering is significant. This method is an alternative
-	 * to the declareParameter() method, which should normally
-	 * be preferred.
+	 * Add anonymous parameters, specifying only their SQL types
+	 * as defined in the java.sql.Types class.
+	 * <p>Parameter ordering is significant. This method is an alternative
+	 * to the declareParameter() method, which should normally be preferred.
 	 * @param types array of SQL types as defined in the
 	 * java.sql.Types class
 	 * @throws InvalidDataAccessApiUsageException if the operation is already compiled
 	 */
-	protected void setTypes(int[] types) throws InvalidDataAccessApiUsageException {
+	public void setTypes(int[] types) throws InvalidDataAccessApiUsageException {
 		if (compiled)
 			throw new InvalidDataAccessApiUsageException("Cannot add parameters once query is compiled");
 		if (types != null) {

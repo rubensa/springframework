@@ -1343,6 +1343,20 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals("Rod", tb.getName());
 	}
 	
+	public void testFactoryMethodNoMatchingStaticMethod() {
+		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
+		reader.setValidating(true);
+		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
+		try{
+			xbf.getBean("noMatchPrototype");
+			fail("No static method matched");
+		}
+		catch (BeanCreationException ex) {
+			// Ok
+		}
+	}
+	
 	public void testCanSpecifyFactoryMethodArgumentsOnFactoryMethodPrototype() {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);

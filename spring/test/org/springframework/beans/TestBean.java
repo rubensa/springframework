@@ -49,6 +49,8 @@ public class TestBean implements BeanFactoryAware, ITestBean, IOther, Comparable
 	/** Holds value of property name. */
 	private String name;
 
+	private String[] aliases;
+
 	private ITestBean spouse;
 
 	private String touchy;
@@ -125,6 +127,14 @@ public class TestBean implements BeanFactoryAware, ITestBean, IOther, Comparable
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String[] getAliases() {
+		return aliases;
+	}
+
+	public void setAliases(String[] aliases) {
+		this.aliases = aliases;
 	}
 
 	public ITestBean getSpouse() {

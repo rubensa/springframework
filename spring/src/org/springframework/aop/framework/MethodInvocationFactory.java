@@ -5,6 +5,7 @@
  
 package org.springframework.aop.framework;
 
+import java.util.List;
 import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -16,12 +17,11 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public interface MethodInvocationFactory {
 	
-	MethodInvocation getMethodInvocation(Advised pc, Object proxy, Method method, Object[] args);
+	MethodInvocation getMethodInvocation(Advised pc, Object proxy,
+								Method method, Class targetClass, Object[] args, 
+								List interceptorsAndDynamicInterceptionAdvice);
 	
-	/**
-	 * Cache state based on ProxyConfig.
-	 * Clear any existing state.
-	 */
-	void refresh(Advised pc);
+	void release(MethodInvocation mi);
+	
 
 }

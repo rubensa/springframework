@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.springframework.integrationtest.ejbtest;
+package org.springframework.autobuilds.ejbtest;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 
 import org.apache.cactus.ServletTestSuite;
+import org.springframework.autobuilds.ejbtest.Constants;
+import org.springframework.autobuilds.ejbtest.simple.ejb.SimpleService;
 import org.springframework.beans.factory.access.BeanFactoryReference;
 import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
-import org.springframework.integrationtest.ejbtest.simple.ejb.SimpleService;
 
 /**
  * Test usage of EJB Proxy with and without a cached home. We actually just reuse the

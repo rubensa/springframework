@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.integrationtest.ejbtest;
+package org.springframework.autobuilds.ejbtest;
 
 /**
  * @author colin sampaleanu

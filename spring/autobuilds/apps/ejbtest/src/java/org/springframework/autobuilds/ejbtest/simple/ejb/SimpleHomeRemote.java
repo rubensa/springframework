@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.integrationtest.ejbtest.simple.ejb;
+package org.springframework.autobuilds.ejbtest.simple.ejb;
 
 import java.rmi.RemoteException;
 

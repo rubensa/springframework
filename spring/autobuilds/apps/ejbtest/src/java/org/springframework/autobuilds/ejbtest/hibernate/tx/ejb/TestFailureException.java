@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.integrationtest.ejbtest.hibernate.tx.ejb;
+package org.springframework.autobuilds.ejbtest.hibernate.tx.ejb;
 
 /**
  * Used as an Ejb Application exception to indicate that a test failed

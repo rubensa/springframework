@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package org.springframework.integrationtest.ejbtest.hibernate.tx.ejb;
+package org.springframework.autobuilds.ejbtest.hibernate.tx.ejb;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 
 import org.apache.cactus.ServletTestSuite;
+import org.springframework.autobuilds.ejbtest.Constants;
+import org.springframework.autobuilds.ejbtest.hibernate.tx.ejb.CmtJtaNoSpringTx;
+import org.springframework.autobuilds.ejbtest.hibernate.tx.ejb.TestFailureException;
 import org.springframework.beans.factory.access.BeanFactoryReference;
 import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
-import org.springframework.integrationtest.ejbtest.Constants;
 
 /**
  * Cactus test for CmtJtaNoSpringTx

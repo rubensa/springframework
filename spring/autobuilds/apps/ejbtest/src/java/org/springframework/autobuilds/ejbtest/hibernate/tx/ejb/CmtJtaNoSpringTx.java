@@ -14,7 +14,7 @@
  * the License.
  */
 
-package org.springframework.integrationtest.ejbtest.hibernate.tx.ejb;
+package org.springframework.autobuilds.ejbtest.hibernate.tx.ejb;
 
 import org.springframework.dao.DataAccessException;
 

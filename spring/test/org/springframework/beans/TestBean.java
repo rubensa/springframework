@@ -158,6 +158,8 @@ public class TestBean implements BeanFactoryAware, ITestBean, IOther, Comparable
 	}
 
 	public boolean equals(Object other) {
+		if (this == other)
+			return true;
 		if (other == null || !(other instanceof TestBean))
 			return false;
 		TestBean tb2 = (TestBean) other;

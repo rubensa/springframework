@@ -34,11 +34,11 @@ public class RandomWaitTest extends AbstractTest implements InitializingBean {
 	
 	protected String bean;
 	
-	private int maxMillis = 0;
+	protected int maxMillis = 0;
 	
-	private int notAdvised = 10;
+	protected int notAdvised = 10;
 	
-	private Service service;
+	protected Service service;
 	
 	public void setBean(String name) {
 		this.bean = name;

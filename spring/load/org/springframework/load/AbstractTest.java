@@ -460,7 +460,7 @@ public abstract class AbstractTest implements Test, BeanNameAware {
 	
 	protected void assertEquals(String s, int a, int b) throws TestFailedException {
 		if (a != b)
-			throw new TestFailedException(s);
+			throw new TestFailedException(s + ": expected " + a + " but found " + b);
 	}
 	
 	protected void assertEquals(String s, long a, long b) throws TestFailedException {

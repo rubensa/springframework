@@ -16,7 +16,7 @@ package org.springframework.web.servlet.handler.metadata;
  * @author Rod Johnson
  * @version $Id$
  * 
- * @org.apache.commons.attributes.Indexed()
+ * @@org.apache.commons.attributes.Indexed()
  */
 public class PathMap {
 	

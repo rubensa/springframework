@@ -5,14 +5,9 @@
 
 package org.springframework.jdbc.object;
 
-import javax.sql.DataSource;
-
 import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
-import org.springframework.jdbc.core.SQLExceptionTranslator;
-import org.springframework.jdbc.core.QueryExecutor;
 import org.springframework.jdbc.core.support.JdbcUtils;
 
 /**
@@ -27,47 +22,12 @@ import org.springframework.jdbc.core.support.JdbcUtils;
  */
 public abstract class SqlOperation extends RdbmsOperation {
 
-	/** Lower-level class used to execute SQL */
-	private final JdbcTemplate jdbcTemplate = new JdbcTemplate();
-
 	/**
 	 * Object enabling us to create PreparedStatementCreators
 	 * efficiently, based on this class's declared parameters.
 	 */
 	private PreparedStatementCreatorFactory preparedStatementFactory;
 
-	public final void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate.setDataSource(dataSource);
-	}
-
-	/**
-	 * Set the exception translator used in this class.
-	 */
-	public final void setExceptionTranslator(SQLExceptionTranslator exceptionTranslator) {
-		this.jdbcTemplate.setExceptionTranslator(exceptionTranslator);
-	}
-
-	/**
-	 * Set a custom QueryExecutor implementation.
-	 */
-	public final void setQueryExecutor(QueryExecutor queryExecutor) {
-		this.jdbcTemplate.setQueryExecutor(queryExecutor);
-	}
-
-	/**
-	 * Set whether or not we want to ignore SQLWarnings.
-	 * Default is true.
-	 */
-	public final void setIgnoreWarnings(boolean ignoreWarnings) {
-		this.jdbcTemplate.setIgnoreWarnings(ignoreWarnings);
-	}
-
-	/**
-	 * Return the JdbcTemplate object used by this object.
-	 */
-	protected final JdbcTemplate getJdbcTemplate() {
-		return jdbcTemplate;
-	}
 
 	/**
 	 * Return a PreparedStatementCreator to perform an operation
@@ -84,12 +44,6 @@ public abstract class SqlOperation extends RdbmsOperation {
 	 * @see RdbmsOperation#compileInternal()
 	 */
 	protected final void compileInternal() {
-		try {
-			this.jdbcTemplate.afterPropertiesSet();
-		}
-		catch (IllegalArgumentException ex) {
-			throw new InvalidDataAccessApiUsageException(ex.getMessage());
-		}
 
 		// Validate parameter count
 		int bindVarCount = 0;

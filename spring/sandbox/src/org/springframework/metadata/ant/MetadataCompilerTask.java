@@ -241,9 +241,11 @@ public class MetadataCompilerTask extends Task {
 		compiler.setClassPath(classpath.toString());
 		//config.put(QDoxMetadataCompiler.CLASSPATH, classpath.toString());
 
-		compiler.setAttributeWriter(new BcelAttributeWriter());
+		throw new UnsupportedOperationException("Fix up an AttributeWriter implementation");
+		//compiler.setAttributeWriter(new BcelAttributeWriter());
+		
 		//compiler.initialize(config);
-		compiler.compile();
+		//compiler.compile();
 
 	}
 

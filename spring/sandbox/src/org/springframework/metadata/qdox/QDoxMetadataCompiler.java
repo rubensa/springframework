@@ -259,7 +259,8 @@ public class QDoxMetadataCompiler extends AbstractMetadataCompiler {
 		}
 		if (getAttributeWriter() == null) {
 			log.info("No AttributeWriter specified, using BcelAttributeWriter");
-			setAttributeWriter(new BcelAttributeWriter());	
+			throw new UnsupportedOperationException("Fix up a concrete attributewriter");
+			//setAttributeWriter(new BcelAttributeWriter());	
 		}
 	}
 

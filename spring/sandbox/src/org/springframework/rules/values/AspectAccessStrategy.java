@@ -13,5 +13,5 @@ package org.springframework.rules.values;
  */
 public interface AspectAccessStrategy {
     public Object getValue(String aspect);
-
+    public Object getDomainObject();
 }

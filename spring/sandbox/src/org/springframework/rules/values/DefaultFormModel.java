@@ -21,6 +21,8 @@ public class DefaultFormModel implements FormModel {
 
     private MutableAspectAccessStrategy domainObjectAccessStrategy;
 
+    private Object domainObject;
+    
     private ValueModel domainObjectHolder;
 
     private ValueModel commitTrigger;

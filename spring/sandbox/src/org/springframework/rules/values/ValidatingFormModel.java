@@ -68,6 +68,10 @@ public class ValidatingFormModel extends DefaultFormModel implements
     public Object getValue(String aspect) {
         return getValueModel(aspect).get();
     }
+    
+    public Object getDomainObject() {
+        return this;
+    }
 
     public boolean hasErrors() {
         return validationErrors.size() > 0;
@@ -129,8 +133,10 @@ public class ValidatingFormModel extends DefaultFormModel implements
                             + "' [satisfied] for value model '"
                             + formValueModel + "']");
         }
-        validationErrors.remove(exp);
-        fireConstraintSatisfied(exp);
+        if (validationErrors.containsKey(exp)) {
+            validationErrors.remove(exp);
+            fireConstraintSatisfied(exp);
+        }
         if (logger.isDebugEnabled()) {
             logger.debug("Number of errors on form is now "
                     + validationErrors.size());
@@ -151,6 +157,8 @@ public class ValidatingFormModel extends DefaultFormModel implements
                     + "' [rejected] for value model '" + formValueModel
                     + "', results='" + results + "']");
         }
+        //@TODO should change publisher should only publish on results changes
+        // this means results needs business identity...
         validationErrors.put(exp, results);
         fireConstraintViolated(exp, results);
         if (logger.isDebugEnabled()) {

@@ -86,7 +86,9 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 		try {
 			// Try special rules for equals() method and implementation of the
 			// Advised AOP configuration interface
-			if (AopProxyUtils.EQUALS_METHOD.equals(method)) {
+			
+			// Short-circuit expensive Method.equals() call, as Object.equals() isn't overloaded
+			if (method.getDeclaringClass() == Object.class && "equals".equals(method.getName())) {
 				// What if equals throws exception!?
 
 				// This class implements the equals() method itself

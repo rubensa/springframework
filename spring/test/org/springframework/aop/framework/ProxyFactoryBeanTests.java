@@ -281,7 +281,7 @@ public class ProxyFactoryBeanTests extends TestCase {
 		/**
 		 * @see org.springframework.aop.framework.DynamicMethodPointcut#couldApply(java.lang.reflect.Method, org.aopalliance.intercept.AttributeRegistry)
 		 */
-		public boolean applies(Method m, AttributeRegistry attributeRegistry) {
+		public boolean applies(Method m, Class clazz, AttributeRegistry attributeRegistry) {
 			return true;
 		}
 

@@ -107,7 +107,7 @@ public class BeanFactoryTransactionTests extends TestCase {
 
 		int counter = 0;
 
-		public boolean applies(Method method, AttributeRegistry attributeRegistry) {
+		public boolean applies(Method method, Class clazz, AttributeRegistry attributeRegistry) {
 			counter++;
 			return true;
 		}

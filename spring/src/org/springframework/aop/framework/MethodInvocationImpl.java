@@ -76,6 +76,7 @@ public class MethodInvocationImpl implements MethodInvocation {
 		this.target = target;
 		this.method = m;
 		this.arguments = arguments;
+		Class targetClass = target != null ? target.getClass() : m.getDeclaringClass();
 		
 		// TODO make more efficient. Could just hold indices in an int array
 		// Could cache static pointcut decisions
@@ -84,13 +85,13 @@ public class MethodInvocationImpl implements MethodInvocation {
 			Object pc = iter.next();
 			if (pc instanceof DynamicMethodPointcut) {
 				DynamicMethodPointcut dpc = (DynamicMethodPointcut) pc;
-				if (dpc.applies(m, attributeRegistry) && dpc.applies(m, arguments, attributeRegistry)) {
+				if (dpc.applies(m, targetClass, attributeRegistry) && dpc.applies(m, arguments, attributeRegistry)) {
 					this.interceptors.add(dpc.getInterceptor());
 				}
 			}
 			else if (pc instanceof StaticMethodPointcut) {
 				StaticMethodPointcut spc = (StaticMethodPointcut) pc;
-				if (spc.applies(m, attributeRegistry)) {
+				if (spc.applies(m, targetClass, attributeRegistry)) {
 					this.interceptors.add(spc.getInterceptor());
 				}
 			}

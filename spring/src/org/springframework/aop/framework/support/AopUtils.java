@@ -77,14 +77,15 @@ public class AopUtils {
 	 * out a pointcut for a class
 	 * @param pc pc static or dynamic pointcut
 	 * @param ar AttributeRegistry
-	 * @param clazz class we're testing
+	 * @param targetClass class we're testing
 	 * @param proxyInterfaces proxy interfaces. If null, all methods
 	 * on class may be proxied
 	 * @return whether the pointcut can apply on any method
 	 */
-	public static boolean canApply(StaticMethodPointcut pc, AttributeRegistry ar, Class clazz, Class[] proxyInterfaces) {
+	public static boolean canApply(StaticMethodPointcut pc, AttributeRegistry ar, Class targetClass, Class[] proxyInterfaces) {
 		// Check whether it can apply on any method
-		Method[] methods = clazz.getDeclaredMethods();
+		// Checks public methods, including inherited methods
+		Method[] methods = targetClass.getMethods();
 		for (int i = 0; i < methods.length; i++) {
 			Method m = methods[i];
 			// If we're looking only at interfaces and this method
@@ -92,7 +93,7 @@ public class AopUtils {
 			if (proxyInterfaces != null && !methodIsOnOneOfTheseInterfaces(m, proxyInterfaces)) {
 				continue;
 			}
-			if (pc.applies(m, ar))
+			if (pc.applies(m, targetClass, ar))
 				return true;
 		}
 		return false;

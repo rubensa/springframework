@@ -25,7 +25,7 @@ public class ThreadLocalMethodInvocationFactory extends SimpleMethodInvocationFa
 	public ThreadLocalMethodInvocationFactory() {
 	}
 	
-	public MethodInvocation getMethodInvocation(Advised advised, Object proxy, Method method, Class targetClass, Object[] args, List interceptorsAndDynamicInterceptionAdvice) {
+	public MethodInvocation getMethodInvocation(AdvisedSupport advised, Object proxy, Method method, Class targetClass, Object[] args, List interceptorsAndDynamicInterceptionAdvice) {
 		
 		MethodInvocationImpl mii = (MethodInvocationImpl) instance.get();
 		// Need to use OLD to replace so as not to zap existing

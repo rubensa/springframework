@@ -123,7 +123,9 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 		// Create transaction if necessary
 		if (transAtt != null) {
 			// We need a transaction for this method
-			logger.debug("Getting transaction for method '" + invocation.getMethod().getName() + "'");
+			if (logger.isDebugEnabled()) {
+				logger.debug("Getting transaction for method '" + invocation.getMethod().getName() + "'");
+			}
 			
 			// The transaction manager will flag an error if an incompatible tx already exists
 			status = this.transactionManager.getTransaction(transAtt);
@@ -157,7 +159,9 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 			}
 		}
 		if (status != null) {
-			logger.debug("Invoking commit for transaction on method '" + invocation.getMethod().getName() + "'");
+			if (status.isDebugEnabled()) {
+				logger.debug("Invoking commit for transaction on method '" + invocation.getMethod().getName() + "'");
+			}
 			this.transactionManager.commit(status);
 		}
 		return retVal;

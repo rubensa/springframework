@@ -597,7 +597,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 	 * @param param the corresponding stored procedure parameter
 	 * @return Map that contains returned results
 	 */
-	protected Map processResultSet(ResultSet rs, ResultSetAwareSqlParameter param) throws SQLException {
+	protected Map processResultSet(ResultSet rs, ResultSetSupportingSqlParameter param) throws SQLException {
 		Map returnedResults = new HashMap();
 		try {
 			ResultSet rsToUse = rs;

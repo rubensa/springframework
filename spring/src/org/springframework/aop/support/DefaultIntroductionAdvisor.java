@@ -17,6 +17,7 @@
 package org.springframework.aop.support;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.aopalliance.aop.Advice;
@@ -50,13 +51,13 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 	}
 	
 	/**
-	 * Wrap this interceptor and introduce all interfaces.
+	 * Wrap the given interceptor and introduce all interfaces.
 	 */
 	public DefaultIntroductionAdvisor(DelegatingIntroductionInterceptor dii) {
 		this((IntroductionInterceptor) dii);
-		for (int i = 0; i < dii.getIntroducedInterfaces().length; i++) {
-			Class intf = dii.getIntroducedInterfaces()[i];
-			addInterface(intf);
+		Class[] introducedInterfaces = dii.getIntroducedInterfaces();
+		for (int i = 0; i < introducedInterfaces.length; i++) {
+			addInterface(introducedInterfaces[i]);
 		}
 	}
 	
@@ -96,16 +97,17 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 	}
 	
 	public void validateInterfaces() throws IllegalArgumentException {
-		 for (int i = 0; i < getInterfaces().length; i++) {
-			 if (!getInterfaces()[i].isInterface()) {
-				 throw new IllegalArgumentException("Class '" + getInterfaces()[i].getName() +
-				                                    "' is not an interface; cannot be used in an introduction");
-			 }
-			  if (!interceptor.implementsInterface(getInterfaces()[i])) {
-				 throw new IllegalArgumentException("IntroductionInterceptor [" + interceptor + "] " +
-						 "does not implement interface '" + getInterfaces()[i].getName() + "' specified in introduction advice");
-			  }
-		  }
+		for (Iterator ut = this.interfaces.iterator(); ut.hasNext();) {
+			Class intf = (Class) ut.next();
+			if (!intf.isInterface()) {
+			 throw new IllegalArgumentException("Class '" + intf.getName() +
+																					"' is not an interface; cannot be used in an introduction");
+			}
+			if (!this.interceptor.implementsInterface(intf)) {
+			 throw new IllegalArgumentException("IntroductionInterceptor [" + this.interceptor + "] " +
+					 "does not implement interface '" + intf.getName() + "' specified in introduction advice");
+			}
+		}
 	}
 
 }

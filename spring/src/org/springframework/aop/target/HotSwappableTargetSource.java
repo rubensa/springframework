@@ -99,5 +99,10 @@ public class HotSwappableTargetSource implements TargetSource, Serializable {
 		HotSwappableTargetSource otherTargetSource = (HotSwappableTargetSource) other;
 		return otherTargetSource.target == this.target || otherTargetSource.target.equals(this.target);
 	}
+	
+	public String toString() {
+		return "Swappable TargetSource (" + getClass().getName() + "): " +
+		 	((target != null) ? "targetClass=" + target.getClass() : "UNITIALIZED");
+	}
 
 }

@@ -35,7 +35,7 @@
 	<path id="attribute-compiler-classpath">
 
 		<fileset dir="lib/jakarta-commons">
-			<include name="commons-attributes-compiler-SNAPSHOT.jar"/>
+			<include name="commons-attributes-compiler-*.jar"/>
 			<include name="commons-collections.jar"/>
 		</fileset>
 		<fileset dir="lib/xdoclet">

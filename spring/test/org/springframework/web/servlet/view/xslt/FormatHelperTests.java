@@ -71,7 +71,7 @@ public class FormatHelperTests extends TestCase {
 		el = (Element) e.getElementsByTagName("day-of-month").item(0);
 		assertTrue( "24".equals(el.getFirstChild().getNodeValue() ));
 		el = (Element) e.getElementsByTagName("hours").item(0);
-		assertTrue( "1".equals(el.getFirstChild().getNodeValue() ));
+		assertEquals( "12", el.getFirstChild().getNodeValue() );
 		el = (Element) e.getElementsByTagName("minutes").item(0);
 		assertTrue( "26".equals(el.getFirstChild().getNodeValue() ));
 		el = (Element) e.getElementsByTagName("am-pm").item(0);

@@ -35,8 +35,4 @@ public class SignonInterceptor extends HandlerInterceptorAdapter {
 		}
 	}
 
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-	}
-
 }

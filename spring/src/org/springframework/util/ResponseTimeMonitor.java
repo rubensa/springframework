@@ -21,23 +21,23 @@ package org.springframework.util;
  */
 public interface ResponseTimeMonitor {
 
-	/** Return the number of accesses to this resource.
-	 * @return the number of accesses to this resource
+	/**
+	 * Return the number of accesses to this resource.
 	 */
 	int getAccessCount();
 
-	/** Return the average response time in milliseconds.
-	 * @return the average response time in milliseconds
+	/**
+	 * Return the average response time in milliseconds.
 	 */
 	int getAverageResponseTimeMillis();
 
-	/** Return the best (quickest) response time in milliseconds.
-	 * @return the best (quickest) response time in milliseconds
+	/**
+	 * Return the best (quickest) response time in milliseconds.
 	 */
 	int getBestResponseTimeMillis();
 
-	/** Return the worst (slowest) response time in milliseconds.
-	 * @return the worst (slowest) response time in milliseconds
+	/**
+	 * Return the worst (slowest) response time in milliseconds.
 	 */
 	int getWorstResponseTimeMillis();
 

@@ -21,13 +21,13 @@ import java.sql.SQLException;
  *
  * @author Rod Johnson
  * @version $Id$
+ * @see JdbcTemplate#update(PreparedStatementCreator)
  */
 public interface PreparedStatementCreator {
 
 	/** 
 	 * Create a statement in this connection. Allows implementations to use
-	 * PreparedStatements. Only invoked if no SQL is passed into the
-	 * ResultSetHandler. The ResultSetHandler will close this statement.
+	 * PreparedStatements. The JdbcTemplate will close the created statement.
 	 * @param con Connection to use to create statement
 	 * @return a prepared statement
 	 * @throws SQLException there is no need to catch SQLExceptions

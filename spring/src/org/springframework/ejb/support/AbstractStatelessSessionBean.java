@@ -42,10 +42,9 @@ public abstract class AbstractStatelessSessionBean extends AbstractSessionBean {
 	 * <p>Don't override it (although it can't be made final): code initialization
 	 * in onEjbCreate(), which is called when the BeanFactory is available.
 	 * <p>Unfortunately we can't load the BeanFactory in setSessionContext(),
-	 * as ResourceManager access isn't permitted and the BeanFactory may require it.
+	 * as resource manager access isn't permitted and the BeanFactory may require it.
 	 */
 	public void ejbCreate() throws CreateException {
-
 		try {
 			loadBeanFactory();
 		}

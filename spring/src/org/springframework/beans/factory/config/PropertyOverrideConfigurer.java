@@ -16,8 +16,11 @@
 
 package org.springframework.beans.factory.config;
 
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
@@ -54,6 +57,9 @@ import org.springframework.beans.FatalBeanException;
  */
 public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 
+	/** Contains names of beans that have overrides */
+	private Set beanNames = Collections.synchronizedSet(new HashSet());
+	
 	protected void processProperties(ConfigurableListableBeanFactory beanFactory, Properties props)
 			throws BeansException {
 		for (Enumeration enum = props.propertyNames(); enum.hasMoreElements();) {
@@ -73,9 +79,25 @@ public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 		}
 		String beanName = key.substring(0, dotIndex);
 		String beanProperty = key.substring(dotIndex+1);
-		BeanDefinition bd = factory.getBeanDefinition(beanName);
-		bd.getPropertyValues().addPropertyValue(beanProperty, value);
+		beanNames.add(beanName);
+		applyPropertyValue(factory, beanName, beanProperty, value);
 		logger.debug("Property '" + key + "' set to [" + value + "]");
+	}
+	
+	protected void applyPropertyValue(ConfigurableListableBeanFactory factory, String beanName, String property, String value) {
+		BeanDefinition bd = factory.getBeanDefinition(beanName);
+		bd.getPropertyValues().addPropertyValue(property, value);
+	}
+	
+	/**
+	 * Were there overrides for this bean?
+	 * Only valid after processing has occurred at least once
+	 * @param beanName name of the bean to query status for
+	 * @return whether there were property overrides for
+	 * the named bean
+	 */
+	public boolean hasPropertyOverridesFor(String beanName) {
+		return beanNames.contains(beanName);
 	}
 
 }

@@ -179,7 +179,7 @@ public class JdbcUtils {
 						break;
 					case Types.BLOB:
 						if (inValue instanceof SqlLobValue) {
-							lh = declaredParameter.getLobHandler();
+							lh = ((SqlLobValue) inValue).getLobHandler();
 							if (lh == null)
 								lh = new DefaultLobHandler();
 							LobCreator lc = ((SqlLobValue) inValue).newLobCreator(lh);
@@ -198,7 +198,7 @@ public class JdbcUtils {
 						break;
 					case Types.CLOB:
 						if (inValue instanceof SqlLobValue) {
-							lh = declaredParameter.getLobHandler();
+							lh = ((SqlLobValue) inValue).getLobHandler();
 							if (lh == null)
 								lh = new DefaultLobHandler();
 							LobCreator lc = ((SqlLobValue) inValue).newLobCreator(lh);

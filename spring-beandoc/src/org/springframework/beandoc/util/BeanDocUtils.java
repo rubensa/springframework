@@ -19,7 +19,10 @@ package org.springframework.beandoc.util;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.StringUtils;
 
 
@@ -32,6 +35,8 @@ import org.springframework.util.StringUtils;
  * @since 1.0
  */
 public class BeanDocUtils {
+    
+    private static final Log logger = LogFactory.getLog(BeanDocUtils.class);
     
     private BeanDocUtils() {
         // no instances required
@@ -53,8 +58,15 @@ public class BeanDocUtils {
                 Pattern compiledPattern = Pattern.compile(enteredPattern);
                 tmp.add(compiledPattern);
                 
+            } catch (ClassCastException cce) {
+                logger.warn("Ignoring non String object in Collection [" + cce.getMessage() + "]");
+                
+            } catch (PatternSyntaxException pse) {
+                logger.warn("Ignoring invalid RegEx pattern in String [" + pse.getPattern() + 
+                    "]; problem description [" + pse.getMessage() + "]");
+                
             } catch (Exception e) {
-                // ignore it
+                logger.warn("Unable to handle Pattern from String; [" + e.getMessage() + "]");
             }
             
         return
@@ -106,7 +118,7 @@ public class BeanDocUtils {
                             entry.getValue());
                 }
             } catch (Exception e) {
-                // ignore
+                logger.warn("Unable to filter Map.Entry; [" + e.getMessage() + "]");
             }
         }
         

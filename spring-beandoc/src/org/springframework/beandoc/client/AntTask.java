@@ -45,6 +45,8 @@ public class AntTask extends Task {
     
     private String inputFiles;
     
+    private String title;
+    
     private String beandocContext;
 
     /**
@@ -60,6 +62,7 @@ public class AntTask extends Task {
                     new SpringLoaderCommand(
                         inputFiles, 
                         (outputDir != null ) ? outputDir.getAbsolutePath() : null, 
+                        title,
                         (beandocProps != null ) ? beandocProps.getAbsolutePath() : null,
                         (beandocPropsPrefix != null ) ? beandocPropsPrefix : null,                        
                         beandocContext
@@ -95,7 +98,17 @@ public class AntTask extends Task {
     public void setOutputDir(File outputDir) {
         this.outputDir = outputDir;
     }
-
+    
+    /**
+     * Define a title to be used in the output documentation (principally the HTML)
+     * 
+     * @param title the title you wish to see in HTML &lt;title&gt; tags and 
+     *      headers.
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
     /**
      * Specify the location of the required properties file used to configure the beandoc
      * tool.  The task will fail if this isn't set to the location of a valid properties

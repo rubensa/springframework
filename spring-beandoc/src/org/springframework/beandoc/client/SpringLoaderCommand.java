@@ -35,6 +35,8 @@ class SpringLoaderCommand {
     
     private String outputDir;
     
+    private String title;
+    
     private String beandocPropsLocation;
     
     private String beandocPropsPrefix;
@@ -56,12 +58,14 @@ class SpringLoaderCommand {
     public SpringLoaderCommand(
         String inputFiles, 
         String outputDir, 
+        String title,
         String beandocPropsLocation, 
         String beandocPropsPrefix, 
         String beandocContextLocation) 
     {        
         this.inputFiles = inputFiles;
         this.outputDir = outputDir;
+        this.title = title;
         this.beandocPropsLocation = beandocPropsLocation;
         this.beandocPropsPrefix = beandocPropsPrefix;
         this.beandocContextLocation = beandocContextLocation;
@@ -75,8 +79,8 @@ class SpringLoaderCommand {
      *      using a "springbeandoc." prefix (ie <code>springbeandoc.input.files=...</code> in 
      *      place of <code>input.files=...</code>)
      */
-    public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation) {
-        this(inputFiles, outputDir, beandocPropsLocation, null, null);
+    public SpringLoaderCommand(String inputFiles, String outputDir, String title, String beandocPropsLocation) {
+        this(inputFiles, outputDir, title, beandocPropsLocation, null, null);
     }
 
     /**
@@ -114,6 +118,13 @@ class SpringLoaderCommand {
     public String getOutputDir() {
         return outputDir;
     }
+
+    /**
+     * @return the title used in the documentation
+     */
+    public String getTitle() {
+        return title;
+    }
     
     /**
      * @see java.lang.Object#toString()
@@ -121,6 +132,7 @@ class SpringLoaderCommand {
     public String toString() {
         return new StringBuffer("inputFiles: ").append(inputFiles)
         .append("; outputDir: ").append(outputDir)
+        .append("; title: ").append(title)
         .append("; beandocPropsLocation: ").append(beandocPropsLocation)
         .append("; beandocPropsPrefix: ").append(beandocPropsPrefix)
         .append("; beandocContextLocation: ").append(beandocContextLocation)

@@ -41,6 +41,8 @@ class SpringLoader {
     
     private static final String PROP_OUTPUT_DIR = "output.dir";
     
+    private static final String PROP_TITLE = "html.title";
+    
     private static final String DEFAULT_BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
     
     private static final String SYSTEM_PROPS_PREFIX = "springbeandoc.";
@@ -74,7 +76,9 @@ class SpringLoader {
             beandocProps.put(PROP_INPUT_FILES, command.getInputFiles());
         if (command.getOutputDir() != null)
             beandocProps.put(PROP_OUTPUT_DIR, command.getOutputDir());
-        
+        if (command.getTitle() != null)
+            beandocProps.put(PROP_TITLE, command.getTitle());
+            
         String beandocXml = (command.getBeandocContextLocation() == null) ? 
             DEFAULT_BEANDOC_XML : command.getBeandocContextLocation();
 	    ClassPathResource res = new ClassPathResource(beandocXml);

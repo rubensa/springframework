@@ -56,6 +56,8 @@ public class BeanDocClient {
     
     private static final int INPUT_FILE = 5;
     
+    private static final int TITLE = 6;
+    
 
     /**
 	 * Default boot strapper for the beandoc client.  Command line parameter should be
@@ -101,6 +103,7 @@ public class BeanDocClient {
 		String props = null;
         String prefix = null;
         String context = null;
+        String title = null;
     
         int state = OPTION;
         
@@ -123,6 +126,8 @@ public class BeanDocClient {
                         state = PREFIX;
                     } else if ("--context".equals(arg)) {
                         state = CONTEXT;
+                    } else if ("--title".equals(arg)) {
+                        state = TITLE;
                     } else if ("--".equals(arg)) {
                         state = INPUT_FILE;
                     } else {
@@ -145,6 +150,10 @@ public class BeanDocClient {
                     context = arg;
                     state = OPTION;
                     break;
+                case TITLE:
+                    title = arg;
+                    state = OPTION;
+                    break;
                 }
             }
         }
@@ -163,7 +172,7 @@ public class BeanDocClient {
         
 		try {
             BeanFactory factory = 
-                SpringLoader.getBeanFactory(new SpringLoaderCommand(inputs, output, props, prefix, context));
+                SpringLoader.getBeanFactory(new SpringLoaderCommand(inputs, output, title, props, prefix, context));
             ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
             cp.process();
                     
@@ -182,6 +191,7 @@ public class BeanDocClient {
             .append(" [--output output directory]")
             .append(" [--properties beandoc.properties]")
             .append(" [--context beandoc context]")
+            .append(" [--title documentation title to use]")
             .append(" [--prefix properties prefix]")
             .append(" [--] [input file...]")
             .append("\n\n")

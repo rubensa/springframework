@@ -17,7 +17,7 @@ import com.jamonapi.MonitorFactory;
  * This code is inspired by Thierry Templier's blog
  * 
  * @author Dmitriy Kopylenko
- * @version $Id$
+ * @since 1.1.3
  */
 public class JamonPerformanceMonitorInterceptor implements MethodInterceptor, Serializable {
 

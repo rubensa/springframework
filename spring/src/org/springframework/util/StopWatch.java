@@ -153,7 +153,7 @@ public class StopWatch {
 	 * Returns the total time in seconds for all tasks.
 	 */
 	public double getTotalTimeSecs() {
-		return ((double) runningTime) / 1000.0;
+		return runningTime / 1000.0;
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class StopWatch {
 		 * Return the time in seconds this task took.
 		 */
 		public double getTimeSecs() {
-			return ((double) time) / 1000.0;
+			return time / 1000.0;
 		}
 	}
 

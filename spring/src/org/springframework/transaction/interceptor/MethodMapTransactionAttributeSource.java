@@ -100,7 +100,7 @@ public class MethodMapTransactionAttributeSource extends AbstractTransactionAttr
 		Method[] methods = clazz.getDeclaredMethods();
 		List matchingMethods = new ArrayList();
 		for (int i = 0; i < methods.length; i++) {
-			if (isMatch(methods[i].getName(), mappedName)) {
+			if (methods[i].getName().equals(mappedName) || isMatch(methods[i].getName(), mappedName)) {
 				matchingMethods.add(methods[i]);
 			}
 		}

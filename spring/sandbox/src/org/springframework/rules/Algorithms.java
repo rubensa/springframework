@@ -71,10 +71,10 @@ public class Algorithms {
     public Generator select(final Generator generator,
             final UnaryPredicate predicate) {
         return new Generator() {
-            public void run(UnaryProcedure procedure) {
+            public void forEachRun(UnaryProcedure procedure) {
                 UnaryProcedure constrainedProcedure = functions.constrain(
                         procedure, predicate);
-                generator.run(constrainedProcedure);
+                generator.forEachRun(constrainedProcedure);
             }
         };
     }

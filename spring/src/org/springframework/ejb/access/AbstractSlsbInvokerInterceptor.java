@@ -6,6 +6,7 @@
 package org.springframework.ejb.access;
 
 import org.aopalliance.intercept.MethodInterceptor;
+
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.InitializingBean;
@@ -26,7 +27,6 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 	
 	private BeanWrapper homeBeanWrapper;
 
-
 	/**
 	 * We can get actual home from the BeanWrapper, if we ever need it
 	 * @return a BeanWrapper for the EJB home interface. This
@@ -35,15 +35,14 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 	protected BeanWrapper getHomeBeanWrapper() {
 		return this.homeBeanWrapper;
 	}
-
 	
  	/**
  	 * Implementation of AbstractJndiLocator's callback, to cache the home wrapper.
 	 * Triggers afterLocated after execution.
 	 * @see #afterLocated
 	 */
-	protected void located(Object o) {
-		this.homeBeanWrapper = new BeanWrapperImpl(o);
+	protected void located(Object jndiObject) {
+		this.homeBeanWrapper = new BeanWrapperImpl(jndiObject);
 		afterLocated();
 	}
 

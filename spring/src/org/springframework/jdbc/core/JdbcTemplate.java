@@ -497,6 +497,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		Integer result = (Integer) execute(psc, new PreparedStatementCallback() {
 			public Object doInPreparedStatement(PreparedStatement ps) throws SQLException {
 				int rows = ps.executeUpdate();
+				generatedKeys.clear();
 				ResultSet keys = ps.getGeneratedKeys();
 				if (keys != null) {
 					ListResultSetExtractor lrse = new ListResultSetExtractor();

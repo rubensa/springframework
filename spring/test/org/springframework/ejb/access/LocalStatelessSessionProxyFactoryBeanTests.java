@@ -24,9 +24,9 @@ import javax.ejb.EJBLocalObject;
 import javax.naming.NamingException;
 
 import junit.framework.TestCase;
+import org.aopalliance.intercept.AspectException;
 import org.easymock.MockControl;
 
-import org.springframework.beans.MethodInvocationException;
 import org.springframework.jndi.JndiTemplate;
 
 /**
@@ -121,8 +121,8 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 			mbm.getValue();
 			fail("Should have failed to create EJB");
 		}
-		catch (MethodInvocationException ex) {
-			assertTrue(ex.getCause() == cex);
+		catch (AspectException ex) {
+			assertTrue(ex.getRootCause() == cex);
 		}
 		
 		mc.verify();	

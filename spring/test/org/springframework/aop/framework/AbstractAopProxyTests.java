@@ -553,7 +553,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 	public void testMixin() throws Throwable {
 		TestBean tb = new TestBean();
 		ProxyFactory pc = new ProxyFactory(new Class[] { Lockable.class, ITestBean.class });
-		pc.addAdvisor(new SimpleIntroductionAdvisor(new LockMixin(), Lockable.class));
+		pc.addAdvisor(new LockMixinAdvisor());
 		pc.setTarget(tb);
 		
 		int newAge = 65;

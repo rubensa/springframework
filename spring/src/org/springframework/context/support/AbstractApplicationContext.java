@@ -101,6 +101,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 */
 	public static final String APPLICATION_EVENT_MULTICASTER_BEAN_NAME = "applicationEventMulticaster";
 
+	static {
+		// Eagerly load the ContextClosedEvent class to avoid weird classloader issues
+		// on application shutdown in WebLogic 8.1. (Reported by Dustin Woods.)
+		ContextClosedEvent.class.getName();
+	}
+
 
 	//---------------------------------------------------------------------
 	// Instance data

@@ -30,6 +30,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.util.SimplePool;
+
 import org.springframework.beans.factory.support.BeanFactoryUtils;
 import org.springframework.context.ApplicationContextException;
 import org.springframework.util.StringUtils;
@@ -116,7 +117,9 @@ public class VelocityView extends AbstractView {
 			this.velocityEngine = vconfig.getVelocityEngine();
 		}
 		else {
-			throw new ApplicationContextException("Must define a VelocityConfiguration bean in this web application context (may be inherited):" +				"VelocityConfigurer is the usual implementation. " +				"This bean may be given any name.");
+			throw new ApplicationContextException("Must define a VelocityConfiguration bean in this web application context (may be inherited):" +
+				"VelocityConfigurer is the usual implementation. " +
+				"This bean may be given any name.");
 		}
 		 
 		// TODO remove this dependence on RuntimeSingleton
@@ -291,7 +294,6 @@ public class VelocityView extends AbstractView {
 	 * Velocity can't cope with .s in a variable name, so we change them to
 	 * _s. 
 	 * @param modelname
-	 * @return
 	 */
 	protected String transformModelNameIfNecessary(String modelname) {
 		modelname = StringUtils.replace(modelname, ".", "_");

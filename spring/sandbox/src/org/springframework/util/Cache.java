@@ -57,7 +57,6 @@ public abstract class Cache {
      *            Use weak references for keys.
      * @param size
      *            The initial cache size.
-     *  
      */
     public Cache(boolean weakKeys, int size) {
         this.map = weakKeys ? (Map)new WeakHashMap(size) : new HashMap(size);

@@ -497,16 +497,6 @@ public class JdoTemplateTests extends TestCase {
 
 	public void testTemplateExceptions() {
 		try {
-			JdoTemplate template = createTemplate();
-			template.setFlushEager(true);
-			template.afterPropertiesSet();
-			fail("Should have thrown IllegalArgumentException");
-		}
-		catch (IllegalArgumentException ex) {
-			// expected
-		}
-
-		try {
 			createTemplate().execute(new JdoCallback() {
 				public Object doInJdo(PersistenceManager pm) {
 					throw new JDOObjectNotFoundException();

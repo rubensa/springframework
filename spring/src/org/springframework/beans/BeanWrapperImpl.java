@@ -75,24 +75,9 @@ public class BeanWrapperImpl implements BeanWrapper {
 	private static final Map defaultEditors = new HashMap();
 
 	static {
-		// install default property editors
-		try {
-			// this one can't apply the <ClassName>Editor naming pattern
-			PropertyEditorManager.registerEditor(String[].class, StringArrayPropertyEditor.class);
-			// register all editors in our standard package
-			PropertyEditorManager.setEditorSearchPath(new String[]{
-				"sun.beans.editors",
-				"org.springframework.beans.propertyeditors"
-			});
-		}
-		catch (SecurityException ex) {
-			// e.g. in applets -> log and proceed
-			logger.warn("Cannot register property editors with PropertyEditorManager", ex);
-		}
-
-		// register default editors in this class, for restricted environments
-		// where the above threw a SecurityException, and for JDKs that don't
-		// use the thread context class loader for property editor lookup
+		// Register default editors in this class, for restricted environments.
+		// We're not using the JRE's PropertyEditorManager to avoid potential
+		// SecurityExceptions when running in a SecurityManager.
 		defaultEditors.put(Class.class, new ClassEditor());
 		defaultEditors.put(File.class, new FileEditor());
 		defaultEditors.put(Locale.class, new LocaleEditor());

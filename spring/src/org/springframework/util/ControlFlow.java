@@ -15,13 +15,12 @@ package org.springframework.util;
 public interface ControlFlow {
 	
 	boolean under(Class clazz);
+
 	/**
-	 * Matches whole method name
-	 * @param clazz
-	 * @param methodName
-	 * @return
+	 * Matches whole method name.
 	 */
 	boolean under(Class clazz, String methodName);
 	
 	boolean underToken(String token);
+
 }

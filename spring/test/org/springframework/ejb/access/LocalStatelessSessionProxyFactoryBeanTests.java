@@ -110,7 +110,7 @@ public class LocalStatelessSessionProxyFactoryBeanTests extends TestCase {
 			fail("Should have failed to create EJB");
 		}
 		catch (MethodInvocationException ex) {
-			assertTrue(ex.getRootCause() == cex);
+			assertTrue(ex.getCause() == cex);
 		}
 		
 		mc.verify();	

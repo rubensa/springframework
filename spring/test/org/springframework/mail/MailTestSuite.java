@@ -245,7 +245,7 @@ public class MailTestSuite extends TestCase {
 		}
 		catch (MailParseException ex) {
 			// expected
-			assertTrue(ex.getRootCause() instanceof AddressException);
+			assertTrue(ex.getCause() instanceof AddressException);
 		}
 	}
 
@@ -261,7 +261,7 @@ public class MailTestSuite extends TestCase {
 		}
 		catch (MailParseException ex) {
 			// expected
-			assertTrue(ex.getRootCause() instanceof AddressException);
+			assertTrue(ex.getCause() instanceof AddressException);
 		}
 	}
 

@@ -71,7 +71,7 @@ public class DriverManagerDataSourceTests extends TestCase {
 		} catch (CannotGetJdbcConnectionException ex) {
 			// Check the message helpfully included the classname
 			assertTrue(ex.getMessage().indexOf(bogusClassname) != -1);
-			assertTrue(ex.getRootCause() instanceof ClassNotFoundException);
+			assertTrue(ex.getCause() instanceof ClassNotFoundException);
 		}
 	}
 

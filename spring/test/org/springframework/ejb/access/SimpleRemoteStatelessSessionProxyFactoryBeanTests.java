@@ -191,7 +191,7 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 			fail("Should have failed to create EJB");
 		}
 		catch (RemoteAccessException ex) {
-			assertTrue(ex.getRootCause() == cex);
+			assertTrue(ex.getCause() == cex);
 		}
 
 		mc.verify();

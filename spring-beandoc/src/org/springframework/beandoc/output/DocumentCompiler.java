@@ -18,6 +18,8 @@ package org.springframework.beandoc.output;
 
 import java.io.File;
 
+import org.jdom.Document;
+
 
 /**
  * DocumentCompiler implementations do the work of plugging the various output documents
@@ -32,5 +34,5 @@ public interface DocumentCompiler {
     /**
      * Perform any required documentation compilation steps.
      */
-    public void compile(File outputDir);
+    public void compile(Document[] contextDocuments, File outputDir);
 }

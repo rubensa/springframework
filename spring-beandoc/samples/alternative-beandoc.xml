@@ -13,76 +13,87 @@
     </description>
     
     <bean id="processor" class="org.springframework.beandoc.DefaultContextProcessor">
-        <description>
-            main processor for generating output
-        </description>
-        <constructor-arg index="0"><value>${input.files}</value></constructor-arg>
-        <constructor-arg index="1"><value>${output.dir}</value></constructor-arg>
-        <property name="decorators">
-            <list>
-                <ref local="javaDocDecorator"/>
-                <ref local="htmlDecorator"/> 
-                <ref local="graphVizDecorator"/>
+    	<description>
+    		main processor for generating output
+    	</description>
+    	<constructor-arg index="0"><value>${input.files}</value></constructor-arg>
+     	<constructor-arg index="1"><value>${output.dir}</value></constructor-arg>
+    	<property name="decorators">
+    		<list>
+    			<ref local="javaDocDecorator"/>
+				<ref local="graphVizDecorator"/>
+    			<ref local="htmlDecorator"/> 
                 <ref local="csvDecorator"/> 
-            </list>
-        </property>
-        <property name="transformers">
-            <list>
-                <ref local="htmlIndexTransformer"/>
-                <ref local="htmlNavigationTransformer"/>
-                <ref local="htmlMainTransformer"/> 
-                <ref local="htmlDocTransformer"/>   
-                <ref local="htmlImageMapTransformer"/>    
-                <ref local="dotFileTransformer"/>   
+    		</list>
+    	</property>
+    	<property name="transformers">
+    		<list>
+    			<ref local="htmlIndexTransformer"/>
+				<ref local="htmlNavigationTransformer"/>
+    			<ref local="htmlMainTransformer"/> 
+			    <ref local="htmlDocTransformer"/>    
+			    <ref local="htmlImageMapMainTransformer"/>
+			    <ref local="htmlImageMapTransformer"/>    
+    			<ref local="dotFileTransformer"/>  
                 <ref local="csvTransformer"/>
-            </list>
-        </property>     	    	
+    		</list>
+    	</property>    	    	
     	<property name="compilers">
     		<list>
-				<ref local="htmlCompiler"/>
-				<ref local="graphVizCompiler"/>
+				<ref local="htmlGraphVizCompiler"/>
     		</list>
-    	</property>     
+    	</property>    	
     </bean>   
     
-    <bean id="csvDecorator" class="org.springframework.beandoc.output.CsvDecorator"/>               
+	<bean id="csvDecorator" class="org.springframework.beandoc.output.CsvDecorator"/>               
     
-    <bean id="javaDocDecorator" class="org.springframework.beandoc.output.JavaDocDecorator"/>               
-                
-    <bean id="graphVizDecorator" class="org.springframework.beandoc.output.GraphVizDecorator"/>             
-                
-    <bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
+    <bean id="csvTransformer" class="org.springframework.beandoc.output.CsvTransformer"/>
+	
+	<bean id="javaDocDecorator" class="org.springframework.beandoc.output.JavaDocDecorator"/>			    
+			    
+	<bean id="graphVizDecorator" class="org.springframework.beandoc.output.GraphVizDecorator"/>			    
+			    
+	<bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
     
     <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
-        <description>
-            A consolidated transformer that creates the frameset document and whose stylesheet applies
-            the user-configured documentation title
-        </description>
-        <property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/index.xsl</value></property>
-        <property name="outputFileName"><value>index.html</value></property>
+	    <description>
+	    	A consolidated transformer that creates the frameset document and whose stylesheet applies
+	    	the user-configured documentation title
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/index.xsl</value></property>
+    	<property name="outputFileName"><value>index.html</value></property>
     </bean>
     
     <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
-        <property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/nav.xsl</value></property>
-        <property name="outputFileName"><value>nav.html</value></property>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/nav.xsl</value></property>
+    	<property name="outputFileName"><value>nav.html</value></property>
     </bean>
     
     <bean id="htmlMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
-        <description>
-            Another consolidated transformer generating the main summary page.  Passes an XSL parameter to the
-            stylesheet consisting of the current system time (documentation generation time)
-        </description>
-        <property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/main.xsl</value></property>
-        <property name="outputFileName"><value>main.html</value></property>
-        <property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
+	    <description>
+	    	Another consolidated transformer generating the main summary page.  Passes an XSL parameter to the
+	    	stylesheet consisting of the current system time (documentation generation time)
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/main.xsl</value></property>
+    	<property name="outputFileName"><value>main.html</value></property>
+    	<property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
+    </bean>
+    
+    <bean id="htmlImageMapMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+	    <description>
+	    	Another consolidated transformer generating the main image map HTML skeleton
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/map-main.xsl</value></property>
+    	<property name="outputFileName"><value>consolidated-graph.html</value></property>
     </bean>
     
     <bean id="htmlDocTransformer" class="org.springframework.beandoc.output.SimpleTransformer">
-        <description>
-            Transformer generating an HTML document for each input DOM.  A summary of beans followed by
-            the detailed configuration of each follows.
-        </description>
-        <property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/doc.xsl</value></property>
+    	<description>
+	    	Transformer generating an HTML document for each input DOM.  A summary of beans followed by
+	    	the detailed configuration of each follows.
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/doc.xsl</value></property>
+    	<property name="fileExtension"><value>.html</value></property>
     </bean>
     
     <bean id="htmlImageMapTransformer" class="org.springframework.beandoc.output.SimpleTransformer">
@@ -94,12 +105,8 @@
     	<property name="fileExtension"><value>-graph.html</value></property>
     </bean>
       
-    <bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer"/>
-    
-    <bean id="csvTransformer" class="org.springframework.beandoc.output.CsvTransformer"/>
+	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer"/>
 	
-	<bean id="htmlCompiler" class="org.springframework.beandoc.output.HtmlCompiler"/>
-	
-	<bean id="graphVizCompiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
+	<bean id="htmlGraphVizCompiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
     
 </beans>

@@ -20,6 +20,7 @@ import java.io.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdom.Document;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -54,13 +55,13 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
      * 
      * @see org.springframework.beandoc.output.DocumentCompiler#compile()
      */
-    public void compile(File outputDir) {
-        /*
+    public void compile(Document[] contextDocuments, File outputDir) {
+        
         String consolidatedImage = 
             contextDocuments[0].getRootElement().getAttributeValue(
                 GraphVizDecorator.ATTRIBUTE_GRAPH_CONSOLIDATED);
         this.graphOutputType = StringUtils.unqualify(consolidatedImage);
-        */
+        
         
         File[] dotFileList = outputDir.listFiles(new FileFilter() {
             public boolean accept(File pathname) {
@@ -125,6 +126,8 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
         
         StringBuffer map = new StringBuffer(256);
         StringBuffer doc = new StringBuffer(512);
+        FileWriter writer = null;
+        
         try {
             String line;
             BufferedReader reader = new BufferedReader(new FileReader(mapFile));
@@ -139,15 +142,28 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
                     doc.append(line).append("\n");
                     
             // write out new doc
-            FileWriter writer = new FileWriter(graphFile);
+            writer = new FileWriter(graphFile);
             writer.write(doc.toString());
             writer.flush();
-            writer.close();
             
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.warn("Unable to find either [" + 
+                graphFile.getAbsolutePath() + "] or [" + 
+                mapFile.getAbsolutePath() + "]", e);
+            
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("Unable to generate documentation from [" + 
+                graphFile.getAbsolutePath() + "] and [" + 
+                mapFile.getAbsolutePath() + "]", e);
+        
+        } finally {
+            if (writer != null)
+                try { 
+                    writer.close();  
+                } catch (IOException e) {
+                    logger.error("FAILED TO CLOSE OUTPUT STREAM FOR [" + 
+                        graphFile.getAbsolutePath() + "]", e);
+                }
         }
         
     }

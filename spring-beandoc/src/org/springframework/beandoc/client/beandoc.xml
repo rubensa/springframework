@@ -25,6 +25,7 @@
 				<ref local="htmlNavigationTransformer"/>
     			<ref local="htmlMainTransformer"/> 
 			    <ref local="htmlDocTransformer"/>    
+			    <ref local="htmlImageMapMainTransformer"/>
 			    <ref local="htmlImageMapTransformer"/>    
     			<ref local="dotFileTransformer"/>  
     		</list>
@@ -64,6 +65,14 @@
     	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/main.xsl</value></property>
     	<property name="outputFileName"><value>main.html</value></property>
     	<property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
+    </bean>
+    
+    <bean id="htmlImageMapMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+	    <description>
+	    	Another consolidated transformer generating the main image map HTML skeleton
+	    </description>
+    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/map-main.xsl</value></property>
+    	<property name="outputFileName"><value>consolidated-graph.html</value></property>
     </bean>
     
     <bean id="htmlDocTransformer" class="org.springframework.beandoc.output.SimpleTransformer">

@@ -36,19 +36,6 @@ public class JavaDocDecoratorTests extends TestCase {
      */
     public void testJavaDocLocations() {
         try {
-    
-            jdd.addJavaDocLocation(
-                "java.",
-                "http://java.sun.com/j2se/1.4/docs/api/");
-            jdd.addJavaDocLocation(
-                "javax.",
-                "http://java.sun.com/j2se/1.4/docs/api/");
-            jdd.addJavaDocLocation(
-                "org.springframework.",
-                "http://www.springframework.org/docs/api/");
-            jdd.addJavaDocLocation(
-                "org.springframework.samples.",
-                null);
             jdd.addJavaDocLocation(
                 "org.springframework.emptyvalue.",
                 "");

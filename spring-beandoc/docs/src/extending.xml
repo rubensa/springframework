@@ -28,13 +28,14 @@
     available in standard DOM trees after decoration by the
     <literal>DefaultContextProcessor</literal>, so in a slightly contrived
     manner we'll assume that we also need a sequential ID for each bean in
-    order to make it necessary to also implement a custom
+    order to make it necessary to implement a custom
     <literal>Decorator</literal>. In fact this could be done with an XSL
     <literal>Transformer</literal> implementation, but I'm not going to use
     XSL for our <literal>Transformer</literal> example.</para>
 
-    <para><literal>Decorator</literal>s and <literal>Transformer</literal>s
-    use JDOM API's for XML processing.</para>
+    <para><literal>Decorator</literal>s, <literal>Transformer</literal>s and
+    <literal>DocumentCompiler</literal>s use <ulink
+    url="http://www.jdom.org">JDOM</ulink> API's for XML processing.</para>
   </sect1>
 
   <sect1>
@@ -59,6 +60,26 @@
     <literal>decorate()</literal> method for us and delegates to a
     <literal>decorateElement()</literal> method which gives us access to every
     individual element in each context file in turn.</para>
+
+    <para>The <literal>Decorator</literal> interface is simple with a single
+    method to implement;</para>
+
+    <programlisting>public interface Decorator {
+
+    public void decorate(Document[] contextDocuments);
+    
+}</programlisting>
+
+    <para>The default context processor implementation in BeanDoc will in pass
+    the array of JDOM <literal><ulink
+    url="http://www.jdom.org/docs/apidocs/org/jdom/Document.html">Document</ulink></literal>s
+    that it has built in order that the implementation might amend values or
+    add attributes. A convenience implementation of this interface called
+    <literal>SimpleDecorator</literal> subsequently iterates each <ulink
+    url="http://www.jdom.org/docs/apidocs/org/jdom/Element.html"><literal>Element</literal></ulink>
+    of each Document and calls a protected
+    <literal>decorateElement()</literal> method for subclasses to fill out.
+    This is what we'll do here;</para>
 
     <programlisting>public class CsvDecorator extends SimpleDecorator {
 
@@ -95,8 +116,15 @@
     <para>Our transformation could use XSLT to generate the CSV but here we'll
     do it on the cheap and just use a FileWriter to output our document.
     Satisfying the <literal>Transformer</literal> interface involves
-    implementing a single method - <literal>transform(Document[],
-    File)</literal>. Here's our CSV transformer;</para>
+    implementing a single method as shown;</para>
+
+    <programlisting>public interface Transformer {
+
+    public void transform(Document[] contextDocuments, File outputDir);
+    
+}</programlisting>
+
+    <para>Here's our CSV implementation;</para>
 
     <programlisting>public class CsvTransformer implements Transformer {
 
@@ -150,7 +178,23 @@
   <sect1>
     <title>Writing DocumentCompilers</title>
 
-    <para>[todo]</para>
+    <para>After decoration and transformation of DOM trees, the default
+    context processor will then offer any configured
+    <literal>DocumentCompiler</literal>s the chance to pull the output
+    resources together. In many cases this won't be necessary as
+    transformation will produce documents in the required format. In the case
+    of our simple example, we don't need to implement a new
+    <literal>DocumentCompiler</literal>.</para>
+
+    <para>Should you need to do so, the operation is trivial involving writing
+    a class to implement the single interface method in similar fashion to
+    <literal>Decorator</literal>s and <literal>Transformer</literal>s.</para>
+
+    <programlisting>public interface DocumentCompiler {    
+
+    public void compile(Document[] contextDocuments, File outputDir);
+
+}</programlisting>
   </sect1>
 
   <sect1>
@@ -193,8 +237,17 @@
             &lt;ref local="graphVizTransformer"/&gt;   
             <emphasis role="bold">&lt;ref local="csvTransformer"/&gt;</emphasis>
         &lt;/list&gt;
-    &lt;/property&gt;     
-&lt;/bean&gt;</programlisting>
+    &lt;/property&gt;   
+
+    ...
+  
+&lt;/bean&gt;
+
+<emphasis role="bold">&lt;bean id="csvDecorator" class="org.springframework.beandoc.output.CsvDecorator"/&gt;               
+    
+&lt;bean id="csvTransformer" class="org.springframework.beandoc.output.CsvTransformer"/&gt;</emphasis>
+
+...</programlisting>
 
     <para>Your <literal>&lt;beandoc/&gt;</literal> task in Ant's buildfile
     will need to be told where your alternative context definition file is,

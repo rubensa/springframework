@@ -30,6 +30,11 @@ import org.springframework.util.StringUtils;
  * @since 1.0
  */
 public class JavaDocDecorator extends SimpleDecorator {
+    
+    private static final String[] COMMONS_PROJECTS = {
+        "attributes", "beanutils", "collections", "dbcp", "dbutils", "digester", "fileupload", 
+        "httpclient", "io", "lang", "logging", "math", "modeler", "net", "pool", "validator"
+    };
 
     protected static final String ATTRIBUTE_JAVADOC = "beandocJavaDoc";
 
@@ -38,7 +43,12 @@ public class JavaDocDecorator extends SimpleDecorator {
     private SortedMap javaDocLocations = new TreeMap(
         new Comparator() {
             public int compare(Object path1, Object path2) {
-                return ((String) path2).length() - ((String) path1).length();
+                String sPath1 = (String) path1;
+                String sPath2 = (String) path2;
+                int diff = sPath2.length() - sPath1.length();
+                if (diff != 0 || sPath1.equals(sPath2)) return diff;
+                // keys are the same length, but different values
+                return -1;
             }                
         }
     );
@@ -60,6 +70,12 @@ public class JavaDocDecorator extends SimpleDecorator {
         addJavaDocLocation(
             "org.springframework.samples.",
             null);
+            
+        for (int i = 0; i < COMMONS_PROJECTS.length; i++)
+            addJavaDocLocation(
+                "org.apache.commons." + COMMONS_PROJECTS[i] + ".", 
+                "http://jakarta.apache.org/commons/" + COMMONS_PROJECTS[i] + "/apidocs/"); 
+           
     }
 
     /**

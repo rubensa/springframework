@@ -54,7 +54,7 @@
 
                 <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage">
                 <p>
-                    <a href="{consolidated/beans[1]/@beandocConsolidatedImage}" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
+                    <a href="consolidated-graph.html" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
                         <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {consolidated/beans[1]/@beandocContextTitle}"/>
                     </a>
                 </p>

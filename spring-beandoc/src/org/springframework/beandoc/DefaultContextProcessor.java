@@ -203,7 +203,7 @@ public class DefaultContextProcessor implements ContextProcessor {
             // apply compilers to build final output
             if (compilers != null && compilers.size() > 0)
                 for (Iterator i = compilers.iterator(); i.hasNext();)
-                    ((DocumentCompiler) i.next()).compile(outputDir);                      
+                    ((DocumentCompiler) i.next()).compile(contextDocuments, outputDir);                      
                   
         }
         

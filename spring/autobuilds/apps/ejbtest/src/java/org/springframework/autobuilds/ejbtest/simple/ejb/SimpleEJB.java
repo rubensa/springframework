@@ -49,7 +49,7 @@ public class SimpleEJB extends AbstractStatelessSessionBean
 		implements SimpleService {
 
 	// --- statics
-	public static final String SESSION_FACTORY_ID = "sessionFactory";
+	public static final String SESSION_FACTORY_ID = "hibSsessionFactory";
 	public static final String POJO_SERVICE_ID = "simpleService";
 
 	protected static final Log logger = LogFactory

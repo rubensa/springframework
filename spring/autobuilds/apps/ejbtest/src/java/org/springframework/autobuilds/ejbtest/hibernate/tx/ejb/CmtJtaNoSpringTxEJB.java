@@ -64,7 +64,7 @@ public class CmtJtaNoSpringTxEJB extends AbstractStatelessSessionBean
 			CmtJtaNoSpringTx {
 
 	// --- statics
-	public static final String SESSION_FACTORY_ID = "sessionFactory";
+	public static final String SESSION_FACTORY_ID = "hibSessionFactory";
 
 	protected static final Log logger = LogFactory
 			.getLog(CmtJtaNoSpringTxEJB.class);

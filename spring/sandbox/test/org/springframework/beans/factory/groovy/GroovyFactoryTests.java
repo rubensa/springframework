@@ -25,7 +25,6 @@ import org.springframework.beans.factory.groovy.GroovyFactory;
 import org.springframework.beans.factory.groovy.ScriptNotFoundException;
 
 /**
- * TODO test script with syntax errors
  * 
  * @author Rod Johnson
  * @version $Id$
@@ -40,6 +39,16 @@ public class GroovyFactoryTests extends TestCase {
 			fail();
 		}
 		catch (ScriptNotFoundException ex) {
+			// Ok
+		}
+	}
+	
+	public void testScriptWithSyntaxErrors() {
+		try {
+			GroovyFactory.staticObject(SCRIPT_BASE + "Bad.groovy");
+			fail();
+		}
+		catch (CompilationException ex) {
 			// Ok
 		}
 	}

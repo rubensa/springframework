@@ -755,7 +755,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 	 */
 	protected static final class RowCallbackHandlerResultSetExtractor implements ResultSetExtractor {
 
-		private RowCallbackHandler rch;
+		private final RowCallbackHandler rch;
 
 		public RowCallbackHandlerResultSetExtractor(RowCallbackHandler rch) {
 			this.rch = rch;
@@ -791,12 +791,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 				}
 				listOfRows.add(mapOfColValues);
 			}
-			if (listOfRows.size() == 1 && numberOfColumns == 1) {
-				return ((Map) listOfRows.get(0)).get(rsmd.getColumnName(1));
-			}
-			else {
-				return listOfRows;
-			}
+			return listOfRows;
 		}
 	}
 

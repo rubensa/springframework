@@ -441,8 +441,8 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory, Co
 			try {
 				Constructor constructor = constructors[i];
 				if (constructor.getParameterTypes().length < minNrOfArgs) {
-					throw new BeanDefinitionStoreException(minNrOfArgs + " constructor arguments specified but just constructor with " +
-					                                       constructor.getParameterTypes().length + " arguments found in bean '" + beanName + "'");
+					throw new BeanDefinitionStoreException(minNrOfArgs + " constructor arguments specified but no " +
+																								 "matching constructor found in bean '" + beanName + "'");
 				}
 				Class[] argTypes = constructor.getParameterTypes();
 				Object[] args = new Object[argTypes.length];

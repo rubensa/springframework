@@ -29,6 +29,7 @@ import org.springframework.rules.factory.Functions;
  */
 public class Algorithms {
     private Functions functions = Functions.instance();
+
     private static final Algorithms INSTANCE = new Algorithms();
 
     public Algorithms() {
@@ -36,6 +37,18 @@ public class Algorithms {
 
     public static Algorithms instance() {
         return INSTANCE;
+    }
+
+    /**
+     * Returns true if any elements in the given collection meet the specified
+     * predicate condition.
+     * 
+     * @param collection
+     * @param predicate
+     * @return true or false
+     */
+    public boolean areAnyTrue(Collection collection, UnaryPredicate predicate) {
+        return findFirst(collection, predicate) != null;
     }
 
     /**
@@ -51,9 +64,7 @@ public class Algorithms {
     public Object findFirst(Collection collection, UnaryPredicate predicate) {
         for (Iterator i = collection.iterator(); i.hasNext();) {
             Object o = i.next();
-            if (predicate.test(o)) {
-                return o;
-            }
+            if (predicate.test(o)) { return o; }
         }
         return null;
     }

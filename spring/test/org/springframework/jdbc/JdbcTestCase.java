@@ -25,6 +25,13 @@ public abstract class JdbcTestCase extends TestCase {
 	protected DataSource mockDataSource;
 	protected MockControl ctrlConnection;
 	protected Connection mockConnection;
+	
+	/**
+	 * Set to true if the user wants verification, indicated
+	 * by a call to replay(). We need to make this optional,
+	 * otherwise we setUp() will always result in verification failures
+	 */
+	private boolean shouldVerify;
 
 	/**
 	 * 
@@ -44,6 +51,7 @@ public abstract class JdbcTestCase extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
+		this.shouldVerify = false;
 		super.setUp();
 
 		ctrlConnection = MockControl.createControl(Connection.class);
@@ -65,11 +73,15 @@ public abstract class JdbcTestCase extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 
-		ctrlDataSource.verify();
-		ctrlConnection.verify();
+		// We shouldn't verify unless the user called replay()
+		if (this.shouldVerify) {
+			ctrlDataSource.verify();
+			ctrlConnection.verify();
+		}
 	}
 
 	protected void replay() {
+		this.shouldVerify = true;
 		ctrlDataSource.replay();
 		ctrlConnection.replay();
 	}

@@ -6,6 +6,7 @@
 package org.springframework.aop.framework;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -650,6 +651,27 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		// Check it still works: proxy factory state shouldn't have been corrupted
 		ITestBean proxied = (ITestBean) createProxy(pc);
 		assertEquals(target.getAge(), proxied.getAge());
+	}
+	
+	public void testUseAsHashKey() {
+		TestBean target1 = new TestBean();
+		ProxyFactory pf1 = new ProxyFactory(target1);
+		pf1.addInterceptor(new NopInterceptor());
+		ITestBean proxy1 = (ITestBean) createProxy(pf1);
+		
+		TestBean target2 = new TestBean();
+		ProxyFactory pf2 = new ProxyFactory(target2);
+		pf2.addAdvisor(new SimpleIntroductionAdvice(new TimestampIntroductionInterceptor()));
+		ITestBean proxy2 = (ITestBean) createProxy(pf2);
+		
+		HashMap h = new HashMap();
+		Object value1 = new Object();
+		Object value2 = new Object();
+		assertNull(h.get(proxy1));
+		h.put(proxy1, value1);
+		h.put(proxy2, value2);
+		assertEquals(h.get(proxy1), value1);
+		assertEquals(h.get(proxy2), value2);
 	}
 	
 	public void testAdviceSupportListeners() throws Throwable {

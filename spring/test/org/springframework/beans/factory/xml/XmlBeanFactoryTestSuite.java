@@ -19,6 +19,7 @@ import org.springframework.beans.ITestBean;
 import org.springframework.beans.MethodInvocationException;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.DummyFactory;
 import org.springframework.beans.factory.HasMap;
@@ -588,6 +589,15 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		DependenciesBean rod = (DependenciesBean) xbf.getBean("rod5");
 		// Should not have been autowired
 		assertNull(rod.getSpouse());
+	}
+
+	public void testAutowireByConstructorWithClassPathXmlApplicationContext() throws Exception {
+		InputStream is = getClass().getResourceAsStream("autowire.xml");
+		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		BeanFactory appCtx = (BeanFactory) xbf.getBean("childAppCtx");
+		assertTrue(appCtx.getBean("rod1") != null);
+		assertTrue(appCtx.getBean("dependingBean") != null);
+		assertTrue(appCtx.getBean("jenny") != null);
 	}
 
 	public void testSatisfiedAutowireByTypeWithDefault() throws Exception {

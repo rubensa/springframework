@@ -50,7 +50,7 @@ public class SimpleEJB extends AbstractStatelessSessionBean
 
 	// --- statics
 	public static final String SESSION_FACTORY_ID = "hibSsessionFactory";
-	public static final String POJO_SERVICE_ID = "simpleService";
+	public static final String POJO_SERVICE_ID = "delegatingSimpleService";
 
 	protected static final Log logger = LogFactory
 			.getLog(SimpleEJB.class);
@@ -96,7 +96,7 @@ public class SimpleEJB extends AbstractStatelessSessionBean
 	 * @see org.springframework.autobuilds.ejbtest.hibernate.tx.CmtJtaNoSpringTx#testMethod(java.lang.String)
 	 */
 	public String echo(String input) {
-		return "hello " + input;
+		return "(SimpleEJB: hello " + input + ")";
 	}
 
 	/* 
@@ -108,5 +108,9 @@ public class SimpleEJB extends AbstractStatelessSessionBean
 		SimpleService simpleService = (SimpleService) getBeanFactory().getBean(POJO_SERVICE_ID);
 		return simpleService.echo2(input);
 	}
-
+	
+	public String echo3(String input) {
+		SimpleService simpleService = (SimpleService) getBeanFactory().getBean(POJO_SERVICE_ID);
+		return simpleService.echo3(input);
+	}
 }

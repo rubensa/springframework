@@ -28,5 +28,7 @@ public interface SimpleService {
 	public String echo(String input);
 	
 	public String echo2(String input);
+	
+	public String echo3(String input);
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.autobuilds.ejbtest;
+package org.springframework.autobuilds.ejbtest.simple.ejb;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -32,9 +32,11 @@ import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
  * @author colin sampaleanu
  * @version $Id$
  */
-public class CmtWrappedEjbDelegatingToSpringTxWrappedPojoTest extends TestCase {
+public class SimpleEjbLocalRemoteAndCachedHomeTest extends TestCase {
 
 	// --- statics
+	public static final String SERVICE_ID_CACHE_ON = "cachedHomeProxy";
+	public static final String SERVICE_ID_CACHE_OFF = "noCachedHomeProxy";
 	public static final String SERVICE_ID_LOCAL_PROXY = "simpleEjbLocalProxy";
 
 	// --- attributes
@@ -45,7 +47,7 @@ public class CmtWrappedEjbDelegatingToSpringTxWrappedPojoTest extends TestCase {
 
 	public static Test suite() {
 		ServletTestSuite suite = new ServletTestSuite();
-		suite.addTestSuite(CmtWrappedEjbDelegatingToSpringTxWrappedPojoTest.class);
+		suite.addTestSuite(SimpleEjbLocalRemoteAndCachedHomeTest.class);
 		return suite;
 	}
 
@@ -58,11 +60,24 @@ public class CmtWrappedEjbDelegatingToSpringTxWrappedPojoTest extends TestCase {
 		bfr.release();
 	}
 
+	public void testRemoteInvocationsWithCache() {
+		SimpleService ejb = (SimpleService) bfr.getFactory().getBean(SERVICE_ID_CACHE_ON);
+		ejb.echo("hello");
+		ejb.echo("hello");
+		ejb.echo("hello");
+	}
+
+	public void testRemoteInvocationsWithNoCache() {
+		SimpleService ejb = (SimpleService) bfr.getFactory().getBean(SERVICE_ID_CACHE_OFF);
+		ejb.echo("hello");
+		ejb.echo("hello");
+		ejb.echo("hello");
+	}
+	
 	public void testLocalInvocations() {
 		SimpleService ejb = (SimpleService) bfr.getFactory().getBean(SERVICE_ID_LOCAL_PROXY);
 		ejb.echo("hello");
-		ejb.echo("hello2");
-		ejb.echo2("whatever");
-		ejb.echo2("whatever2");
+		ejb.echo("hello");
+		ejb.echo("hello");
 	}
 }

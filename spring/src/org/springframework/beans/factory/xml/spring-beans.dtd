@@ -78,9 +78,11 @@
 
 <!--
 	Beans can be identified by an id, to enable reference checking.
+
 	There are constraints on a valid XML id: if you want to reference your bean
 	in Java code using a name that's illegal as an XML id, use the optional
-	"name" attribute. If neither given, the bean class name is used as id.
+	"name" attribute. If neither is given, the bean class name is used as id
+	(with an appended counter like "#2" if there is already a bean with that name).
 -->
 <!ATTLIST bean id ID #IMPLIED>
 

@@ -67,6 +67,9 @@ public class DefaultXmlBeanDefinitionParser implements XmlBeanDefinitionParser {
 
 	public static final String BEAN_NAME_DELIMITERS = ",; ";
 
+	public static final String GENERATED_ID_SEPARATOR = "#";
+	
+
 	/**
 	 * Value of a T/F attribute that represents true.
 	 * Anything else represents false. Case seNsItive.
@@ -239,7 +242,13 @@ public class DefaultXmlBeanDefinitionParser implements XmlBeanDefinitionParser {
 
 		if (!StringUtils.hasLength(id)) {
 			if (beanDefinition instanceof RootBeanDefinition) {
-				id = ((RootBeanDefinition) beanDefinition).getBeanClassName();
+				String className = ((RootBeanDefinition) beanDefinition).getBeanClassName();
+				id = className;
+				int counter = 1;
+				while (this.beanFactory.containsBeanDefinition(id)) {
+					counter++;
+					id = className + GENERATED_ID_SEPARATOR + counter;
+				}
 				logger.debug("Neither XML 'id' nor 'name' specified - using bean class name [" + id + "] as ID");
 			}
 			else if (beanDefinition instanceof ChildBeanDefinition) {

@@ -16,6 +16,7 @@
 
 package org.springframework.aop.support;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -33,7 +34,7 @@ import org.springframework.core.Ordered;
  * @since 11-Nov-2003
  * @version $Id$
  */
-public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFilter, Ordered {
+public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFilter, Ordered, Serializable {
 
 	private int order = Integer.MAX_VALUE;
 

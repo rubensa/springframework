@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
 
-package org.springframework.aop.framework.support;
+package org.springframework.aop.framework.autoproxy;
 
 import java.io.IOException;
 
@@ -11,8 +11,12 @@ import javax.servlet.ServletException;
 
 import junit.framework.TestCase;
 
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.framework.support.AopUtils;
+import org.springframework.aop.target.CommonsPoolTargetSource;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.CountingTxManager;
 
 /**
@@ -58,6 +62,17 @@ public abstract class AbstractAdvisorAutoProxyCreatorTests extends TestCase {
 		BeanFactory bf = getBeanFactory();
 		ITestBean test = (ITestBean) bf.getBean("test");
 		assertTrue(AopUtils.isAopProxy(test));
+	}
+	
+	public void testCustomTargetSource() throws Exception {
+		BeanFactory bf = new ClassPathXmlApplicationContext("/org/springframework/aop/framework/support/customTargetSource.xml");
+		ITestBean test = (ITestBean) bf.getBean("test");
+		assertTrue(AopUtils.isAopProxy(test));
+		Advised advised = (Advised) test;
+		assertTrue(advised.getTargetSource() instanceof CommonsPoolTargetSource);
+		assertEquals("Rod", test.getName());
+		// Check that references survived pooling
+		assertEquals("Kerry", test.getSpouse().getName());
 	}
 	
 	/*

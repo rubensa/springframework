@@ -3,14 +3,14 @@
  * of the Apache Software License.
  */
 
-package org.springframework.aop.framework.support;
+package org.springframework.aop.framework.autoproxy;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.aop.Advisor;
+import org.springframework.aop.framework.support.AopUtils;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.support.BeanFactoryUtils;
 
@@ -27,7 +27,7 @@ import org.springframework.beans.factory.support.BeanFactoryUtils;
  * @author Rod Johnson
  * @version $Id$
  */
-public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements BeanFactoryAware {
+public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator {
 
 	public final static int UNORDERED = 100;
 
@@ -44,18 +44,14 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 	private ListableBeanFactory owningFactory;
 
 	public void setBeanFactory(BeanFactory beanFactory) {
+		super.setBeanFactory(beanFactory);
 		if (!(beanFactory instanceof ListableBeanFactory)) {
 			throw new IllegalStateException("Cannot use AdviceAutoProxyCreator without a ListableBeanFactory");
 		}
 		this.owningFactory = (ListableBeanFactory) beanFactory;
 	}
 	
-	/**
-	 * Return the owning ListableBeanFactory
-	 */
-	protected final ListableBeanFactory getBeanFactory() {
-		return this.owningFactory;
-	}
+
 
 	/**
 	 * Find all candidate advices to use in auto proxying.

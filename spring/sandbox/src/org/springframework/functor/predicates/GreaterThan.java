@@ -15,7 +15,7 @@ import org.springframework.functor.BinaryPredicate;
 /**
  * @author Keith Donald
  */
-public class GreaterThan extends OperatorBinaryPredicate implements
+public class GreaterThan extends ComparingBinaryPredicate implements
         BinaryPredicate {
 
     public GreaterThan() {
@@ -26,7 +26,7 @@ public class GreaterThan extends OperatorBinaryPredicate implements
         super(comparator);
     }
 
-    public boolean evaluateOperatorResult(int result) {
+    public boolean evaluateCompareResult(int result) {
         return result > 0;
     }
 

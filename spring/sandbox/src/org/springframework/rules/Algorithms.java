@@ -69,7 +69,7 @@ public class Algorithms {
         return null;
     }
 
-    public void forEach(Collection collection, UnaryProcedure callback) {
+    public void forEachIn(Collection collection, UnaryProcedure callback) {
         forEach(collection.iterator(), callback);
     }
 

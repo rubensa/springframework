@@ -139,7 +139,6 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		public int nrOfInvocations = 0;
 
 		public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-			System.out.println(methodInvocation.getMethod().getName());
 			if (!methodInvocation.getMethod().getName().equals("finalize")) {
 				nrOfInvocations++;
 			}

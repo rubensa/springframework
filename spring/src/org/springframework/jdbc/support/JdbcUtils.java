@@ -166,7 +166,11 @@ public class JdbcUtils {
 	 * @throws SQLException
 	 */
 	public static void setParameterValue(PreparedStatement ps, int sqlColIndx, SqlParameter declaredParameter, Object inValue) throws SQLException {
-		LobHandler lh;
+	    if (logger.isDebugEnabled()) {
+	        logger.debug("Setting SQL statement parameter value; columnIndex=" + sqlColIndx +
+	                ", parameter value='" + inValue + "', valueClass=" + (inValue != null ? inValue.getClass().getName() : "null") + ", sqlType=" + declaredParameter.getSqlType());
+	    }
+	    LobHandler lh;
 		// input parameters must be supplied
 		if (inValue == null && declaredParameter.getTypeName() != null) {
 			ps.setNull(sqlColIndx, declaredParameter.getSqlType(), declaredParameter.getTypeName());

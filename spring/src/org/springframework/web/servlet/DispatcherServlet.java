@@ -402,6 +402,9 @@ public class DispatcherServlet extends FrameworkServlet {
 					else if (ex instanceof IOException) {
 						throw (IOException) ex;
 					}
+					else if (ex instanceof RuntimeException) {
+						throw (RuntimeException) ex;
+					}
 					else {
 						throw new ServletException(ex.getMessage(), ex);
 					}

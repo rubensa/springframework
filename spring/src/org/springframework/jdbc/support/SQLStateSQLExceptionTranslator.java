@@ -60,6 +60,13 @@ public class SQLStateSQLExceptionTranslator implements SQLExceptionTranslator {
 	}
 	
 	public DataAccessException translate(String task, String sql, SQLException sqlex) {
+		if (task == null) {
+			task = "";
+		}
+		if (sql == null) {
+			sql = "";
+		}
+
 		if (logger.isInfoEnabled()) {
 			logger.info("Translating SQLException with SQLState '" + sqlex.getSQLState() +
 			            "' and errorCode '" + sqlex.getErrorCode() + "' and message [" +

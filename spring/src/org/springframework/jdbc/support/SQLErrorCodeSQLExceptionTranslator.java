@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -126,6 +127,13 @@ public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslato
 
 
 	public DataAccessException translate(String task, String sql, SQLException sqlex) {
+		if (task == null) {
+			task = "";
+		}
+		if (sql == null) {
+			sql = "";
+		}
+		
 		// first, try custom translation from overridden method
 		DataAccessException dex = customTranslate(task, sql, sqlex);
 		if (dex != null) {

@@ -116,11 +116,9 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 	protected Object doGetTransaction() {
 		DataSourceTransactionObject txObject = new DataSourceTransactionObject();
 		txObject.setSavepointAllowed(isNestedTransactionAllowed());
-		if (TransactionSynchronizationManager.hasResource(this.dataSource)) {
-			ConnectionHolder conHolder =
-					(ConnectionHolder) TransactionSynchronizationManager.getResource(this.dataSource);
-			txObject.setConnectionHolder(conHolder);
-		}
+		ConnectionHolder conHolder =
+		    (ConnectionHolder) TransactionSynchronizationManager.getResource(this.dataSource);
+		txObject.setConnectionHolder(conHolder);
 		return txObject;
 	}
 
@@ -138,16 +136,12 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 		// cache to avoid repeated checks
 		boolean debugEnabled = logger.isDebugEnabled();
 
-		if (txObject.getConnectionHolder() == null) {
-			if (debugEnabled) {
-				logger.debug("Opening new connection for JDBC transaction");
-			}
-			Connection con = DataSourceUtils.getConnection(this.dataSource, false);
-			txObject.setConnectionHolder(new ConnectionHolder(con));
+		if (debugEnabled) {
+			logger.debug("Opening new connection for JDBC transaction");
 		}
-
+		Connection con = DataSourceUtils.getConnection(this.dataSource, false);
+		txObject.setConnectionHolder(new ConnectionHolder(con));
 		txObject.getConnectionHolder().setSynchronizedWithTransaction(true);
-		Connection con = txObject.getConnectionHolder().getConnection();
 		try {
 
 			// apply read-only

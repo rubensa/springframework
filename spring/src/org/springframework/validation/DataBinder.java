@@ -205,7 +205,7 @@ public class DataBinder {
 		if (this.requiredFields != null) {
 			for (int i = 0; i < this.requiredFields.length; i++) {
 				PropertyValue pv = pvs.getPropertyValue(this.requiredFields[i]);
-				if (pv == null || "".equals(pv.getValue())) {
+				if (pv == null || "".equals(pv.getValue()) || pv.getValue() == null) {
 					// create field error with code "required"
 					this.errors.addError(
 							new FieldError(this.errors.getObjectName(), this.requiredFields[i], "", true,

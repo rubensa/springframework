@@ -49,6 +49,7 @@ Package org.springframework.validation
 * DefaultMessageCodesResolver generates codes for specific elements and the whole collection in case of array/List/Map
 * DefaultMessageCodesResolver generates code for the type of a field, e.g. "typeMismatch.java.lang.String"
 * DefaultMessageCodesResolver generates code for the object name in case of an ObjectError, e.g. "myError.myForm"
+* fixed bug where DataBinder would choke on null values of required fields, resulting in an NPE
 
 Package org.springframework.web
 * added MaxUploadSizeExceededException to multipart package, as a specific subclass of MultipartException

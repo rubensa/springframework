@@ -33,6 +33,7 @@ Package org.springframework.orm
 * allow for ClobStringType to be instantiated without LobHandler, for use with Hibernate's SchemaExport tool
 * adapted iBATIS SQL Maps 2 support to SQL Maps 2.0 beta 4, calling the new SqlMapSession.close method
 * changed SqlMapClientCallback's "doInSqlMapSession(SqlMapSession)" method to "doInSqlMapClient(SqlMapExecutor)"
+* added loadAll convenience method to HibernateTemplate (and HibernateOperations interface)
 
 Package org.springframework.scheduling
 * fixed SchedulerFactoryBean's JobDetail auto-registration when multiple triggers refer to the same JobDetail

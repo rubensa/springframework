@@ -5,6 +5,7 @@ $Id$
 
 Changes in version 1.0 M2 (XX.XX.2003)
 -------------------------------------
+* added suport for returning result sets from a stored procedure.
 * added support for sending email in the org.springframework.mail package. 
 Provided JavaMail implementation, but underlying API is a pluggable strategy
 to allow for other mail APIs and easy testability without JavaMail configured.

@@ -53,16 +53,6 @@ public final class SingletonTargetSource implements TargetSource {
 		return "Singleton target source (not dynamic): target=[" + target + "]";
 	}
 	
-	/**
-	 * Two invoker interceptors are equal if they have the same target or if the targets
-	 * are equal.
-	 */
-	public boolean equals(Object other) {
-		if (!(other instanceof SingletonTargetSource))
-			return false;
-		SingletonTargetSource otherII = (SingletonTargetSource) other;
-		return otherII.target == this.target || otherII.target.equals(this.target);
-	}
 
 	/**
 	 * @see org.springframework.aop.TargetSource#isStatic()
@@ -71,4 +61,18 @@ public final class SingletonTargetSource implements TargetSource {
 		return true;
 	}
 
+	/**
+	 * Two invoker interceptors are equal if they have the same target or if the targets
+	 * or the targets are equal.
+	 */
+	public boolean equals(Object other) {
+		if (this == other)
+			return true;
+		if (!(other instanceof SingletonTargetSource))
+			return false;
+		SingletonTargetSource b = (SingletonTargetSource) other;
+		if (this.target == null)
+			return b.target == null;
+		return this.target.equals(b.target);
+	}
 }

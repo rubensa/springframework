@@ -85,9 +85,14 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	
 	public Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner,
 														Method factoryMethod, Object[] args) {
+		Object target = null;
+		if (beanDefinition.getFactoryBeanName() != null) {
+			target = owner.getBean(beanDefinition.getFactoryBeanName());
+		}
+		
 		try {
-			// must be a static method
-			return factoryMethod.invoke(null, args);
+			// A static method if the target is null
+			return factoryMethod.invoke(target, args);
 		}
 		catch (IllegalArgumentException ex) {
 			throw new BeanDefinitionStoreException("Illegal arguments to factory method " + factoryMethod + "; " +

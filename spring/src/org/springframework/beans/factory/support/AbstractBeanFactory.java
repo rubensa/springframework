@@ -177,11 +177,11 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory {
 			if (args != null) {
 				if (mergedBeanDefinition.isSingleton()) {			
 					throw new BeanDefinitionStoreException("Cannot specify arguments in the getBean() method when " +
-																								 "referring to a singleton bean definition");
+															"referring to a singleton bean definition");
 				}
-				else if (mergedBeanDefinition.getStaticFactoryMethodName() == null) {			
+				else if (mergedBeanDefinition.getFactoryMethodName() == null) {			
 					throw new BeanDefinitionStoreException("Can only specify arguments in the getBean() method in " +
-																								 "conjunction with a static factory method");
+															 "conjunction with a factory method");
 				}
 			}
 			

@@ -1343,6 +1343,19 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals("Rod", tb.getName());
 	}
 	
+	public void testInstanceFactoryMethodWithoutArgs() {
+		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
+		reader.setValidating(true);
+		reader.loadBeanDefinitions(new ClassPathResource("factory-methods.xml", getClass()));
+		FactoryMethods fm = (FactoryMethods) xbf.getBean("instanceFactoryMethodWithoutArgs");
+		assertEquals("instanceFactory", fm.getTestBean().getName());
+		
+		//tb = (TestBean) xbf.getBean("externalFactoryMethodWithArgs");
+		//assertEquals(33, tb.getAge());
+		//assertEquals("Rod", tb.getName());
+	}
+	
 	public void testFactoryMethodNoMatchingStaticMethod() {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);

@@ -18,14 +18,10 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public class SimpleMethodInvocationFactory implements MethodInvocationFactory {
 
-	/**
-	 * @see org.springframework.aop.framework.MethodInvocationFactory#getMethodInvocation(org.springframework.aop.framework.Advised, java.util.List, java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-	 */
 	public MethodInvocation getMethodInvocation(Object proxy, Method method, Class targetClass, Object target, Object[] args, List interceptorsAndDynamicInterceptionAdvice, AdvisedSupport advised) {
 		return new ReflectiveMethodInvocation(
 			proxy,
 			target,
-			method.getDeclaringClass(),
 			method,
 			args,
 			targetClass,

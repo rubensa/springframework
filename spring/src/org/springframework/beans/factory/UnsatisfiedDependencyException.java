@@ -6,9 +6,8 @@
 package org.springframework.beans.factory;
 
 /**
- * Exception thrown when a bean depends on other beans or
- * simple properties that were not specified in the bean factory definition,
- * although dependency checking was enabled
+ * Exception thrown when a bean depends on other beans or simple properties that were not
+ * specified in the bean factory definition, although dependency checking was enabled
  * @author Rod Johnson
  * @since September 3, 2003
  * @see org.springframework.beans.factory.FactoryBean
@@ -16,19 +15,14 @@ package org.springframework.beans.factory;
  */
 public class UnsatisfiedDependencyException extends BeanDefinitionStoreException {
 
-	/**
-	 * @param name
-	 * @param propertyName
-	 * @param string
-	 */
-	public UnsatisfiedDependencyException(String beanName, String propertyName, String message) {
-		super("Bean with name '" + beanName + "' has an unsatisfied dependency expressed through property '" + 
-				propertyName + "': set this property value or disable dependency checking for this bean:" +				"detail message=[" + message + "]", null);
+	public UnsatisfiedDependencyException(String beanName, String propertyName) {
+		this(beanName, propertyName, null);
 	}
 
-	public UnsatisfiedDependencyException(String beanName, String propertyName) {
+	public UnsatisfiedDependencyException(String beanName, String propertyName, String message) {
 		super("Bean with name '" + beanName + "' has an unsatisfied dependency expressed through property '" + 
-			propertyName + "': set this property value or disable dependency checking for this bean", null);
+				propertyName + "': set this property value or disable dependency checking for this bean" +
+				(message != null ? "; detail message = [" + message + "]" : ""));
 	}
 
 }

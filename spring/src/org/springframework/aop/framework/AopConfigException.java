@@ -5,7 +5,7 @@
 
 package org.springframework.aop.framework;
 
-import com.ibatis.common.exception.NestedRuntimeException;
+import org.springframework.core.NestedRuntimeException;
 
 /**
  * Exception that gets thrown on illegal AOP configuration arguments.
@@ -19,8 +19,8 @@ public class AopConfigException extends NestedRuntimeException {
 		super(msg);
 	}
 	
-	public AopConfigException(String msg, Throwable t) {
-		super(msg, t);
+	public AopConfigException(String msg, Throwable ex) {
+		super(msg, ex);
 	}
 
 }

@@ -28,4 +28,19 @@ import java.io.Serializable;
  */
 public class SerializableNopInterceptor extends NopInterceptor implements Serializable {
 	
+	/**
+	 * We must override this field and the related methods as
+	 * otherwise count won't be serialized from the non-serializable
+	 * NopInterceptor superclass.
+	 */
+	private int count;
+	
+	public int getCount() {
+		return this.count;
+	}
+	
+	protected void increment() {
+		++count;
+	}
+	
 }

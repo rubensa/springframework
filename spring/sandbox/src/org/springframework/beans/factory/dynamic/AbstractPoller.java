@@ -39,8 +39,9 @@ public abstract class AbstractPoller extends TimerTask {
 
 	private DynamicObject dynamicObject;
 
-	public AbstractPoller(DynamicObject script) {
-		this.secs = script.getPollIntervalSeconds();
+	public AbstractPoller(DynamicObject dynamicObject) {
+		this.dynamicObject = dynamicObject;
+		this.secs = dynamicObject.getPollIntervalSeconds();
 		timer = new Timer(true);
 		timer.schedule(this, secs * 1000, secs * 1000);
 	}

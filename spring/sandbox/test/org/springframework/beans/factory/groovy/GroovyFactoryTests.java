@@ -24,6 +24,7 @@ import org.springframework.beans.factory.groovy.GroovyFactory;
 import org.springframework.beans.factory.script.CompilationException;
 import org.springframework.beans.factory.script.DynamicScript;
 import org.springframework.beans.factory.script.ScriptNotFoundException;
+import org.springframework.core.io.DefaultResourceLoader;
 
 /**
  * 
@@ -36,7 +37,7 @@ public class GroovyFactoryTests extends TestCase {
 	
 	public void testNoScriptFound() {
 		try {
-			GroovyFactory.staticObject("rubbish");
+			groovyFactory().staticObject("rubbish");
 			fail();
 		}
 		catch (ScriptNotFoundException ex) {
@@ -44,9 +45,15 @@ public class GroovyFactoryTests extends TestCase {
 		}
 	}
 	
+	protected GroovyFactory groovyFactory() {
+		GroovyFactory gf = new GroovyFactory();
+		gf.setResourceLoader(new DefaultResourceLoader());
+		return gf;
+	}
+	
 	public void testScriptWithSyntaxErrors() {
 		try {
-			GroovyFactory.staticObject(SCRIPT_BASE + "Bad.groovy");
+			groovyFactory().staticObject(SCRIPT_BASE + "Bad.groovy");
 			fail();
 		}
 		catch (CompilationException ex) {
@@ -55,12 +62,12 @@ public class GroovyFactoryTests extends TestCase {
 	}
 	
 	public void testValidScript() {
-		GroovyObject groovyObject = GroovyFactory.staticObject(SCRIPT_BASE + "SimpleHello.groovy");
+		GroovyObject groovyObject = (GroovyObject) groovyFactory().staticObject(SCRIPT_BASE + "SimpleHello.groovy");
 		System.out.println(groovyObject);
 	}
 	
 	public void testNotReloadable() {
-		Hello hello = (Hello) GroovyFactory.staticObject(SCRIPT_BASE + "SimpleHello.groovy");
+		Hello hello = (Hello) groovyFactory().staticObject(SCRIPT_BASE + "SimpleHello.groovy");
 		assertFalse("Doesn't proxy unless dynamic features requested", AopUtils.isCglibProxy(hello));
 		assertEquals("hello world", hello.sayHello());
 		assertFalse("Doesn't implement DynamicScript unless dynamic features requested", 

@@ -26,14 +26,10 @@ import org.springframework.transaction.TransactionUsageException;
 public class MethodMapTransactionAttributeSource extends AbstractTransactionAttributeSource {
 
 	/** Map from Method to TransactionAttribute */
-	protected Map methodMap = new HashMap();
+	private Map methodMap = new HashMap();
 
 	/** Map from Method to name pattern used for registration */
 	private Map nameMap = new HashMap();
-
-	public TransactionAttribute getTransactionAttribute(Method m, Class targetClass) {
-		return (TransactionAttribute) this.methodMap.get(m);
-	}
 
 	/**
 	 * Set a name/attribute map, consisting of "FQCN.method" method names
@@ -47,16 +43,6 @@ public class MethodMapTransactionAttributeSource extends AbstractTransactionAttr
 			TransactionAttribute attr = (TransactionAttribute) methodMap.get(name);
 			addTransactionalMethod(name, attr);
 		}
-	}
-
-	/**
-	 * Add an attribute for a transactional method.
-	 * @param method the method
-	 * @param attr attribute associated with the method
-	 */
-	public void addTransactionalMethod(Method method, TransactionAttribute attr) {
-		logger.info("Adding transactional method [" + method + "] with attribute [" + attr + "]");
-		this.methodMap.put(method, attr);
 	}
 
 	/**
@@ -102,8 +88,10 @@ public class MethodMapTransactionAttributeSource extends AbstractTransactionAttr
 				matchingMethods.add(methods[i]);
 			}
 		}
-		if (matchingMethods.isEmpty())
-			throw new TransactionUsageException("Couldn't find method '" + mappedName + "' on " + clazz);
+		if (matchingMethods.isEmpty()) {
+			throw new TransactionUsageException("Couldn't find method '" + mappedName +
+																					"' on class [" + clazz.getName() + "]");
+		}
 
 		// register all matching methods
 		for (Iterator it = matchingMethods.iterator(); it.hasNext();) {
@@ -113,19 +101,33 @@ public class MethodMapTransactionAttributeSource extends AbstractTransactionAttr
 				// no already registered method name, or more specific
 				// method name specification now -> (re-)register method
 				if (logger.isDebugEnabled() && regMethodName != null) {
-					logger.debug("Replacing attribute for transactional method [" + method + "]: current name [" +
-											 name + "] is more specific than [" + regMethodName + "]");
+					logger.debug("Replacing attribute for transactional method [" + method + "]: current name '" +
+											 name + "' is more specific than '" + regMethodName + "'");
 				}
 				this.nameMap.put(method, name);
 				addTransactionalMethod(method, attr);
 			}
 			else {
 				if (logger.isDebugEnabled() && regMethodName != null) {
-					logger.debug("Keeping attribute for transactional method [" + method + "]: current name [" +
-											 name + "] is not more specific than [" + regMethodName + "]");
+					logger.debug("Keeping attribute for transactional method [" + method + "]: current name '" +
+											 name + "' is not more specific than '" + regMethodName + "'");
 				}
 			}
 		}
+	}
+
+	/**
+	 * Add an attribute for a transactional method.
+	 * @param method the method
+	 * @param attr attribute associated with the method
+	 */
+	public void addTransactionalMethod(Method method, TransactionAttribute attr) {
+		logger.info("Adding transactional method [" + method + "] with attribute [" + attr + "]");
+		this.methodMap.put(method, attr);
+	}
+
+	public TransactionAttribute getTransactionAttribute(Method method, Class targetClass) {
+		return (TransactionAttribute) this.methodMap.get(method);
 	}
 
 }

@@ -19,7 +19,7 @@ package org.springframework.aop.framework;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.easymock.MockControl;
-
+import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
@@ -34,7 +34,6 @@ import org.springframework.beans.TestBean;
 public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 
 	protected Object createProxy(AdvisedSupport as) {
-		// It's default
 		assertFalse("Not forcible CGLIB", as.getProxyTargetClass());
 		Object proxy = as.createAopProxy().getProxy();
 		assertTrue("Should be a JDK proxy: " + proxy.getClass(), AopUtils.isJdkDynamicProxy(proxy));
@@ -95,37 +94,37 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 	}
 	
 	public void testTargetCanGetInvocationWithPrivateClass() throws Throwable {
-			final ContextTestBean expectedTarget = new ContextTestBean() {
-				protected void assertions(MethodInvocation invocation) {
-					assertTrue(invocation.getThis() == this);
-					assertTrue("Invocation should be on ITestBean: " + invocation.getMethod(), 
-						invocation.getMethod().getDeclaringClass() == ITestBean.class);
-				}
-			};
-		
-			AdvisedSupport pc = new AdvisedSupport(new Class[] { ITestBean.class, IOther.class });
-			pc.addInterceptor(ExposeInvocationInterceptor.INSTANCE);
-			TrapTargetInterceptor tii = new TrapTargetInterceptor() {
-				public Object invoke(MethodInvocation invocation) throws Throwable {
-					// Assert that target matches BEFORE invocation returns
-					assertEquals("Target is correct", expectedTarget, invocation.getThis());
-					return super.invoke(invocation);
-				}
-			};
-			pc.addInterceptor(tii);
-			pc.setTarget(expectedTarget);
-			AopProxy aop = createAopProxy(pc);
+		final ContextTestBean expectedTarget = new ContextTestBean() {
+			protected void assertions(MethodInvocation invocation) {
+				assertTrue(invocation.getThis() == this);
+				assertTrue("Invocation should be on ITestBean: " + invocation.getMethod(), 
+					invocation.getMethod().getDeclaringClass() == ITestBean.class);
+			}
+		};
+	
+		AdvisedSupport pc = new AdvisedSupport(new Class[] { ITestBean.class, IOther.class });
+		pc.addInterceptor(ExposeInvocationInterceptor.INSTANCE);
+		TrapTargetInterceptor tii = new TrapTargetInterceptor() {
+			public Object invoke(MethodInvocation invocation) throws Throwable {
+				// Assert that target matches BEFORE invocation returns
+				assertEquals("Target is correct", expectedTarget, invocation.getThis());
+				return super.invoke(invocation);
+			}
+		};
+		pc.addInterceptor(tii);
+		pc.setTarget(expectedTarget);
+		AopProxy aop = createAopProxy(pc);
 
-			ITestBean tb = (ITestBean) aop.getProxy();
-			tb.getName();
-			// Not safe to trap invocation
-			//assertTrue(tii.invocation == target.invocation);
-		
-			//assertTrue(target.invocation.getProxy() == tb);
+		ITestBean tb = (ITestBean) aop.getProxy();
+		tb.getName();
+		// Not safe to trap invocation
+		//assertTrue(tii.invocation == target.invocation);
+	
+		//assertTrue(target.invocation.getProxy() == tb);
 
 		//	((IOther) tb).absquatulate();
-			//MethodInvocation minv =  tii.invocation;
-			//assertTrue("invoked on iother, not " + minv.getMethod().getDeclaringClass(), minv.getMethod().getDeclaringClass() == IOther.class);
-			//assertTrue(target.invocation == tii.invocation);
+		//MethodInvocation minv =  tii.invocation;
+		//assertTrue("invoked on iother, not " + minv.getMethod().getDeclaringClass(), minv.getMethod().getDeclaringClass() == IOther.class);
+		//assertTrue(target.invocation == tii.invocation);
 		}
 }

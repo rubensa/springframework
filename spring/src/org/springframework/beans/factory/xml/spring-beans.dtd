@@ -207,7 +207,7 @@
 	The name of the property is given by the "key" attribute.
 -->
 <!ELEMENT entry (
-        (value | ref | list)*
+        (value | ref | list | map)*
 )>
 
 <!ATTLIST entry key CDATA #REQUIRED>

@@ -225,6 +225,29 @@ public class JdoTemplateTests extends TestCase {
 		pmControl.verify();
 	}
 
+	public void testEvictAll() {
+		MockControl pmfControl = MockControl.createControl(PersistenceManagerFactory.class);
+		PersistenceManagerFactory pmf = (PersistenceManagerFactory) pmfControl.getMock();
+		MockControl pmControl = MockControl.createControl(PersistenceManager.class);
+		PersistenceManager pm = (PersistenceManager) pmControl.getMock();
+
+		pmf.getConnectionFactory();
+		pmfControl.setReturnValue(null, 1);
+		pmf.getPersistenceManager();
+		pmfControl.setReturnValue(pm);
+		pm.evictAll();
+		pmControl.setVoidCallable();
+		pm.close();
+		pmControl.setVoidCallable();
+		pmfControl.replay();
+		pmControl.replay();
+
+		JdoTemplate jt = new JdoTemplate(pmf);
+		jt.evictAll();
+		pmfControl.verify();
+		pmControl.verify();
+	}
+
 	public void testRefresh() {
 		MockControl pmfControl = MockControl.createControl(PersistenceManagerFactory.class);
 		PersistenceManagerFactory pmf = (PersistenceManagerFactory) pmfControl.getMock();
@@ -244,6 +267,29 @@ public class JdoTemplateTests extends TestCase {
 
 		JdoTemplate jt = new JdoTemplate(pmf);
 		jt.refresh("0");
+		pmfControl.verify();
+		pmControl.verify();
+	}
+
+	public void testRefreshAll() {
+		MockControl pmfControl = MockControl.createControl(PersistenceManagerFactory.class);
+		PersistenceManagerFactory pmf = (PersistenceManagerFactory) pmfControl.getMock();
+		MockControl pmControl = MockControl.createControl(PersistenceManager.class);
+		PersistenceManager pm = (PersistenceManager) pmControl.getMock();
+
+		pmf.getConnectionFactory();
+		pmfControl.setReturnValue(null, 1);
+		pmf.getPersistenceManager();
+		pmfControl.setReturnValue(pm);
+		pm.refreshAll();
+		pmControl.setVoidCallable();
+		pm.close();
+		pmControl.setVoidCallable();
+		pmfControl.replay();
+		pmControl.replay();
+
+		JdoTemplate jt = new JdoTemplate(pmf);
+		jt.refreshAll();
 		pmfControl.verify();
 		pmControl.verify();
 	}

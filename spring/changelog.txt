@@ -18,6 +18,7 @@ Package org.springframework.beans
 * added AbstractFactoryBean class as superclass for FactoryBeans that are capable of both singletons and prototypes
 * reworked List/Map/Set/PropertiesFactoryBean to extend from AbstractFactoryBean
 * renamed PropertiesFactoryBean's "charset" property to "fileEncoding", for consistency with other encoding properties
+* added ObjectFactoryCreatingFactoryBean, usable to avoid having calling getBean() to get prototype beans from the container.
 
 Package org.springframework.context
 * added ResourceMapFactoryBean class to context.support, for resolving properties into a Map with Resource values

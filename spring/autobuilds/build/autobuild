@@ -12,7 +12,7 @@
 #
 # ---------------------------------------------------------------------------
 
-ANT=ant
+ANT=$ANT_HOME/bin/ant
 USAGE="Usage: $0 [-u] sample-app target-server"
 PARAMS=$@
 

@@ -14,16 +14,15 @@ import java.util.Set;
 import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.BeforeAdvice;
-import org.springframework.aop.BeforeAdvisor;
 import org.springframework.aop.InterceptionAroundAdvisor;
 import org.springframework.aop.InterceptionIntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.TargetSource;
-import org.springframework.aop.ThrowsAdvisor;
+import org.springframework.aop.support.DefaultBeforeAdvisor;
 import org.springframework.aop.support.DefaultInterceptionAroundAdvisor;
+import org.springframework.aop.support.DefaultThrowsAdvisor;
 import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.util.StringUtils;
 
@@ -208,31 +207,11 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	}
 	
 	public void addBeforeAdvice(final MethodBeforeAdvice ba) {
-		addAdvisor(new BeforeAdvisor() {
-			public BeforeAdvice getBeforeAdvice() {
-				return ba;
-			}
-			public Pointcut getPointcut() {
-				return Pointcut.TRUE;
-			}
-			public boolean isPerInstance() {
-				throw new UnsupportedOperationException();
-			}
-		});
+		addAdvisor(new DefaultBeforeAdvisor(Pointcut.TRUE, ba));
 	}
 	
 	public void addThrowsAdvice(final Object throwsAdvice) {
-		addAdvisor(new ThrowsAdvisor() {
-			public Object getThrowsAdvice() {
-				return throwsAdvice;
-			}
-			public Pointcut getPointcut() {
-				return Pointcut.TRUE;
-			}
-			public boolean isPerInstance() {
-				throw new UnsupportedOperationException();
-			}
-		});
+		addAdvisor(new DefaultThrowsAdvisor(Pointcut.TRUE, throwsAdvice));
 	}
 
 	// TODO what about removing a ProxyInterceptor?

@@ -60,14 +60,12 @@ public abstract class DynamicObjectPoller extends TimerTask {
 	 * @see java.util.TimerTask#run()
 	 */
 	public void run() {
-		if (isDirty()) {
+		if (dynamicObject.isModified()) {
 			dynamicObject.refresh();
 		} 
 		else {
 			//log.info("File '" + script.getClassName() + "' unchanged");
 		}
 	}
-	
-	protected abstract boolean isDirty();
 
 }

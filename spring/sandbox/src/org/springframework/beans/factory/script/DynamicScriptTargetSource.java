@@ -31,7 +31,7 @@ public class DynamicScriptTargetSource extends DynamicBeanTargetSource implement
 	private Script script;
 
 	public DynamicScriptTargetSource(Object initialTarget, BeanFactory factory, String name, Script script) {
-		super(initialTarget, factory, name);
+		super(initialTarget, factory, name, null);
 		setExpirableObject(script);
 		this.script = script;
 	}

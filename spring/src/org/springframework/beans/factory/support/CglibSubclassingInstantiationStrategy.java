@@ -58,11 +58,11 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 
 	protected Object instantiateWithMethodInjection(RootBeanDefinition beanDefinition, BeanFactory owner) {
 		// must generate CGLIB subclass
-		return new CglibSubclassCreator(beanDefinition, owner).instantiate();
+		return new CglibSubclassCreator(beanDefinition, owner).instantiate(null, null);
 	}
 
 	protected Object instantiateWithMethodInjection(RootBeanDefinition beanDefinition, BeanFactory owner,
-																									Constructor ctor, Object[] args) {
+													Constructor ctor, Object[] args) {
 		return new CglibSubclassCreator(beanDefinition, owner).instantiate(ctor, args);
 	}
 
@@ -83,7 +83,16 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			this.owner = owner;
 		}
 
-		public Object instantiate() {
+		/**
+		 * Create a new instance of a dynamically generated subclasses implementing the required
+		 * lookups
+		 * @param ctor constructor to use. If this is null, use the no-arg constructor (no
+		 * paramterization, or Setter Injection)
+		 * @param args arguments to use for the constructor. Ignored if the ctor parameter is
+		 * null
+		 * @return new instance of the dynamically generated class
+		 */
+		public Object instantiate(Constructor ctor, Object[] args) {
 			Enhancer enhancer = new Enhancer();
 			enhancer.setSuperclass(this.beanDefinition.getBeanClass());
 			enhancer.setCallbackFilter(new CallbackFilterImpl());
@@ -92,11 +101,9 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 					new LookupOverrideMethodInterceptor()
 			});
 
-			return enhancer.create();
-		}
-
-		public Object instantiate(Constructor ctor, Object[] args) {
-			throw new UnsupportedOperationException("Method overriding not yet supported with Constructor Injection");
+			return (ctor == null) ? 
+					enhancer.create() : 
+					enhancer.create(ctor.getParameterTypes(), args);
 		}
 
 

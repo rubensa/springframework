@@ -15,7 +15,6 @@ import javax.naming.NamingException;
 
 import junit.framework.TestCase;
 
-import org.easymock.EasyMock;
 import org.easymock.MockControl;
 import org.springframework.beans.MethodInvocationException;
 import org.springframework.jndi.JndiTemplate;
@@ -40,17 +39,17 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 		final int value = 11;
 		final String jndiName = "foo";
 		
-		MockControl ec = EasyMock.controlFor(MyEjb.class);
+		MockControl ec = MockControl.createControl(MyEjb.class);
 		MyEjb myEjb = (MyEjb) ec.getMock();
 		myEjb.getValue();
 		ec.setReturnValue(value, 1);
-		ec.activate();
+		ec.replay();
 		
-		MockControl mc = EasyMock.controlFor(MyHome.class);
+		MockControl mc = MockControl.createControl(MyHome.class);
 		final MyHome home = (MyHome) mc.getMock();
 		home.create();
 		mc.setReturnValue(myEjb, 1);
-		mc.activate();
+		mc.replay();
 		
 		JndiTemplate jt = new JndiTemplate() {
 			public Object lookup(String name) throws NamingException {
@@ -80,17 +79,17 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 		final RemoteException rex = new RemoteException();
 		final String jndiName = "foo";
 	
-		MockControl ec = EasyMock.controlFor(MyEjb.class);
+		MockControl ec = MockControl.createControl(MyEjb.class);
 		MyEjb myEjb = (MyEjb) ec.getMock();
 		myEjb.getValue();
 		ec.setThrowable(rex);
-		ec.activate();
+		ec.replay();
 	
-		MockControl mc = EasyMock.controlFor(MyHome.class);
+		MockControl mc = MockControl.createControl(MyHome.class);
 		final MyHome home = (MyHome) mc.getMock();
 		home.create();
 		mc.setReturnValue(myEjb, 1);
-		mc.activate();
+		mc.replay();
 	
 		JndiTemplate jt = new JndiTemplate() {
 			public Object lookup(String name) throws NamingException {
@@ -126,11 +125,11 @@ public class SimpleRemoteStatelessSessionProxyFactoryBeanTests extends TestCase 
 		final String jndiName = "foo";
 	
 		final CreateException cex = new CreateException();
-		MockControl mc = EasyMock.controlFor(MyHome.class);
+		MockControl mc = MockControl.createControl(MyHome.class);
 		final MyHome home = (MyHome) mc.getMock();
 		home.create();
 		mc.setThrowable(cex);
-		mc.activate();
+		mc.replay();
 	
 		JndiTemplate jt = new JndiTemplate() {
 			public Object lookup(String name) throws NamingException {

@@ -9,9 +9,8 @@ import java.io.InputStream;
 import java.lang.reflect.Proxy;
 
 import junit.framework.TestCase;
-import org.easymock.EasyMock;
-import org.easymock.MockControl;
 
+import org.easymock.MockControl;
 import org.springframework.beans.DerivedTestBean;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.factory.BeanFactory;
@@ -57,10 +56,10 @@ public class BeanFactoryTransactionTests extends TestCase {
 
 	public void executeGetsAreNotTransactional(ITestBean testBean) throws NoSuchMethodException {
 		// Install facade
-		MockControl ptmControl = EasyMock.controlFor(PlatformTransactionManager.class);
+		MockControl ptmControl = MockControl.createControl(PlatformTransactionManager.class);
 		PlatformTransactionManager ptm = (PlatformTransactionManager) ptmControl.getMock();
 		// Expect no methods
-		ptmControl.activate();
+		ptmControl.replay();
 		PlatformTransactionManagerFacade.delegate = ptm;
 
 		assertTrue("Age should not be " + testBean.getAge(), testBean.getAge() == 666);
@@ -68,7 +67,7 @@ public class BeanFactoryTransactionTests extends TestCase {
 		ptmControl.verify();
 
 		// Install facade expecting a call
-		ptmControl = EasyMock.controlFor(PlatformTransactionManager.class);
+		ptmControl = MockControl.createControl(PlatformTransactionManager.class);
 		ptm = (PlatformTransactionManager) ptmControl.getMock();
 		TransactionStatus txStatus = new TransactionStatus(null, true);
 		TransactionInterceptor txInterceptor = (TransactionInterceptor) factory.getBean("txInterceptor");
@@ -78,7 +77,7 @@ public class BeanFactoryTransactionTests extends TestCase {
 		ptmControl.setReturnValue(txStatus);
 		ptm.commit(txStatus);
 		ptmControl.setVoidCallable();
-		ptmControl.activate();
+		ptmControl.replay();
 		PlatformTransactionManagerFacade.delegate = ptm;
 
 		// TODO same as old age to avoid ordering effect for now

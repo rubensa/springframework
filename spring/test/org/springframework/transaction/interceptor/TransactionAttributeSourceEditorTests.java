@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
-import org.easymock.EasyMock;
 import org.easymock.MockControl;
 import org.springframework.transaction.TransactionDefinition;
 
@@ -32,12 +31,12 @@ public class TransactionAttributeSourceEditorTests extends TestCase {
 		pe.setAsText(null);
 		TransactionAttributeSource tas = (TransactionAttributeSource) pe.getValue();
 
-		MockControl miControl = EasyMock.controlFor(MethodInvocation.class);
+		MockControl miControl = MockControl.createControl(MethodInvocation.class);
 		MethodInvocation mi = (MethodInvocation) miControl.getMock();
 		Method m = Object.class.getMethod("hashCode", null);
 		mi.getMethod();
 		miControl.setReturnValue(m);
-		miControl.activate();
+		miControl.replay();
 		
 		assertTrue(tas.getTransactionAttribute(mi) == null);
 	}
@@ -105,11 +104,11 @@ public class TransactionAttributeSourceEditorTests extends TestCase {
 	}
 
 	private void checkTransactionProperties(TransactionAttributeSource tas, Method method, int propagationBehavior) {
-		MockControl miControl = EasyMock.controlFor(MethodInvocation.class);
+		MockControl miControl = MockControl.createControl(MethodInvocation.class);
 		MethodInvocation mi = (MethodInvocation) miControl.getMock();
 		mi.getMethod();
 		miControl.setReturnValue(method);
-		miControl.activate();
+		miControl.replay();
 		TransactionAttribute ta = tas.getTransactionAttribute(mi);
 		if (propagationBehavior >= 0) {
 			assertTrue(ta != null);

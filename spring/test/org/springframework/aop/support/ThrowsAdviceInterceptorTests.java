@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.easymock.MockControl;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.aop.framework.AopConfigException;
 import org.springframework.aop.framework.MethodCounter;
 
@@ -156,7 +157,7 @@ public class ThrowsAdviceInterceptorTests extends TestCase {
 		mc.verify();
 	}
 	
-	public static class MyThrowsHandler extends MethodCounter {
+	public static class MyThrowsHandler extends MethodCounter implements ThrowsAdvice {
 		// Full method signature
 		 public void afterThrowing(Method m, Object[] args, Object target, ServletException ex) {
 		 	count("servletException");

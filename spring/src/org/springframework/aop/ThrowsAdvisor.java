@@ -20,7 +20,7 @@ package org.springframework.aop;
  * The first three arguments are optional, and only useful if
  * we want further information about the joinpoint, as in AspectJ
  * <b>after throwing</b> advice.
- * The advice re-raises the exception when it's done.
+ * The advisor re-raises the exception when it's done.
  * @author Rod Johnson
  * @version $Id$
  */
@@ -31,6 +31,6 @@ public interface ThrowsAdvisor extends Advisor, PointcutAdvisor {
 	 * is matched. Methods are invoked on this object by reflection, allowing
 	 * strong typing.
 	 */
-	Object getThrowsAdvice();
+	ThrowsAdvice getThrowsAdvice();
 
 }

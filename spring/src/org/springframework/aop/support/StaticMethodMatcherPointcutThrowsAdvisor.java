@@ -4,6 +4,7 @@ package org.springframework.aop.support;
 import java.lang.reflect.Method;
 
 import org.springframework.aop.Pointcut;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.aop.ThrowsAdvisor;
 
 /**
@@ -14,28 +15,23 @@ import org.springframework.aop.ThrowsAdvisor;
  */
 public abstract class StaticMethodMatcherPointcutThrowsAdvisor extends StaticMethodMatcherPointcut implements ThrowsAdvisor {
 
-	private boolean isPerInstance;
-
-	private Object throwsAdvice;
+	private ThrowsAdvice throwsAdvice;
 	
 	protected StaticMethodMatcherPointcutThrowsAdvisor() {
 	}
 
-	protected StaticMethodMatcherPointcutThrowsAdvisor(Object throwsAdvice) {
+	protected StaticMethodMatcherPointcutThrowsAdvisor(ThrowsAdvice throwsAdvice) {
 		this.throwsAdvice = throwsAdvice;
 	}
 
 	public abstract boolean matches(Method m, Class targetClass);
 
-	public void setThrowsAdvice(Object throwsAdvice) {
+	public void setThrowsAdvice(ThrowsAdvice throwsAdvice) {
 		this.throwsAdvice = throwsAdvice;
 	}
 	
-	public void setIsPerInstance(boolean isPerInstance) {
-		this.isPerInstance = isPerInstance;
-	}
 
-	public Object getThrowsAdvice() {
+	public ThrowsAdvice getThrowsAdvice() {
 		return throwsAdvice;
 	}
 
@@ -44,7 +40,7 @@ public abstract class StaticMethodMatcherPointcutThrowsAdvisor extends StaticMet
 	}
 
 	public boolean isPerInstance() {
-		return this.isPerInstance;
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -20,6 +20,7 @@ import org.springframework.aop.IntroductionInterceptor;
 import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.TargetSource;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.aop.support.DefaultBeforeAdvisor;
 import org.springframework.aop.support.DefaultInterceptionAroundAdvisor;
 import org.springframework.aop.support.DefaultThrowsAdvisor;
@@ -210,8 +211,8 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		addAdvisor(new DefaultBeforeAdvisor(Pointcut.TRUE, ba));
 	}
 	
-	public void addThrowsAdvice(final Object throwsAdvice) {
-		addAdvisor(new DefaultThrowsAdvisor(Pointcut.TRUE, throwsAdvice));
+	public void addThrowsAdvice(final ThrowsAdvice throwsAdvice) {
+		addAdvisor(new DefaultThrowsAdvisor(throwsAdvice));
 	}
 
 	// TODO what about removing a ProxyInterceptor?

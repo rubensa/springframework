@@ -24,6 +24,10 @@ public class DefaultBeforeAdvisor implements BeforeAdvisor {
 		this.pointcut = pointcut;
 		this.advice = advice;
 	}
+	
+	public DefaultBeforeAdvisor(BeforeAdvice advice) {
+		this(Pointcut.TRUE, advice);
+	}
 
 	/**
 	 * @see org.springframework.aop.BeforeAdvisor#getBeforeAdvice()

@@ -160,6 +160,10 @@ public class TransactionProxyFactoryBean extends ProxyConfig implements FactoryB
 		if (this.target == null) {
 			throw new AopConfigException("Target must be set");
 		}
+		
+		if (this.transactionAttributes == null) {
+			throw new AopConfigException("'transactionAttributes' property must be set: if there are no transaction methods, don't use a transactional proxy");
+		}
 
 		NameMatchTransactionAttributeSource tas = new NameMatchTransactionAttributeSource();
 		TransactionAttributeEditor tae = new TransactionAttributeEditor();

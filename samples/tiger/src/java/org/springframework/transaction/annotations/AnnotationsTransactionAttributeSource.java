@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.metadata.Attributes;
 import org.springframework.transaction.interceptor.AbstractFallbackTransactionAttributeSource;
 import org.springframework.transaction.interceptor.NoRollbackRuleAttribute;
@@ -49,18 +50,39 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
  * @see org.springframework.transaction.interceptor.AbstractFallbackTransactionAttributeSource
  */
 public class AnnotationsTransactionAttributeSource extends
-			AbstractFallbackTransactionAttributeSource {
+			AbstractFallbackTransactionAttributeSource implements InitializingBean {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	/**
 	 * Underlying Attributes implementation we're using
 	 */
-	private final Attributes attributes;
+	private Attributes attributes;
+    
+    
+    /**
+     * Create a new AnnotationsTransactionAttributeSource.
+     * @see #setAttributes
+     */
+    public AnnotationsTransactionAttributeSource() {
+    }
 
 	public AnnotationsTransactionAttributeSource(Attributes attributes) {
 		this.attributes = attributes;
 	}
+    
+    /**
+     * Set the Attributes implementation to use.
+     */
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
+    }
+
+    public void afterPropertiesSet() {
+        if (this.attributes == null) {
+            throw new IllegalArgumentException("'attributes' is required");
+        }
+    }
 
 	/**
 	 * @see org.springframework.transaction.interceptor.AbstractFallbackTransactionAttributeSource#findAllAttributes(java.lang.Class)

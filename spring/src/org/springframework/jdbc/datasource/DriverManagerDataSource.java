@@ -148,8 +148,8 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 	 */
 	protected Connection getConnectionFromDriverManager(String url, String username, String password)
 	    throws SQLException {
-		if (logger.isInfoEnabled()) {
-			logger.info("Creating new JDBC connection to [" + url + "]");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Creating new JDBC connection to [" + url + "]");
 		}
 		return DriverManager.getConnection(url, username, password);
 	}

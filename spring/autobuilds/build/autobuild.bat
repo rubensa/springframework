@@ -42,7 +42,7 @@ set USAGE="Usage: %0 [-u] sample-app target-server"
     if (%SERVER%) == () goto usage
     if (%APP%) == () goto usage
     if not exist %SERVER%-build.xml goto noserver
-    if not exist ..\..\samples\%APP%\.autobuilds goto noapp
+    if not exist ..\apps\%APP% goto noapp
     
 ::  ensure environment exists for 1st use
     ant -q setup

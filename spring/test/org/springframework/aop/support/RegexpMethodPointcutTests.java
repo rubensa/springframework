@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 
 import junit.framework.TestCase;
 
-
 /**
  * 
  * @author Rod Johnson
@@ -24,6 +23,22 @@ public class RegexpMethodPointcutTests extends TestCase {
 	 */
 	public RegexpMethodPointcutTests(String arg0) {
 		super(arg0);
+	}
+	
+	public void testPatternMustBeSupplied() throws Exception {
+		RegexpMethodPointcut rpc = new RegexpMethodPointcut();
+		rpc.setPattern("java.lang.Object.hashCode"); 
+		// This is OK
+		rpc.afterPropertiesSet();
+		
+		rpc = new RegexpMethodPointcut();
+		try {
+			rpc.afterPropertiesSet();
+			fail("Should have insisted on pattern");
+		}
+		catch (Exception ex) {
+			// Ok
+		}
 	}
 	
 	public void testExactMatch() throws Exception {

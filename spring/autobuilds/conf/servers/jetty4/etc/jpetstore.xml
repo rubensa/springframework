@@ -68,7 +68,7 @@
   <!-- Add root context web applications.                              -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <Call name="addWebApplication">
-    <Arg>/</Arg>
+    <Arg>/jpetstore</Arg>
     <Arg><SystemProperty name="jetty.home" default="."/>/webapps/jpetstore.war</Arg>
   </Call>
 

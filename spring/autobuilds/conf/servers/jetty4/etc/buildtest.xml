@@ -18,8 +18,8 @@
     <Call name="disableLog"/>
     <Call name="add">
       <Arg>
-        <New class="org.mortbay.util.OutputStreamLogSink">  
-          <Set name="filename"><SystemProperty name="reports.dir" default="../.."/>/reports/tile-example_jetty_app.log</Set>
+        <New class="org.mortbay.util.OutputStreamLogSink">
+          <Set name="filename"><SystemProperty name="reports.dir" default="../../reports"/>/buildtest_jetty_app.log</Set>
           <Set name="retainDays">90</Set>
           <Set name="append">true</Set>
           <Set name="logLabels">true</Set>
@@ -68,8 +68,8 @@
   <!-- Add root context web applications.                              -->
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
   <Call name="addWebApplication">
-    <Arg>/</Arg>
-    <Arg><SystemProperty name="jetty.home" default="."/>/webapps/tiles-example.war</Arg>
+    <Arg>/buildtest</Arg>
+    <Arg><SystemProperty name="jetty.home" default="."/>/webapps/buildtest.war</Arg>
   </Call>
 
 

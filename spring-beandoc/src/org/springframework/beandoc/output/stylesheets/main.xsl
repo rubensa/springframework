@@ -52,7 +52,7 @@
       			<div id="bannerBar">beandoc generated: <xsl:value-of select="$beandocGenerated"/></div>
                 <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
 
-                <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage">
+                <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage and not(consolidated/beans[1]/@beandocNoGraphs)">
                 <p>
                     <a href="consolidated-graph.html" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
                         <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {consolidated/beans[1]/@beandocContextTitle}"/>

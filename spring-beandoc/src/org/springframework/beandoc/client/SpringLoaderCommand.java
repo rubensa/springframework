@@ -32,10 +32,14 @@ package org.springframework.beandoc.client;
 class SpringLoaderCommand {
 
     private String inputFiles;
+    
     private String outputDir;
+    
     private String beandocPropsLocation;
-    private String beandocContextLocation;
+    
     private String beandocPropsPrefix;
+    
+    private String beandocContextLocation;
     
     /**
      * @param inputFiles one or more resource resolveable Strings for input locations
@@ -44,10 +48,18 @@ class SpringLoaderCommand {
      *      mandatory properties are specified as parmeters to this method or as System properties 
      *      using a "springbeandoc." prefix (ie <code>springbeandoc.input.files=...</code> in 
      *      place of <code>input.files=...</code>)
+     * @param beandocPropsPrefix the prefix to expect all beandoc properties to have.  May be
+     * 		used to make beandoc more accessible to other client types, in particular, Maven.
      * @param private beandocContextLocation the location of a custom Context file that defines a 
      *      ContextProcessor named "processor"    
      */
-    public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation, String beandocPropsPrefix, String beandocContextLocation) {
+    public SpringLoaderCommand(
+        String inputFiles, 
+        String outputDir, 
+        String beandocPropsLocation, 
+        String beandocPropsPrefix, 
+        String beandocContextLocation) 
+    {        
         this.inputFiles = inputFiles;
         this.outputDir = outputDir;
         this.beandocPropsLocation = beandocPropsLocation;
@@ -79,7 +91,15 @@ class SpringLoaderCommand {
      */
     public String getBeandocPropsLocation() {
         return beandocPropsLocation;
-    }    
+    }   
+
+    /**
+     * @return prefix used to select relevant properties.
+     * @see #getBeandocPropsLocation()
+     */
+    public String getBeandocPropsPrefix() {
+        return beandocPropsPrefix;
+    } 
     
     /**
      * @return the input files identifier
@@ -102,16 +122,9 @@ class SpringLoaderCommand {
         return new StringBuffer("inputFiles: ").append(inputFiles)
         .append("; outputDir: ").append(outputDir)
         .append("; beandocPropsLocation: ").append(beandocPropsLocation)
+        .append("; beandocPropsPrefix: ").append(beandocPropsPrefix)
         .append("; beandocContextLocation: ").append(beandocContextLocation)
         .toString();
-    }
-
-    /**
-     * @return prefix used to select relevant properties.
-     * @see #getBeandocPropsLocation()
-     */
-    public String getBeandocPropsPrefix() {
-        return beandocPropsPrefix;
     }
 
 }

@@ -8,10 +8,10 @@ but hardcoded into others, including hardcoded into some XSL files.  Need to
 make configurable across all files/objects that need to know it.
 
 don't link to graph files in the html docs if GraphViz is not installed or has
-not been configured.
+not been configured. *done, use 'html.includeGraphs=false' in props*
 
 Look at specifying configurable application layers and use them to rank beans
-in the graphs (problem is unlinked beans all on the same rank)
+in the graphs (problem is unlinked beans all on the same rank) *done*
 
-possibly add a Transformer to generate a Maven report..?
+possibly add a Transformer to generate a Maven report..? *done*
 

@@ -56,9 +56,11 @@
                 
                 <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
                 <p>
-                    <a href="{$fileRoot}-graph.html" title="View full size image">
-                        <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
-                    </a>
+                	<xsl:if test="not(beans/@beandocNoGraphs)">
+	                    <a href="{$fileRoot}-graph.html" title="View full size image">
+	                        <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
+	                    </a>
+                    </xsl:if>
                     
                     <strong>Description:</strong><br/>
                     <xsl:value-of select="beans/description"/>

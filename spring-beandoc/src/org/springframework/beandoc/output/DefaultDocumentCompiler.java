@@ -28,6 +28,11 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.StringUtils;
 
 /**
+ * Default implementation of the {@link DocumentCompiler} interface.  This
+ * class invokes the GraphViz binary (where suitably configured) to create the
+ * graphs and image map HTML from the generated .dot files.  Further, it 
+ * copies media resources from the BeanDoc jar file to the output location.
+ * 
  * @author Darren Davison
  * @since 1.0
  */

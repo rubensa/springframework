@@ -79,14 +79,17 @@ public class BeanDocClient {
 	 * can be switched to gif, jpg or svg as desired</td></tr>
 	 * </table>
 	 * 
-	 * @param args command line parameters.  
-	 * 		<ul><li>If a single parameter is offered, it is taken 
-	 * 		to be the location of a properties file containing all mandatory and optional
-	 * 		configuration properties for the beandoc tool.</li>
-	 * 		<li>If two parameters are supplied, they are the input files (comma separated) 
-	 * 		and output directory respectively.M/li>
-	 * 		<li>Three parameters specify input file(s), output directory and location of
-	 * 		properties file</li></ul>
+	 * @param args command line parameters using GNU style options..  
+	 * 		<ul><li><b>-- [file]</b> -  input file</li>
+	 * 		<li><b>--output [dir]</b> -  output directory</li>
+	 * 		<li><b>--properties [file]</b> - the location of a properties file 
+	 * 		containing all mandatory and optional configuration properties for the 
+	 * 		beandoc tool.</li>
+	 * 		<li><b>--prefix [string]</b> - the string that BeanDocClient should expect
+	 * 		to find prefixing all beandoc properties.</li>
+	 * 		<li><b>--context [file]</b> - a custom context file describing how to 
+	 * 		configure BeanDoc's dependencies.  Power users only.</li>
+	 * 		<li><b>--help</b> - print usage to stdout and quit.</li></ul>
 	 */
 	public static void main(String[] args) {
 	    

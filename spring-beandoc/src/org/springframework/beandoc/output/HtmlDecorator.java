@@ -21,7 +21,11 @@ import org.springframework.util.StringUtils;
 
 
 /**
- * HtmlDecorator
+ * HtmlDecorator decorates the DOM's with attributes used predominantly
+ * in the generation of HTML documentation.  Bean properties on this class
+ * make it possible to specify titles, page footers, CSS URL's and 
+ * whether graphs should be included in the HTML (whether they're
+ * generated or not).
  * 
  * @author Darren Davison
  * @since 1.0
@@ -38,11 +42,15 @@ public class HtmlDecorator extends SimpleDecorator {
 
     private static final String ATTRIBUTE_FOOTER = "beandocPageFooter";
 
+    private static final String ATTRIBUTE_NOGRAPHS = "beandocNoGraphs";
+
     private String cssUrl = DEFAULT_CSS_FILE;
     
     private String title = "Application Context";    
     
     private String footer = "Copyright Spring BeanDoc contributers"; 
+    
+    private boolean includeGraphs = true;
     
     private String thisFileName;  
     
@@ -53,14 +61,18 @@ public class HtmlDecorator extends SimpleDecorator {
      */
     protected void decorateElement(Element element) {
         if (element.isRootElement()) {
-            // add CSS file locations, title
+            // add CSS file locations, title, footer
             element.setAttribute(ATTRIBUTE_CSS_NAME, cssUrl);
             element.setAttribute(ATTRIBUTE_TITLE, title);
+            element.setAttribute(ATTRIBUTE_FOOTER, footer);
+            
+            // keep a reference to file names
             thisFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             thisHtmlFileName = StringUtils.replace(thisFileName, ".xml", ".html");
             
-            // set page footer
-            element.setAttribute(ATTRIBUTE_FOOTER, footer);
+            // set ignore graph output?
+            if (!includeGraphs)
+                element.setAttribute(ATTRIBUTE_NOGRAPHS, "noGraphs");
         }
         
         String refFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
@@ -128,5 +140,18 @@ public class HtmlDecorator extends SimpleDecorator {
      */
     public void setFooter(String footer) {
         this.footer = footer;
+    }
+    
+    /**
+     * Set to false if you wish the HTML documentation not to include images and
+     * links to graphing output.  This could be used if you elect not to generate
+     * graphs, or if graphs are being generated in a non-compatible format for the
+     * HTML output.
+     * 
+     * @param includeGraphs set to false to prevent graphs being included in HTML
+     * 		documentation.  True by default.
+     */
+    public void setIncludeGraphs(boolean includeGraphs) {
+        this.includeGraphs = includeGraphs;
     }
 }

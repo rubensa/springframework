@@ -75,7 +75,8 @@ class SpringLoader {
         if (command.getOutputDir() != null)
             beandocProps.put(PROP_OUTPUT_DIR, command.getOutputDir());
         
-        String beandocXml = (command.getBeandocContextLocation() == null) ? DEFAULT_BEANDOC_XML : command.getBeandocContextLocation();
+        String beandocXml = (command.getBeandocContextLocation() == null) ? 
+            DEFAULT_BEANDOC_XML : command.getBeandocContextLocation();
 	    ClassPathResource res = new ClassPathResource(beandocXml);
 	    XmlBeanFactory factory = new XmlBeanFactory(res);
 	    PropertyPlaceholderConfigurer cfgPlacehoder = new PropertyPlaceholderConfigurer();

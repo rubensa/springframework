@@ -1,8 +1,8 @@
 package org.springframework.jmx;
 
-import org.springframework.jmx.metadata.support.annotations.ManagedResource;
-import org.springframework.jmx.metadata.support.annotations.ManagedOperation;
 import org.springframework.jmx.metadata.support.annotations.ManagedAttribute;
+import org.springframework.jmx.metadata.support.annotations.ManagedOperation;
+import org.springframework.jmx.metadata.support.annotations.ManagedResource;
 
 /**
  * @author robh

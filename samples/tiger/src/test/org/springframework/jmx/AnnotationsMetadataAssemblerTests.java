@@ -1,13 +1,8 @@
 
 package org.springframework.jmx;
 
-import javax.management.MBeanInfo;
-import javax.management.MBeanAttributeInfo;
-
-import org.springframework.jmx.assembler.AbstractMetadataAssemblerTests;
 import org.springframework.jmx.metadata.JmxAttributeSource;
 import org.springframework.jmx.metadata.support.annotations.AnnotationsJmxAttributeSource;
-import org.springframework.jmx.util.ObjectNameManager;
 
 /**
  * @author robh

@@ -327,7 +327,7 @@ public class Cglib2AopProxy implements AopProxy, Serializable {
         }
         catch (ClassNotFoundException ex) {
             throw new AopConfigException(AdvisedSupport.class + " missing attempting to deserialize an AOP proxy: " +
-                    "Are the Spring AOP libraries available on the client side?");
+                    "Are the Spring AOP libraries available on the client side?", ex);
         }
     }
 

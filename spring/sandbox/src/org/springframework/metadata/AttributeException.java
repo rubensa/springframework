@@ -23,16 +23,15 @@ import org.springframework.core.NestedRuntimeException;
  * @author Mark Pollack
  * @since Sep 28, 2003
  * @version $Id$
- * 
  */
 public class AttributeException extends NestedRuntimeException {
 
-	public AttributeException(String msg, Throwable ex) {
-		super(msg, ex);
-	}
-
 	public AttributeException(String msg) {
 		super(msg);
+	}
+
+	public AttributeException(String msg, Throwable ex) {
+		super(msg, ex);
 	}
 
 }

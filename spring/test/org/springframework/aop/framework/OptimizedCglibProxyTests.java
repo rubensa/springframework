@@ -51,11 +51,6 @@ public class OptimizedCglibProxyTests extends CglibProxyTests {
 	protected boolean requiresTarget() {
 		return true;
 	}
-
-	public void testSerializationSerializableTargetAndAdvice() throws Exception {
-		// TODO remove override--
-		// it's only to conceal superclass test that fails here
-	}
 	
 	/**
 	 * Inherited version checks identity with original object. We change that,

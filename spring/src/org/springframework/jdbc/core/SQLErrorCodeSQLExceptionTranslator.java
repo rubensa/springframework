@@ -11,25 +11,27 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 
 /**
- * Implementation of SQLExceptionTranslator that uses specific vendor codes. More precise
- * than SQLState implementation, but vendor specific. The JdbcTemplate class
- * enables error handling to be parameterized without making application's
- * dependent on a particular RDBMS.
- * <br>
- * This class applies the following matching rules:
- * <ol>
- * <li>Try custom translation implemented by any subclass. Note that this class is concrete
- * and is typically used itself, in which case this rule doesn't apply.
- * <li>Apply error code matching. Error codes are obtained from the SQLErrorCodesFactory by default.
- * This looks up error codes from the classpath and keys into them from the database name
- * from the database metadata.
+ * Implementation of SQLExceptionTranslator that uses specific vendor codes.
+ * More precise than SQLState implementation, but vendor specific.
+ *
+ * <p>The JdbcTemplate class enables error handling to be parameterized without
+ * making application's dependent on a particular RDBMS.
+ *
+ * <p>This class applies the following matching rules:
+ * <ul>
+ * <li>Try custom translation implemented by any subclass. Note that this class is
+ * concrete and is typically used itself, in which case this rule doesn't apply.
+ * <li>Apply error code matching. Error codes are obtained from the SQLErrorCodesFactory
+ * by default. This looks up error codes from the classpath and keys into them from the
+ * database name from the database metadata.
  * <li>Fallback to fallback translator. SQLStateSQLExceptionTranslator is the default
  * fallback translator.
- * </ol>
+ * </ul>
  * 
  * @author Rod Johnson
  * @author Thomas Risberg
@@ -148,7 +150,8 @@ public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslato
 	}
 
 	private void logTranslation(String task, String sql, SQLException sqlex) {
-		logger.warn("Translating SQLException with SQLState='" + sqlex.getSQLState() + "' and errorCode=" + sqlex.getErrorCode() + 
-						" and message=" + sqlex.getMessage() + "; sql was '" + sql + "'");
+		logger.warn("Translating SQLException with SQLState '" + sqlex.getSQLState() + "' and errorCode '" + sqlex.getErrorCode() +
+						"' and message [" + sqlex.getMessage() + "]; SQL was [" + sql + "] for task [" + task + "]");
 	}
+
 }

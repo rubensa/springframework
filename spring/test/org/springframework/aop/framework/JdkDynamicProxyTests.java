@@ -19,6 +19,7 @@ package org.springframework.aop.framework;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.easymock.MockControl;
+
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
@@ -32,13 +33,6 @@ import org.springframework.beans.TestBean;
  */
 public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 
-	public JdkDynamicProxyTests(String arg0) {
-		super(arg0);
-	}
-	
-	/**
-	 * @see org.springframework.aop.framework.AbstractAopProxyTests#setInMode(org.springframework.aop.framework.AdvisedSupport)
-	 */
 	protected Object createProxy(AdvisedSupport as) {
 		// It's default
 		assertFalse("Not forcible CGLIB", as.getProxyTargetClass());
@@ -62,7 +56,6 @@ public class JdkDynamicProxyTests extends AbstractAopProxyTests {
 		}
 	}
 
-	
 	public void testProxyIsJustInterface() throws Throwable {
 		TestBean raw = new TestBean();
 		raw.setAge(32);

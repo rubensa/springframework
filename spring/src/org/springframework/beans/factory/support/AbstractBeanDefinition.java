@@ -253,7 +253,9 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 	}
 
 	/**
-	 * Return method overrides for the bean, if any.
+	 * Return information about methods to be overridden by the IoC
+	 * container. This will be empty if there are no method overrides.
+	 * Never returns null.
 	 */
 	public MethodOverrides getMethodOverrides() {
 		return this.methodOverrides;

@@ -16,6 +16,7 @@ package org.springframework.mail;
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
  * @see org.springframework.mail.javamail.JavaMailSender
+ * @version $Id$
  */
 public interface MailSender {
 	

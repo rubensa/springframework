@@ -10,6 +10,7 @@ import org.springframework.core.NestedCheckedException;
 /**
  * Base class for all mail exceptions.
  * @author Dmitriy Kopylenko
+ * @version $Id$
  */
 public abstract class MailException extends NestedCheckedException {
 

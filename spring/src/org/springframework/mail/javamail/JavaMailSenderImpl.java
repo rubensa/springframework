@@ -36,6 +36,7 @@ import org.springframework.mail.SimpleMailMessage;
  * @author Juergen Hoeller
  * @see JavaMailSender
  * @see org.springframework.mail.MailSender
+ * @version $Id$
  */
 public class JavaMailSenderImpl implements JavaMailSender {
 

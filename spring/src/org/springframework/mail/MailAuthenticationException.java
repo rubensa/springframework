@@ -4,6 +4,7 @@ package org.springframework.mail;
  * Exception thrown on failed authentication.
  * @author Dmitriy Kopylenko
  * @author Juergen Hoeller
+ * @version $Id$
  */
 public class MailAuthenticationException extends MailException {
 

@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="lib/junit.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.8.jar"/>
+	<classpathentry kind="src" path="bank/src"/>
+	<classpathentry kind="src" path="bank/test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

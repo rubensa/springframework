@@ -498,7 +498,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 
 	/**
 	 * Check that InitializingBean method is called first.
-	 * @throws Exception
 	 */
 	public void testInitializingBeanAndInitMethod() throws Exception {
 		InitAndIB.constructed = false;
@@ -515,6 +514,24 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertTrue(iib.destroyed && iib.customDestroyed);
 		xbf.destroySingletons();
 		assertTrue(iib.destroyed && iib.customDestroyed);
+	}
+
+	/**
+	 * Check that InitializingBean method is called first.
+	 */
+	public void testDefaultLazyInit() throws Exception {
+		InitAndIB.constructed = false;
+		InputStream is = getClass().getResourceAsStream("default-lazy-init.xml");
+		XmlBeanFactory xbf = new XmlBeanFactory(is);
+		assertFalse(InitAndIB.constructed);
+		xbf.preInstantiateSingletons();
+		assertTrue(InitAndIB.constructed);
+		try {
+			xbf.getBean("lazy-and-bad");
+		}
+		catch (MethodInvocationException ex) {
+			assertTrue(ex.getRootCause() instanceof ServletException);
+		}
 	}
 
 	public void testNoSuchXmlFile() throws Exception {

@@ -95,6 +95,11 @@ public class MethodInvokingFactoryBean extends MethodInvoker implements FactoryB
 		prepare();
 	}
 
+	/**
+	 * Will return the same value each time if the singleton property is set
+	 * to true, and otherwise return the value returned from invoking the
+	 * specified method.
+	 */
 	public Object getObject() throws Exception {
 		if (this.singleton) {
 			if (this.singletonObject == null) {
@@ -105,11 +110,7 @@ public class MethodInvokingFactoryBean extends MethodInvoker implements FactoryB
 		return invoke();
 	}
 
-	/*
-	 * Will return the same value each time if the singleton property is set
-	 * to true, and otherwise return the value returned from invoking the
-	 * specified method.
-	 */
+	
 	public Class getObjectType() {
 		Class type = getPreparedMethod().getReturnType();
 		if (type.equals(void.class)) {

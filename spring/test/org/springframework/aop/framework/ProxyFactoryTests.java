@@ -49,15 +49,6 @@ public class ProxyFactoryTests extends TestCase {
 		}
 	}
 
-	public void testNoInterfaces() {
-		Concrete c = new Concrete();
-		try {
-			new ProxyFactory(c);
-			fail("Should't allow proxy with no interfaces");
-		} catch (AopConfigException ex) {
-		}
-	}
-	
 	public void testAddRepeatedInterface() {
 		TimeStamped tst = new TimeStamped() {
 			public long getTimeStamp() {

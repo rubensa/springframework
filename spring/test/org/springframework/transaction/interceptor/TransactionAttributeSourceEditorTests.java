@@ -57,7 +57,7 @@ public class TransactionAttributeSourceEditorTests extends TestCase {
 		// TODO need FQN?
 		pe.setAsText("java.lang.Object.hashCode=PROPAGATION_REQUIRED\n" +
 		             "java.lang.Object.equals=PROPAGATION_MANDATORY\n" +
-		             "java.lang.Object.wait=PROPAGATION_SUPPORTS\n" +
+		             "java.lang.Object.*it=PROPAGATION_SUPPORTS\n" +
 		             "java.lang.Object.notify=PROPAGATION_SUPPORTS\n" +
 		             "java.lang.Object.not*=PROPAGATION_REQUIRED");
 		TransactionAttributeSource tas = (TransactionAttributeSource) pe.getValue();

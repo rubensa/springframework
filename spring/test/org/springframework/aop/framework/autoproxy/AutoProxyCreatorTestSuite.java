@@ -33,7 +33,7 @@ import org.springframework.beans.IndexedTestBean;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.DummyFactory;
-import org.springframework.beans.factory.support.BeanDefinitionHolder;
+import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.ACATest;
 import org.springframework.context.BeanThatListens;

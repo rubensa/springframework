@@ -375,7 +375,8 @@ public class DefaultContextProcessor implements ContextProcessor {
                 Element targetBean = (Element) beans.next();
                 logger.debug("Found bean with id [" + 
                     targetBean.getAttributeValue(Tags.ATTRIBUTE_ID) + "]");
-                if (getBeanIdentifier(targetBean).equals(refId))
+                String id;
+                if ( (id = getBeanIdentifier(targetBean)) != null && id.equals(refId))
                     return targetBean;
             }
         }

@@ -17,7 +17,7 @@ public class FormModelTests extends TestCase {
 
         ValidatingFormModel model = new ValidatingFormModel(c);
         model.setBufferChangesDefault(false);
-        ValueModel city = model.add("primaryContact.address.city");
+        ValueModel city = model.add("primaryContact");
         city.addValueListener(new ValueListener() {
             public void valueChanged() {
                 System.out.println("city changed");

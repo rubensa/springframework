@@ -8,6 +8,7 @@ package org.springframework.aop.framework;
 import org.aopalliance.intercept.Interceptor;
 
 import org.springframework.aop.Advisor;
+import org.springframework.aop.TargetSource;
 
 /**
  * Interface to be implemented by classes that hold the configuration
@@ -23,6 +24,12 @@ import org.springframework.aop.Advisor;
  * @see org.springframework.aop.framework.AdvisedSupport
  */
 public interface Advised {
+	
+	/**
+	 * Return the TargetSource used by this Advised object
+	 * @return the TargetSource used by this advised object
+	 */
+	TargetSource getTargetSource();
 	
 	/**
 	 * Get whether the factory should expose the proxy as a ThreadLocal. 

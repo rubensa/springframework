@@ -19,9 +19,6 @@ package org.springframework.aop.support;
 import java.io.Serializable;
 
 import org.aopalliance.aop.Advice;
-
-import org.springframework.aop.ClassFilter;
-import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.core.Ordered;
@@ -32,8 +29,8 @@ import org.springframework.core.Ordered;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class DynamicMethodMatcherPointcutAdvisor extends DynamicMethodMatcher
-    implements PointcutAdvisor, Pointcut, Ordered, Serializable {
+public abstract class DynamicMethodMatcherPointcutAdvisor extends DynamicMethodMatcherPointcut
+    implements PointcutAdvisor, Ordered, Serializable {
 
 	private int order = Integer.MAX_VALUE;
 
@@ -60,22 +57,14 @@ public abstract class DynamicMethodMatcherPointcutAdvisor extends DynamicMethodM
 	
 	public Advice getAdvice() {
 		return advice;
-	}
-
-	public boolean isPerInstance() {
-		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
-	}
+	}	
 
 	public final Pointcut getPointcut() {
 		return this;
 	}
-
-	public ClassFilter getClassFilter() {
-		return ClassFilter.TRUE;
-	}
-
-	public final MethodMatcher getMethodMatcher() {
-		return this;
+	
+	public boolean isPerInstance() {
+		throw new UnsupportedOperationException("perInstance property of Advisor is not yet supported in Spring");
 	}
 
 }

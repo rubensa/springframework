@@ -115,7 +115,7 @@ public class DelegatingIntroductionInterceptor implements IntroductionIntercepto
 	public boolean implementsInterface(Class intf) {
 		for (Iterator it = this.publishedInterfaces.iterator(); it.hasNext();) {
 			Class pubIntf = (Class) it.next();
-			if (intf.isAssignableFrom(pubIntf)) {
+			if (intf.isInterface() && intf.isAssignableFrom(pubIntf)) {
 				return true;
 			}
 		}

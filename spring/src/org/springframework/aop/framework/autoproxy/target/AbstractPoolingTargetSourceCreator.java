@@ -25,8 +25,10 @@ import org.springframework.beans.factory.BeanFactory;
  * Convenient superclass for TargetSource creators that create pooling TargetSources.
  * @author Rod Johnson
  * @version $Id$
+ * @see org.springframework.aop.target.AbstractPoolingTargetSource
+ * @see org.springframework.aop.target.CommonsPoolTargetSource
  */
-public abstract class AbstractPoolingTargetSourceCreator extends AbstractPrototypeTargetSourceCreator {
+public abstract class AbstractPoolingTargetSourceCreator extends AbstractPrototypeBasedTargetSourceCreator {
 
 	protected final AbstractPrototypeBasedTargetSource createPrototypeTargetSource(Object bean, String beanName,
 																																								 BeanFactory factory) {
@@ -44,6 +46,7 @@ public abstract class AbstractPoolingTargetSourceCreator extends AbstractPrototy
 	 * Create a new AbstractPoolingTargetSource. This implementation creates
 	 * a CommonsPoolTargetSource, but subclasses may wish to override that
 	 * behaviour. Don't need to set bean name or call setBeanFactory.
+	 * @see org.springframework.aop.target.CommonsPoolTargetSource
 	 */
 	protected AbstractPoolingTargetSource newPoolingTargetSource(PoolingAttribute poolingAttribute) {
 		AbstractPoolingTargetSource poolingTargetSource = new CommonsPoolTargetSource();

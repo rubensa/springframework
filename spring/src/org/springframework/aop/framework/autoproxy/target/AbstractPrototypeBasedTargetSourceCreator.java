@@ -28,12 +28,13 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
- * Convenient superclass for TargetSourceCreators that require creating multiple
- * instances of a prototype bean.
+ * Convenient superclass for TargetSourceCreators that require creating
+ * multiple instances of a prototype bean.
  * @author Rod Johnson
  * @version $Id$
+ * @see org.springframework.aop.target.AbstractPrototypeBasedTargetSource
  */
-public abstract class AbstractPrototypeTargetSourceCreator implements TargetSourceCreator {
+public abstract class AbstractPrototypeBasedTargetSourceCreator implements TargetSourceCreator {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 

@@ -16,7 +16,7 @@
 
 package org.springframework.aop.framework.autoproxy;
 
-import org.springframework.aop.framework.autoproxy.target.AbstractPrototypeTargetSourceCreator;
+import org.springframework.aop.framework.autoproxy.target.AbstractPrototypeBasedTargetSourceCreator;
 import org.springframework.aop.target.AbstractPrototypeBasedTargetSource;
 import org.springframework.aop.target.PrototypeTargetSource;
 import org.springframework.beans.factory.BeanFactory;
@@ -27,7 +27,7 @@ import org.springframework.beans.factory.BeanFactory;
  * @author Rod Johnson
  * @version $Id$
  */
-public class SelectivePrototypeTargetSourceCreator extends AbstractPrototypeTargetSourceCreator {
+public class SelectivePrototypeTargetSourceCreator extends AbstractPrototypeBasedTargetSourceCreator {
 
 	protected AbstractPrototypeBasedTargetSource createPrototypeTargetSource(Object bean, String beanName, BeanFactory factory) {
 		if (!beanName.startsWith("prototype")) {

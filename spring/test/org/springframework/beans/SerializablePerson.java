@@ -47,6 +47,10 @@ public class SerializablePerson implements Person, Serializable {
 		this.name = name;
 	}
 	
+	public Object echo(Object o) {
+		return o;
+	}
+	
 	public boolean equals(Object other) {
 		if (!(other instanceof SerializablePerson))
 			return false;

@@ -16,7 +16,6 @@
 
 package org.springframework.beans;
 
-
 /**
  * 
  * @author Rod Johnson
@@ -27,4 +26,7 @@ public interface Person {
 	void setName(String name);
 	int getAge();
 	void setAge(int i);
+	
+	/** Test for non-property method matching */
+	Object echo(Object o);
 }

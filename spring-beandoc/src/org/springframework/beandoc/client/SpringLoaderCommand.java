@@ -35,21 +35,23 @@ class SpringLoaderCommand {
     private String outputDir;
     private String beandocPropsLocation;
     private String beandocContextLocation;
+    private String beandocPropsPrefix;
     
     /**
      * @param inputFiles one or more resource resolveable Strings for input locations
      * @param outputDir a writeable location for beandoc output
      * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
      *      mandatory properties are specified as parmeters to this method or as System properties 
-     *      using a "springbeandoc." qualifier (ie <code>springbeandoc.input.files=...</code> in 
+     *      using a "springbeandoc." prefix (ie <code>springbeandoc.input.files=...</code> in 
      *      place of <code>input.files=...</code>)
      * @param private beandocContextLocation the location of a custom Context file that defines a 
      *      ContextProcessor named "processor"    
      */
-    public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation, String beandocContextLocation) {
+    public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation, String beandocPropsPrefix, String beandocContextLocation) {
         this.inputFiles = inputFiles;
         this.outputDir = outputDir;
         this.beandocPropsLocation = beandocPropsLocation;
+        this.beandocPropsPrefix = beandocPropsPrefix;
         this.beandocContextLocation = beandocContextLocation;
     }
     
@@ -58,11 +60,11 @@ class SpringLoaderCommand {
      * @param outputDir a writeable location for beandoc output
      * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
      *      mandatory properties are specified as parmeters to this method or as System properties 
-     *      using a "springbeandoc." qualifier (ie <code>springbeandoc.input.files=...</code> in 
+     *      using a "springbeandoc." prefix (ie <code>springbeandoc.input.files=...</code> in 
      *      place of <code>input.files=...</code>)
      */
     public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation) {
-        this(inputFiles, outputDir, beandocPropsLocation, null);
+        this(inputFiles, outputDir, beandocPropsLocation, null, null);
     }
 
     /**
@@ -102,6 +104,14 @@ class SpringLoaderCommand {
         .append("; beandocPropsLocation: ").append(beandocPropsLocation)
         .append("; beandocContextLocation: ").append(beandocContextLocation)
         .toString();
+    }
+
+    /**
+     * @return prefix used to select relevant properties.
+     * @see #getBeandocPropsLocation()
+     */
+    public String getBeandocPropsPrefix() {
+        return beandocPropsPrefix;
     }
 
 }

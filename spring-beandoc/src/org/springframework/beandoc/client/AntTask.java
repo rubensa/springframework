@@ -39,12 +39,14 @@ public class AntTask extends Task {
 
     private File beandocProps;
     
+    private String beandocPropsPrefix;
+    
     private File outputDir;
     
     private String inputFiles;
     
     private String beandocContext;
-    
+
     /**
      * Load and run the default beandoc processor wrapping any <code>Exception</code> as
      * an Ant <code>BuildException</code>.
@@ -58,7 +60,8 @@ public class AntTask extends Task {
                     new SpringLoaderCommand(
                         inputFiles, 
                         (outputDir != null ) ? outputDir.getAbsolutePath() : null, 
-                        (beandocProps != null ) ? beandocProps.getAbsolutePath() : null, 
+                        (beandocProps != null ) ? beandocProps.getAbsolutePath() : null,
+                        (beandocPropsPrefix != null ) ? beandocPropsPrefix : null,                        
                         beandocContext
                     )
                 );
@@ -103,6 +106,18 @@ public class AntTask extends Task {
      */
     public void setBeandocProps(File beandocProps) {
         this.beandocProps = beandocProps;
+    }
+
+    /**
+     * Specify a prefix for relevant properties.
+     * Properties without the prefix are ignored; 
+     * from matching properties the prefix is removed.   
+     * 
+     * @param beandocPropsPrefix prefix for relevant properties
+     * @see #setBeandocProps(File)
+     */
+    public void setBeandocPropsPrefix(String beandocPropsPrefix) {
+        this.beandocPropsPrefix = beandocPropsPrefix;
     }
 
     /**

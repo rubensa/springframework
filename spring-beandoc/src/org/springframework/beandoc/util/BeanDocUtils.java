@@ -16,21 +16,26 @@
 
 package org.springframework.beandoc.util;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
+
+import org.springframework.util.StringUtils;
 
 
 
 /**
- * Collection of static utility methods.
+ * Collection of static utility methods used by BeanDoc.
  * 
  * @author Darren Davison
+ * @author Michael Schuerig, <michael@schuerig.de>
  * @since 1.0
  */
 public class BeanDocUtils {
+    
+    private BeanDocUtils() {
+        // no instances required
+    }
 
     /**
      * Convert a collection of String objects to an array of compiled
@@ -55,4 +60,57 @@ public class BeanDocUtils {
         return
             (Pattern[]) tmp.toArray(new Pattern[tmp.size()]);        
     }
+    
+    /**
+     * Returns a new <code>Map</code> containing only those entries
+     * from <code>map</code> whose key starts with <code>prefix</code>.
+     * Prefixes are removed from the keys in the returned <code>Map</code>.
+     * 
+     * @param map the original <code>Map</code> to be filtered; must not be <code>null</code>
+     * @param prefix prefix by which entries are filtered; may be empty of <code>null</code>
+     * @return a new <code>Map</code> with filtered entries
+     * @see #filterByPrefix(Map<String,?>, String, boolean)
+     */
+    public static Map filterByPrefix(Map map, String prefix) {
+        return filterByPrefix(map, prefix, true);        
+    }
+        
+    /**
+     * Returns a new <code>Map</code> containing only those entries
+     * from <code>map</code> whose key starts with <code>prefix</code>.
+     *
+     * @param map the original <code>Map</code> to be filtered; must not be <code>null</code>
+     * @param prefix prefix by which entries are filtered; may be empty of <code>null</code>
+     * @param removePrefix should prefixes be removed from entries in the returned <code>Map</code>?
+     * @return a new <code>Map</code> with filtered entries
+     */
+    public static Map filterByPrefix(
+            final Map map,
+            final String prefix, 
+            final boolean removePrefix) {
+        
+        final HashMap filteredMap = new HashMap();    
+
+        if (!StringUtils.hasText(prefix)) {
+            filteredMap.putAll(map);
+            return filteredMap;
+        }
+
+        for ( Iterator it = map.entrySet().iterator(); it.hasNext(); ) {
+            try {
+                Map.Entry entry = (Entry)it.next();
+                String name = (String)entry.getKey();
+                if ( name.startsWith(prefix) ) {
+                    filteredMap.put(
+                            removePrefix ? name.substring(prefix.length()) : name,
+                            entry.getValue());
+                }
+            } catch (Exception e) {
+                // ignore
+            }
+        }
+        
+        return filteredMap;
+    }
+
 }

@@ -16,10 +16,14 @@
 
 package org.springframework.beandoc.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beandoc.ContextProcessor;
 import org.springframework.beandoc.output.Decorator;
 import org.springframework.beandoc.output.Transformer;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.util.StringUtils;
 
 /**
  * Command line client for the beandoc tool.  Loads and runs a 
@@ -33,10 +37,25 @@ import org.springframework.beans.factory.BeanFactory;
  * {@link Transformer}s are used in generating beandoc output.
  * 
  * @author Darren Davison
+ * @author Michael Schuerig, <michael@schuerig.de>
  * @since 1.0
  */
 public class BeanDocClient {
-	
+    
+    // State constants for options parser
+    private static final int OPTION = 0;
+    
+    private static final int OUTPUT_DIR = 1;
+    
+    private static final int PROPS = 2;
+    
+    private static final int PREFIX = 3;
+    
+    private static final int CONTEXT = 4;
+    
+    private static final int INPUT_FILE = 5;
+    
+
     /**
 	 * Default boot strapper for the beandoc client.  Command line parameter should be
 	 * the location of a properties file, either as a file pointer or as a classpath
@@ -53,10 +72,10 @@ public class BeanDocClient {
 	 * </td></tr>
 	 * <tr><td><strong>output.dir</strong></td><td>the directory (which must be writable for the
 	 * current user) that output will be written to.</td></tr>
-	 * <tr><td>graphVizTransformer.dotExe</td><td>/usr/bin/dot</td></tr>
+	 * <tr><td>compiler.dotExe</td><td>/usr/bin/dot</td></tr>
 	 * <tr><td>processor.validateFiles</td><td>set to 'true' or 'false' to have the XML
 	 * parser validate input files during parsing.  True by default.</td></tr>
-	 * <tr><td>graphVizDecorator.graphOutputType</td><td>default is png (strongly recommended) but
+	 * <tr><td>graphs.outputType</td><td>default is png (strongly recommended) but
 	 * can be switched to gif, jpg or svg as desired</td></tr>
 	 * </table>
 	 * 
@@ -71,34 +90,74 @@ public class BeanDocClient {
 	 */
 	public static void main(String[] args) {
 	    
-		String inputs = null;
+        List inputFiles = new ArrayList();
 		String output = null;
 		String props = null;
-	    	    
-		switch (args.length) {
-		    case 0:
-			usage();
-			System.exit(99);
-			break;
-		
-			case 1:
-		    props = args[0];
-		    break;
-		    
-		    case 3:    
-		    props = args[2];
-		    // ok to fall through
-		
-			case 2:  		
-		    inputs = args[0];
-		    output = args[1];	
-		    break;
-		    
-		}
+        String prefix = null;
+        String context = null;
     
+        int state = OPTION;
+        
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i].trim();
+            
+            if (state == INPUT_FILE) {
+                inputFiles.add(arg);
+            } else {
+                switch (state) {
+                case OPTION:
+                    if ("--help".equals(arg)) {
+                        usage();
+                        System.exit(0);
+                    } else if ("--output".equals(arg)) {
+                        state = OUTPUT_DIR;
+                    } else if ("--properties".equals(arg)) {
+                        state = PROPS;
+                    } else if ("--prefix".equals(arg)) {
+                        state = PREFIX;
+                    } else if ("--context".equals(arg)) {
+                        state = CONTEXT;
+                    } else if ("--".equals(arg)) {
+                        state = INPUT_FILE;
+                    } else {
+                        inputFiles.add(arg);
+                    }
+                    break;
+                case OUTPUT_DIR:
+                    output = arg;
+                    state = OPTION;
+                    break;
+                case PROPS:
+                    props = arg;
+                    state = OPTION;
+                    break;
+                case PREFIX:
+                    prefix = arg;
+                    state = OPTION;
+                    break;
+                case CONTEXT:
+                    context = arg;
+                    state = OPTION;
+                    break;
+                }
+            }
+        }
+        
+        if ( ! ( (!inputFiles.isEmpty() && StringUtils.hasText(output)) ||
+                 StringUtils.hasText(props) ) ) {
+            usage();
+            System.exit(1);
+        }
+        
+        // MS: this is a hack; further down the String is again
+        // split into a List.
+        String inputs = null;
+        if (!inputFiles.isEmpty())
+            inputs = StringUtils.collectionToCommaDelimitedString(inputFiles);
+        
 		try {
             BeanFactory factory = 
-                SpringLoader.getBeanFactory(new SpringLoaderCommand(inputs, output, props));
+                SpringLoader.getBeanFactory(new SpringLoaderCommand(inputs, output, props, prefix, context));
             ContextProcessor cp = (ContextProcessor) factory.getBean("processor");
             cp.process();
                     
@@ -113,8 +172,14 @@ public class BeanDocClient {
 	 */
 	private static void usage() {
 		StringBuffer usg = new StringBuffer("Usage:\n")
-			.append("java " + BeanDocClient.class.getName() +" [input file(s)] [output directory] [beandoc.properties]\n\n")
-			.append("Either a properties file, or BOTH input and output files, or all three arguments must be specified.");
+           .append("java " + BeanDocClient.class.getName())
+            .append(" [--output output directory]")
+            .append(" [--properties beandoc.properties]")
+            .append(" [--context beandoc context]")
+            .append(" [--prefix properties prefix]")
+            .append(" [--] [input file...]")
+            .append("\n\n")
+            .append("Either a properties file, or BOTH input file(s) and output directory, or all three arguments must be specified.");
         
 		System.out.println(usg.toString());
 	}

@@ -17,9 +17,9 @@
 package org.springframework.beandoc.client;
 
 import java.io.FileInputStream;
-import java.util.Enumeration;
 import java.util.Properties;
 
+import org.springframework.beandoc.util.BeanDocUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.PropertyOverrideConfigurer;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -43,11 +43,11 @@ class SpringLoader {
     
     private static final String DEFAULT_BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
     
-    private static final String SYSTEM_PROPS_QUALIFIER = "springbeandoc.";
+    private static final String SYSTEM_PROPS_PREFIX = "springbeandoc.";
         
 
     /**
-     * Loads and configures (post-processes) a BeanFactory from an inernal
+     * Loads and configures (post-processes) a BeanFactory from an internal
      * definition file.
      * 
      * @param command the configuration needed to bootstrap the context for beandoc
@@ -58,22 +58,16 @@ class SpringLoader {
         Properties beandocProps = new Properties();    
         
         // evaluate system props first as they are lowest in the hierarchy
-        for (Enumeration sysKeys = System.getProperties().keys(); sysKeys.hasMoreElements();)
-            try {
-                String nextProp = (String) sysKeys.nextElement();
-                if (nextProp.startsWith(SYSTEM_PROPS_QUALIFIER))
-                    beandocProps.put(
-                        nextProp.substring(SYSTEM_PROPS_QUALIFIER.length()), 
-                        System.getProperty(nextProp)
-                    );
-                    
-            } catch (Exception e) {
-                // ignore and continue
-            }
+        beandocProps.putAll(BeanDocUtils.filterByPrefix(
+                System.getProperties(), SYSTEM_PROPS_PREFIX));
         
         // load user props if specified, overriding any values from the System
-        if (command.getBeandocPropsLocation() != null)
-            beandocProps.load(new FileInputStream(command.getBeandocPropsLocation()));
+        if (command.getBeandocPropsLocation() != null) {
+            Properties userProps = new Properties();
+            userProps.load(new FileInputStream(command.getBeandocPropsLocation()));
+            beandocProps.putAll(BeanDocUtils.filterByPrefix(
+                    userProps, command.getBeandocPropsPrefix()));
+        }
         
         // finally, override with command line (or equiv) I/O attributes
         if (command.getInputFiles() != null)

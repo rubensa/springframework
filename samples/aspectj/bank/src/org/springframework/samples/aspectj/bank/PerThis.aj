@@ -23,7 +23,7 @@ package org.springframework.samples.aspectj.bank;
  * @author Rod Johnson
  * @version $Id$
  */
-public aspect PerThis perthis(accountBalance()) {
+public aspect PerThis perthis(newAdvised(Account)) {
 		
 		//newAdvised(Account)) {
 	

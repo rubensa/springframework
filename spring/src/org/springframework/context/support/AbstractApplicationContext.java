@@ -16,6 +16,7 @@
 
 package org.springframework.context.support;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.propertyeditors.InputStreamEditor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -228,6 +230,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// configure the bean factory with context semantics
 		beanFactory.registerCustomEditor(Resource.class, new ContextResourceEditor(this));
+		beanFactory.registerCustomEditor(InputStream.class, new InputStreamEditor(new ContextResourceEditor(this)));
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		beanFactory.ignoreDependencyType(ResourceLoader.class);
 		beanFactory.ignoreDependencyType(ApplicationContext.class);

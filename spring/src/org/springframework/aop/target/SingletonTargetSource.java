@@ -64,4 +64,11 @@ public final class SingletonTargetSource implements TargetSource {
 		return otherII.target == this.target || otherII.target.equals(this.target);
 	}
 
+	/**
+	 * @see org.springframework.aop.TargetSource#isStatic()
+	 */
+	public boolean isStatic() {
+		return true;
+	}
+
 }

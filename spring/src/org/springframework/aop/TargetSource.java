@@ -14,7 +14,7 @@ public interface TargetSource {
 	
 	Class getTargetClass();
 	
-	//boolean isDynamic();
+	boolean isStatic();
 	
 	Object getTarget() throws Exception;
 	

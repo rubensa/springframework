@@ -85,4 +85,11 @@ public class HotSwappableTargetSource implements TargetSource {
 		return otherII.target == this.target || otherII.target.equals(this.target);
 	}
 
+	/**
+	 * @see org.springframework.aop.TargetSource#isStatic()
+	 */
+	public boolean isStatic() {
+		return false;
+	}
+
 }

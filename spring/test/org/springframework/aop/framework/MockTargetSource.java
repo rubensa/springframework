@@ -62,4 +62,11 @@ public class MockTargetSource implements TargetSource {
 			throw new RuntimeException("Expectation failed: " + gets + " gets and " + releases + " releases");
 	}
 
+	/**
+	 * @see org.springframework.aop.TargetSource#isStatic()
+	 */
+	public boolean isStatic() {
+		return false;
+	}
+
 }

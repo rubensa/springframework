@@ -87,4 +87,11 @@ public class PrototypeTargetSource implements TargetSource, BeanFactoryAware {
 		return this.targetClass;
 	}
 
+	/**
+	 * @see org.springframework.aop.TargetSource#isStatic()
+	 */
+	public final boolean isStatic() {
+		return false;
+	}
+
 }

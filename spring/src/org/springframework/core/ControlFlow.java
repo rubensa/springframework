@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
 
-package org.springframework.util;
+package org.springframework.core;
 
 /**
  * Interface to be implemented by objects that can return information about

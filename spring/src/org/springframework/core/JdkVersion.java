@@ -3,12 +3,12 @@
  * of the Apache Software License.
  */
  
-package org.springframework.util;
+package org.springframework.core;
 
 /**
  * Class used to find the current JVM version.
  * Usually we want to find if we're in a 1.4 or higher JVM.
- * Spring does not support 1.2 JVMs.
+ * (Spring does not support 1.2 JVMs.)
  * @author Rod Johnson
  * @version $Id$
  */
@@ -24,7 +24,7 @@ public class JdkVersion {
 	
 	static {
 		String javaVersion = System.getProperty("java.version");
-		// Should look like "1.4.1_02"
+		// should look like "1.4.1_02"
 		if (javaVersion.indexOf("1.4") != -1) {
 			majorJavaVersion = JAVA_14;
 		}

@@ -3,20 +3,16 @@
  * of the Apache Software License.
  */
  
-package org.springframework.util;
+package org.springframework.core;
 
 /**
  * Tests with ControlFlowFactory return
  * @author Rod Johnson
  * @version $Id$
  */
-public class Jdk14ControlFlowTests extends AbstractControlFlowTests {
+public class DefaultControlFlowTests extends AbstractControlFlowTests {
 	
-	public Jdk14ControlFlowTests(String s) {
-		super(s);
-	}
-	
-	/** 
+	/**
 	 * Necessary only because
 	 * Eclipse won't run test suite unless it declares some methods
 	 * as well as inherited methods
@@ -24,11 +20,11 @@ public class Jdk14ControlFlowTests extends AbstractControlFlowTests {
 	public void testThisClassPlease() {
 	}
 
-	/**
-	 * @see org.springframework.aop.support.AbstractControlFlowTests#createControlFlow()
-	 */
 	protected ControlFlow createControlFlow() {
-		return new Jdk14ControlFlow();
+		ControlFlow cf = ControlFlowFactory.createControlFlow();
+		boolean is14 = System.getProperty("java.version").indexOf("1.4") != -1;
+		assertEquals("Autodetection of JVM succeeded", is14, cf instanceof ControlFlowFactory.Jdk14ControlFlow);
+		return cf;
 	}
 
 }

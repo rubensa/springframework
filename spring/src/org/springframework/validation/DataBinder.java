@@ -8,10 +8,10 @@ package org.springframework.validation;
 import java.beans.PropertyEditor;
 import java.util.Map;
 
-import org.springframework.beans.ErrorCodedPropertyVetoException;
+import org.springframework.beans.PropertyAccessException;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.PropertyValues;
-import org.springframework.beans.PropertyVetoExceptionsException;
+import org.springframework.beans.PropertyAccessExceptionsException;
 
 /**
  * Binder that allows for binding property values to a target object.
@@ -121,8 +121,8 @@ public class DataBinder {
 			// bind request parameters onto params, ignoring unknown properties
 			this.errors.getBeanWrapper().setPropertyValues(pvs, true);
 		}
-		catch (PropertyVetoExceptionsException ex) {
-			ErrorCodedPropertyVetoException[] exs = ex.getPropertyVetoExceptions();
+		catch (PropertyAccessExceptionsException ex) {
+			PropertyAccessException[] exs = ex.getPropertyAccessExceptions();
 			for (int i = 0; i < exs.length; i++) {
 				// create field with the exceptions's code, e.g. "typeMismatch"
 				this.errors.addFieldError(

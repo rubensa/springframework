@@ -330,7 +330,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 			if (el.hasAttribute(PARENT_ATTRIBUTE))
 				parent = el.getAttribute(PARENT_ATTRIBUTE);
 			if (className == null && parent == null)
-				throw new FatalBeanException("No className or parent in bean definition [" + beanName + "]", null);
+				throw new FatalBeanException("No className or parent in bean definition '" + beanName + "'", null);
 			if (className != null) {
 				ClassLoader cl = Thread.currentThread().getContextClassLoader();
 				String initMethodName = el.getAttribute(INIT_METHOD_ATTRIBUTE);
@@ -351,7 +351,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 			return bd;
 		}
 		catch (ClassNotFoundException ex) {
-			throw new FatalBeanException("Error creating bean with name [" + beanName + "]", ex);
+			throw new FatalBeanException("Error creating bean with name '" + beanName + "'", ex);
 		}
 	}
 

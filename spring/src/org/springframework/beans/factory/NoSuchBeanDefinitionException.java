@@ -24,7 +24,7 @@ public class NoSuchBeanDefinitionException extends BeansException {
 	 * @param message further, detailed message describing the problem.
 	 */
 	public NoSuchBeanDefinitionException(String name, String message) {
-		super("No bean named [" + name + "] is defined {" + message + "}", null);
+		super("No bean named '" + name + "' is defined: " + message, null);
 		this.name = name;
 	}
 

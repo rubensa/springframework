@@ -14,7 +14,7 @@ public class TypeMismatchException extends PropertyAccessException {
 		      (propertyChangeEvent.getNewValue() != null ?
 		       propertyChangeEvent.getNewValue().getClass().getName() : null) +
 		      "] to required type [" + requiredType.getName() +
-		      "] for property named [" + propertyChangeEvent.getPropertyName() + "]", propertyChangeEvent, t);
+		      "] for property named '" + propertyChangeEvent.getPropertyName() + "'", propertyChangeEvent, t);
 	}
 
 }

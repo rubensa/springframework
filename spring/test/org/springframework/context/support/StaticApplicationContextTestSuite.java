@@ -63,7 +63,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		sac.registerSingleton("beanThatListens", BeanThatListens.class, new MutablePropertyValues());
 		sac.registerSingleton("aca", ACATest.class, new MutablePropertyValues());
 		sac.registerPrototype("aca-prototype", ACATest.class, new MutablePropertyValues());
-		LBIInit.createTestBeans(sac.defaultBeanFactory);
+		LBIInit.createTestBeans(sac.getListableBeanFactoryImpl());
 		sac.rebuild();
 
 		StaticMessageSource sacMessageSource = (StaticMessageSource) sac.getBean("messageSource");

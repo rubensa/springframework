@@ -12,9 +12,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.IntroductionAdvice;
 import org.springframework.aop.IntroductionInterceptor;
@@ -22,7 +22,6 @@ import org.springframework.aop.framework.support.DynamicMethodMatcherPointcutAdv
 import org.springframework.aop.framework.support.SimpleIntroductionAdvice;
 import org.springframework.aop.interceptor.DebugInterceptor;
 import org.springframework.aop.interceptor.SideEffectBean;
-import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.BeanFactory;
@@ -355,7 +354,7 @@ public class ProxyFactoryBeanTests extends TestCase {
 			ITestBean tb = (ITestBean) factory.getBean("noInterceptorNames");
 			fail("Should require interceptor names");
 		}
-		catch (FatalBeanException ex) {
+		catch (AopConfigException ex) {
 			// Ok
 		}
 	}
@@ -379,7 +378,7 @@ public class ProxyFactoryBeanTests extends TestCase {
 			ITestBean tb = (ITestBean) factory.getBean("globalsWithoutTarget");
 			fail("Should require target name");
 		}
-		catch (FatalBeanException ex) {
+		catch (AopConfigException ex) {
 			// Ok
 		}
 	}

@@ -81,7 +81,7 @@ public abstract class NestedRuntimeException extends RuntimeException implements
 			super.printStackTrace(ps);
 		}
 		else {
-			//ps.println(this);
+			ps.println(this);
 			this.rootCause.printStackTrace(ps);
 		}
 	}
@@ -95,7 +95,7 @@ public abstract class NestedRuntimeException extends RuntimeException implements
 			super.printStackTrace(pw);
 		}
 		else {
-			//pw.println(this);
+			pw.println(this);
 			this.rootCause.printStackTrace(pw);
 		}
 	}

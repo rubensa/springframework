@@ -26,6 +26,7 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import com.mockobjects.servlet.MockHttpServletResponse;
 
@@ -50,7 +51,7 @@ public class VelocityViewTests extends TestCase {
 			vv.setApplicationContext(wac);
 			fail();
 		}
-		catch (ApplicationContextException ex) {
+		catch (NoSuchBeanDefinitionException ex) {
 			// Check there's a helpful error message
 			assertTrue(ex.getMessage().indexOf("VelocityConfiguration") != -1);
 		}

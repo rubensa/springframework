@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import org.springframework.core.InternalErrorException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -185,8 +184,9 @@ public class MySQLMaxValueIncrementer extends AbstractDataFieldMaxValueIncrement
 						if (logger.isInfoEnabled())
 							logger.info("new maxId is : " + maxId);
 					}
-					else
-						throw new InternalErrorException("last_insert_id() failed after executing an update");
+					else {
+						throw new DataAccessResourceFailureException("last_insert_id() failed after executing an update");
+					}
 					nextId = maxId - getCacheSize();
 					nextId++;
 					if (logger.isInfoEnabled())

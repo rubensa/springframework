@@ -162,10 +162,9 @@ public interface BeanWrapper {
 
 
 	/**
-	 * Get the PropertyDescriptors standard JavaBeans introspection identified
-	 * on this object.
-	 * @return the PropertyDescriptors standard JavaBeans introspection identified
-	 * on this object
+	 * Get the PropertyDescriptors identified on this object
+	 * (standard JavaBeans introspection).
+	 * @return the PropertyDescriptors identified on this object
 	 */
 	PropertyDescriptor[] getPropertyDescriptors() throws BeansException;
 
@@ -179,15 +178,17 @@ public interface BeanWrapper {
 
 	/**
 	 * Return whether this property is readable.
-	 * @return whether this property is readable
+	 * Returns false if the property doesn't exist.
 	 * @param propertyName property to check status for
+	 * @return whether this property is readable
 	 */
 	boolean isReadableProperty(String propertyName);
 
 	/**
 	 * Return whether this property is writable.
-	 * @return whether this property is writable
+	 * Returns false if the property doesn't exist.
 	 * @param propertyName property to check status for
+	 * @return whether this property is writable
 	 */
 	boolean isWritableProperty(String propertyName);
 

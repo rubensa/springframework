@@ -70,14 +70,38 @@ public class AdvisorAutoProxyCreatorTests extends TestCase {
 		assertTrue(AopUtils.isAopProxy(test));
 	}
 	
-	public void testCustomTargetSource() throws Exception {
+	/**
+	 * We have custom TargetSourceCreators but there's no match, and
+	 * hence no proxying, for this bean
+	 * @throws Exception
+	 */
+	public void testCustomTargetSourceNoMatch() throws Exception {
 		BeanFactory bf = new ClassPathXmlApplicationContext("/org/springframework/aop/framework/autoproxy/customTargetSource.xml");
 		ITestBean test = (ITestBean) bf.getBean("test");
+		assertFalse(AopUtils.isAopProxy(test));
+		assertEquals("Rod", test.getName());
+		assertEquals("Kerry", test.getSpouse().getName());
+	}
+	
+	public void testCustomPoolingTargetSource() throws Exception {
+		BeanFactory bf = new ClassPathXmlApplicationContext("/org/springframework/aop/framework/autoproxy/customTargetSource.xml");
+		ITestBean test = (ITestBean) bf.getBean("poolingTest");
 		assertTrue(AopUtils.isAopProxy(test));
 		Advised advised = (Advised) test;
 		assertTrue(advised.getTargetSource() instanceof CommonsPoolTargetSource);
 		assertEquals("Rod", test.getName());
 		// Check that references survived pooling
+		assertEquals("Kerry", test.getSpouse().getName());
+	}
+	
+	public void testCustomPrototypeTargetSource() throws Exception {
+		BeanFactory bf = new ClassPathXmlApplicationContext("/org/springframework/aop/framework/autoproxy/customTargetSource.xml");
+		ITestBean test = (ITestBean) bf.getBean("prototypeTest");
+		assertTrue(AopUtils.isAopProxy(test));
+		Advised advised = (Advised) test;
+		assertTrue(advised.getTargetSource() instanceof PrototypeTargetSource);
+		assertEquals("Rod", test.getName());
+		// Check that references survived prototype creation
 		assertEquals("Kerry", test.getSpouse().getName());
 	}
 	

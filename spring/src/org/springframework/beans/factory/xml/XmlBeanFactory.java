@@ -33,7 +33,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  */
 public class XmlBeanFactory extends DefaultListableBeanFactory {
 
-	private final DefaultXmlBeanDefinitionReader reader = new DefaultXmlBeanDefinitionReader(this);
+	private final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this);
 
 	/**
 	 * Create new XmlBeanFactory using java.io to read the XML document

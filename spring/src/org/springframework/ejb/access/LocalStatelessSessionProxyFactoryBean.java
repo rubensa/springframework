@@ -9,7 +9,7 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * <p>Convenient factory for local SLSB proxies.
+ * <p>Convenient factory for local Stateless Session Bean (SLSB) proxies.
  * If you want control over interceptor chaining, use an AOP
  * ProxyFactoryBean rather than to rely on this class.</p>
  * 

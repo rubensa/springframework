@@ -28,7 +28,7 @@ public interface BeanFactoryReference {
    * on the actual implementation of BeanFactoryLocator, and the actual type of
    * BeanFactory, this may possibly not actually do anything; alternately in the
    * case of a 'closeable' BeanFactory or derived class (such as ApplicationContext)
-   * may 'close' it.</p>
+   * may 'close' it, or may 'close' it once no more references remain.</p>
    * <p>In an EJB usage scenario this would normally be called from ejbRemove and
    * ejbPassivate.
    * @throws FatalBeanException if the BeanFactory cannot be released

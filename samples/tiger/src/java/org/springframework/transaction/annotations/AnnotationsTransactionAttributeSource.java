@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package org.springframework.transaction.annotation;
+package org.springframework.transaction.annotations;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,11 +30,22 @@ import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
 /**
- * Implementation of TransactionAttributeSource which uses attributes from a JDK 1.5+
- * standard Annotations implementation
+ * <p>Implementation of TransactionAttributeSource for working with transaction
+ * metadata in JDK 1.5+ Annotations format.</p>
  * 
+ * <p>This class expects the Spring Attributes implementation it reads from to 
+ * supply JDK 1.5+ standard Annotations from the   
+ * {@link org.springframework.transaction.annotations} package. (Typically the
+ * Attributes implementation will be
+ * {@link org.springframework.metadata.annotations.AnnotationsAttributes 
+ * AnnotationsAttributes}.) These Annotations are then converted on the fly and
+ * returned as Spring transaction 
+ * {@link org.springframework.transaction.interceptor attributes}.
+ *  
  * @author Colin Sampaleanu
  * @see org.springframework.metadata.Attributes
+ * @see org.springframework.metadata.annotations 
+ * @see org.springframework.transaction.annotations
  * @see org.springframework.transaction.interceptor.AbstractFallbackTransactionAttributeSource
  */
 public class AnnotationsTransactionAttributeSource extends

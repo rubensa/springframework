@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.metadata.standard;
+package org.springframework.metadata.annotations;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -26,11 +26,11 @@ import java.util.Collection;
 import org.springframework.metadata.Attributes;
 
 /**
- * Implementation of the Spring Attributes facade for Standard (JDK 1.5+) Attributes.
+ * Implementation of the Spring Attributes facade for standard JDK 1.5+) Annotations.
  *
  * @author Colin Sampaleanu
  */
-public class StandardAttributes implements Attributes {
+public class AnnotationsAttributes implements Attributes {
 
 	/*
 	 * Commons Attributes caches attributes, so we don't need to cache here

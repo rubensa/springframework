@@ -5,7 +5,7 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 
-package org.springframework.transaction.annotation;
+package org.springframework.transaction.annotations;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -13,7 +13,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.commons.collections.ListUtils;
-import org.springframework.metadata.standard.StandardAttributes;
+import org.springframework.metadata.annotations.AnnotationsAttributes;
+import org.springframework.transaction.annotations.AnnotationsTransactionAttributeSource;
 import org.springframework.transaction.interceptor.NoRollbackRuleAttribute;
 import org.springframework.transaction.interceptor.RollbackRuleAttribute;
 import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
@@ -22,18 +23,17 @@ import org.springframework.transaction.interceptor.TransactionAttribute;
 import junit.framework.TestCase;
 
 /**
+ * Test for AnnotationsTransactionAttributesSource
+ * 
  * @author colin
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 	
 	public void testNullOrEmpty() throws Exception {
 		
-		Method method = Empty.class.getMethod("getAge", null);
+		Method method = Empty.class.getMethod("getAge", (Class[]) null);
 		
-		StandardAttributes att = new StandardAttributes();
+		AnnotationsAttributes att = new AnnotationsAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		assertNull(atas.getTransactionAttribute(method, null));
 		
@@ -45,12 +45,11 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 	/**
 	 * Test the important case where the invocation is on a proxied interface method, but
 	 * the attribute is defined on the target class
-	 * @throws Exception
 	 */
 	public void testTransactionAttributeDeclaredOnClassMethod() throws Exception {
-		Method classMethod = TestBean1.class.getMethod("getAge", null);
+		Method classMethod = TestBean1.class.getMethod("getAge", (Class[]) null);
 		
-		StandardAttributes att = new StandardAttributes();
+		AnnotationsAttributes att = new AnnotationsAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		TransactionAttribute actual = atas.getTransactionAttribute(classMethod, TestBean1.class);
 		
@@ -59,10 +58,13 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
 	}
 	
+    /**
+     * Test case where attribute is on the interface method
+     */
 	public void testTransactionAttributeDeclaredOnInterfaceMethodOnly() throws Exception {
-		Method interfaceMethod = ITestBean2.class.getMethod("getAge", null);
+		Method interfaceMethod = ITestBean2.class.getMethod("getAge", (Class[]) null);
 
-		StandardAttributes att = new StandardAttributes();
+		AnnotationsAttributes att = new AnnotationsAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean2.class);
 		
@@ -70,11 +72,14 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
 	}
 	
+	/**
+	 * Test that when an attribute exists on both class and interface, class takes precedence
+	 */
 	public void testTransactionAttributeDeclaredOnTargetClassMethodTakesPrecedenceOverAttributeDeclaredOnInterfaceMethod() throws Exception {
-		Method classMethod = TestBean3.class.getMethod("getAge", null);
-		Method interfaceMethod = ITestBean3.class.getMethod("getAge", null);
+		Method classMethod = TestBean3.class.getMethod("getAge", (Class[]) null);
+		Method interfaceMethod = ITestBean3.class.getMethod("getAge", (Class[]) null);
 
-		StandardAttributes att = new StandardAttributes();
+		AnnotationsAttributes att = new AnnotationsAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean3.class);
 		
@@ -86,9 +91,9 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 	
 
 	public void testRollbackRulesAreApplied() throws Exception {
-		Method method = TestBean3.class.getMethod("getAge", null);
+		Method method = TestBean3.class.getMethod("getAge", (Class[]) null);
 		
-		StandardAttributes att = new StandardAttributes();
+		AnnotationsAttributes att = new AnnotationsAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		TransactionAttribute actual = atas.getTransactionAttribute(method, TestBean3.class);
 
@@ -100,11 +105,19 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 		assertTrue(actual.rollbackOn(new Exception()));
 		assertFalse(actual.rollbackOn(new IOException()));
 		
-		//assertSame(rbta, atas.getTransactionAttribute(method, method.getDeclaringClass()));
-	}
+		actual = atas.getTransactionAttribute(method, method.getDeclaringClass());
 
+		rbta = new RuleBasedTransactionAttribute();
+		rbta.getRollbackRules().add(new RollbackRuleAttribute("java.lang.Exception"));
+		rbta.getRollbackRules().add(new NoRollbackRuleAttribute(IOException.class));
+		
+		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
+		assertTrue(actual.rollbackOn(new Exception()));
+		assertFalse(actual.rollbackOn(new IOException()));
+	}
 	
 	
+	// helper
 	void assertRulesAreEqual(RuleBasedTransactionAttribute rule1,
 			RuleBasedTransactionAttribute rule2) throws Exception {
 		
@@ -127,8 +140,8 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 	 */
 	public void testDefaultsToClassTransactionAttribute() throws Exception {
 
-		Method method = TestBean4.class.getMethod("getAge", null);
-		StandardAttributes att = new StandardAttributes();
+		Method method = TestBean4.class.getMethod("getAge", (Class[]) null);
+		AnnotationsAttributes att = new AnnotationsAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
 		TransactionAttribute actual = atas.getTransactionAttribute(method, TestBean4.class);
 		

@@ -545,7 +545,7 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 			fail();
 		}
 		catch (BeanCreationException ex) {
-			assertTrue(ex.getRootCause() instanceof ServletException);
+			assertTrue(ex.getCause() instanceof ServletException);
 		}
 	}
 
@@ -598,7 +598,7 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 			xbf.getBean("lazy-and-bad");
 		}
 		catch (BeanCreationException ex) {
-			assertTrue(ex.getRootCause() instanceof ServletException);
+			assertTrue(ex.getCause() instanceof ServletException);
 		}
 	}
 
@@ -872,7 +872,7 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 			// should have thrown BeanDefinitionStoreException
 		}
 		catch (BeanDefinitionStoreException ex) {
-			assertTrue(ex.getRootCause() instanceof ClassNotFoundException);
+			assertTrue(ex.getCause() instanceof ClassNotFoundException);
 			// expected
 		}
 	}

@@ -64,9 +64,8 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 			AopProxy aop = createAopProxy(pc);
 			aop.getProxy();
 			fail("Shouldn't allow no target with CGLIB proxy");
-			// TODO fix
 		} 
-		catch (IllegalArgumentException ex) {
+		catch (AopConfigException ex) {
 			// Ok
 		}
 	}

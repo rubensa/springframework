@@ -79,7 +79,7 @@ new Attrib4jAttributeRegistry());
 				return returnValue;
 			}
 		});
-			MethodInvocationImpl invocation = new MethodInvocationImpl(proxy, null, m.getDeclaringClass(), //?
+			ReflectiveMethodInvocation invocation = new ReflectiveMethodInvocation(proxy, null, m.getDeclaringClass(), //?
 		m, null, null, is // list
 	);
 		Object rv = invocation.proceed();
@@ -96,7 +96,7 @@ new Attrib4jAttributeRegistry());
 		
 		Object target = new Object();
 
-			MethodInvocationImpl invocation = new MethodInvocationImpl(proxy, target, m.getDeclaringClass(), //?
+			ReflectiveMethodInvocation invocation = new ReflectiveMethodInvocation(proxy, target, m.getDeclaringClass(), //?
 		m, null, null, is // list
 	);
 		assertTrue(invocation.getArgumentCount() == 0);
@@ -137,7 +137,7 @@ new Attrib4jAttributeRegistry());
 			}
 		}));
 
-			MethodInvocationImpl invocation = new MethodInvocationImpl(proxy, null, m.getDeclaringClass(), //?
+			ReflectiveMethodInvocation invocation = new ReflectiveMethodInvocation(proxy, null, m.getDeclaringClass(), //?
 		m, null, null, is // list
 	);
 
@@ -167,7 +167,7 @@ new Attrib4jAttributeRegistry());
 
 		Method m = Object.class.getMethod("hashCode", null);
 		Object proxy = new Object();
-			MethodInvocationImpl invocation = new MethodInvocationImpl(proxy, target, m.getDeclaringClass(), //?
+			ReflectiveMethodInvocation invocation = new ReflectiveMethodInvocation(proxy, target, m.getDeclaringClass(), //?
 		m, null, null, is // list
 	);
 

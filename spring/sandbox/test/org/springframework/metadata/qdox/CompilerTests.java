@@ -49,13 +49,13 @@ public class CompilerTests extends TestCase {
 		String outputDir = AttributeWriterTests.getClassfileDir();
 		compiler.setDestinationDirectory(outputDir);						
 
-		BcelAttributeWriter attributeWriter = new BcelAttributeWriter();
+		BcelAttributeWriter attributeWriter = null; //new BcelAttributeWriter();
 		compiler.setAttributeWriter(attributeWriter);
 		
 		compiler.compile();
 
 		//Are the class attributes there?
-		Attributes attributes = new BcelAttributes();
+		Attributes attributes = null; //new BcelAttributes();
 
 		// TODO put this back
 	//	attributes.setAttributePackages(attribPackages);

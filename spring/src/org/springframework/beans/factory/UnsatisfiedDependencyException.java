@@ -15,6 +15,16 @@ package org.springframework.beans.factory;
  */
 public class UnsatisfiedDependencyException extends BeanDefinitionStoreException {
 
+	public UnsatisfiedDependencyException(String beanName, int ctorArgIndex, Class ctorArgType) {
+		this(beanName, ctorArgIndex, ctorArgType, null);
+	}
+
+	public UnsatisfiedDependencyException(String beanName, int ctorArgIndex, Class ctorArgType, String message) {
+		super("Bean with name '" + beanName + "' has an unsatisfied dependency expressed through " +
+					"constructor argument with index " + ctorArgIndex + " of type [" + ctorArgType.getName() + "]" +
+					(message != null ? "; detail message = [" + message + "]" : ""));
+	}
+
 	public UnsatisfiedDependencyException(String beanName, String propertyName) {
 		this(beanName, propertyName, null);
 	}

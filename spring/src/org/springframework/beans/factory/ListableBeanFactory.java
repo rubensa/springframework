@@ -54,7 +54,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * consider FactoryBeans as the type of their created objects is not
 	 * known before instantiation.
 	 * <p>Does not consider any hierarchy this factory may participate in.
-	 * @param type class or interface to match
+	 * @param type class or interface to match, or null for all bean names
 	 * @return the names of beans matching the given object type 
 	 * (including subclasses), or an empty array if none
 	 */

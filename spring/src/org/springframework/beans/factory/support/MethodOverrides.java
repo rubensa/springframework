@@ -17,8 +17,9 @@
 package org.springframework.beans.factory.support;
 
 import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Set of method overrides, determining which, if any, methods on a
@@ -28,16 +29,47 @@ import java.util.List;
  */
 public class MethodOverrides {
 
-	private final List overrides = new LinkedList();
+	private final Set overrides = new HashSet();
 
+	/**
+	 * Create new MethodOverrides.
+	 */
+	public MethodOverrides() {
+	}
+
+	/**
+	 * Deep copy constructor.
+	 */
+	public MethodOverrides(MethodOverrides other) {
+		addOverrides(other);
+	}
+
+	/**
+	 * Copy all given method overrides into this object.
+	 */
+	public void addOverrides(MethodOverrides other) {
+		if (other != null) {
+			this.overrides.addAll(other.getOverrides());
+		}
+	}
+
+	/**
+	 * Add the given method override.
+	 */
 	public void addOverride(MethodOverride override) {
 		this.overrides.add(override);
 	}
 
-	public List getOverrides() {
+	/**
+	 * Return all method overrides contained by this object.
+	 */
+	public Set getOverrides() {
 		return overrides;
 	}
-	
+
+	/**
+	 * Return whether the set of method overrides is empty.
+	 */
 	public boolean isEmpty() {
 		return this.overrides.isEmpty();
 	}
@@ -48,8 +80,8 @@ public class MethodOverrides {
 	 * @return the method override, or null if none
 	 */
 	public MethodOverride getOverride(Method method) {
-		for (int i = 0; i < this.overrides.size(); i++) {
-			MethodOverride methodOverride = (MethodOverride) this.overrides.get(i);
+		for (Iterator it = this.overrides.iterator(); it.hasNext();) {
+			MethodOverride methodOverride = (MethodOverride) it.next();
 			if (methodOverride.matches(method)) {
 				return methodOverride;
 			}			

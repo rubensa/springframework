@@ -536,17 +536,9 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 				}
 			}
 
-			// deep copy
+			// deep copy with overridden values
 			RootBeanDefinition rbd = new RootBeanDefinition(pbd);
-
-			// override properties
-			rbd.getPropertyValues().addPropertyValues(cbd.getPropertyValues());
-
-			// override settings
-			rbd.setSingleton(cbd.isSingleton());
-			rbd.setLazyInit(cbd.isLazyInit());
-			rbd.setResourceDescription(cbd.getResourceDescription());
-			
+			rbd.overrideFrom(cbd);
 			return rbd;
 		}
 		else {

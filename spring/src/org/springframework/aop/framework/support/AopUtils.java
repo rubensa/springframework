@@ -2,6 +2,7 @@
 package org.springframework.aop.framework.support;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,14 @@ import org.springframework.aop.Pointcut;
  * @version $Id$
  */
 public class AopUtils {
+	
+	public static boolean isCglibProxy(Object o) {
+		return o.getClass().getName().indexOf("$$") != -1;
+	}
+	
+	public static boolean isJdkDynamicProxy(Object o) {
+		return Proxy.isProxyClass(o.getClass());
+	}
 
 	/**
 	 * Return all interfaces that the given object implements as array,

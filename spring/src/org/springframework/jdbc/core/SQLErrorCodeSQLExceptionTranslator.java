@@ -20,6 +20,7 @@ import org.springframework.dao.DataIntegrityViolationException;
  * dependent on a particular RDBMS.
  * @author Rod Johnson
  * @author Thomas Risberg
+ * @version $Revision$
  */
 public class SQLErrorCodeSQLExceptionTranslator implements SQLExceptionTranslator {
 

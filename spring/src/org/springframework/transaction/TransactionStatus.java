@@ -24,6 +24,10 @@ package org.springframework.transaction;
  * and to programmatically request a rollback (instead of throwing
  * an exception that causes an implicit rollback).
  *
+ * <p>Derives from the SavepointManager interface to provide access
+ * to savepoint management facilities. Note that savepoint management
+ * is just available if the actual transaction manager supports it.
+ *
  * @author Juergen Hoeller
  * @since 27.03.2003
  * @see PlatformTransactionManager
@@ -32,7 +36,7 @@ package org.springframework.transaction;
  * @see #setRollbackOnly
  * @version $Id$
  */
-public interface TransactionStatus {
+public interface TransactionStatus extends SavepointManager {
 
 	/**
 	 * Return if the transaction is new,

@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.ResponseTimeMonitor;
 import org.springframework.util.ResponseTimeMonitorImpl;
 import org.springframework.util.StopWatch;
@@ -32,6 +34,8 @@ public abstract class AbstractTest implements Test {
 	//---------------------------------------------------------------------
 	/** Used to calculate random delays if a subclass wants this behavior */
 	private static Random rand = new Random();
+	
+	protected final Log logger = LogFactory.getLog(getClass());
 
 	private long maxPause = -1L;
 	

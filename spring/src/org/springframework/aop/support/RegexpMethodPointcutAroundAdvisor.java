@@ -40,7 +40,7 @@ public class RegexpMethodPointcutAroundAdvisor extends RegexpMethodPointcut impl
 	 * @see org.springframework.aop.InterceptionAroundAdvisor#getInterceptor()
 	 */
 	public Interceptor getInterceptor() {
-		return this.getInterceptor();
+		return this.interceptor;
 	}
 
 	/**

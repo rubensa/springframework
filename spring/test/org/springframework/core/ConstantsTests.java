@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
  
-package org.springframework.util;
+package org.springframework.core;
 
 import java.util.Set;
 

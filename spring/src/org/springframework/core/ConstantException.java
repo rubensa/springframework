@@ -3,12 +3,12 @@
  * of the Apache Software License.
  */
  
-package org.springframework.util;
+package org.springframework.core;
 
 /**
  * Exception thrown when the Constants class is asked for an invalid
  * constant name.
- * @see org.springframework.util.Constants
+ * @see org.springframework.core.Constants
  * @version $Id$
  * @author Rod Johnson
  * @since 28-Apr-2003

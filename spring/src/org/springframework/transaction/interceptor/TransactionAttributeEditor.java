@@ -27,7 +27,7 @@ import org.springframework.util.StringUtils;
  * @since 24-Apr-2003
  * @version $Id$
  * @see org.springframework.transaction.TransactionDefinition
- * @see org.springframework.util.Constants
+ * @see org.springframework.core.Constants
  */
 public class TransactionAttributeEditor extends PropertyEditorSupport {
 

@@ -67,11 +67,10 @@ public class DriverManagerDataSourceTests extends TestCase {
 		ds.setUsername(uname);
 		try {
 			ds.setDriverClassName(bogusClassname);
-			fail();
-		} catch (CannotGetJdbcConnectionException ex) {
-			// Check the message helpfully included the classname
-			assertTrue(ex.getMessage().indexOf(bogusClassname) != -1);
-			assertTrue(ex.getCause() instanceof ClassNotFoundException);
+			fail("Should have thrown ClassNotFoundException");
+		}
+		catch (ClassNotFoundException ex) {
+			// OK
 		}
 	}
 

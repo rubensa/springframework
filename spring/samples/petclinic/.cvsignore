@@ -1,0 +1,12 @@
+target
+dist
+release
+build.properties
+*.log
+bin
+libold
+junit-reports
+.classes
+.livetestclasses
+.loadclasses
+.testclasses

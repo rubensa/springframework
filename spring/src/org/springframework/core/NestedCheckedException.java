@@ -20,10 +20,12 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 /**
- * Handy class for wrapping runtime Exceptions with a root cause. This time-honoured
- * technique is no longer necessary in Java 1.4, which provides built-in support for
- * exception nesting. Thus exceptions in applications written to use Java 1.4 need
- * not extend this class.
+ * Handy class for wrapping checked Exceptions with a root cause.
+ *
+ * <p>This time-honoured technique is no longer necessary in Java 1.4, which
+ * finally provides built-in support for exception nesting. Thus exceptions in
+ * applications written to use Java 1.4 need not extend this class. To ease
+ * migration, this class mirrors Java 1.4's nested exceptions as closely as possible.
  *
  * <p>Abstract to force the programmer to extend the class. getMessage will include
  * nested exception information; printStackTrace etc will delegate to the wrapped
@@ -73,7 +75,7 @@ public abstract class NestedCheckedException extends Exception {
 	 * Return the nested cause, or null if none.
 	 */
 	public Throwable getCause() {
-		return cause;
+		return (cause == this ? null : cause);
 	}
 
 	/**

@@ -92,7 +92,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 				// This class implements the equals() method itself
 				return new Boolean(equals(args[0]));
 			}
-			else if (Advised.class.equals(method.getDeclaringClass())) {
+			else if (Advised.class == method.getDeclaringClass()) {
 				// Service invocations on ProxyConfig with the proxy config
 				return method.invoke(this.advised, args);
 			}
@@ -129,8 +129,8 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 				//invocation = advised.getMethodInvocationFactory().getMethodInvocation(proxy, method, targetClass, target, args, chain, advised);
 				
 				invocation = new ReflectiveMethodInvocation(proxy, target, method.getDeclaringClass(),
-																										method, args, targetClass, chain);
-				
+									method, args, targetClass, chain);
+										
 				// Proceed to the joinpoint through the interceptor chain
 				retVal = invocation.proceed();
 			}

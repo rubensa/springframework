@@ -19,6 +19,9 @@ import org.springframework.beans.factory.support.BootstrapException;
  * and should invoke the unloadBeanFactory() method in their
  * ejbPassive method.</b>
  * 
+ * <p><b>Note: Subclasses need to remove and restore the logger
+ * instance from the superclass ('logger') in ejbPassivate/ejbActivate.</b>
+ * 
  * <p><b>Note: The default BeanFactoryLoader used by this class's
  * superclass is <b>not</b> serializable. When using the default
  * BeanFactoryLoader, or another variant which is not serializable,

@@ -11,7 +11,9 @@ import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 
 /**
- * Static methods useful for manipulating pointcuts.
+ * Static methods useful for manipulating and evaluating pointcuts.
+ * This methods are particularly useful for composing pointcuts
+ * using the union and intersection methods.
  * @author Rod Johnson
  * @version $Id$
  */
@@ -26,7 +28,7 @@ public abstract class Pointcuts {
 	}
 	
 	/**
-	 * Perform the least expense check for a match.
+	 * Perform the least expensive check for a match.
 	 */
 	public static boolean matches(Pointcut pc, Method m, Class targetClass, Object[] arguments) {
 		if (pc == Pointcut.TRUE) {

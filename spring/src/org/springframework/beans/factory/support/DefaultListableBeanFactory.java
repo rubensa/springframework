@@ -20,6 +20,7 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.FactoryBeanCircularReferenceException;
+import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.util.StringUtils;
@@ -262,7 +263,14 @@ public class DefaultListableBeanFactory extends AbstractBeanFactory
 
 
 	public String toString() {
-		return getClass().getName() + " with defined beans [" + StringUtils.arrayToDelimitedString(getBeanDefinitionNames(), ",") + "]";
+		StringBuffer sb = new StringBuffer(getClass().getName() + " defining beans [" + StringUtils.arrayToDelimitedString(getBeanDefinitionNames(), ",") + "]");
+		if (getParentBeanFactory() == null) {
+			sb.append("; Root of BeanFactory hierarchy");
+		}
+		else { 
+			sb.append("; parent=<" + getParentBeanFactory() + ">");
+		}
+		return sb.toString();
 	}
 
 }

@@ -215,6 +215,7 @@
 				<include name="org/springframework/web/context/**"/>
 				<include name="org/springframework/web/filter/**"/>
 				<include name="org/springframework/web/multipart/**"/>
+				<include name="org/springframework/web/struts/**"/>
 				<include name="org/springframework/web/util/**"/>
 			</fileset>
 			<manifest>

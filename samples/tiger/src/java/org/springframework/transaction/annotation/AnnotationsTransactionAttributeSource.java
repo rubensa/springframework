@@ -95,29 +95,31 @@ public class AnnotationsTransactionAttributeSource extends
 				
 				ArrayList<RollbackRuleAttribute> rollBackRules = new ArrayList<RollbackRuleAttribute>();
 				
-				RollbackFor rbf[] = ruleBasedTx.rollbackFor();
+				Class[] rbf = ruleBasedTx.rollbackFor();
 				for (int i=0; i < rbf.length; ++i) {
-					RollbackRuleAttribute rule = new RollbackRuleAttribute(rbf[i].value());
+					RollbackRuleAttribute rule = new RollbackRuleAttribute(rbf[i]);
 					rollBackRules.add(rule);
 				}
 				
-				RollbackForClassname rbfc[] = ruleBasedTx.rollbackForClassname();
+				String[] rbfc = ruleBasedTx.rollbackForClassname();
 				for (int i=0; i < rbfc.length; ++i) {
-					RollbackRuleAttribute rule = new RollbackRuleAttribute(rbfc[i].value());
+					RollbackRuleAttribute rule = new RollbackRuleAttribute(rbfc[i]);
 					rollBackRules.add(rule);
 				}
 				
-				NoRollbackFor nrbf[] = ruleBasedTx.noRollbackFor();
+				Class[] nrbf = ruleBasedTx.noRollbackFor();
 				for (int i=0; i < nrbf.length; ++i) {
-					NoRollbackRuleAttribute rule = new NoRollbackRuleAttribute(nrbf[i].value());
+					NoRollbackRuleAttribute rule = new NoRollbackRuleAttribute(nrbf[i]);
 					rollBackRules.add(rule);
 				}
 				
-				NoRollbackForClassname nrbfc[] = ruleBasedTx.noRollbackForClassname();
+				String[] nrbfc = ruleBasedTx.noRollbackForClassname();
 				for (int i=0; i < nrbfc.length; ++i) {
-					NoRollbackRuleAttribute rule = new NoRollbackRuleAttribute(nrbfc[i].value());
+					NoRollbackRuleAttribute rule = new NoRollbackRuleAttribute(nrbfc[i]);
 					rollBackRules.add(rule);
 				}
+				
+				rbta.getRollbackRules().addAll(rollBackRules);
 
 				return rbta;
 			}

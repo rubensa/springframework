@@ -7,12 +7,15 @@
 
 package org.springframework.transaction.annotation;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import org.apache.commons.collections.ListUtils;
 import org.springframework.metadata.standard.StandardAttributes;
+import org.springframework.transaction.interceptor.NoRollbackRuleAttribute;
+import org.springframework.transaction.interceptor.RollbackRuleAttribute;
 import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 
@@ -47,19 +50,59 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 	public void testTransactionAttributeDeclaredOnClassMethod() throws Exception {
 		Method classMethod = TestBean1.class.getMethod("getAge", null);
 		
-		Annotation anns[] = classMethod.getDeclaredAnnotations();
+		StandardAttributes att = new StandardAttributes();
+		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
+		TransactionAttribute actual = atas.getTransactionAttribute(classMethod, TestBean1.class);
 		
-		Method interfaceMethod = ITestBean.class.getMethod("getAge", null);
-
-		//TransactionAttribute txAtt = new DefaultTransactionAttribute();
+		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
+		rbta.getRollbackRules().add(new RollbackRuleAttribute(Exception.class));
+		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
+	}
+	
+	public void testTransactionAttributeDeclaredOnInterfaceMethodOnly() throws Exception {
+		Method interfaceMethod = ITestBean2.class.getMethod("getAge", null);
 
 		StandardAttributes att = new StandardAttributes();
 		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
-		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean1.class);
+		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean2.class);
 		
 		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
 		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
 	}
+	
+	public void testTransactionAttributeDeclaredOnTargetClassMethodTakesPrecedenceOverAttributeDeclaredOnInterfaceMethod() throws Exception {
+		Method classMethod = TestBean3.class.getMethod("getAge", null);
+		Method interfaceMethod = ITestBean3.class.getMethod("getAge", null);
+
+		StandardAttributes att = new StandardAttributes();
+		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
+		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean3.class);
+		
+		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
+		rbta.getRollbackRules().add(new RollbackRuleAttribute(Exception.class));
+		rbta.getRollbackRules().add(new NoRollbackRuleAttribute(IOException.class));
+		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
+	}
+	
+
+	public void testRollbackRulesAreApplied() throws Exception {
+		Method method = TestBean3.class.getMethod("getAge", null);
+		
+		StandardAttributes att = new StandardAttributes();
+		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
+		TransactionAttribute actual = atas.getTransactionAttribute(method, TestBean3.class);
+
+		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
+		rbta.getRollbackRules().add(new RollbackRuleAttribute("java.lang.Exception"));
+		rbta.getRollbackRules().add(new NoRollbackRuleAttribute(IOException.class));
+
+		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
+		assertTrue(actual.rollbackOn(new Exception()));
+		assertFalse(actual.rollbackOn(new IOException()));
+		
+		//assertSame(rbta, atas.getTransactionAttribute(method, method.getDeclaringClass()));
+	}
+
 	
 	
 	void assertRulesAreEqual(RuleBasedTransactionAttribute rule1,
@@ -70,9 +113,29 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 		if (rule1.getPropagationBehavior() != rule2.getPropagationBehavior())
 			throw new Exception("propagation behaviour does not match");
 		
-		List intersect = ListUtils.intersection(rule1.getRollbackRules(), rule2.getRollbackRules());
-		if (intersect.size() != rule1.getRollbackRules().size())
+		List rules1 = rule1.getRollbackRules();
+		List rules2 = rule2.getRollbackRules();
+		List intersect = ListUtils.intersection(rules1, rules2);
+		if (rules1.size() != rules2.size() || intersect.size() != rules1.size())
 			throw new Exception("rules have different sized lists of rollback rules");
+	}
+	
+	/**
+	 * Test that transaction attribute is inherited from class
+	 * if not specified on method
+	 * @throws Exception
+	 */
+	public void testDefaultsToClassTransactionAttribute() throws Exception {
+
+		Method method = TestBean4.class.getMethod("getAge", null);
+		StandardAttributes att = new StandardAttributes();
+		AnnotationsTransactionAttributeSource atas = new AnnotationsTransactionAttributeSource(att);
+		TransactionAttribute actual = atas.getTransactionAttribute(method, TestBean4.class);
+		
+		RuleBasedTransactionAttribute rbta = new RuleBasedTransactionAttribute();
+		rbta.getRollbackRules().add(new RollbackRuleAttribute(Exception.class));
+		rbta.getRollbackRules().add(new NoRollbackRuleAttribute(IOException.class));
+		assertRulesAreEqual(rbta, (RuleBasedTransactionAttribute) actual);
 	}
 
 	
@@ -86,7 +149,32 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 		
 		void setName(String name);
 	}
+	
+	public interface ITestBean2 {
+		
+		@TxAttribute
+		int getAge();
+		
+		void setAge(int age);
+		
+		String getName(); 
+		
+		void setName(String name);
+	}
 
+	public interface ITestBean3 {
+		
+		@TxAttribute()
+		int getAge();
+		
+		void setAge(int age);
+		
+		String getName(); 
+		
+		void setName(String name);
+	}
+
+	
 	public static class Empty implements ITestBean {
 
 		private String name;
@@ -141,7 +229,7 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 			this.name = name;
 		}
 
-		@TxAttribute
+		@TxAttribute(rollbackFor=Exception.class)	
 		public int getAge() {
 			return age;
 		}
@@ -150,8 +238,101 @@ public class AnnotationsTransactionAttributeSourceTest extends TestCase {
 			this.age = age;
 		}
 	}
-	
-	
-	
+
+	public static class TestBean2 implements ITestBean2 {
+
+		private String name;
+
+		private int age;
+
+		public TestBean2() {
+		}
+
+		public TestBean2(String name, int age) {
+			this.name = name;
+			this.age = age;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public int getAge() {
+			return age;
+		}
+
+		public void setAge(int age) {
+			this.age = age;
+		}
+	}
+
+	public static class TestBean3 implements ITestBean3 {
+
+		private String name;
+
+		private int age;
+
+		public TestBean3() {
+		}
+
+		public TestBean3(String name, int age) {
+			this.name = name;
+			this.age = age;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		@TxAttribute(rollbackFor=Exception.class, noRollbackFor={IOException.class})
+		public int getAge() {
+			return age;
+		}
+
+		public void setAge(int age) {
+			this.age = age;
+		}
+	}
+
+
+	@TxAttribute(rollbackFor=Exception.class, noRollbackFor={IOException.class})
+	public static class TestBean4 implements ITestBean3 {
+
+		private String name;
+
+		private int age;
+
+		public TestBean4() {
+		}
+
+		public TestBean4(String name, int age) {
+			this.name = name;
+			this.age = age;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public int getAge() {
+			return age;
+		}
+
+		public void setAge(int age) {
+			this.age = age;
+		}
+	}
 
 }

@@ -28,8 +28,8 @@ public @interface TxAttribute {
 	PropagationType propagationType() default PropagationType.REQUIRED;
 	IsolationLevel isolationLevel() default IsolationLevel.DEFAULT;
 	boolean readOnly() default false;
-	RollbackFor[] rollbackFor() default {};
-	RollbackForClassname[] rollbackForClassname() default {};
-	NoRollbackFor[] noRollbackFor() default {};
-	NoRollbackForClassname[] noRollbackForClassname() default {};
+	Class[] rollbackFor() default {};
+	String[] rollbackForClassname() default {};
+	Class[] noRollbackFor() default {};
+	String[] noRollbackForClassname() default {};
 }

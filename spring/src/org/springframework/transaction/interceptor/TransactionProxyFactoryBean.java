@@ -1,6 +1,5 @@
 package org.springframework.transaction.interceptor;
 
-import java.util.Iterator;
 import java.util.Properties;
 
 import org.aopalliance.intercept.AspectException;
@@ -165,15 +164,8 @@ public class TransactionProxyFactoryBean extends ProxyConfig implements FactoryB
 			throw new AopConfigException("'transactionAttributes' property must be set: if there are no transaction methods, don't use a transactional proxy");
 		}
 
-		NameMatchTransactionAttributeSource tas = new NameMatchTransactionAttributeSource();
-		TransactionAttributeEditor tae = new TransactionAttributeEditor();
-		for (Iterator it = this.transactionAttributes.keySet().iterator(); it.hasNext();) {
-			String methodName = (String)it.next();
-			String value = this.transactionAttributes.getProperty(methodName);
-			tae.setAsText(value);
-			TransactionAttribute attr = (TransactionAttribute)tae.getValue();
-			tas.addTransactionalMethod(methodName, attr);
-		}
+		PropertiesTransactionAttributeSource tas = new PropertiesTransactionAttributeSource();
+		tas.setProperties(this.transactionAttributes);
 
 		TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
 		transactionInterceptor.setTransactionManager(this.transactionManager);
@@ -194,7 +186,7 @@ public class TransactionProxyFactoryBean extends ProxyConfig implements FactoryB
 		}
 		else {
 			// Rely on default pointcut
-			proxyFactory.addAdvisor(new TransactionAttributeSourceTransactionAroundAdvisor(transactionInterceptor, tas));
+			proxyFactory.addAdvisor(new TransactionAttributeSourceTransactionAroundAdvisor(transactionInterceptor));
 			
 			// Could just do the following, but it's usually less efficient because of AOP advice chain caching
 			//proxyFactory.addInterceptor(transactionInterceptor);

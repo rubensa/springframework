@@ -7,6 +7,7 @@ package org.springframework.transaction.interceptor;
 
 import java.lang.reflect.Method;
 
+import org.springframework.aop.framework.AopConfigException;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAroundAdvisor;
 
 /**
@@ -24,9 +25,11 @@ public class TransactionAttributeSourceTransactionAroundAdvisor extends StaticMe
 	
 	private TransactionAttributeSource transactionAttributeSource;
 	
-	public TransactionAttributeSourceTransactionAroundAdvisor(TransactionInterceptor ti, TransactionAttributeSource transactionAttributeSource) {
+	public TransactionAttributeSourceTransactionAroundAdvisor(TransactionInterceptor ti) {
 		super(ti);
-		this.transactionAttributeSource = transactionAttributeSource;
+		if (ti.getTransactionAttributeSource() == null)
+			throw new AopConfigException("Cannot construct a TransactionAttributeSourceTransactionAroundAdvisor using a TransactionInterceptor that has no TransactionAttributeSource configured");
+		this.transactionAttributeSource = ti.getTransactionAttributeSource();
 	}
 
 	/**

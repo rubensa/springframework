@@ -23,6 +23,7 @@ import org.springframework.util.SerializationTestUtils;
 import junit.framework.TestCase;
 
 /**
+ * @author Rod Johnson
  * @author Dmitriy Kopylenko
  * @since 1.1
  * @version $Id$

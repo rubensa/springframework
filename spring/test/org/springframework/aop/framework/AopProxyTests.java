@@ -11,6 +11,8 @@ import java.lang.reflect.Proxy;
 
 import junit.framework.TestCase;
 
+import net.sf.cglib.CodeGenerationException;
+
 import org.aopalliance.intercept.AspectException;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -94,10 +96,6 @@ public class AopProxyTests extends TestCase {
 	}
 	
 	
-	/**
-	 * Check that if an object invokes itself it will not be advised
-	 *
-	 */
 	public void testReentrance() {
 		int age1 = 33;
 	
@@ -118,6 +116,98 @@ public class AopProxyTests extends TestCase {
 		assertEquals("Advised spouse has correct age", age1, advised1.getSpouse().getAge()); 
 		
 		assertEquals("one was invoked correct number of times", 5, di1.getCount());
+	}
+	
+	public interface INeedsToSeeProxy {
+		int getCount();
+		void incrementViaThis();
+		void incrementViaProxy();
+		void increment();
+	}
+	
+	public static class NeedsToSeeProxy implements INeedsToSeeProxy {
+		private int count;
+		public int getCount() {
+			return count;
+		}
+		public void incrementViaThis() {
+			this.increment();
+		}
+		public void incrementViaProxy() {
+			INeedsToSeeProxy thisViaProxy = (INeedsToSeeProxy) AopContext.currentProxy();
+			thisViaProxy.increment();
+			Advised advised = (Advised) thisViaProxy;
+			checkAdvised(advised);
+		}
+		
+		protected void checkAdvised(Advised advised) {
+		}
+	
+		public void increment() {
+			++count;
+		}
+	};
+	
+	public static class TargetChecker extends NeedsToSeeProxy {
+		protected void checkAdvised(Advised advised) {
+			assertEquals(advised.getTarget(), this);
+		}
+	};
+	
+	public void testTargetCanGetProxyViaDP() {
+		DebugInterceptor di = new DebugInterceptor();
+		INeedsToSeeProxy et = new TargetChecker();
+		ProxyFactory pf1 = new ProxyFactory(et);
+		pf1.setExposeProxy(true);
+		assertTrue(pf1.getExposeProxy());
+	
+		pf1.addInterceptor(0, di);
+		INeedsToSeeProxy proxied = (INeedsToSeeProxy) pf1.getProxy();
+		assertEquals(0, di.getCount());
+		assertEquals(0, et.getCount());
+		proxied.incrementViaThis();
+		assertEquals("Increment happened", 1, et.getCount());
+		assertEquals("Only one invocation via AOP as use of this wasn't proxied", 1, di.getCount());
+	
+		proxied.incrementViaProxy();
+		assertEquals("Increment happened", 2, et.getCount());
+		assertEquals("Two more invocations via AOP as the first call was reentrant through the proxy", 3, di.getCount());
+	}
+			
+	public void testTargetCanGetProxyViaCGLIB() {
+		DebugInterceptor di = new DebugInterceptor();
+		NeedsToSeeProxy et = new TargetChecker();
+		ProxyFactory pf1 = new ProxyFactory(et);
+		// Force it to use CGLIB
+		pf1.setProxyTargetClass(true);
+		pf1.setExposeProxy(true);
+		assertTrue(pf1.getExposeProxy());
+		
+		pf1.addInterceptor(0, di);
+		NeedsToSeeProxy proxied = (NeedsToSeeProxy) pf1.getProxy();
+		assertEquals(0, di.getCount());
+		assertEquals(0, et.count);
+		proxied.incrementViaThis();
+		assertEquals("Increment happened", 1, et.count);
+		assertEquals("Only one invocation via AOP as use of this wasn't proxied", 1, di.getCount());
+		
+		proxied.incrementViaProxy();
+		assertEquals("Increment happened", 2, et.count);
+		assertEquals("Two more invocations via AOP as the first call was reentrant through the proxy", 3, di.getCount());
+	}
+	
+	public void testTargetCantGetProxyByDefault() {
+		NeedsToSeeProxy et = new NeedsToSeeProxy();
+		ProxyFactory pf1 = new ProxyFactory(et);
+		assertFalse(pf1.getExposeProxy());
+		INeedsToSeeProxy proxied = (INeedsToSeeProxy) pf1.getProxy();
+		try {
+			proxied.incrementViaProxy();
+			fail("Should have failed to get proxy as exposeProxy wasn't set to true");
+		}
+		catch (AspectException ex) {
+			// Ok
+		}
 	}
 	
 
@@ -505,6 +595,31 @@ public class AopProxyTests extends TestCase {
 		proxied.setAge(25);
 		assertEquals(25, proxied.getAge());
 	}
+	
+	public void testCGLIBProxyingGivesMeaningfulExceptionIfAskedToProxyNonvisibleClass() {
+		class YouCantSeeThis {
+			void hidden() {
+			}
+		};
+		YouCantSeeThis mine = new YouCantSeeThis();
+		try {
+			ProxyFactory pf = new ProxyFactory(mine);
+			pf.getProxy();
+			fail("Shouldn't be able to proxy non-visible class with CGLIB");
+		}
+		catch (AspectException ex) {
+			// Check that stack trace is preserved
+			assertTrue(ex.getRootCause() instanceof CodeGenerationException);
+			
+			// Check that error message is helpful
+			
+			// TODO check why these methods fail with NPE on AOP Alliance code
+			//assertTrue(ex.getMessage().indexOf("final") != -1);
+			//assertTrue(ex.getMessage().indexOf("visible") != -1);
+		}
+		
+	}
+	
 	
 	public void testCannotAddIntroductionInterceptorExceptInIntroductionAdvice() throws Throwable {
 		TestBean target = new TestBean();

@@ -27,6 +27,8 @@ public interface Advised {
 	 */
 	boolean getExposeInvocation();
 	
+	boolean getExposeProxy();
+	
 	/**
 	 * Return the Advisors applying to this proxy
 	 * @return a list of Advisors applying to this proxy. Cannot return null,

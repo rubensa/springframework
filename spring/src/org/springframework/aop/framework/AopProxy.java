@@ -10,10 +10,12 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 
+import net.sf.cglib.CodeGenerationException;
 import net.sf.cglib.Enhancer;
 import net.sf.cglib.MethodInterceptor;
 import net.sf.cglib.MethodProxy;
 
+import org.aopalliance.intercept.AspectException;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -113,6 +115,10 @@ public class AopProxy implements InvocationHandler {
 				// Make invocation available if necessary
 				AopContext.setCurrentInvocation(invocation);
 			}
+			if (this.config.getExposeProxy()) {
+				// Make invocation available if necessary
+				AopContext.setCurrentProxy(proxy);
+			}
 			
 			// If we get here, we need to create a MethodInvocation
 			Object retVal = invocation.proceed();
@@ -128,6 +134,10 @@ public class AopProxy implements InvocationHandler {
 			if (this.config.getExposeInvocation()) {
 				AopContext.setCurrentInvocation(null);
 			}
+			if (this.config.getExposeProxy()) {
+				AopContext.setCurrentProxy(null);
+			}
+			
 			if (invocation != null) {
 				// TODO move into AOP Alliance
 				((MethodInvocationImpl) invocation).clear();
@@ -240,13 +250,19 @@ public class AopProxy implements InvocationHandler {
 	private class CglibProxyFactory {
 
 		private Object createProxy() {
-			return Enhancer.enhance(config.getTarget().getClass(), completeProxiedInterfaces(),
-				new MethodInterceptor() {
-					public Object intercept(Object handler, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
-						return invoke(handler, method, objects);
+			try {
+				return Enhancer.enhance(config.getTarget().getClass(), completeProxiedInterfaces(),
+					new MethodInterceptor() {
+						public Object intercept(Object handler, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+							return invoke(handler, method, objects);
+						}
 					}
-				}
-			);
+				);
+			}
+			catch (CodeGenerationException ex) {
+				throw new AspectException("Couldn't generate CGLIB subclass of class '" + config.getTarget().getClass() + "': " +
+						"Common causes of this problem include using a final class, or a non-visible class", ex);
+			}
 		}
 	}
 

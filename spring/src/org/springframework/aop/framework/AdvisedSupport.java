@@ -68,6 +68,8 @@ public class AdvisedSupport implements Advised {
 	 */
 	private boolean exposeInvocation;
 	
+	private boolean exposeProxy;
+	
 	/**
 	 * Should we proxy the target class as well as any interfaces?
 	 * Can use this to force CGLIB proxying even if we have interfaces such as introductions.
@@ -146,6 +148,14 @@ public class AdvisedSupport implements Advised {
 	 */
 	public boolean getExposeInvocation() {
 		return exposeInvocation;
+	}
+	
+	public boolean getExposeProxy() {
+		return this.exposeProxy;
+	}
+	
+	public void setExposeProxy(boolean exposeProxy) {
+		this.exposeProxy = exposeProxy;
 	}
 	
 	/**

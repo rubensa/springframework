@@ -339,25 +339,28 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				Class[] argTypes = factoryMethod.getParameterTypes();
 
 				try {
+					// Try to create the required arguments
 					if (args == null) {
 						args = createArgumentArray(beanName, mergedBeanDefinition, resolvedValues, bw, argTypes);
 					}
-
-					Object beanInstance = instantiationStrategy.instantiate(mergedBeanDefinition, this, factoryMethod, args);
-
-					// TODO if we got to here, we could cache the resolved Method in the RootBeanDefinition for
-					// efficiency on future creation, but that would need to be synchronized
-
-					bw.setWrappedInstance(beanInstance);
-					if (logger.isInfoEnabled()) {
-						logger.info("Bean '" + beanName + "' instantiated via factory method [" + factoryMethod + "]");
-					}
-					return bw;
 				}
 				catch (Exception ex) {
 					// If we failed to match this method, swallow the exception and keep trying new overloaded
 					// factory methods...
+					continue;
 				}
+				
+				// If we get here, we found a factory method
+				Object beanInstance = instantiationStrategy.instantiate(mergedBeanDefinition, this, factoryMethod, args);
+
+				// TODO if we got to here, we could cache the resolved Method in the RootBeanDefinition for
+				// efficiency on future creation, but that would need to be synchronized
+
+				bw.setWrappedInstance(beanInstance);
+				if (logger.isInfoEnabled()) {
+					logger.info("Bean '" + beanName + "' instantiated via factory method [" + factoryMethod + "]");
+				}
+				return bw;				
 			}
 		}	// for each method
 

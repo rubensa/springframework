@@ -20,6 +20,9 @@ Package org.springframework.context
 Package org.springframework.ejb
 * moved logger instance from AbstractEnterpriseBean to AbstractStatelessSession Bean and AbstractMessageDrivenBean
 
+Package org..springframework.jdbc.support
+* added support for new SQL Error Code categories - DataRetrievalFailureException, OptimisticLockingFailureException and DataAccessResourceFailureException
+
 Package org.springframework.util
 * removed package path utility methods from ClassLoaderUtils
 

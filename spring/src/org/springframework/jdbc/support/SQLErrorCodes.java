@@ -19,6 +19,12 @@ public class SQLErrorCodes {
 	private String[] badSqlGrammarCodes = new String[0];
 
 	private String[] dataIntegrityViolationCodes = new String[0];
+	
+	private String[] dataRetrievalFailureCodes = new String[0];
+	
+	private String[] optimisticLockingFailureCodes = new String[0];
+	
+	private String[] dataAccessResourceFailureCodes = new String[0];
 
 	/**
 	 * Sets the badSqlGrammarCodes.
@@ -46,6 +52,49 @@ public class SQLErrorCodes {
 	 */
 	public String[] getDataIntegrityViolationCodes() {
 		return dataIntegrityViolationCodes;
+	}
+
+	/**
+	 * @return Returns the dataRetrievalFailureCodes.
+	 */
+	public String[] getDataRetrievalFailureCodes() {
+		return dataRetrievalFailureCodes;
+	}
+	/**
+	 * @param dataRetrievalFailureCodes The dataRetrievalFailureCodes to set.
+	 */
+	public void setDataRetrievalFailureCodes(String[] dataRetrievalFailureCodes) {
+		this.dataRetrievalFailureCodes = dataRetrievalFailureCodes;
+	}
+
+	/**
+	 * @return Returns the dataAccessResourceFailureCodes.
+	 */
+	public String[] getDataAccessResourceFailureCodes() {
+		return dataAccessResourceFailureCodes;
+	}
+
+	/**
+	 * @param dataAccessResourceFailureCodes The dataAccessResourceFailureCodes to set.
+	 */
+	public void setDataAccessResourceFailureCodes(
+			String[] dataAccessResourceFailureCodes) {
+		this.dataAccessResourceFailureCodes = dataAccessResourceFailureCodes;
+	}
+
+	/**
+	 * @return Returns the optimisticLockingFailureCodes.
+	 */
+	public String[] getOptimisticLockingFailureCodes() {
+		return optimisticLockingFailureCodes;
+	}
+	
+	/**
+	 * @param optimisticLockingFailureCodes The optimisticLockingFailureCodes to set.
+	 */
+	public void setOptimisticLockingFailureCodes(
+			String[] optimisticLockingFailureCodes) {
+		this.optimisticLockingFailureCodes = optimisticLockingFailureCodes;
 	}
 
 	/**

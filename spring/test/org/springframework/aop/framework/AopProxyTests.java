@@ -374,7 +374,7 @@ public class AopProxyTests extends TestCase {
 		assertTrue(!(proxy instanceof TestBean));
 	}
 
-	public void testProxyCanBeFullClass() throws Throwable {
+	public void testProxyCanBeClassNotInterface() throws Throwable {
 		TestBean raw = new TestBean();
 		raw.setAge(32);
 		InvokerInterceptor ii = new InvokerInterceptor(raw);
@@ -383,10 +383,11 @@ public class AopProxyTests extends TestCase {
 		AopProxy aop = new AopProxy(pc);
 
 		Object proxy = aop.getProxy();
+		assertTrue("Proxy is CGLIB enhanced", proxy.getClass().getName().indexOf("$$") != -1);
 		assertTrue(proxy instanceof ITestBean);
 		assertTrue(proxy instanceof TestBean);
 		TestBean tb = (TestBean) proxy;
-		assertTrue("Correct age", tb.getAge() == 32);
+		assertEquals("Correct age", 32, tb.getAge());
 	}
 
 	/**

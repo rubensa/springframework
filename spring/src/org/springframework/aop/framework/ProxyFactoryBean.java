@@ -196,7 +196,7 @@ public class ProxyFactoryBean extends AdvisedSupport implements FactoryBean, Bea
 				// Might have just refreshed target source
 				if (refreshedAdvisor instanceof Advisor) {
 					// What about aspect interfaces!? we're only updating
-					replaceAdvice(advisors[i], (Advisor) refreshedAdvisor);
+					replaceAdvisor(advisors[i], (Advisor) refreshedAdvisor);
 				}
 				else {
 					setTargetSource((TargetSource) refreshedAdvisor);

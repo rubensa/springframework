@@ -42,6 +42,13 @@ public interface Advised {
 	boolean getExposeProxy();
 	
 	/**
+	 * Should we proxy the target class as well as any interfaces?
+	 * Can use this to force CGLIB proxying.
+	 * @return whether we proxy the target class as well as any interfaces
+	 */
+	boolean getProxyTargetClass();
+	
+	/**
 	 * Return the Advisors applying to this proxy.
 	 * @return a list of Advisors applying to this proxy. Cannot return null,
 	 * but may return the empty array.
@@ -82,7 +89,9 @@ public interface Advised {
 	
 	
 	/** 
-	 * Add an Advisor at the end of the advisor chain
+	 * Add an Advisor at the end of the advisor chain.
+	 * The Advisor may be an IntroductionAdvisor, in which new interfaces
+	 * will be available when a proxy is next obtained from the relevant factory.
 	 * @param advisor Advisor to add to the end of the chain
 	 */
 	void addAdvisor(Advisor advisor);
@@ -95,23 +104,47 @@ public interface Advised {
 	void addAdvisor(int pos, Advisor advisor);
 	
 	/**
-	 * Remove the interceptor
-	 * @param interceptor to remove
-	 * @return true if the interceptor was found and removed,
-	 * otherwise false
+	 * Return the index (from 0) of the given advisor,
+	 * or -1 if no such advisor applies to this proxy.
+	 * The return value of this method can be used to index into
+	 * the Advisors array.
+	 * @param advisor advisor to search for
+	 * @return index from 0 of this advisor, or -1 if there's
+	 * no such advisor.
 	 */
-	boolean removeInterceptor(Interceptor interceptor);
+	int indexOf(Advisor advisor);
 	
 	/**
-	 * Should we proxy the target class as well as any interfaces?
-	 * Can use this to force CGLIB proxying.
-	 * @return whether we proxy the target class as well as any interfaces
+	 * Remove the given advisor
+	 * @param advisor advisor to remove
+	 * @return true if the advisor was removed; false if the
+	 * advisor was not found and hence could not be removed
 	 */
-	boolean getProxyTargetClass();
+	boolean removeAdvisor(Advisor advisor);
+	
+	/**
+	 * Remove the advisor at the given index
+	 * @param index index of advisor to remove
+	 * @throws AopConfigException if the index is invalid
+	 */
+	void removeAdvisor(int index) throws AopConfigException;
+	
+	/**
+	 * Replace the given advisor.
+	 * <b>NB:</b>If the advisor is an IntroductionAdvisor
+	 * and the replacement is not or implements different interfaces,
+	 * the proxy will need to be re-obtained or the old interfaces
+	 * won't be supported and the new interface won't be implemented.
+	 * @param a advisor to replace
+	 * @param b advisor to replace it with
+	 * @return whether it was replaced. If the advisor wasn't found in the
+	 * list of advisors, this method returns false and does nothing.
+	 */
+	boolean replaceAdvisor(Advisor a, Advisor b);
 	
 	/**
 	 * As toString() will normally pass to the target, 
-	 * this returns the equivalent for the ProxyConfig
+	 * this returns the equivalent for the AOP proxy
 	 * @return a string description of the proxy configuration
 	 */
 	String toProxyConfigString();

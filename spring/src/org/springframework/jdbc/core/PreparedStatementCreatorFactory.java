@@ -11,9 +11,9 @@ import java.util.List;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 /**
- * Helper class that can efficiently create multiple
- * PreparedStatementCreator objects with different
- * parameters based on a SQL statement and a single set of parameter declarations.
+ * Helper class that can efficiently create multiple PreparedStatementCreator
+ * objects with different parameters based on a SQL statement and a single
+ * set of parameter declarations.
  * @author Rod Johnson
  * @version $Id$
  */
@@ -83,6 +83,7 @@ public class PreparedStatementCreatorFactory {
 	 * PreparedStatementCreator implementation returned by this class.
 	 */
 	private class PreparedStatementCreatorImpl implements PreparedStatementCreator {
+
 		private List parameters;
 		
 		/**
@@ -122,10 +123,6 @@ public class PreparedStatementCreatorFactory {
 				}
 			}
 			return ps;
-		}
-
-		public String getSql() {
-			return sql;
 		}
 
 		public String toString() {

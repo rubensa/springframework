@@ -127,10 +127,6 @@ public class JdbcHelper {
 			public Object[] getIDs() {
 				return l.toArray();
 			}
-
-			public String getSql() {
-				return sql;
-			}
 		}
 
 		IDsHandler idsh = new IDsHandler();

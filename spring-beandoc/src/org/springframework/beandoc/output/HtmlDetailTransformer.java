@@ -35,7 +35,7 @@ import org.springframework.util.StringUtils;
  * @author Darren Davison
  * @since 1.0
  */
-public class HtmlDetailTransformer extends BaseXslTransformer {
+public class HtmlDetailTransformer extends AbstractXslTransformer {
     
     private static final String MEDIA_RESOURCES = 
         "classpath:/org/springframework/beandoc/output/media/*";
@@ -61,7 +61,7 @@ public class HtmlDetailTransformer extends BaseXslTransformer {
     /**
      * Writes the frameset and media files to the output location.
      * 
-     * @see org.springframework.beandoc.output.BaseXslTransformer#initTransform
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform
      */
     protected void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
         
@@ -85,7 +85,7 @@ public class HtmlDetailTransformer extends BaseXslTransformer {
     /**
      * Return a filename that switches the .xml extension for a .html one.
      * 
-     * @see org.springframework.beandoc.output.BaseXslTransformer#getOutputForDocument(java.lang.String)
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument(java.lang.String)
      */
     protected String getOutputForDocument(String inputFileName) {
         String outputFileName = StringUtils.replace(inputFileName, ".xml", ".html");

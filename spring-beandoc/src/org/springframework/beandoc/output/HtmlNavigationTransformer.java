@@ -43,7 +43,7 @@ public class HtmlNavigationTransformer extends AbstractConsolidatedTransformer {
     }
 
     /**
-     * @see org.springframework.beandoc.output.BaseXslTransformer#getOutputForDocument
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument
      */
     protected String getOutputForDocument(String inputFileName) {
         return FILENAME_NAVIGATOR;

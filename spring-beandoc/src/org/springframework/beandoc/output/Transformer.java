@@ -22,8 +22,9 @@ import org.jdom.Document;
 
 /**
  * Transformer implementations do the work of generating output based on the 
- * decorated Documents passed to them.  A {@link ContextProcessor} instance will use a 
- * <code>Transformer</code> to generate output from the pre-processed DOM trees.
+ * decorated Documents passed to them.  A {@link org.springframework.beandoc.ContextProcessor}
+ * instance will use a <code>Transformer</code> to generate output from the 
+ * pre-processed DOM trees.
  * 
  * @author Darren Davison
  * @since 1.0

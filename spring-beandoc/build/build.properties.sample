@@ -1,0 +1,18 @@
+#
+# any of the properties in project.properties can be overridden by copying
+# this file to one named build.properties in the same directory.  Likely
+# targets for overriding are below:
+#
+
+
+# Wildcards to be matched by JUnit tests
+# Convention is that our JUnit test classes have names like XXXXTestSuite or XXXTests.
+# You may wish to run a single test or subset of tests by setting the relevant value
+# below.
+test.includes=**/*TestSuite.class **/*Tests.class
+
+# Wildcards to exclude among JUnit tests.
+test.excludes=**/Abstract*
+
+# Compile with debug code - on by default, you may wish to set to off
+debug=off

@@ -24,7 +24,6 @@ import org.jdom.Element;
 import org.springframework.beandoc.BeanDocException;
 
 
-
 /**
  * GraphVizDecorator
  * 
@@ -100,6 +99,7 @@ public class GraphVizDecorator extends SimpleDecorator {
             element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated." + graphOutputType);
         }
         
+        
         if ("bean".equals(element.getName())) {
 			String idOrName = element.getAttributeValue(Tags.ATTRIBUTE_ID);
 			if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
@@ -108,6 +108,7 @@ public class GraphVizDecorator extends SimpleDecorator {
 			String colour = getColourForBean(idOrName, className);
 			
 			element.setAttribute(ATTRIBUTE_COLOUR, colour);
+			logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");	        
         }
     }
     
@@ -130,11 +131,9 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @param colours a <code>Map</code> of node fill colours for graph output.  Also used to key
      *      the HTML documentation.
      * @see #addBeanColours
-     * @see #getDefaultConfiguration(String[], String)
-     * @see #getDefaultConfiguration(Resource[], File)
      */
-    public void setBeanColours(Map map) {
-        beanColours = map;
+    public void setBeanColours(Map colours) {
+        beanColours.putAll(colours);
     }
     
     /**

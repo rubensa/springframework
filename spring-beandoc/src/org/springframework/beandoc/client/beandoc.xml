@@ -37,8 +37,6 @@
     
     <bean id="htmlTransformer" class="org.springframework.beandoc.output.HtmlDetailTransformer"/>
     
-    <bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer">
-    	<property name="dotExe"><value>${dot.location}</value></property>
-    </bean>
+    <bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer"/>
     
 </beans>

@@ -217,10 +217,11 @@ public class DefaultContextProcessor implements ContextProcessor {
             root.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, fileName);
             
             // force a description even if empty
-            if (root.getChild(Tags.TAGNAME_DESCRIPTION) == null) {
-                Element description = new Element(Tags.TAGNAME_DESCRIPTION);
-                description.setText("[Empty Description]");
-                root.addContent(description);
+            Element desc = root.getChild(Tags.TAGNAME_DESCRIPTION);
+            if (desc == null || desc.getText().equals("")) {
+                desc = new Element(Tags.TAGNAME_DESCRIPTION);
+                desc.setText("[Empty Description]");
+                root.addContent(desc);
             }
         }
         return contextDocuments;

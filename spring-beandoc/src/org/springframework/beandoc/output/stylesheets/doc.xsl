@@ -24,37 +24,52 @@
  * @author Darren Davison
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
-    <xsl:output method="html" />
+            	
+    <xsl:output 
+    	method="xml" 
+    	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+    	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+    	/>
     <xsl:param name="beandocXslGraphType">png</xsl:param> 
 
     <!--
      * Template structure of HTML output
     -->
     <xsl:template match="/">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <html>
             <head>
                 <title><xsl:value-of select="beans/@beandocFileName"/></title>
                 <link rel="stylesheet" href="{beans/@beandocCssLocation}" type="text/css"/>
             </head>
   
             <body>
-      
-                <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
+            	<xsl:call-template name="menuBar"/>
+            	      
                 <xsl:variable name="fileRoot">
                     <xsl:value-of select="substring-before(beans/@beandocFileName, '.xml')"/>
                 </xsl:variable>
+                
+                <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
                 <p>
                     <a href="{$fileRoot}.{$beandocXslGraphType}" title="View full size image">
                         <img src="{$fileRoot}.{$beandocXslGraphType}" alt="Graph" id="inlineContextImage" />
                     </a>
-                    <strong>Description:</strong><br/>
+                	
+                	<strong>Description:</strong><br/>
                     <xsl:value-of select="beans/description"/>
                     <br style="clear:both"/>
                 </p>
                 
                 <!-- do beandoc -->
-                <xsl:apply-templates select="beans/bean"/>
+                <a name="summary" />
+                <h2>Summary of beans</h2>
+		    	<table summary="Summary list and description of beans defined in this file">
+		    		<xsl:apply-templates select="beans/bean" mode="summary"/>
+                </table>
+                
+                <a name="detail" />
+                <h2>Detail of beans</h2>
+                <xsl:apply-templates select="beans/bean" mode="detail"/>
                 
             </body>
         </html>
@@ -62,12 +77,40 @@
     </xsl:template>
     
     
+    
+	<xsl:template name="menuBar">
+	    <div id="menuBar">
+	      <a class="menuItem" href="main.html">home</a> ::
+	      <a class="menuItem" href="#summary">summary</a> ::
+	      <a class="menuItem" href="#detail">detail</a>
+	    </div>
+    </xsl:template>
+    	
+    <!--
+     * Summary table of bean names and descriptions
+    -->
+    <xsl:template match="bean" mode="summary">
+        <xsl:variable name="beandocId">
+            <xsl:choose>
+                <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
+                <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
+                <xsl:otherwise>[anonymous inner bean]</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <tr>
+        	<td><a href="#{$beandocId}"><xsl:value-of select="$beandocId"/></a></td>
+        	<td><xsl:value-of select="./description"/></td>
+        </tr>
+    </xsl:template>
+    
+    
+    
     <!--
      * Bean description block showing title, properties and dependencies of each
      * bean in the context file.  A link to a graph showing the individual
      * context file that the bean was originally declared in is included
     -->
-    <xsl:template match="bean">
+    <xsl:template match="bean" mode="detail">
         <xsl:variable name="beandocId">
             <xsl:choose>
                 <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
@@ -76,31 +119,19 @@
             </xsl:choose>
         </xsl:variable>
         
-        <!-- title and link to individual context graph -->
-        <a name="{$beandocId}"></a>
-        <table class="beanHeader"><tr>
-            <th style="background-color: {@beandocFillColour}; width: 20px">
-                <xsl:choose>
-                    <xsl:when test="@beandocGraphName">
-                        <a href="{@beandocGraphName}" target="_secondary" title="View individual graph for this bean">
-                            <img src="bean_local.gif" alt="View individual graph for this bean" />
-                        </a>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <img src="bean_local.gif" alt="Bean" />
-                    </xsl:otherwise>
-                </xsl:choose>
-            </th>
-            <xsl:variable name="titleClass">
-                <xsl:choose>
-                    <xsl:when test="@abstract='true'">abstractTitle</xsl:when>
-                    <xsl:otherwise>concreteTitle</xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-            <th class="{$titleClass}">
-                <xsl:value-of select="$beandocId"/> <xsl:if test="$titleClass='abstractTitle'"> (abstract bean)</xsl:if>
-            </th>
-        </tr></table>
+        <a name="{$beandocId}" />
+        <div style="background-color: {@beandocFillColour}" class="beanHeader">
+                <img src="bean_local.gif" alt="Bean" />
+        </div>
+        <xsl:variable name="titleClass">
+            <xsl:choose>
+                <xsl:when test="@abstract='true'">abstractTitle</xsl:when>
+                <xsl:otherwise>concreteTitle</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <span class="{$titleClass}">
+            <xsl:value-of select="$beandocId"/> <xsl:if test="$titleClass='abstractTitle'"> (abstract bean)</xsl:if>
+        </span>
       
         
         <!-- bean description if available -->
@@ -116,7 +147,7 @@
         <xsl:if test="@class">
         <p><strong>Class:</strong><br/>
         <xsl:choose><xsl:when test="@beandocJavaDoc">
-            <a class="classValue mono" href="{@beandocJavaDoc}" target="_secondary">
+            <a class="classValue mono" href="{@beandocJavaDoc}" target="secondary">
                 <xsl:value-of select="@class"/>
             </a>
             </xsl:when>
@@ -142,7 +173,7 @@
         <!-- ctor args / dependencies / properties -->
         <xsl:if test="count(./constructor-arg)>0">
         <p><strong>Constructor arguments:</strong></p>
-        <table class="invisibleTable">
+        <table class="invisibleTable" summary="List of constructor arguments">
             <tbody>
                 <!-- ctor args -->
                 <xsl:apply-templates select="./constructor-arg"/>                  
@@ -151,7 +182,7 @@
         </xsl:if>
         <xsl:if test="count(./property)>0">
         <p><strong>Dependencies and properties:</strong></p>
-        <table class="invisibleTable">
+        <table class="invisibleTable" summary="List of dependencies and public properties">
             <tbody>
                 <!-- properties -->
                 <xsl:apply-templates select="./property"/>                  
@@ -159,7 +190,7 @@
         </table>
         </xsl:if>
         
-        <p/><br/>
+        <br/><hr/>
     </xsl:template>
     
     
@@ -171,7 +202,7 @@
         <tr>
             <td class="keyLabel"><xsl:value-of select="@name"/></td>
             <td>
-                <xsl:apply-templates/>              
+                <xsl:apply-templates mode="detail"/>              
             </td>   
         </tr>       
     </xsl:template>
@@ -185,7 +216,7 @@
                 <xsl:if test="@type">type <xsl:value-of select="@type"/></xsl:if>
             </td>
             <td>
-                <xsl:apply-templates/>              
+                <xsl:apply-templates mode="detail"/>              
             </td>   
         </tr>       
     </xsl:template>
@@ -193,17 +224,17 @@
     
 
     <xsl:template match="value" name="value">
-        <span class="propertyValue"><xsl:value-of select="."/></span><br/>
+        <xsl:value-of select="."/><br/>
     </xsl:template>   
     
     
     
-    <xsl:template match="props">
-        <table class="invisibleTable">
+    <xsl:template match="props" mode="detail">
+        <table class="invisibleTable" summary="Property list">
         <xsl:for-each select="./prop">
         <tr>
             <td><span class="keyLabel"><xsl:value-of select="@key"/></span></td>
-            <td><span class="propertyValue"><xsl:value-of select="."/></span></td>
+            <td><xsl:value-of select="."/></td>
         </tr>
         </xsl:for-each>
         </table>
@@ -211,7 +242,7 @@
     
     
     
-    <xsl:template match="ref">
+    <xsl:template match="ref" mode="detail">
         <xsl:variable name="refName">
             <xsl:choose>
                 <xsl:when test="@bean">
@@ -223,11 +254,13 @@
             </xsl:choose>
         </xsl:variable>
         
-        <a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{$refName}"><xsl:value-of select="$refName"/></a><br/>
+        <a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{$refName}">
+        	<img align="middle" src="bean_local.gif" alt="bean"/> <xsl:value-of select="$refName"/>
+        </a><br/>
     </xsl:template>
     
-    <xsl:template match="map">
-        <table class="invisibleTable">
+    <xsl:template match="map" mode="detail">
+        <table class="invisibleTable" summary="List of map items">
         <xsl:for-each select="./entry">
         <tr>
             <td><span class="keyLabel"><xsl:value-of select="@key"/></span></td>

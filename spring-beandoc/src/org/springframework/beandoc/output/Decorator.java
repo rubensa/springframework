@@ -20,7 +20,7 @@ import org.jdom.Document;
 
 
 /**
- * Decorator implementations have the opportunity to modufy the DOM trees built by a 
+ * Decorator implementations have the opportunity to modify the DOM trees built by a 
  * Processor instance.  They can optionally add attributes (but not elements) to any 
  * part of the DOM for subsequent use by one or more Transformer instances.
  * 
@@ -31,7 +31,7 @@ public interface Decorator {
 
     /**
      * Decorators act incrementally, this method allows the implementor to further modify
-     * nay previously modified DOM trees by previous <code>Decorator</code>s.  Note that any
+     * any previously modified DOM trees by previous <code>Decorator</code>s.  Note that any
      * attempt to add new nodes (Elements) to the DOM will result in a runtime error.  Only
      * addition and modification of attributes is permitted.
      * 

@@ -22,8 +22,8 @@ programmatically, from the command line or as an ANT task.
 
 2. RELEASE INFO
 
-beandoc requires J2SE 1.3, JDOM 1.0, commons-logging and spring-core.  The
-"lib" directory may contain additional build dependencies that are not
+beandoc requires J2SE 1.3, JDOM 1.0, commons-logging and spring-core 1.1.4+.
+The "lib" directory may contain additional build dependencies that are not
 required at runtime.
 
 

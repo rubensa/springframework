@@ -87,8 +87,6 @@ public class JavaDocDecorator extends SimpleDecorator {
      * 
      * @param map a <code>SortedMap</code> of javadoc locations keyed by package name prefixes.
      * @see #addJavaDocLocation
-     * @see #getDefaultConfiguration(String[], String)
-     * @see #getDefaultConfiguration(Resource[], File)
      */
     public void setJavaDocLocations(SortedMap map) {
         javaDocLocations = map;
@@ -136,9 +134,6 @@ public class JavaDocDecorator extends SimpleDecorator {
      * 
      * @return a <code>SortedMap</code> of javadoc locations keyed by package name prefixes.
      * @see #addJavaDocLocation
-     * @see #getJavaDocForClassName
-     * @see #getDefaultConfiguration(String[], String)
-     * @see #getDefaultConfiguration(Resource[], File)
      */
     public SortedMap getJavaDocLocations() {
         return javaDocLocations;

@@ -26,6 +26,11 @@ import org.jdom.filter.ContentFilter;
 import org.jdom.filter.Filter;
 
 /**
+ * Abstract implementation of the <code>Decorator</code> interface which 
+ * simply iterates each <code>Element</code> in each <code>Document</code>
+ * and calls the protected <code>decorateElement</code> method that
+ * subclasses will implement.
+ * 
  * @author Darren Davison
  * @since 1.0
  */
@@ -34,7 +39,7 @@ public abstract class SimpleDecorator implements Decorator {
     protected final Log logger = LogFactory.getLog(getClass());
 
     /**
-     * Permits decoration of the document by iterateing all the 
+     * Permits decoration of the document by iterating all the 
      * child elements in the Documents supplied and calls a decorateElement() for 
      * each one.  decorateElement() must be implemented by subclasses.
      * 
@@ -51,6 +56,10 @@ public abstract class SimpleDecorator implements Decorator {
     }
     
     /**
+     * Each <code>Element</code> in each input <code>Document</code> is iteratively
+     * passed to this method allowing subclasses to add or amend any attributes they
+     * desire.
+     * 
      * @param element
      */
     protected abstract void decorateElement(Element element);

@@ -25,21 +25,27 @@
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:output method="html" />
+    <xsl:output 
+    	method="xml" 
+    	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+    	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+    	/>
+    	
     <xsl:param name="beandocXslGraphType">png</xsl:param> 
+    <xsl:param name="beandocGenerated">unknown</xsl:param> 
 
     <!--
      * Template structure of HTML output
     -->
     <xsl:template match="/">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <html>
             <head>
                 <title><xsl:value-of select="beans/@beandocFileName"/></title>
                 <link rel="stylesheet" href="{consolidated/beans[1]/@beandocCssLocation}" type="text/css"/>
             </head>
   
             <body>
-      
+      			<div id="bannerBar">beandoc generated: <xsl:value-of select="$beandocGenerated"/></div>
                 <h1>Application Context</h1>
 
                 <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage">
@@ -50,9 +56,9 @@
                 </p>
                 </xsl:if>
 
+				<h2>files making up this application context</h2>
                 <table id="fileListTable" summary="List of individual context files and their descriptions that 
                     made up this application context">
-                    <thead><tr><th colspan="2">files making up this application context</th></tr></thead>
                     <tbody>
                     <xsl:for-each select="consolidated/beans/description">
                         <tr>

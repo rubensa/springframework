@@ -34,7 +34,7 @@ import org.springframework.util.StringUtils;
  * @author Darren Davison
  * @since 1.0
  */
-public class GraphVizTransformer extends BaseXslTransformer {
+public class GraphVizTransformer extends AbstractXslTransformer {
 
     private static final String XSLPARAM_GRAPHTYPE = "beandocXslGraphType";
     
@@ -55,11 +55,18 @@ public class GraphVizTransformer extends BaseXslTransformer {
     
     private List dotFileList = new ArrayList();
     
+    /**
+     * constructs the Transformer with a default stylesheet included in the 
+     * beandoc tool.
+     */
     public GraphVizTransformer() {
         this(DEFAULT_XSL_RESOURCE);
     }
     
     /**
+     * constructs the Transformer with the stylesheet provided.  The templateName
+     * can be any resolvable Spring Resource.
+     * 
      * @param templateName
      */
     public GraphVizTransformer(String templateName) {
@@ -67,18 +74,26 @@ public class GraphVizTransformer extends BaseXslTransformer {
     }
 
     /**
-     * @see org.springframework.beandoc.output.BaseXslTransformer#initTransform
+     * Stores references to the context documents and output directory which it
+     * later uses to build a consolidated graph.
+     * 
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform
      */
     protected void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
         // store values - we need them to post process the context
         this.outputDirectory = outputDirectory;
         this.contextDocuments = contextDocuments;
-        String consolidatedImage = contextDocuments[0].getRootElement().getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_CONSOLIDATED);
+        String consolidatedImage = 
+            contextDocuments[0].getRootElement().getAttributeValue(
+                GraphVizDecorator.ATTRIBUTE_GRAPH_CONSOLIDATED);
         this.graphOutputType = StringUtils.unqualify(consolidatedImage);
     }
 
     /**
-     * @see org.springframework.beandoc.output.BaseXslTransformer#getOutputForDocument
+     * Output file names are the same as the context documents, switching ".xml" for 
+     * ".dot"
+     * 
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument
      */
     protected String getOutputForDocument(String inputFileName) {
         String dotFile = StringUtils.replace(inputFileName, ".xml", ".dot");
@@ -87,9 +102,10 @@ public class GraphVizTransformer extends BaseXslTransformer {
     }
 
     /**
-     * Generate a consolidated graph of the entire context
+     * Generate a consolidated graph of the entire context using the same 
+     * stylesheet reference provided on construction.
      * 
-     * @see org.springframework.beandoc.output.BaseXslTransformer#postTransform
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#postTransform
      */
     protected void postTransform() {
         // consolidate documents
@@ -98,18 +114,24 @@ public class GraphVizTransformer extends BaseXslTransformer {
         // generate graphs from all .dot files in output location
         for (Iterator i = dotFileList.iterator(); i.hasNext();) {
             File dotFile = new File(outputDirectory, (String) i.next());
+            String fileName = dotFile.getAbsolutePath();
             String dotArgs = 
                 " -T" + graphOutputType +
-                " -o" + StringUtils.replace(dotFile.getAbsolutePath(), ".dot", "." + graphOutputType) +
+                " -o" + StringUtils.replace(fileName, ".dot", "." + graphOutputType) +
                 " " + dotFile.getAbsolutePath();
        
             try {
+                logger.info("Generating graph from file [" + fileName + "]");
                 Process dot = Runtime.getRuntime().exec(dotExe + dotArgs);
                 dot.waitFor();
+                logger.debug("Process exited with value [" + dot.exitValue() + "]");
                 if (removeDotFiles) dotFile.delete();
                 
             } catch (IOException ioe) {
-                logger.warn("Problem attempting to draw graph from dot file [" + dotFile.getAbsolutePath() + "]", ioe);
+                logger.warn(
+                    "Problem attempting to draw graph from dot file [" + 
+                    fileName + "]; " + ioe.getMessage()
+                );
             } catch (InterruptedException e) {
                 // ok
             }
@@ -139,7 +161,7 @@ public class GraphVizTransformer extends BaseXslTransformer {
     }
     
     /**
-     * @see org.springframework.beandoc.output.BaseXslTransformer#getParameters
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#getParameters
      */
     protected Map getParameters(Document doc) {
         Map params = new HashMap();

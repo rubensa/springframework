@@ -30,7 +30,7 @@ import org.jdom.Element;
  * @author Darren Davison
  * @since 1.0
  */
-public abstract class AbstractConsolidatedTransformer extends BaseXslTransformer {
+public abstract class AbstractConsolidatedTransformer extends AbstractXslTransformer {
 
     private static final String TAG_CONSOLIDATED = "consolidated";
     
@@ -44,7 +44,7 @@ public abstract class AbstractConsolidatedTransformer extends BaseXslTransformer
     }
     
     /**
-     * @see org.springframework.beandoc.output.BaseXslTransformer#initTransform(org.jdom.Document[], java.io.File)
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform(org.jdom.Document[], java.io.File)
      */
     protected void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
         consolidatedDocument = new Document();
@@ -61,7 +61,7 @@ public abstract class AbstractConsolidatedTransformer extends BaseXslTransformer
      * Override default behaviour to provide a single transformation of the consolidated 
      * DOM created.
      * 
-     * @see org.springframework.beandoc.output.BaseXslTransformer#handleTransform
+     * @see org.springframework.beandoc.output.AbstractXslTransformer#handleTransform
      */
     protected void handleTransform(Document[] contextDocuments, File outputDir) {
         doXslTransform(consolidatedDocument, outputDir);

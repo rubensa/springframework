@@ -16,6 +16,7 @@
 
 package org.springframework.beandoc.client;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 /**
@@ -24,4 +25,7 @@ import org.apache.tools.ant.Task;
  */
 public class AntTask extends Task {
 
+    public void execute() throws BuildException {
+        super.execute();
+    }
 }

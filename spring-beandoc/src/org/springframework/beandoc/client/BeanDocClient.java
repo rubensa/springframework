@@ -30,7 +30,8 @@ import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
 /**
- * Command line client for the beandoc tool.  Loads and runs a {@link ContextProcessor} 
+ * Command line client for the beandoc tool.  Loads and runs a 
+ * {@link org.springframework.beandoc.ContextProcessor} 
  * with a default configuration.  Accepts a properties file as the sole command line
  * argument which must contain values for input resources and an output directory and
  * can optionally contain other properties to further configure the default behaviour.
@@ -52,8 +53,7 @@ public class BeanDocClient {
 	 * The properties file <strong>must</strong> contain values shown below in bold and
 	 * can optionally contain any or none of the others.
 	 * <p>
-	 * <table>
-	 * <tr><th>property key</th><th>possible values</th></tr>
+	 * <table border="1">
 	 * <tr><td><strong>input.files</strong></td><td>one or more (comma or space separated)
 	 * resources that will be used as input files for the beandoc tool.  All input files are
 	 * assumed to make a single application context or bean factory.<br><br>Possible values
@@ -61,16 +61,11 @@ public class BeanDocClient {
 	 * </td></tr>
 	 * <tr><td><strong>output.dir</strong></td><td>the directory (which must be writable for the
 	 * current user) that output will be written to.</td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
-	 * <tr><td></td><td></td></tr>
+	 * <tr><td>graphVizTransformer.dotExe</td><td>/usr/bin/dot</td></tr>
+	 * <tr><td>processor.validateFiles</td><td>set to 'true' or 'false' to have the XML
+	 * parser validate input files during parsing.  True by default.</td></tr>
+	 * <tr><td>graphVizDecorator.graphOutputType</td><td>default is png (strongly recommended) but
+	 * can be switched to gif, jpg or svg as desired</td></tr>
 	 * </table>
 	 * 
 	 * @param args must consist of one resolvable Resources to be used as
@@ -101,8 +96,9 @@ public class BeanDocClient {
         PropertyPlaceholderConfigurer cfgPlacehoder = new PropertyPlaceholderConfigurer();
         cfgPlacehoder.setProperties(beandocProps);
         cfgPlacehoder.postProcessBeanFactory(factory);
-        PropertyOverrideConfigurer cfgOverride = new PropertyOverrideConfigurer();
-        // following prop requires a post-1.1.3 snapshot of Spring core
+        
+        PropertyOverrideConfigurer cfgOverride = new PropertyOverrideConfigurer();        
+        // following prop requires >= 1.1.4 spring-core.jar
         cfgOverride.setIgnoreInvalidKeys(true);
         cfgOverride.setProperties(beandocProps);
         cfgOverride.postProcessBeanFactory(factory);        
@@ -120,7 +116,7 @@ public class BeanDocClient {
 	 * print usage to stdout
 	 */
 	private static void usage() {
-		StringBuffer usg = new StringBuffer("Usage:\n\n")
+		StringBuffer usg = new StringBuffer("Usage:\n")
 			.append("java org.springframework.beandoc.client.BeanDocClient beandoc.properties");
         
 		System.out.println(usg.toString());

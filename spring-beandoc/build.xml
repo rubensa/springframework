@@ -515,7 +515,7 @@
 	
 	
 	<target name="webdocs"
-		depends="testsummary,clover.html,dochtml,docapi,webtar"
+		depends="clover.html,dochtml,docapi,webtar"
 		description="Docs, reports for website upload"/>
 	
 	<!--
@@ -525,14 +525,14 @@
         depends="clean,webdocs,dist,docpdf" 
         description="Build distribution units and all documentation.  Generate release zip">
         
-        <delete failonerror="no" file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
+        <delete failonerror="no" file="${target.dist.dir}/${project.name}-${project.version}.tgz"/>
         <copy file="${target.refdocs.pdf.dir}/spring-beandoc.pdf" todir="${basedir}"/>
-        <zip zipfile="${target.dist.dir}/${project.name}-${project.version}.zip">
-            <fileset dir="${basedir}">
+        <tar destfile="${target.dist.dir}/${project.name}-${project.version}.tgz" compression="gzip">
+            <tarfileset dir="${basedir}" prefix="${project.name}-${project.version}">
                 <exclude name="target/**/*"/>
                 <exclude name="docs/**/*"/>
-            </fileset>
-        </zip>
+            </tarfileset>
+        </tar>
         <delete file="${basedir}/spring-beandoc.pdf"/>
         
     </target>

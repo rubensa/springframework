@@ -51,7 +51,7 @@ public class PrototypeInvokerInterceptorTests extends TestCase {
 		
 		SideEffectBean prototype = (SideEffectBean) beanFactory.getBean("prototype");
 		assertEquals(INITIAL_COUNT, prototype.getCount() );
-		singleton.doWork();
+		prototype.doWork();
 		assertEquals(INITIAL_COUNT, prototype.getCount() );
 	}
 

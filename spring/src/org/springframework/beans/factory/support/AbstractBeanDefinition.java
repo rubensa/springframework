@@ -151,7 +151,7 @@ public abstract class AbstractBeanDefinition {
 		if (!(other instanceof AbstractBeanDefinition))
 			return false;
 		AbstractBeanDefinition obd = (AbstractBeanDefinition) other;
-		return this.singleton = obd.singleton &&
+		return this.singleton == obd.singleton &&
 			this.pvs.changesSince(obd.pvs).getPropertyValues().length == 0;
 	}
 

@@ -37,4 +37,20 @@ public class DummyTransactionManager extends AbstractPlatformTransactionManager 
 	protected void doSetRollbackOnly(DefaultTransactionStatus status) throws TransactionException {
 	}
 
+	
+	protected void doCleanupAfterCompletion(Object transaction) {
+	}
+
+	
+	protected void doResume(Object transaction, Object suspendedResources) throws TransactionException {
+	}
+
+	protected Object doSuspend(Object transaction) throws TransactionException {
+		return null;
+	}
+
+	protected boolean isRollbackOnly(Object transaction) throws TransactionException {
+		return false;
+	}
+
 }

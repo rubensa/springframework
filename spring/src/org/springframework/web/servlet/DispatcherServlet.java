@@ -1,14 +1,8 @@
-/**
- * Generic framework code included with
- * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/1861007841/">Expert One-On-One J2EE Design and Development</a>
- * by Rod Johnson (Wrox, 2002).
- * This code is free to use and modify. However, please
- * acknowledge the source and include the above URL in each
- * class using or derived from this code.
- * Please contact <a href="mailto:rod.johnson@interface21.com">rod.johnson@interface21.com</a>
- * for commercial support.
+/*
+ * The Spring Framework is published under the terms
+ * of the Apache Software License.
  */
-
+ 
 package org.springframework.web.servlet;
 
 import java.io.IOException;
@@ -43,7 +37,7 @@ import org.springframework.web.util.WebUtils;
  * Dispatches to registered handlers for processing a web request.
  *
  * <p>This class and the MVC approach it delivers is discussed in Chapter 12 of
- * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/1861007841/">Expert One-On-One J2EE Design and Development</a>
+ * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/0764543857/">Expert One-On-One J2EE Design and Development</a>
  * by Rod Johnson (Wrox, 2002).
  *
  * <p>This servlet is very flexible: It can be used with just about any workflow,

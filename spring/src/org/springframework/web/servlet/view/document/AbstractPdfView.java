@@ -1,3 +1,8 @@
+/*
+ * The Spring Framework is published under the terms
+ * of the Apache Software License.
+ */
+ 
 package org.springframework.web.servlet.view.document;
 
 import java.io.ByteArrayOutputStream;
@@ -20,7 +25,7 @@ import com.lowagie.text.pdf.PdfWriter;
  * Abstract superclass for PDF views, using Bruno Lowagie's
  * iText package. Application-specific view classes will extend this class.
  * The view will be held in such a subclass, not a template such as a JSP.
- * <br>See <a href="http://www.amazon.com/exec/obidos/tg/detail/-/1861007841/">Expert One-On-One J2EE Design and Development</a> 
+ * <br>See <a href="http://www.amazon.com/exec/obidos/tg/detail/-/0764543857/">Expert One-On-One J2EE Design and Development</a> 
  * by Rod Johnson, pp 571-575 for an example of use of this class.
  * <br>NB: Internet Explorer requires a .pdf extension, as
  * it doesn't always respect the declared content type.

@@ -226,12 +226,18 @@ public class DataSourceTransactionManager extends AbstractPlatformTransactionMan
 
 			// reset transaction isolation to previous value, if changed for the transaction
 			if (txObject.getPreviousIsolationLevel() != null) {
-				logger.debug("Resetting isolation level to " + txObject.getPreviousIsolationLevel());
+				if (logger.isDebugEnabled()) {
+					logger.debug("Resetting isolation level of connection [" + con + "] to " +
+											 txObject.getPreviousIsolationLevel());
+				}
 				con.setTransactionIsolation(txObject.getPreviousIsolationLevel().intValue());
 			}
 
 			// reset read-only
 			if (con.isReadOnly()) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Resetting read-only flag of connection [" + con + "]");
+				}
 				con.setReadOnly(false);
 			}
 		}

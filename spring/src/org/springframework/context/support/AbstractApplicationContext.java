@@ -32,7 +32,6 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventMulticaster;
 import org.springframework.context.ApplicationListener;

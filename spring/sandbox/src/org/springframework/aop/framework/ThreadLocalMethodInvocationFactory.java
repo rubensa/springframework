@@ -5,11 +5,6 @@
  
 package org.springframework.aop.framework;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-
-import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * TODO reentrance tests

@@ -82,9 +82,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	
 	private MethodInvocationFactory methodInvocationFactory;
 	
-	/** Default AopProxyFactory is this */
-	private AopProxyFactory aopProxyFactory = new DefaultAopProxyFactory();
-	
 	/**
 	 * Set to true when the first AOP proxy has been created, meaning that we must
 	 * track advice changes via onAdviceChange() callback.
@@ -146,18 +143,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		addListener(advisorChainFactory);
 	}
 	
-	/**
-	 * Customise the AopProxyFactory, allowing different strategies
-	 * to be dropped in without changing the core framework.
-	 * For example, an AopProxyFactory could return an AopProxy using
-	 * dynamic proxies, CGLIB or code generation strategy. 
-	 * @param apf AopProxyFactory to use. The default uses dynamic
-	 * proxies or CGLIB.
-	 */
-	public void setAopProxyFactory(AopProxyFactory apf) {
-		this.aopProxyFactory = apf;
-	}
-
 	/**
 	 * Return the AdvisorChainFactory associated with this ProxyConfig.
 	 */
@@ -471,7 +456,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 			activate();
 		}
 		
-		return this.aopProxyFactory.createAopProxy(this);
+		return getAopProxyFactory().createAopProxy(this);
 	}
 	
 	/**

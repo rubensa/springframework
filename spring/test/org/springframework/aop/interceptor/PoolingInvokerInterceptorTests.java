@@ -61,5 +61,15 @@ public class PoolingInvokerInterceptorTests extends TestCase {
 		//assertEquals(INITIAL_COUNT + 1, apartment.getCount() );
 	}
 	
+	public void testConfigMixin() {
+		SideEffectBean pooled = (SideEffectBean) beanFactory.getBean("pooledWithMixin");
+		assertEquals(INITIAL_COUNT, pooled.getCount() );
+		PoolingConfig conf = (PoolingConfig) beanFactory.getBean("pooledWithMixin");
+		// TODO one invocation from setup
+		assertEquals(1, conf.getInvocations());
+		pooled.doWork();
+		assertEquals(2, conf.getInvocations());
+		assertEquals(25, conf.getMaxSize());
+	}
 
 }

@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 /**
  * Very simple implementation of TransactionAttributeSource which will always return
  * the same TransactionAttribute for all methods fed to it. The TransactionAttribute
- * may be specified, but will otherwise default to PROPOGATION_REQUIRED. This may be
+ * may be specified, but will otherwise default to PROPAGATION_REQUIRED. This may be
  * used in the cases where you want to use the same transaction attribute with all
  * methods being handled by a transaction interceptor.
  * @author Colin Sampaleanu
@@ -36,7 +36,7 @@ public class MatchAlwaysTransactionAttributeSource implements TransactionAttribu
 
 	/**
 	 * Allows a transaction attribute to be specified, using the String form, for
-	 * example, "PROPOGATION_REQUIRED".
+	 * example, "PROPAGATION_REQUIRED".
 	 * @param transactionAttribute The String form of the transactionAttribute to use.
 	 * @see org.springframework.transaction.interceptor.TransactionAttributeEditor
 	 */

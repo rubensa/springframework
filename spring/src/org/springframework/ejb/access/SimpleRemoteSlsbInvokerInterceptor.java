@@ -24,7 +24,7 @@ import java.util.Arrays;
 import javax.ejb.CreateException;
 import javax.ejb.EJBObject;
 
-import org.aopalliance.intercept.AspectException;
+import org.aopalliance.aop.AspectException;
 import org.aopalliance.intercept.MethodInvocation;
 
 import org.springframework.remoting.RemoteAccessException;

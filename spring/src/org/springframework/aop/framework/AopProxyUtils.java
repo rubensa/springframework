@@ -20,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import org.aopalliance.intercept.AspectException;
+import org.aopalliance.aop.AspectException;
 
 /**
  * Miscellaneous utilities for AOP proxies

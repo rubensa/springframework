@@ -18,7 +18,7 @@ package org.springframework.transaction.interceptor;
 
 import java.util.Properties;
 
-import org.aopalliance.intercept.AspectException;
+import org.aopalliance.aop.AspectException;
 
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;

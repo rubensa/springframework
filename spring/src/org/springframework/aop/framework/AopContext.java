@@ -16,7 +16,7 @@
 
 package org.springframework.aop.framework;
 
-import org.aopalliance.intercept.AspectException;
+import org.aopalliance.aop.AspectException;
 
 /**
  * Class containing static methods used to obtain information about the

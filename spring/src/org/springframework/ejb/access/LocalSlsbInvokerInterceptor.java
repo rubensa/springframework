@@ -21,7 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.ejb.CreateException;
 import javax.ejb.EJBLocalObject;
 
-import org.aopalliance.intercept.AspectException;
+import org.aopalliance.aop.AspectException;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**

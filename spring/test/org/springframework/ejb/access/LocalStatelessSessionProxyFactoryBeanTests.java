@@ -24,7 +24,7 @@ import javax.ejb.EJBLocalObject;
 import javax.naming.NamingException;
 
 import junit.framework.TestCase;
-import org.aopalliance.intercept.AspectException;
+import org.aopalliance.aop.AspectException;
 import org.easymock.MockControl;
 
 import org.springframework.jndi.JndiTemplate;

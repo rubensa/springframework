@@ -304,6 +304,25 @@ public class ProxyFactoryBeanTests extends TestCase {
 	}
 	
 	
+	/**
+	 * Note that we can't add or remove interfaces without reconfiguring the
+	 * singleton. 
+	 * TODO address this?
+	 *
+	 */
+	public void testCanAddAndRemoveAspectInterfacesOnSingletonByCasting() {
+		ITestBean it = (ITestBean) factory.getBean("test1");
+		ProxyConfig pc = (ProxyConfig) it;
+		it.getAge();
+		DebugInterceptor di = new DebugInterceptor();
+		pc.addInterceptor(0, di);
+		assertEquals(0, di.getCount());
+		it.setAge(25);
+		assertEquals(25, it.getAge());
+		assertEquals(2, di.getCount());
+	}
+	
+	
 	public void testMethodPointcuts() {
 		ITestBean tb = (ITestBean) factory.getBean("pointcuts");
 		PointcutForVoid.reset();

@@ -4,6 +4,9 @@ $Id$
 
 Changes in version 1.0 M3 (XX.11.2003)
 --------------------------------------
+* can now cast any AOP proxy to ProxyConfig to manipulate it
+* can force CGLIB proxying using new proxyTargetClass property on DefaultProxyConfig
+* CGLIB proxies support introductions
 * refactored JDBC core package so that SQLErrorCodeExceptionTranslator can be subclassed by users and passed into JdbcTemplate
 * refactored JDBC object package so that JdbcTemplate is now in root RdbmsOperation class, and one JdbcTemplate can be used to configure multiple RdbmsOperations
 * added "default-dependency-check" and "default-autowire" attributes to root tag in XML bean definitions

@@ -72,11 +72,11 @@
         -->
         <delete dir="${target.javadocs.dir}"/>
 
-        <delete dir="${target.classes.dir}"/>
-        <delete dir="${target.testclasses.dir}"/>
-        <delete dir="${target.junit.reports.dir}"/>
-        <delete dir="${target.junit.summary.dir}"/>
-    	<delete dir="${target.clover.dir}"/>
+        <delete failonerror="no" dir="${target.classes.dir}"/>
+        <delete failonerror="no" dir="${target.testclasses.dir}"/>
+        <delete failonerror="no" dir="${target.junit.reports.dir}"/>
+        <delete failonerror="no" dir="${target.junit.summary.dir}"/>
+    	<delete failonerror="no" dir="${target.clover.dir}"/>
 
     </target>
     
@@ -491,7 +491,9 @@
 	
 	<target name="webtar"
 		description="tar/compress test results, coverage, apidoc and refdoc for web site upload">
-		<delete file="${target.dist.dir}/beandoc.tbz2"/>
+
+		<mkdir dir="${target.dist.dir}"/>
+		<delete failonerror="no" file="${target.dist.dir}/beandoc.tbz2"/>
 		<tar destfile="${target.dist.dir}/beandoc.tbz2" compression="bzip2">
 			<tarfileset dir="${target.clover.html.dir}" prefix="clover/">
 				<include name="**/*"/>
@@ -523,7 +525,7 @@
         depends="clean,webdocs,dist,docpdf" 
         description="Build distribution units and all documentation.  Generate release zip">
         
-        <delete file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
+        <delete failonerror="no" file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
         <copy file="${target.refdocs.pdf.dir}/spring-beandoc.pdf" todir="${basedir}"/>
         <zip zipfile="${target.dist.dir}/${project.name}-${project.version}.zip">
             <fileset dir="${basedir}">

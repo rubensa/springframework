@@ -16,6 +16,7 @@
 
 package org.springframework.transaction.interceptor;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
@@ -30,7 +31,7 @@ import java.lang.reflect.Method;
  * @see org.springframework.transaction.interceptor.TransactionProxyFactoryBean
  * @see org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator
  */
-public class MatchAlwaysTransactionAttributeSource implements TransactionAttributeSource {
+public class MatchAlwaysTransactionAttributeSource implements TransactionAttributeSource, Serializable {
   
 	private TransactionAttribute transactionAttribute = new DefaultTransactionAttribute();
 

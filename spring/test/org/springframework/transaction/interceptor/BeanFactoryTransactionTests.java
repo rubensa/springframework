@@ -6,17 +6,15 @@
 package org.springframework.transaction.interceptor;
 
 import java.io.InputStream;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import junit.framework.TestCase;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.aopalliance.intercept.AttributeRegistry;
 import org.easymock.MockControl;
-
-import org.springframework.aop.framework.AbstractMethodPointcut;
-import org.springframework.aop.framework.StaticMethodPointcut;
+import org.springframework.aop.framework.support.StaticMethodMatcherPointcut;
 import org.springframework.beans.DerivedTestBean;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.factory.BeanFactory;
@@ -103,11 +101,11 @@ public class BeanFactoryTransactionTests extends TestCase {
 	}
 
 
-	public static class InvocationCounterPointcut extends AbstractMethodPointcut implements StaticMethodPointcut {
+	public static class InvocationCounterPointcut extends StaticMethodMatcherPointcut {
 
 		int counter = 0;
 
-		public boolean applies(Method method, Class clazz, AttributeRegistry attributeRegistry) {
+		public boolean matches(Method method, Class clazz) {
 			counter++;
 			return true;
 		}

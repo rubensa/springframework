@@ -67,7 +67,7 @@ public class AopProxy implements InvocationHandler {
 	public AopProxy(ProxyConfig config) throws AopConfigException {
 		if (config == null)
 			throw new AopConfigException("Cannot create AopProxy with null ProxyConfig");
-		if (config.getMethodPointcuts() == null || config.getMethodPointcuts().size() == 0)
+		if (config.getAdvices() == null || config.getAdvices().size() == 0)
 			throw new AopConfigException("Cannot create AopProxy with null interceptors");
 		this.config = config;
 	}
@@ -84,8 +84,8 @@ public class AopProxy implements InvocationHandler {
 		MethodInvocationImpl invocation = new MethodInvocationImpl(proxy,
 		              this.config.getTarget(), method.getDeclaringClass(),
 									method, args,
-									this.config.getMethodPointcuts(), // could customize here
-									this.config.getAttributeRegistry());
+									this.config.getAdvices() // could customize here
+						);
 		
 		if (this.config.getExposeInvocation()) {
 			// Make invocation available if necessary
@@ -213,7 +213,7 @@ public class AopProxy implements InvocationHandler {
 			return false;
 		
 		// List equality is cool
-		if (!aopr2.config.getMethodPointcuts().equals(this.config.getMethodPointcuts()))
+		if (!aopr2.config.getAdvices().equals(this.config.getAdvices()))
 			return false;
 			
 		return true;

@@ -4,9 +4,10 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.aopalliance.intercept.Interceptor;
-
-import org.springframework.aop.framework.AbstractMethodPointcut;
+import org.springframework.aop.Advice;
+import org.springframework.aop.Pointcut;
 import org.springframework.aop.framework.AopConfigException;
+import org.springframework.aop.framework.DefaultInterceptionAdvice;
 import org.springframework.aop.framework.InvokerInterceptor;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.support.AopUtils;
@@ -52,7 +53,7 @@ public class TransactionProxyFactoryBean implements FactoryBean, InitializingBea
 
 	private boolean proxyInterfacesOnly = true;
 
-	private AbstractMethodPointcut methodPointcut;
+	private Pointcut pointcut;
 
 	private Interceptor[] preInterceptors;
 
@@ -106,8 +107,8 @@ public class TransactionProxyFactoryBean implements FactoryBean, InitializingBea
 	 * @see #setPreInterceptors
 	 * @see #setPostInterceptors
 	 */
-	public void setMethodPointcut(AbstractMethodPointcut pointcut) {
-		this.methodPointcut = pointcut;
+	public void setPointcut(Pointcut pointcut) {
+		this.pointcut = pointcut;
 	}
 
 	/**
@@ -161,9 +162,9 @@ public class TransactionProxyFactoryBean implements FactoryBean, InitializingBea
 			}
 		}
 
-		if (this.methodPointcut != null) {
-			this.methodPointcut.setInterceptor(transactionInterceptor);
-			proxyFactory.addMethodPointcut(this.methodPointcut);
+		if (this.pointcut != null) {
+			Advice advice = new DefaultInterceptionAdvice(this.pointcut, transactionInterceptor);
+			proxyFactory.addAdvice(advice);
 		}
 		else {
 			proxyFactory.addInterceptor(transactionInterceptor);

@@ -6,6 +6,7 @@
 package org.springframework.aop.framework;
 
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.aop.framework.support.DelegatingIntroductionInterceptor;
 
 
 /**

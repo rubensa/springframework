@@ -6,7 +6,7 @@
 package org.springframework.aop.framework;
 
 import org.aopalliance.intercept.Interceptor;
-import org.springframework.aop.framework.support.*;
+import org.springframework.aop.framework.support.AopUtils;
 
 
 /**
@@ -17,7 +17,7 @@ import org.springframework.aop.framework.support.*;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ProxyFactory extends DefaultProxyConfig {
+public class ProxyFactory extends ProxyConfigSupport {
 
 	public ProxyFactory() {
 	}

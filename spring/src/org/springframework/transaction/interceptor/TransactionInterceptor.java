@@ -76,7 +76,7 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 	 */
 	public TransactionInterceptor() {
 		// Set default properties, which may be changed later
-		this.transactionAttributeSource = new AttributeRegistryTransactionAttributeSource();
+		this.transactionAttributeSource = new AttributesTransactionAttributeSource();
 	}
 
 	/**

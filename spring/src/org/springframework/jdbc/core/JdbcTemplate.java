@@ -67,7 +67,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
  * @see org.springframework.jdbc.object
  * @see org.springframework.jdbc.datasource
  */
-public class JdbcTemplate implements InitializingBean {
+public class JdbcTemplate implements InitializingBean, IJdbcTemplate {
 
 	/**
 	 * Constant for use as a parameter to query methods to force use of a PreparedStatement

@@ -7,9 +7,9 @@ import org.aopalliance.intercept.Interceptor;
 
 import org.springframework.aop.framework.AbstractMethodPointcut;
 import org.springframework.aop.framework.AopConfigException;
-import org.springframework.aop.framework.AopUtils;
 import org.springframework.aop.framework.InvokerInterceptor;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.framework.support.AopUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.transaction.PlatformTransactionManager;

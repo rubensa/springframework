@@ -1234,6 +1234,9 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 			public Connection getNativeConnection(Connection con) {
 				return con;
 			}
+			public Connection getNativeConnectionFromStatement(Statement stmt) throws SQLException {
+				return stmt.getConnection();
+			}
 			public Statement getNativeStatement(Statement stmt) {
 				assertTrue(stmt == mockStatement);
 				return mockStatement2;

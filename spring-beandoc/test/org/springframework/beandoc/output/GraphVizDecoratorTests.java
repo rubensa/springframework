@@ -37,10 +37,10 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd = new GraphVizDecorator();               
         gvd.setDefaultFillColour("BLACK");
         
-        gvd.addBeanColours(".*Validator", "RED");
-        gvd.addBeanColours("^org.springframework.samples.*", "BLUE");
-        gvd.addBeanColours("^simpleForm.*", "GREEN");
-        gvd.addBeanColours(".*.foo.bar", "YELLOW");
+        gvd.addColourBeans(".*Validator", "RED");
+        gvd.addColourBeans("^org.springframework.samples.*", "BLUE");
+        gvd.addColourBeans("^simpleForm.*", "GREEN");
+        gvd.addColourBeans(".*.foo.bar", "YELLOW");
         
         gvd.addIgnoreBeans(".*Validator");
         gvd.addIgnoreBeans("org.springframework.samples.*");
@@ -106,14 +106,14 @@ public class GraphVizDecoratorTests extends TestCase {
     public void testNullParamsForColours() {
         try {
             // null pattern ignored
-            gvd.addBeanColours(null, "#ffffff");
+            gvd.addColourBeans(null, "#ffffff");
         } catch (Exception ex) {
             fail();
         }
         
         try {
             // null colour illegal
-            gvd.addBeanColours(".*", null);
+            gvd.addColourBeans(".*", null);
             fail();
         } catch (BeanDocException e) {
             // ok

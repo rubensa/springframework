@@ -217,14 +217,14 @@ javadoc.locations[com.foo.bar.web]=</programlisting>
         (id) or the bean's fully qualified class name. The format for doing so
         is to set a property like;</para>
 
-        <para><literal>graphs.beanColours[NameOrClassPattern]=colour</literal></para>
+        <para><literal>graphs.colourBeans[NameOrClassPattern]=colour</literal></para>
 
-        <para>where NameOrClassPattern is a simple (wildcarded) pattern to
-        match against. Some examples are shown below:</para>
+        <para>where NameOrClassPattern is a standard Regex pattern to match
+        against. Some examples are shown below:</para>
 
-        <programlisting>graphs.beanColours[com.foo.bar*]=#a090a0
-graphs.beanColours[Service*]=#f0f080
-graphs.beanColours[*Proxy]=blue</programlisting>
+        <programlisting>graphs.colourBeans[com\.foo\.bar.*]=#a090a0
+graphs.colourBeans[^Service.*]=#f0f080
+graphs.colourBeans[.*Proxy$]=blue</programlisting>
 
         <para>In the examples shown, beans in the package
         <literal>com.foo.bar</literal> will all be coloured
@@ -315,6 +315,51 @@ graphs.graphYSize=8.5</programlisting>
         on output, there are no real best practices or sensible defaults - you
         will just have to experiment and choose settings that work for your
         particular project.</para>
+      </sect3>
+
+      <sect3>
+        <title>Selectively ignoring beans on graphs</title>
+
+        <para>Some beans may not benefit from being graphed, even though they
+        are still documented in the HTML. Often, message source or post-
+        processing type beans don't benefit from being graphed and simply
+        clutter the output. You can choose to ignore any number of beans based
+        on either their id's/names or class names by specifying one or more
+        Regular Expressions in beandoc.properties</para>
+
+        <programlisting>graphs.ignoreBeans[0]=org\.springframework\..*Property.*Configurer$</programlisting>
+
+        <para>The above line will cause all Spring property configurer type
+        beans to be left off the graphs.</para>
+      </sect3>
+
+      <sect3>
+        <title>Selectively ranking beans on graphs</title>
+
+        <para>Some graphs will contain beans that are unreferenced in any way
+        and without further information, GraphViz will simply dump these all
+        at the top of the graph which may make the graph too wide or show an
+        illogical separation of similar beans. You can force beans of a
+        certain type or with a similar naming pattern to all occupy the same
+        rank. Use this option with care - it may be a better option to leave
+        unreferenced beans off the graphs altogether.</para>
+
+        <programlisting>graphs.rankBeans[0]=some.*RegexPat*ern
+graphs.rankBeans[1]=com\.foo\.bar.*</programlisting>
+
+        <para>In the above code, all beans whose names match the pattern
+        "some.*RegexPat*ern" will be forced onto the same rank -
+        <emphasis>regardless</emphasis> of any references held between them.
+        Likewise, any beans in the package "com.foo.bar" will be forced into
+        sharing their own rank.</para>
+
+        <note>
+          <para>In the example above, if a bean matched both patterns, then
+          <emphasis>all</emphasis> beans matching <emphasis>either</emphasis>
+          pattern will all share the same rank in the graph. This option
+          should be used with care, GraphViz works best when it has more
+          freedom to optimise layouts.</para>
+        </note>
       </sect3>
     </sect2>
   </sect1>

@@ -76,9 +76,9 @@ public class GraphVizDecorator extends SimpleDecorator {
 
     private String outputType = "png";
     
-    private Map beanColours = new HashMap();
+    private Map colourBeans = new HashMap();
     
-    private Pattern[] beanColoursPatterns;
+    private Pattern[] colourBeansPatterns;
 
     private List ignoreBeans = new LinkedList();
     
@@ -93,13 +93,13 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      */
     public GraphVizDecorator() {
-        addBeanColours(".*Dao", "#80cc80");
-        addBeanColours(".*DataSource", "#cceecc");
-        addBeanColours(".*Interceptor", "#cceeee");
-        addBeanColours(".*Controller", "#cceeee");
-        addBeanColours(".*HandlerMapping", "#cceeee");
-        addBeanColours(".*Filter", "#cceeee");
-        addBeanColours(".*Validator", "#eecc80");
+        addColourBeans(".*Dao", "#80cc80");
+        addColourBeans(".*DataSource", "#cceecc");
+        addColourBeans(".*Interceptor", "#cceeee");
+        addColourBeans(".*Controller", "#cceeee");
+        addColourBeans(".*HandlerMapping", "#cceeee");
+        addColourBeans(".*Filter", "#cceeee");
+        addColourBeans(".*Validator", "#eecc80");
     }
     
     /**
@@ -109,7 +109,7 @@ public class GraphVizDecorator extends SimpleDecorator {
     void init() {
         rankBeansPatterns = BeanDocUtils.convertStringsToPatterns(rankBeans);
         ignoreBeansPatterns = BeanDocUtils.convertStringsToPatterns(ignoreBeans);
-        beanColoursPatterns = BeanDocUtils.convertStringsToPatterns(beanColours.keySet());
+        colourBeansPatterns = BeanDocUtils.convertStringsToPatterns(colourBeans.keySet());
     }
     
     /**
@@ -141,13 +141,13 @@ public class GraphVizDecorator extends SimpleDecorator {
 			
 			// patterns of beans to be coloured
 			element.setAttribute(ATTRIBUTE_COLOUR, getDefaultFillColour());
-			for (int i = 0; i < beanColoursPatterns.length; i++) {
-		        Matcher beanMatcher = beanColoursPatterns[i].matcher(idOrName);
-		        Matcher classMatcher = beanColoursPatterns[i].matcher(className);
+			for (int i = 0; i < colourBeansPatterns.length; i++) {
+		        Matcher beanMatcher = colourBeansPatterns[i].matcher(idOrName);
+		        Matcher classMatcher = colourBeansPatterns[i].matcher(className);
 		        String colour;
 		        try {
 		            if (beanMatcher.matches() || classMatcher.matches()) {
-		                colour = (String) beanColours.get(beanColoursPatterns[i].pattern());
+		                colour = (String) colourBeans.get(colourBeansPatterns[i].pattern());
 		                element.setAttribute(ATTRIBUTE_COLOUR, colour);
 		                logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");
 		            }
@@ -210,8 +210,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      *      the HTML documentation.
      * @see #addBeanColours
      */
-    public void setBeanColours(Map colours) {
-        beanColours.putAll(colours);
+    public void setColourBeans(Map colours) {
+        colourBeans.putAll(colours);
     }
     
     /**
@@ -226,11 +226,11 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @param colour the colour as an RGB HEX triplet to fill the bean with.  May not be null
      * @throws BeanDocException if the colour value is null and the pattern is valid
      */
-    public void addBeanColours(String pattern, String colour) {
+    public void addColourBeans(String pattern, String colour) {
         if (pattern == null) return;
         if (colour == null)
             throw new BeanDocException("Cannot have a [null] colour");
-        beanColours.put(pattern, colour);
+        colourBeans.put(pattern, colour);
     }
 
     /**
@@ -437,8 +437,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      *      or classname
      * @see #getColourForBean
      */
-    public Map getBeanColours() {
-        return beanColours;
+    public Map getColourBeans() {
+        return colourBeans;
     }
 
     /**

@@ -18,6 +18,12 @@ import org.springframework.beans.factory.support.BeanFactoryUtils;
  * BeanPostProcessor implementation that creates AOP proxies based on all candidate
  * advices in the current BeanFactory. This class is completely generic; it contains
  * no special code to handle any particular aspects, such as pooling aspects.
+ * <br>
+ * Note that all beans required to support the auto-proxying infrastructure, such as
+ * advisors and all beans they reference, must have names beginning with the prefix
+ * auto_. This allows us to avoid circular references, which might otherwise arise when
+ * a PostProcessor attempted to use an advisor which referenced another bean that
+ * was post processed by this post processor.
  * @author Rod Johnson
  * @version $Id$
  */
@@ -29,6 +35,8 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 	 * Prefix for candidate Advice bean names
 	 */	
 	public final static String AUTO_ADVICE_PREFIX = "auto_";
+	
+	public final static String AUTO_PROXY_INFRASTRUCTURE_PREFIX = "auto_";
 	
 	/**
 	 * BeanFactory that owns this post processor
@@ -123,5 +131,16 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 	protected boolean hasCustomInvoker(Object bean, String beanName) {
 		return false;
 	}
+	
+	/**
+	 * We override this to ensure that we don't get into circular reference hell
+	 * when our own infrastructure (such as this class) depends on advisors that depend
+	 * on beans...
+	 * @see org.springframework.aop.framework.support.AbstractAutoProxyCreator#shouldSkip(java.lang.Object, java.lang.String)
+	 */
+	protected boolean shouldSkip(Object bean, String name) {
+		return name.startsWith(AUTO_PROXY_INFRASTRUCTURE_PREFIX);
+	}
+
 	
 }

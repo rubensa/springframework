@@ -35,7 +35,7 @@ import org.springframework.beans.factory.access.BeanFactoryLocator;
 import org.springframework.beans.factory.access.BeanFactoryReference;
 import org.springframework.beans.factory.access.BootstrapException;
 import org.springframework.beans.factory.support.StaticListableBeanFactory;
-import org.springframework.jndi.support.SimpleNamingContextBuilder;
+import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
 /**
  * Most of the value of the tests here is in being forced

@@ -20,7 +20,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import junit.framework.TestCase;
-
 import org.w3c.dom.Element;
 
 /**

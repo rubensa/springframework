@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.jndi.support.SimpleNamingContextBuilder;
+import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
 /**
  * @author Rod Johnson
@@ -33,7 +33,7 @@ public class JndiBeanFactoryLocatorTests extends TestCase {
 
 	public void testBeanFactoryPathRequiredFromJndiEnvironment() throws Exception {
 		// Set up initial context but don't bind anything
-		SimpleNamingContextBuilder sncb = SimpleNamingContextBuilder.emptyActivatedContextBuilder();
+		SimpleNamingContextBuilder.emptyActivatedContextBuilder();
 
 		JndiBeanFactoryLocator jbfl = createLocator();
 		try {

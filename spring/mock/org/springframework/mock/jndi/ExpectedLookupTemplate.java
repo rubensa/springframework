@@ -14,7 +14,7 @@
  * limitations under the License.
  */ 
 
-package org.springframework.jndi.support;
+package org.springframework.mock.jndi;
 
 import javax.naming.NamingException;
 

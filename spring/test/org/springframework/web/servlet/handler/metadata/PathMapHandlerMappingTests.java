@@ -26,8 +26,8 @@ import junit.framework.TestCase;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.support.StaticWebApplicationContext;
-import org.springframework.web.mock.MockHttpServletRequest;
 import org.springframework.web.servlet.HandlerExecutionChain;
 
 /**

@@ -19,7 +19,7 @@ package org.springframework.web.servlet.mvc;
 
 import junit.framework.TestCase;
 
-import org.springframework.web.mock.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 /**

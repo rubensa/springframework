@@ -24,7 +24,7 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 
 /**
  * Implementation of SmartDataSource that configures a plain old JDBC Driver
- * via bean properties, and returns a new connection every time.
+ * via bean properties, and returns a new Connection every time.
  *
  * <p>Useful for test or standalone environments outside of a J2EE container, either
  * as a DataSource bean in a respective ApplicationContext, or in conjunction with a
@@ -46,8 +46,8 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
  * @author Juergen Hoeller
  * @since 14.03.2003
  * @version $Id$
- * @see org.springframework.jndi.support.SimpleNamingContextBuilder
  * @see org.springframework.jndi.JndiObjectFactoryBean
+ * @see org.springframework.mock.jndi.SimpleNamingContextBuilder
  * @see org.apache.commons.dbcp.BasicDataSource
  */
 public class DriverManagerDataSource extends AbstractDataSource implements SmartDataSource {
@@ -119,7 +119,8 @@ public class DriverManagerDataSource extends AbstractDataSource implements Smart
 	}
 
 	/**
-	 * This DataSource returns a new connection every time: Close it when returning one to the "pool".
+	 * This DataSource returns a new connection every time:
+	 * Close it when returning one to the "pool".
 	 */
 	public boolean shouldClose(Connection conn) {
 		return true;

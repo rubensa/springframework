@@ -20,7 +20,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.access.JndiBeanFactoryLocator;
 import org.springframework.beans.factory.access.JndiBeanFactoryLocatorTests;
 import org.springframework.context.ApplicationContext;
-import org.springframework.jndi.support.SimpleNamingContextBuilder;
+import org.springframework.mock.jndi.SimpleNamingContextBuilder;
 
 /**
  * @author Colin Sampaleanu

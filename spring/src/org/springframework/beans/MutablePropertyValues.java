@@ -91,24 +91,6 @@ public class MutablePropertyValues implements PropertyValues {
 	}
 
 	/**
-	 * If this object contains a property value with this name, replace it
-	 * If it doesn't, add this property value
-	 * @param newPv new PropertyValue to add or override (replace)
-	 */
-	public void addOrOverridePropertyValue(PropertyValue newPv) {
-		for (int i = 0; i < this.propertyValuesList.size(); i++) {
-			PropertyValue pv = (PropertyValue) this.propertyValuesList.get(i);
-			if (pv.getName().equals(newPv.getName())) {
-				// Replace
-				this.propertyValuesList.set(i, newPv);
-				return;
-			}
-		}
-		// If we get here we must add it
-		this.propertyValuesList.add(newPv);
-	}
-
-	/**
 	 * Modify a PropertyValue object held in this object.
 	 * Indexed from 0.
 	 */

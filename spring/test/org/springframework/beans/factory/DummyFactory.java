@@ -25,7 +25,9 @@ public class DummyFactory extends AbstractFactoryBean implements InitializingBea
 	public static final String SINGLETON_NAME = "Factory singleton";
 	
 	private boolean isInitialized;
-	
+
+	private static boolean prototypeCreated;
+
 	private TestBean testBean;
 
 	private TestBean otherTestBean;
@@ -58,6 +60,10 @@ public class DummyFactory extends AbstractFactoryBean implements InitializingBea
 		return this.isInitialized;
 	}
 
+	public static boolean wasPrototypeCreated() {
+		return prototypeCreated;
+	}
+
 	/**
 	 * Return the managed object, supporting both singleton
 	 * and prototype mode.
@@ -72,6 +78,7 @@ public class DummyFactory extends AbstractFactoryBean implements InitializingBea
 			//System.out.println("DummyFactory created new PROTOTYPE");
 			TestBean prototype = new TestBean("prototype created at " + System.currentTimeMillis(), 11);
 			//System.out.println("prot name is " + prototype.getName());
+			prototypeCreated = true;
 			return prototype;
 		}
 	}

@@ -41,31 +41,24 @@ public class XmlBeanFactoryLoader implements BeanFactoryLoader {
 
 	/**
 	 * Load the bean factory.
-	 * A root slash gets prepended to the path if not already contained.
 	 * @throws BootstrapException if the JNDI key is missing or if
 	 * the factory cannot be loaded from this location
 	 */
 	public BeanFactory loadBeanFactory() throws BootstrapException {		
-		JndiTemplate jt = new JndiTemplate();
 		String beanFactoryPath = null;
 		try {
-			beanFactoryPath = (String) jt.lookup(BEAN_FACTORY_PATH_ENVIRONMENT_KEY);
-			if (!beanFactoryPath.startsWith("/")) {
-				// always use root, as relative loading doesn't make sense
-				beanFactoryPath = "/" + beanFactoryPath;
-			}
-			logger.info("BeanFactoryPath from JNDI is '" + beanFactoryPath + "'");
-
-			InputStream is = ClassLoaderUtils.getResourceAsStream(getClass(), beanFactoryPath);
-			if (is == null)
+			beanFactoryPath = (String) (new JndiTemplate()).lookup(BEAN_FACTORY_PATH_ENVIRONMENT_KEY);
+			logger.info("BeanFactoryPath from JNDI is [" + beanFactoryPath + "]");
+			InputStream is = ClassLoaderUtils.getResourceAsStream(beanFactoryPath);
+			if (is == null) {
 				throw new BootstrapException("Cannot load bean factory path '" + beanFactoryPath + "'", null);
-
+			}
 			ListableBeanFactory beanFactory = new XmlBeanFactory(is);
 			logger.info("Loaded BeanFactory [" + beanFactory + "]");
 			return beanFactory;
 		}
 		catch (NamingException ex) {
-			throw new BootstrapException("Define an environment variable 'ejb/BeanFactoryPath' containing the location on the classpath of an XmlBeanFactory" 
+			throw new BootstrapException("Define an environment variable 'ejb/BeanFactoryPath' containing the location on the class path of an XmlBeanFactory"
 						+ ex.getMessage(), ex);
 		}		
 		catch (BeanDefinitionStoreException ex) {

@@ -64,12 +64,12 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 	private static final int METHOD_REPLACER = 2;
 
 
-	protected Object instantiateWithMethodInjection(RootBeanDefinition beanDefinition, BeanFactory owner) {
+	protected Object instantiateWithMethodInjection(RootBeanDefinition beanDefinition, String beanName, BeanFactory owner) {
 		// must generate CGLIB subclass
 		return new CglibSubclassCreator(beanDefinition, owner).instantiate(null, null);
 	}
 
-	protected Object instantiateWithMethodInjection(RootBeanDefinition beanDefinition, BeanFactory owner,
+	protected Object instantiateWithMethodInjection(RootBeanDefinition beanDefinition, String beanName, BeanFactory owner,
 													Constructor ctor, Object[] args) {
 		return new CglibSubclassCreator(beanDefinition, owner).instantiate(ctor, args);
 	}

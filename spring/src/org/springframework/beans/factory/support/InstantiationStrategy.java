@@ -34,12 +34,21 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public interface InstantiationStrategy {
 	
-	Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner);
+	/**
+	 * Return an instance of the bean with the given name in this factory
+	 * @param beanDefinition bean definition
+	 * @param beanName name of the bean when it's created in this context.
+	 * The name can be null if we're autowiring a bean that doesn't
+	 * belong to the factory.
+	 * @param owner owning BeanFactory
+	 * @return a bean instance for this bean definition
+	 */
+	Object instantiate(RootBeanDefinition beanDefinition, String beanName, BeanFactory owner);
 	
-	Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner,
+	Object instantiate(RootBeanDefinition beanDefinition, String beanName, BeanFactory owner,
 										 Constructor ctor, Object[] args);
 	
-	Object instantiate(RootBeanDefinition beanDefinition, BeanFactory owner,
+	Object instantiate(RootBeanDefinition beanDefinition, String beanName, BeanFactory owner,
 										 Method factoryMethod, Object[] args);
 	
 }

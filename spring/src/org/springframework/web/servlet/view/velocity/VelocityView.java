@@ -32,6 +32,7 @@ import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.util.SimplePool;
 import org.springframework.beans.factory.support.BeanFactoryUtils;
 import org.springframework.context.ApplicationContextException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
@@ -266,6 +267,8 @@ public class VelocityView extends AbstractView {
 			while (itr.hasNext()) {
 				String modelname = (String) itr.next();
 				Object val = model.get(modelname);
+				
+				modelname = transformModelNameIfNecessary(modelname);
 
 				if (logger.isDebugEnabled())
 					logger.debug("Added model with name '" + modelname
@@ -283,6 +286,19 @@ public class VelocityView extends AbstractView {
 		}
 	}
 	
+	/**
+	 * If necessary, transform the model name into a legal Velocity model name.
+	 * Velocity can't cope with .s in a variable name, so we change them to
+	 * _s. 
+	 * @param modelname
+	 * @return
+	 */
+	protected String transformModelNameIfNecessary(String modelname) {
+		modelname = StringUtils.replace(modelname, ".", "_");
+		return modelname;
+	}
+
+
 	/**
 	 * Expose helpers unique to each rendring operation. 
 	 * This is necessary so that different rendering operations can't overwrite each other's formats etc.

@@ -169,6 +169,8 @@ public class VelocityViewTests extends TestCase {
 	private void testValidTemplateName(final Exception mergeTemplateFailureException) throws Exception {
 		Map model = new HashMap();
 		model.put("foo", "bar");
+		// This should be escaped to get rid of the illegal .
+		model.put("has.dot", "escaped");
 
 		final String templateName = "test.vm";
 
@@ -204,6 +206,8 @@ public class VelocityViewTests extends TestCase {
 				assertTrue(template == expectedTemplate);
 				assertTrue(context.getKeys().length >= 1);
 				assertTrue(context.get("foo").equals("bar"));
+				// Check escaping of illegal dots
+				assertTrue("escaped".equals(context.get("has_dot")));
 				assertTrue(response == expectedResponse);
 				if (mergeTemplateFailureException != null) {
 					throw mergeTemplateFailureException;

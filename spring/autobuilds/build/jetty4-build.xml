@@ -61,7 +61,7 @@ autobuilds directory for information.
 	-->
 	<target name="deploy" depends="extract-server">
 		<copy todir="${servers.install.dir}/${appserver.distname}/${deploy.dir}">
-			<fileset dir="${spring.samples.dir}/${target.app}/dist">
+			<fileset dir="${autobuilds.samples.dir}/${target.app}/dist">
 				<include name="*" />
 				<exclude name="**/autobuild*" />
 			</fileset>

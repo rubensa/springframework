@@ -30,6 +30,11 @@ import java.util.Set;
 public class MethodOverrides {
 
 	private final Set overrides = new HashSet();
+	
+	/**
+	 * Set of method names that are overloaded
+	 */
+	private final Set overloadedMethodNames = new HashSet();
 
 	/**
 	 * Create new MethodOverrides.
@@ -50,6 +55,7 @@ public class MethodOverrides {
 	public void addOverrides(MethodOverrides other) {
 		if (other != null) {
 			this.overrides.addAll(other.getOverrides());
+			this.overloadedMethodNames.addAll(other.overloadedMethodNames);
 		}
 	}
 
@@ -67,6 +73,14 @@ public class MethodOverrides {
 		return overrides;
 	}
 
+	public void addOverloadedMethodName(String methodName) {
+		this.overloadedMethodNames.add(methodName);
+	}
+	
+	public boolean isOverloadedMethodName(String methodName) {
+		return this.overloadedMethodNames.contains(methodName);
+	}
+	
 	/**
 	 * Return whether the set of method overrides is empty.
 	 */
@@ -82,7 +96,7 @@ public class MethodOverrides {
 	public MethodOverride getOverride(Method method) {
 		for (Iterator it = this.overrides.iterator(); it.hasNext();) {
 			MethodOverride methodOverride = (MethodOverride) it.next();
-			if (methodOverride.matches(method)) {
+			if (methodOverride.matches(method, this)) {
 				return methodOverride;
 			}			
 		}

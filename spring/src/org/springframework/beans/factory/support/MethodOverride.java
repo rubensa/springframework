@@ -52,8 +52,10 @@ public abstract class MethodOverride {
 	 * the given method. This allows for argument list checking
 	 * as well as method name checking.
 	 * @param method the method to check
+	 * @param overrides owning MethodOverrides object.
+	 * This allows us to check whether the method is overloaded.
 	 * @return whether this override matches the given method
 	 */
-	public abstract boolean matches(Method method);
+	public abstract boolean matches(Method method, MethodOverrides overrides);
 
 }

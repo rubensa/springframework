@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SimpleControllerHandlerAdapter implements HandlerAdapter {
 	
 	public boolean supports(Object handler) {
-		return handler != null && Controller.class.isAssignableFrom(handler.getClass());
+		return (handler instanceof Controller);
 	}
 	
 	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler)

@@ -302,7 +302,7 @@ public class VelocityView extends AbstractView {
 	 * Based on code from the VelocityServlet.
 	 * Merges the template with the context.
 	 * @param template template object returned by the handleRequest() method
-	 * @param context context created by the createContext() method
+	 * @param context context the Velocity context
 	 * @param response servlet reponse (use this to get the OutputStream or Writer)
 	 */
 	protected void mergeTemplate(Template template, Context context, HttpServletResponse response) throws Exception {

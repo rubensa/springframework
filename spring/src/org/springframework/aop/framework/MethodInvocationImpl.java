@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.aopalliance.intercept.AspectException;
 import org.aopalliance.intercept.AttributeRegistry;
-import org.aopalliance.intercept.Interceptor;
 import org.aopalliance.intercept.Invocation;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -68,7 +67,9 @@ public class MethodInvocationImpl implements MethodInvocation {
 	 * @param interceptorsAndDynamicInterceptionAdvice interceptors that should be applied,
 	 * along with any InterceptorAndDynamicMethodMatchers that need evaluation at runtime.
 	 * MethodMatchers included in this struct must already have been found to have matched as far
-	 * as was possibly statically.
+	 * as was possibly statically.<br>
+	 * Passing an array might be about 10% faster, but would complicate the code. And it would
+	 * work only for static pointcuts.
 	 */
 	public MethodInvocationImpl(Object proxy, Object target, 
 					Class targetInterface, Method m, Object[] arguments,
@@ -164,12 +165,6 @@ public class MethodInvocationImpl implements MethodInvocation {
 	 */
 	public int getArgumentCount() {
 		return (this.arguments != null) ? this.arguments.length : 0;
-	}
-
-	public Interceptor getInterceptor(int index) {
-		if (index > this.interceptorsAndDynamicMethodMatchers.size() - 1)
-			throw new AspectException("Index " + index + " out of bounds: only " + this.interceptorsAndDynamicMethodMatchers.size() + " interceptors");
-		return (Interceptor) this.interceptorsAndDynamicMethodMatchers.get(index);
 	}
 
 

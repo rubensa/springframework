@@ -298,10 +298,15 @@ public class PropertyPlaceholderConfigurer extends PropertyResourceConfigurer {
 	protected void parseMap(Properties props, Map mapVal) {
 		for (Iterator it = new HashMap(mapVal).keySet().iterator(); it.hasNext();) {
 			Object key = it.next();
-			Object elem = mapVal.get(key);
-			Object newVal = parseValue(props, elem);
-			if (!ObjectUtils.nullSafeEquals(newVal, elem)) {
-				mapVal.put(key, newVal);
+			Object newKey = parseValue(props, key);
+			boolean isNewKey = !ObjectUtils.nullSafeEquals(key, newKey);
+			Object val = mapVal.get(key);
+			Object newVal = parseValue(props, val);
+			if (isNewKey) {
+				mapVal.remove(key);
+			}
+			if (isNewKey || !ObjectUtils.nullSafeEquals(newVal, val)) {
+				mapVal.put(newKey, newVal);
 			}
 		}
 	}

@@ -481,7 +481,7 @@ public class BeanWrapperImpl implements BeanWrapper {
 
 		// lookup cached sub-BeanWrapper, create new one if not found
 		BeanWrapperImpl nestedBw = (BeanWrapperImpl) this.nestedBeanWrappers.get(canonicalName);
-		if (nestedBw == null) {
+		if (nestedBw == null || nestedBw.getWrappedInstance() != propertyValue) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Creating new nested BeanWrapper for property '" + canonicalName + "'");
 			}

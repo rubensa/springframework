@@ -230,8 +230,12 @@ public abstract class RdbmsOperation implements InitializingBean {
 			while (iter.hasNext()) {
 				Object param = iter.next();
 				if (!(param instanceof SqlOutParameter) && !(param instanceof SqlReturnResultSet)) {
-					if ((this instanceof BatchSqlUpdate) && (((SqlParameter)param).getSqlType() == Types.CLOB || ((SqlParameter)param).getSqlType() == Types.BLOB))
-						throw new InvalidDataAccessApiUsageException("CLOB or BLOB parameters are not allowed for batch updates.");
+					if (!supportsLobParameters() &&
+							(((SqlParameter)param).getSqlType() == Types.BLOB ||
+							((SqlParameter)param).getSqlType() == Types.CLOB)) {
+						throw new InvalidDataAccessApiUsageException("BLOB or CLOB parameters are not allowed " +
+																												 "for this kind of operation.");
+					}
 					declaredInParameters++;
 				}
 			}
@@ -258,6 +262,14 @@ public abstract class RdbmsOperation implements InitializingBean {
 				throw new InvalidDataAccessApiUsageException(this.declaredParameters.size() + " parameters must be supplied");
 			}
 		}
+	}
+
+	/**
+	 * Return whether BLOB or CLOB parameters are supported
+	 * for this kind of operation. Default is true.
+	 */
+	protected boolean supportsLobParameters() {
+		return true;
 	}
 
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.CallableStatementCreator;
 import org.springframework.jdbc.core.CallableStatementCreatorFactory;
+import org.springframework.jdbc.core.ParameterMapper;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.SqlReturnResultSet;
 
@@ -79,6 +80,15 @@ public abstract class SqlCall extends RdbmsOperation {
 	 */
 	protected final CallableStatementCreator newCallableStatementCreator(Map inParams) {
 		return this.callableStatementFactory.newCallableStatementCreator(inParams);
+	}
+
+	/**
+	 * Return a CallableStatementCreator to perform an operation
+	 * with the parameters returned from this ParameterMapper.
+	 * @param paramMapper parametermapper. May not be null.
+	 */
+	protected final CallableStatementCreator newCallableStatementCreator(ParameterMapper inParamMapper) {
+		return this.callableStatementFactory.newCallableStatementCreator(inParamMapper);
 	}
 
 	/**

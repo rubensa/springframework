@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.aop.Advice;
-import org.springframework.aop.InterceptionAdvice;
-import org.springframework.aop.IntroductionAdvice;
+import org.springframework.aop.Advisor;
+import org.springframework.aop.InterceptionAroundAdvisor;
+import org.springframework.aop.InterceptionIntroductionAdvisor;
 import org.springframework.aop.Pointcut;
 
 /**
@@ -105,12 +105,12 @@ public class AopUtils {
 		return false;
 	}
 	
-	public static boolean canApply(Advice advice, Class targetClass, Class[] proxyInterfaces) {
-		if (advice instanceof IntroductionAdvice) {
-			return ((IntroductionAdvice) advice).getClassFilter().matches(targetClass);
+	public static boolean canApply(Advisor advice, Class targetClass, Class[] proxyInterfaces) {
+		if (advice instanceof InterceptionIntroductionAdvisor) {
+			return ((InterceptionIntroductionAdvisor) advice).getClassFilter().matches(targetClass);
 		}
 		
-		InterceptionAdvice interceptionAdvice = (InterceptionAdvice) advice;
+		InterceptionAroundAdvisor interceptionAdvice = (InterceptionAroundAdvisor) advice;
 		return canApply(interceptionAdvice.getPointcut(), targetClass, proxyInterfaces);
 	}
 

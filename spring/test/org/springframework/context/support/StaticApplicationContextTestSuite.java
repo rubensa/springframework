@@ -123,7 +123,7 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 			setOrder(0);
 		}
 
-		protected Object[] getInterceptorsAndAdvicesForBean(Object bean, String name) {
+		protected Object[] getInterceptorsAndAdvisorsForBean(Object bean, String name) {
 			if (bean instanceof StaticMessageSource)
 				return DO_NOT_PROXY;
 			else if (name.startsWith("aca"))

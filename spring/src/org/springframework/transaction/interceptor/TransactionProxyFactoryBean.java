@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.aopalliance.intercept.Interceptor;
-import org.springframework.aop.Advice;
+import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.framework.AopConfigException;
-import org.springframework.aop.framework.DefaultInterceptionAdvice;
+import org.springframework.aop.framework.DefaultInterceptionAroundAdvisor;
 import org.springframework.aop.framework.InvokerInterceptor;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.framework.support.AopUtils;
@@ -163,8 +163,8 @@ public class TransactionProxyFactoryBean implements FactoryBean, InitializingBea
 		}
 
 		if (this.pointcut != null) {
-			Advice advice = new DefaultInterceptionAdvice(this.pointcut, transactionInterceptor);
-			proxyFactory.addAdvice(advice);
+			Advisor advice = new DefaultInterceptionAroundAdvisor(this.pointcut, transactionInterceptor);
+			proxyFactory.addAdvisor(advice);
 		}
 		else {
 			proxyFactory.addInterceptor(transactionInterceptor);

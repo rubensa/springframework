@@ -132,7 +132,7 @@ new Attrib4jAttributeRegistry());
 		Object proxy = new Object();
 		final Object returnValue = new Object();
 		List is = new LinkedList();
-		is.add(new DefaultInterceptionAdvice(new MethodInterceptor() {
+		is.add(new DefaultInterceptionAroundAdvisor(new MethodInterceptor() {
 			public Object invoke(MethodInvocation invocation) throws Throwable {
 				return returnValue;
 			}
@@ -165,7 +165,7 @@ new Attrib4jAttributeRegistry());
 		};
 		final Object returnValue = new Object();
 		List is = new LinkedList();
-		is.add(new DefaultInterceptionAdvice(new InvokerInterceptor(target)));
+		is.add(new DefaultInterceptionAroundAdvisor(new InvokerInterceptor(target)));
 
 		Method m = Object.class.getMethod("hashCode", null);
 		Object proxy = new Object();

@@ -17,7 +17,7 @@ import org.springframework.aop.framework.support.AopUtils;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ProxyFactory extends ProxyConfigSupport {
+public class ProxyFactory extends AdvisedSupport {
 
 	public ProxyFactory() {
 	}

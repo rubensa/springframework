@@ -84,7 +84,7 @@ public class ProxyFactoryTests extends TestCase {
 		
 		System.out.println(StringUtils.arrayToDelimitedString(factory.getProxiedInterfaces(), "/"));
 		
-		factory.addAdvice(0, new SimpleIntroductionAdvice(ti, TimeStamped.class));
+		factory.addAdvisor(0, new SimpleIntroductionAdvice(ti, TimeStamped.class));
 		
 		System.out.println(StringUtils.arrayToDelimitedString(factory.getProxiedInterfaces(), "/"));
 		

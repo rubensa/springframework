@@ -22,6 +22,6 @@ public interface Aspect {
 	 * Must not return the empty array or null
 	 * @return
 	 */
-	Advice[] geAdvice();
+	Advisor[] getAdvisors();
 
 }

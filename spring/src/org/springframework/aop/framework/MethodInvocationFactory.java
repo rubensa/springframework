@@ -16,12 +16,12 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public interface MethodInvocationFactory {
 	
-	MethodInvocation getMethodInvocation(ProxyConfig pc, Object proxy, Method method, Object[] args);
+	MethodInvocation getMethodInvocation(Advised pc, Object proxy, Method method, Object[] args);
 	
 	/**
 	 * Cache state based on ProxyConfig.
 	 * Clear any existing state.
 	 */
-	void refresh(ProxyConfig pc);
+	void refresh(Advised pc);
 
 }

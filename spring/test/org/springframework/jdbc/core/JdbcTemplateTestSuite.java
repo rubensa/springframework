@@ -1041,6 +1041,8 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 			(DatabaseMetaData) ctrlDatabaseMetaData.getMock();
 		mockDatabaseMetaData.getDatabaseProductName();
 		ctrlDatabaseMetaData.setReturnValue("MySQL");
+		mockDatabaseMetaData.getDriverVersion();
+		ctrlDatabaseMetaData.setReturnValue("1.2.3");
 
 		MockControl ctrlResultSet = MockControl.createControl(ResultSet.class);
 		ResultSet mockResultSet = (ResultSet) ctrlResultSet.getMock();

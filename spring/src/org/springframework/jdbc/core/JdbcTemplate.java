@@ -153,8 +153,7 @@ public class JdbcTemplate implements InitializingBean {
 	 */
 	public synchronized SQLExceptionTranslator getExceptionTranslator() {
 		if (this.exceptionTranslator == null) {
-			this.exceptionTranslator =
-			    SQLExceptionTranslatorFactory.getInstance().getDefaultTranslator(this.dataSource);
+			this.exceptionTranslator = new SQLErrorCodeSQLExceptionTranslator(this.dataSource);
 		}
 		return this.exceptionTranslator;
 	}
@@ -164,6 +163,13 @@ public class JdbcTemplate implements InitializingBean {
 	 */
 	public void setQueryExecutor(QueryExecutor queryExecutor) {
 		this.queryExecutor = queryExecutor;
+	}
+	
+	/**
+	 * @return the current QueryExecutor implementation.
+	 */
+	public QueryExecutor getQueryExecutor() {
+		return this.queryExecutor;
 	}
 
 	/**

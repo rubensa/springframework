@@ -213,7 +213,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 					listOfRows.add(mapOfColValues);
 				}
 				if (listOfRows.size() == 1 && numberOfColumns == 1)
-					returnValue = ((ArrayList) listOfRows.get(0)).get(0);
+					returnValue = ((HashMap) listOfRows.get(0)).get(rsmd.getColumnName(1));
 				else
 					returnValue = listOfRows;
 			}

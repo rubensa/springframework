@@ -40,6 +40,8 @@ public class TestBean implements ITestBean, IOther {
 
 	private INestedTestBean lawyer = new NestedTestBean();
 
+	private IndexedTestBean nestedIndexedBean;
+
 	public String getTouchy() {
 		return touchy;
 	}
@@ -195,4 +197,12 @@ public class TestBean implements ITestBean, IOther {
 		lawyer = bean;
 	}
 
-} // class Test
+	public IndexedTestBean getNestedIndexedBean() {
+		return nestedIndexedBean;
+	}
+
+	public void setNestedIndexedBean(IndexedTestBean nestedIndexedBean) {
+		this.nestedIndexedBean = nestedIndexedBean;
+	}
+
+}

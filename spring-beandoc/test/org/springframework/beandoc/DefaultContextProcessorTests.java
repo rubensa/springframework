@@ -19,11 +19,18 @@ package org.springframework.beandoc;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.jdom.Document;
+import org.jdom.Element;
+import org.springframework.beandoc.output.Decorator;
+import org.springframework.beandoc.output.DocumentCompiler;
+import org.springframework.beandoc.output.SimpleDecorator;
+import org.springframework.beandoc.output.Tags;
 import org.springframework.beandoc.output.Transformer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -38,7 +45,8 @@ import org.springframework.core.io.Resource;
 public class DefaultContextProcessorTests extends TestCase {
     
     DefaultContextProcessor dcp;
-
+    int called;
+    
     static Resource[] testInputs = {
         new ClassPathResource("org/springframework/beandoc/context1.xml"),
         new ClassPathResource("org/springframework/beandoc/context2.xml")
@@ -50,6 +58,8 @@ public class DefaultContextProcessorTests extends TestCase {
         try {
             dcp = new DefaultContextProcessor(testInputs, testOutputDir);
             dcp.setValidateFiles(false);
+            this.called = 0;
+            
         } catch (IOException e) {
             fail();
         }
@@ -90,6 +100,133 @@ public class DefaultContextProcessorTests extends TestCase {
         } catch (Exception e) {
             fail();
         }
+    }
+    
+    /**
+     * @param b
+     */
+    protected void called() {
+        called++;
+    }
+    
+    public void testDecoratorsAreApplied() {
+        Decorator d = new Decorator() {
+            public void decorate(Document[] contextDocuments) {
+                called();
+            }            
+        };
+        List dlist = new ArrayList(1);
+        dlist.add(d);
+        dcp.setDecorators(dlist);
+        try {
+            dcp.process();
+        } catch (Exception e) {
+            fail();
+        }
+        assertEquals(1, called);
+    }
+
+    public void testTransformersAreApplied() {
+        Transformer t = new Transformer() {
+            public void transform(Document[] contextDocuments, File outputDir) {
+                called();
+            }            
+        };
+        List tlist = new ArrayList(2);
+        tlist.add(t);
+        tlist.add(t);
+        dcp.setTransformers(tlist);
+        try {
+            dcp.process();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        assertEquals(2, called);
+    }
+    
+    public void testCompilersAreApplied() {
+        DocumentCompiler c = new DocumentCompiler() {
+            public void compile(Document[] contextDocuments, File outputDir) {
+                called();
+            }            
+        };
+        List clist = new ArrayList(2);
+        clist.add(c);
+        clist.add(c);
+        dcp.setCompilers(clist);
+        try {
+            dcp.process();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+        assertEquals(2, called);
+    }
+    
+    public void testProxiesAreMerged() {
+        Resource[] proxyInputs = {new ClassPathResource("org/springframework/beandoc/proxymerge.xml")};
+        try {
+            DefaultContextProcessor dcp2 = new DefaultContextProcessor(
+                proxyInputs,
+                testOutputDir
+            );
+            Map m = new HashMap();
+            m.put("^myProxy$", "target");
+            dcp2.setValidateFiles(false);
+            dcp2.setMergeProxies(m);
+            
+            Decorator testMerge = new SimpleDecorator() {
+                protected void decorateElement(Element element) {
+                    if (Tags.TAGNAME_BEAN.equals(element.getName()) && 
+                        element.getAttributeValue(Tags.ATTRIBUTE_ID).equals("myProxy")) {
+                        called();
+                        try {
+                            Element target = element.getChild(Tags.TAGNAME_PROPERTY);                        
+                            Element targetBean = target.getChild(Tags.TAGNAME_BEAN);
+                        
+                            // ref tag should have been replaced with bean tag
+                            assertEquals(Tags.TAGNAME_BEAN, targetBean.getName());
+                            assertEquals("myTarget", targetBean.getAttributeValue(Tags.ATTRIBUTE_ID));
+                        } catch (Exception e) {
+                            fail();
+                        }
+                    }                        
+                }                
+            };
+            
+            List dlist = new ArrayList(1);
+            dlist.add(testMerge);
+            dcp2.setDecorators(dlist);
+            try {
+                dcp2.process();
+            } catch (Exception e) {
+                fail();
+            }
+            
+            assertEquals(1, called);
+            
+        } catch (IOException e) {
+            fail();
+        }
+    }
+    
+    public void testDescriptionElementIsAddedToFilesWithoutOne() {
+        Decorator testDesc = new SimpleDecorator() {
+            protected void decorateElement(Element element) {
+                if (Tags.TAGNAME_DESCRIPTION.equals(element.getName()))
+                    called();                                  
+            }                
+        };
+        
+        List dlist = new ArrayList(1);
+        dlist.add(testDesc);
+        dcp.setDecorators(dlist);
+        try {
+            dcp.process();
+        } catch (Exception e) {
+            fail();
+        }
+        
+        assertEquals(2, called);
     }
 
 }

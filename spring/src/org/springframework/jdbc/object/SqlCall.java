@@ -47,8 +47,6 @@ public abstract class SqlCall extends RdbmsOperation {
 	 */
 	private String callString;
 
-
-
 	/**
 	 * Set the flag used to indicate that this call is for a function
 	 * @param function true or false
@@ -78,7 +76,7 @@ public abstract class SqlCall extends RdbmsOperation {
 	 * with this parameters.
 	 * @param inParams parameters. May be null.
 	 */
-	protected final CallableStatementCreator newCallableStatementCreator(Map inParams) {
+	protected CallableStatementCreator newCallableStatementCreator(Map inParams) {
 		return this.callableStatementFactory.newCallableStatementCreator(inParams);
 	}
 
@@ -87,7 +85,7 @@ public abstract class SqlCall extends RdbmsOperation {
 	 * with the parameters returned from this ParameterMapper.
 	 * @param inParamMapper parametermapper. May not be null.
 	 */
-	protected final CallableStatementCreator newCallableStatementCreator(ParameterMapper inParamMapper) {
+	protected CallableStatementCreator newCallableStatementCreator(ParameterMapper inParamMapper) {
 		return this.callableStatementFactory.newCallableStatementCreator(inParamMapper);
 	}
 
@@ -97,15 +95,14 @@ public abstract class SqlCall extends RdbmsOperation {
 	 * @see RdbmsOperation#compileInternal()
 	 */
 	protected final void compileInternal() {
-
 		List parameters = getDeclaredParameters();
 		int firstParameter = 0;
 		if (isFunction()) {
-			callString = "{? = call " + getSql() + "(";
+			this.callString = "{? = call " + getSql() + "(";
 			firstParameter = 1;
 		}
 		else {
-			callString = "{call " + getSql() + "(";
+			this.callString = "{call " + getSql() + "(";
 		}
 		for (int i = firstParameter; i < parameters.size(); i++) {
 			SqlParameter p = (SqlParameter) parameters.get(i);
@@ -113,12 +110,13 @@ public abstract class SqlCall extends RdbmsOperation {
 				firstParameter++;
 			}
 			else {
-				if (i > firstParameter)
-					callString += ", ";
-				callString += "?";
+				if (i > firstParameter) {
+					this.callString += ", ";
+				}
+				this.callString += "?";
 			}
 		}
-		callString += ")}";
+		this.callString += ")}";
 
 		logger.info("Compiled stored procedure. Call string is [" + getCallString() + "]");
 

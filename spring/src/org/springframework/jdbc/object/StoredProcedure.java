@@ -65,8 +65,9 @@ public abstract class StoredProcedure extends SqlCall {
 	 * inner class)
 	 */
 	public void declareParameter(SqlParameter p) throws InvalidDataAccessApiUsageException {
-		if (p.getName() == null)
+		if (p.getName() == null) {
 			throw new InvalidDataAccessApiUsageException("Parameters to stored procedures must have names as well as types");
+		}
 		super.declareParameter(p);
 	}
 
@@ -85,10 +86,9 @@ public abstract class StoredProcedure extends SqlCall {
 	 * stored procedure has been called.
 	 */
 	public Map execute(final Map inParams) throws InvalidDataAccessApiUsageException {
-		validateParameters(inParams);
+		validateParameters(inParams.values().toArray());
 		logger.debug("Executing call: " + getCallString());
 		Map retValues = getJdbcTemplate().execute(newCallableStatementCreator(inParams), this.getDeclaredParameters());
-
 		return retValues;
 	}
 
@@ -109,11 +109,8 @@ public abstract class StoredProcedure extends SqlCall {
 	 * stored procedure has been called.
 	 */
 	public Map execute(final ParameterMapper inParamMapper) throws InvalidDataAccessApiUsageException {
-		//validateParameters(inParams);
 		logger.debug("Executing call using ParameterMapper: " + getCallString());
-		logger.info("Executing call using ParameterMapper: " + getCallString());
 		Map retValues = getJdbcTemplate().execute(newCallableStatementCreator(inParamMapper), this.getDeclaredParameters());
-
 		return retValues;
 	}
 

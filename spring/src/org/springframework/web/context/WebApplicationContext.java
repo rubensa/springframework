@@ -39,7 +39,7 @@ public interface WebApplicationContext extends ApplicationContext, ThemeSource {
 	 * web application. This method amounts to an init method: implementations are
 	 * responsible for loading their URL or other config, and reloading.
 	 * @param servletContext ServletContext to use
-	 * @throws ApplicationContextException in case of initialization errors
+	 * @throws org.springframework.context.ApplicationContextException in case of initialization errors
 	 * @throws BeansException if thrown by application context methods
 	 */
 	void setServletContext(ServletContext servletContext) throws BeansException;

@@ -35,7 +35,7 @@ public class SimpleIntroductionAdvice implements InterceptionIntroductionAdvisor
 	}
 	
 	/**
-	 * Wrap this interceptor and introduce all interfaces	
+	 * Wrap this interceptor and introduce all interfaces.
 	 */
 	public SimpleIntroductionAdvice(DelegatingIntroductionInterceptor dii) {
 		this((IntroductionInterceptor) dii);
@@ -49,37 +49,24 @@ public class SimpleIntroductionAdvice implements InterceptionIntroductionAdvisor
 		this.interfaces.add(intf);
 	}
 
-	/**
-	 * @see org.springframework.aop.IntroductionAdvice#getClassFilter()
-	 */
 	public ClassFilter getClassFilter() {
 		return this;
 	}
 
-	/**
-	 * @see org.springframework.aop.IntroductionAdvice#getIntroductionInterceptor()
-	 */
 	public IntroductionInterceptor getIntroductionInterceptor() {
 		return interceptor;
 	}
 
-	/**
-	 * @see org.springframework.aop.IntroductionAdvice#getInterfaces()
-	 */
 	public Class[] getInterfaces() {
 		return (Class[]) this.interfaces.toArray(new Class[this.interfaces.size()]);
 	}
 
-	/**
-	 * @see org.springframework.aop.ClassFilter#matches(java.lang.Class)
-	 */
 	public boolean matches(Class clazz) {
 		return true;
 	}
 
 	/**
-	 * Default for an introduction is per-instance interception
-	 * @see org.springframework.aop.Advice#isPerInstance()
+	 * Default for an introduction is per-instance interception.
 	 */
 	public boolean isPerInstance() {
 		return true;

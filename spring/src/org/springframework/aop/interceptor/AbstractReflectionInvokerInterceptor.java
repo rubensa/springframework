@@ -36,7 +36,6 @@ public abstract class AbstractReflectionInvokerInterceptor implements MethodInte
 	 * Subclasses must implement this method to return the
 	 * target to use during an invocation.
 	 * @return the target object that will be invoked reflectively
-	 * @see org.springframework.aop.framework.ProxyInterceptor#getTarget()
 	 */
 	public abstract Object getTarget();
 

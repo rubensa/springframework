@@ -43,14 +43,14 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 
 	/**
 	 * Convenience constant for subclasses: Return value for "do not proxy".
-	 * @see #getInterceptorsAndPointcutsForBean
+	 * @see #getInterceptorsAndAdvisorsForBean
 	 */
 	protected final Object[] DO_NOT_PROXY = null;
 
 	/**
 	 * Convenience constant for subclasses: Return value for
 	 * "proxy without additional interceptors, just the common ones".
-	 * @see #getInterceptorsAndPointcutsForBean
+	 * @see #getInterceptorsAndAdvisorsForBean
 	 */
 	protected final Object[] PROXY_WITHOUT_ADDITIONAL_INTERCEPTORS = new Object[0];
 
@@ -103,7 +103,7 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 	/**
 	 * Create a proxy with the configured interceptors if the bean is
 	 * identified as one to proxy by the subclass.
-	 * @see #getInterceptorsAndPointcutsForBean
+	 * @see #getInterceptorsAndAdvisorsForBean
 	 */
 	public Object postProcessBean(Object bean, String name) throws BeansException {
 		
@@ -163,13 +163,7 @@ public abstract class AbstractAutoProxyCreator implements BeanPostProcessor, Ord
 		}
 	}
 	
-	/**
-	 * Subclasses can override this to 
-	 * @param bean
-	 * @param name
-	 * @return
-	 */
-	private boolean isInfrastructureClass(Object bean, String name) {
+	protected boolean isInfrastructureClass(Object bean, String name) {
 		return Advisor.class.isAssignableFrom(bean.getClass()) ||
 			MethodInterceptor.class.isAssignableFrom(bean.getClass()) ||
 			AbstractAutoProxyCreator.class.isAssignableFrom(bean.getClass());

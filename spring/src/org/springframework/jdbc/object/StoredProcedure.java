@@ -100,7 +100,7 @@ public abstract class StoredProcedure extends SqlCall {
 	 * The execute method is also responsible for extracting typed values from the output map. 
 	 * Subclass execute methods will often take domain objects as arguments and return values.
 	 * Alternatively, they can return void.
-	 * @param inParams map of input parameters, keyed by name as in parameter
+	 * @param inParamMapper map of input parameters, keyed by name as in parameter
 	 * declarations. Output parameters need not (but can be) included in this map.
 	 * It is legal for map entries to be null, and this will produce the correct
 	 * behavior using a NULL argument to the stored procedure.

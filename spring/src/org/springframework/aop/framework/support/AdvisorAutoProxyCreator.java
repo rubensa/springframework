@@ -43,7 +43,7 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 	}
 	
 	/**
-	 * @return the owning ListableBeanFactory
+	 * Return the owning ListableBeanFactory
 	 */
 	protected final ListableBeanFactory getBeanFactory() {
 		return this.owningFactory;
@@ -101,9 +101,7 @@ public class AdvisorAutoProxyCreator extends AbstractAutoProxyCreator implements
 	}
 
 	/**
-	 * Sort based on ordering
-	 * @param l
-	 * @return
+	 * Sort based on ordering.
 	 */
 	protected List sortAdvisors(List l) {
 		// TODO implement this

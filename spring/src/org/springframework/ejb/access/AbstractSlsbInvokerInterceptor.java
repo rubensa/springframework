@@ -13,11 +13,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jndi.AbstractJndiLocator;
 
 /**
- * Superclass for all AOP interceptors invoking EJBs.
+ * Superclass for all AOP interceptors invoking Stateless Session Beans.
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator implements MethodInterceptor, InitializingBean {
+public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
+		implements MethodInterceptor, InitializingBean {
 
 	/** 
 	 * Name of no arg create() method required on EJB homes,

@@ -25,14 +25,14 @@ import org.springframework.beans.BeansException;
  * @author Rod Johnson
  * @version $Id$
  */
-public interface DynamicObject {
+public interface DynamicObject extends ExpirableObject {
 	
 	void refresh() throws BeansException;
 	
-	int getLoads();
-	
-	long getLastRefreshMillis();
+	/** 0 means no expiry */
+	long getExpiry();
 
-	// 0 if not polling
-	int getPollIntervalSeconds();
+	boolean isAutoRefresh();
+	
+	void setAutoRefresh(boolean autoRefresh);
 }

@@ -12,27 +12,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */ 
 
-package org.springframework.beans.factory.script;
+package org.springframework.beans.factory.dynamic;
 
-import org.springframework.beans.factory.dynamic.AbstractPoller;
+import java.lang.reflect.Method;
+
+import org.springframework.aop.MethodBeforeAdvice;
 
 /**
- * Object to run in the background polling for file
- * modifications. Works only if we can get to a File--
- * probably won't work in a Jar.
+ * 
  * @author Rod Johnson
- * @version $Id: AbstractVetoableChangeListener.java,v 1.1.1.1 2003/08/14
- *          16:20:14 trisberg Exp $
+ * @version $Id$
  */
-public class ScriptPoller extends AbstractPoller {
+public class AutoRefreshInterceptor implements MethodBeforeAdvice {
 
-	public ScriptPoller(DynamicScript script) {
-		super(script);
+	/**
+	 * @see org.springframework.aop.MethodBeforeAdvice#before(java.lang.reflect.Method, java.lang.Object[], java.lang.Object)
+	 */
+	public void before(Method m, Object[] args, Object target) throws Throwable {
+		throw new UnsupportedOperationException();
 	}
 
-	protected boolean isDirty() {
-		return ((DynamicScript) getDynamicObject()).isChanged();
-	}
 }

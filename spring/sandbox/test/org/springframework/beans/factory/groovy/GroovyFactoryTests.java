@@ -37,7 +37,7 @@ public class GroovyFactoryTests extends TestCase {
 	
 	public void testNoScriptFound() {
 		try {
-			groovyFactory().staticObject("rubbish");
+			groovyFactory().create("rubbish");
 			fail();
 		}
 		catch (ScriptNotFoundException ex) {
@@ -53,7 +53,7 @@ public class GroovyFactoryTests extends TestCase {
 	
 	public void testScriptWithSyntaxErrors() {
 		try {
-			groovyFactory().staticObject(SCRIPT_BASE + "Bad.groovy");
+			groovyFactory().create(SCRIPT_BASE + "Bad.groovy");
 			fail();
 		}
 		catch (CompilationException ex) {
@@ -62,17 +62,20 @@ public class GroovyFactoryTests extends TestCase {
 	}
 	
 	public void testValidScript() {
-		GroovyObject groovyObject = (GroovyObject) groovyFactory().staticObject(SCRIPT_BASE + "SimpleHello.groovy");
+		GroovyObject groovyObject = (GroovyObject) groovyFactory().create(SCRIPT_BASE + "SimpleHello.groovy");
 		System.out.println(groovyObject);
 	}
 	
+	/*
+	 // No longer have this option
 	public void testNotReloadable() {
-		Hello hello = (Hello) groovyFactory().staticObject(SCRIPT_BASE + "SimpleHello.groovy");
-		assertFalse("Doesn't proxy unless dynamic features requested", AopUtils.isCglibProxy(hello));
+		Hello hello = (Hello) groovyFactory().create(SCRIPT_BASE + "SimpleHello.groovy");
+		//assertFalse("Doesn't proxy unless dynamic features requested", AopUtils.isCglibProxy(hello));
 		assertEquals("hello world", hello.sayHello());
 		assertFalse("Doesn't implement DynamicScript unless dynamic features requested", 
 				hello instanceof DynamicScript);
 	}
+	*/
 	
 	/*
 	 * Can't test this without a factory

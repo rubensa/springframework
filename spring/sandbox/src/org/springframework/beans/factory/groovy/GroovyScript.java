@@ -37,6 +37,7 @@ public class GroovyScript extends AbstractScript {
 
 	public GroovyScript(String className, ScriptContext context) {
 		super(className, context);
+		addInterface(GroovyObject.class);
 	}
 
 	

@@ -24,16 +24,41 @@ import org.springframework.aop.target.HotSwappableTargetSource;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class AbstractRefreshableTargetSource extends HotSwappableTargetSource {
+public abstract class AbstractRefreshableTargetSource extends HotSwappableTargetSource implements ExpirableObject {
+	
+	private int loads;
+	
+	private long lastRefresh;
 	
 	public AbstractRefreshableTargetSource(Object initialTarget) {
 		super(initialTarget);
+		lastRefresh = System.currentTimeMillis();
+		loads = 1;
 	}
 	
 	public void refresh() {
 		swap(refreshedTarget());
+		++loads;
 	}
 	
 	protected abstract Object refreshedTarget();
 
+	/**
+	 * @see org.springframework.beans.factory.dynamic.ExpirableObject#getLastRefreshMillis()
+	 */
+	public long getLastRefreshMillis() {
+		return lastRefresh;
+	}
+	/**
+	 * @see org.springframework.beans.factory.dynamic.ExpirableObject#getLoads()
+	 */
+	public int getLoads() {
+		return loads;
+	}
+	/**
+	 * @see org.springframework.beans.factory.dynamic.ExpirableObject#isModified()
+	 */
+	public boolean isModified() {
+		throw new UnsupportedOperationException();
+	}
 }

@@ -14,35 +14,19 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beans.factory.script;
-
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.dynamic.DynamicObject;
-import org.springframework.beans.factory.dynamic.ExpirableObject;
-
+package org.springframework.beans.factory.dynamic;
 
 /**
  * 
  * @author Rod Johnson
  * @version $Id$
  */
-public interface Script extends ExpirableObject {
+public interface ExpirableObject {
 	
-	/**
-	 * Resource as a String specifying resource location.
-	 * @return
-	 */
-	String getResourceString(); 
+	int getLoads();
 	
-	Object createObject() throws BeansException;
+	long getLastRefreshMillis();
 	
-	/** 
-	 * Empty
-	 * never return null
-	 */
-	Class[] getInterfaces();
-	
-	void addInterface(Class intf);
-	
+	boolean isModified();
 
 }

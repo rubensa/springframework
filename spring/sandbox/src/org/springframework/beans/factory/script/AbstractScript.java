@@ -41,6 +41,8 @@ public abstract class AbstractScript implements Script {
 
 	private ScriptContext context;
 	
+	private int loads;
+	
 	/**
 	 * List of Class
 	 */
@@ -79,16 +81,22 @@ public abstract class AbstractScript implements Script {
 		return getClass().getName() + ": location='" + location + "'";
 	}
 	
+	public int getLoads() {
+		return loads;
+	}
+	
 	/**
 	 * @see org.springframework.beans.factory.script.Script#createObject()
 	 */
 	public Object createObject() throws BeansException {
+		++loads;
 		InputStream is = null;
 		try {
 			is = context.getResourceLoader().getResource(location).getInputStream();
 			if (is == null) {
 				throw new ScriptNotFoundException("No script found at '" + location + "'");
 			}
+			lastReloadTime = System.currentTimeMillis();
 			return createObject(is);
 		} 
 		catch (FileNotFoundException ex) {
@@ -98,7 +106,7 @@ public abstract class AbstractScript implements Script {
 			throw new CompilationException("Error reading script from '" + location + "'", ex);
 		} 
 		finally {
-			lastReloadTime = System.currentTimeMillis();
+			
 			try {
 				if (is != null) {
 					is.close();
@@ -115,10 +123,13 @@ public abstract class AbstractScript implements Script {
 	/**
 	 * @see org.springframework.beans.factory.script.Script#isChanged()
 	 */
-	public boolean isChanged() {
+	public boolean isModified() {
 		try {
 			File f = context.getResourceLoader().getResource(location).getFile();
-			return f.lastModified() > lastReloadTime;
+			boolean changed = f.lastModified() > lastReloadTime;
+			log.info("Timestamp for '" + location + "': changed=" + changed + 
+					" lastModified=" + f.lastModified() + ", lastReload=" + lastReloadTime);
+			return changed;
 		}
 		catch (IOException ex) {
 			log.warn("Could not check resource date", ex);
@@ -129,7 +140,7 @@ public abstract class AbstractScript implements Script {
 	/**
 	 * @see org.springframework.beans.factory.script.Script#getLastReloadTime()
 	 */
-	public long getLastReloadTime() {
+	public long getLastRefreshMillis() {
 		return lastReloadTime;
 	}
 

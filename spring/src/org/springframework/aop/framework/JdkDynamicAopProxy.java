@@ -204,7 +204,8 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 	
 
 	/**
-	 * Equality means interceptors and interfaces are ==.
+	 * Equality means interceptors and interfaces and
+	 * TargetSource are equal.
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 * @param other may be a dynamic proxy wrapping an instance
 	 * of this class
@@ -231,16 +232,7 @@ final class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 		}
 		
 		// If we get here, aopr2 is the other AopProxy
-		if (this == aopr2)
-			return true;
-			
-		if (!Arrays.equals(aopr2.advised.getProxiedInterfaces(), this.advised.getProxiedInterfaces()))
-			return false;
-		
-		if (!Arrays.equals(aopr2.advised.getAdvisors(), this.advised.getAdvisors()))
-			return false;
-			
-		return true;
+		return AopProxyUtils.equalsInProxy(this.advised, aopr2.advised);
 	}
 
 }

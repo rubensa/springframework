@@ -7,6 +7,7 @@ package org.springframework.aop.framework;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.aopalliance.intercept.AspectException;
 
@@ -17,8 +18,6 @@ import org.aopalliance.intercept.AspectException;
  * @version $Id$
  */
 public abstract class AopProxyUtils {
-	
-	private final static String EQUALS = "equals";
 	
 	public static Method EQUALS_METHOD;
 	
@@ -77,6 +76,27 @@ public abstract class AopProxyUtils {
 		 }
 	}
 
+	/**
+	 * Note the same as equality of the AdvisedSupport objects
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static boolean equalsInProxy(AdvisedSupport a, AdvisedSupport b) {
+		if (a == b)
+			return true;
+	
+		if (!Arrays.equals(a.getProxiedInterfaces(), b.getProxiedInterfaces()))
+			return false;
+
+		if (!Arrays.equals(a.getAdvisors(), b.getAdvisors()))
+			return false;
+	
+		if (a.getTargetSource() == null)
+			return b.getTargetSource() == null;
+	
+		return a.getTargetSource().equals(b.getTargetSource());
+	}
 	
 
 }

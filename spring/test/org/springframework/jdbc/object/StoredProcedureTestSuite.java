@@ -393,7 +393,7 @@ public class StoredProcedureTestSuite extends JdbcTestCase {
 	}
 
 	public void testParameterMapper() throws Exception {
-		mockCallable.setObject(1, "$Proxy0", Types.VARCHAR);
+		mockCallable.setObject(1, "EasyMock for interface java.sql.Connection", Types.VARCHAR);
 		ctrlCallable.setVoidCallable();
 		mockCallable.registerOutParameter(2, Types.VARCHAR);
 		ctrlCallable.setVoidCallable();
@@ -607,7 +607,8 @@ public class StoredProcedureTestSuite extends JdbcTestCase {
 			
 			public Map createMap(Connection conn) throws SQLException {
 				Map inParms = new HashMap();
-				inParms.put("in", conn.getClass().getName());
+				String testValue = conn.toString();
+				inParms.put("in", testValue);
 				return inParms;
 			}
 		

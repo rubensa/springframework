@@ -72,6 +72,13 @@ autobuilds directory for information.
 			todir="${servers.install.dir}/${appserver.distname}/common/lib" 
 			file="${spring.lib.dir}/hsqldb/hsqldb.jar" 
 		/>
+			
+		<!-- tools.jar required for the application server -->
+		<copy 
+			todir="${servers.install.dir}/${appserver.distname}/common/lib"
+			file="${java.home}/../lib/tools.jar"
+			overwrite="true"
+		/>
 	</target>
 	
 	

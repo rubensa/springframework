@@ -127,7 +127,7 @@ public class VelocityViewTests extends TestCase {
 			fail();
 		}
 		catch (ApplicationContextException ex) {
-			assertEquals(ex.getRootCause(), templateLookupException);
+			assertEquals(ex.getCause(), templateLookupException);
 		}
 
 		wmc.verify();

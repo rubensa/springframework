@@ -19,9 +19,9 @@ import org.springframework.aop.MethodMatcher;
  */
 class InterceptorAndDynamicMethodMatcher {
 	
-	public final MethodMatcher methodMatcher;
+	final MethodMatcher methodMatcher;
 	
-	public final MethodInterceptor interceptor;
+	final MethodInterceptor interceptor;
 	
 	public InterceptorAndDynamicMethodMatcher(MethodInterceptor interceptor, MethodMatcher methodMatcher) {
 		this.interceptor = interceptor;

@@ -201,18 +201,4 @@ public interface BeanWrapper {
 	 */
 	boolean isWritableProperty(String propertyName);
 
-
-	/**
-	 * Invoke the named method. This interface is designed to encourage
-	 * working with bean properties, rather than methods, so this method
-	 * shouldn't be used in most cases, but it is necessary to provide
-	 * a simple means to invoking a named method.
-	 * @param methodName name of the method to invoke
-	 * @param args args to pass
-	 * @return follows Method.invoke(). Void calls return null;
-	 * primitives are wrapped as objects.
-	 * @see java.lang.reflect.Method#invoke
-	 */
-	Object invoke(String methodName, Object[] args) throws BeansException;
-
 }

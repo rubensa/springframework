@@ -8,6 +8,7 @@
 package org.springframework.rules.values;
 
 import java.beans.PropertyEditor;
+import java.io.File;
 
 import org.springframework.rules.UnaryFunction;
 
@@ -22,28 +23,28 @@ public class TypeConverter implements ValueModel {
 
     private UnaryFunction convertFrom;
 
-    public TypeConverter(ValueModel wrappedModel) {
+    public TypeConverter(ValueModel wrappedModel, UnaryFunction convertTo,
+            UnaryFunction convertFrom) {
         this.wrappedModel = wrappedModel;
+        this.convertTo = convertTo;
+        this.convertFrom = convertFrom;
     }
 
-    public TypeConverter(final PropertyEditor propertyEditor) {
+    public TypeConverter(ValueModel wrappedModel,
+            final PropertyEditor propertyEditor) {
+        this.wrappedModel = wrappedModel;
         this.convertTo = new UnaryFunction() {
+            public Object evaluate(Object o) {
+                propertyEditor.setValue((File)o);
+                return propertyEditor.getAsText();
+            }
+        };
+        this.convertFrom = new UnaryFunction() {
             public Object evaluate(Object o) {
                 propertyEditor.setAsText((String)o);
                 return propertyEditor.getValue();
             }
         };
-        this.convertFrom = new UnaryFunction() {
-            public Object evaluate(Object o) {
-                propertyEditor.setValue(o);
-                return propertyEditor.getAsText();
-            }
-        };
-    }
-
-    public TypeConverter(UnaryFunction convertTo, UnaryFunction convertFrom) {
-        this.convertTo = convertTo;
-        this.convertFrom = convertFrom;
     }
 
     /**
@@ -58,6 +59,14 @@ public class TypeConverter implements ValueModel {
      */
     public void set(Object value) {
         wrappedModel.set(convertFrom.evaluate(value));
+    }
+
+    public Object getWrappedValue() {
+        return wrappedModel.get();
+    }
+    
+    public ValueModel getWrappedValueModel() {
+        return wrappedModel;
     }
 
     /**

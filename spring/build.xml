@@ -287,8 +287,9 @@
 			<include name="docs/**"/>
 			<exclude name="docs/reference/**"/>
 			<include name="samples/countries/**"/>
-			<include name="samples/petclinic/**"/>
+			<include name="samples/imagedb/**"/>
 			<include name="samples/jpetstore/**"/>
+			<include name="samples/petclinic/**"/>
 			<include name="samples/tiles-example/**"/>
 			<include name="samples/webapp-minimal/**"/>
 			<include name="samples/webapp-typical/**"/>

@@ -19,10 +19,14 @@ package org.springframework.ejb.access;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.ejb.EJBObject;
+import javax.naming.NamingException;
 
 /**
- * <p>Superclass for interceptors proxying remote Stateless Session Beans.</p>
- * 
+ * Superclass for interceptors proxying remote Stateless Session Beans.
+ *
+ * <p>Such an interceptor must be the last interceptor in the advice chain.
+ * In this case, there is no target object.
+ *
  * @author Rod Johnson
  * @version $Id$
  */
@@ -31,9 +35,8 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 	/**
 	 * Return a new instance of the stateless session bean.
 	 * Can be overridden to change the algorithm.
-	 * @return EJBObject
 	 */
-	protected EJBObject newSessionBeanInstance() throws InvocationTargetException {
+	protected EJBObject newSessionBeanInstance() throws NamingException, InvocationTargetException {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Trying to create reference to remote EJB");
 		}
@@ -47,4 +50,5 @@ public abstract class AbstractRemoteSlsbInvokerInterceptor extends AbstractSlsbI
 		}
 		return session;
 	}
+
 }

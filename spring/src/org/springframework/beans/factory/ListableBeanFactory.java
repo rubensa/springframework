@@ -63,12 +63,16 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * getObjectType() in the case of FactoryBeans.
 	 * <p>If FactoryBean's getObjectType() returns null and the bean is a
 	 * singleton, the type of the actually created objects should be evaluated.
-	 * Prototypes without explicit object type specification will be ignored.
+	 * Prototypes without explicit object type specification should be ignored.
 	 * <p>Does not consider any hierarchy this factory may participate in.
 	 * @param type class or interface to match
+	 * @param includePrototypes whether to include prototype beans too
+	 * or just singletons (also applies to FactoryBeans)
+	 * @param includeFactoryBeans whether to include FactoryBeans too
+	 * or just normal beans
 	 * @return a Map with the matching beans, containing the bean names as
 	 * keys and the corresponding bean instances as values
 	 */
-	Map getBeansOfType(Class type);
+	Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans);
 
 }

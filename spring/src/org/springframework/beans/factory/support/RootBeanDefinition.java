@@ -6,8 +6,6 @@
 package org.springframework.beans.factory.support;
 
 import java.beans.PropertyDescriptor;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -146,7 +144,7 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	}
 
 	public String toString() {
-		return "RootBeanDefinition for class '" + getBeanClass().getName() + "'; " + super.toString();
+		return "Root bean definition with class [" + getBeanClass().getName() + "]";
 	}
 
 }

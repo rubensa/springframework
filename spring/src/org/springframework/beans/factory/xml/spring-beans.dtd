@@ -56,7 +56,7 @@
 	your bean in Java code using a name that's illegal as an XML id,
 	use the optional "name" attribute.
 -->
-<!ATTLIST bean id ID #REQUIRED>
+<!ATTLIST bean id ID #IMPLIED>
 
 <!--
 	Optional. Can be used to create an alias illegal in an id.

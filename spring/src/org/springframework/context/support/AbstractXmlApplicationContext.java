@@ -8,7 +8,7 @@ package org.springframework.context.support;
 import java.io.IOException;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.support.ListableBeanFactoryImpl;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextException;
@@ -58,7 +58,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractApplicationC
 	/**
 	 * Return the default BeanFactory for this context.
 	 */
-	public ListableBeanFactoryImpl getBeanFactory() {
+	public ConfigurableListableBeanFactory getBeanFactory() {
 		return xmlBeanFactory;
 	}
 

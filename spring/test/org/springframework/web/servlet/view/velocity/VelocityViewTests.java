@@ -39,7 +39,7 @@ public class VelocityViewTests extends TestCase {
 		VelocityView vv = new VelocityView();
 		MockControl wmc = MockControl.createControl(WebApplicationContext.class);
 		WebApplicationContext wac = (WebApplicationContext) wmc.getMock();
-		wac.getBeansOfType(VelocityConfiguration.class);
+		wac.getBeansOfType(VelocityConfiguration.class, true, true);
 		wmc.setReturnValue(new HashMap());
 		wac.getParentBeanFactory();
 		wmc.setReturnValue(null);
@@ -110,7 +110,7 @@ public class VelocityViewTests extends TestCase {
 				};
 			}
 		};
-		wac.getBeansOfType(VelocityConfiguration.class);
+		wac.getBeansOfType(VelocityConfiguration.class, true, true);
 		Map configurers = new HashMap();
 		configurers.put("velocityConfigurer", vc);
 		wmc.setReturnValue(configurers);
@@ -172,7 +172,7 @@ public class VelocityViewTests extends TestCase {
 				return new TestVelocityEngine(templateName, expectedTemplate);
 			}
 		};
-		wac.getBeansOfType(VelocityConfiguration.class);
+		wac.getBeansOfType(VelocityConfiguration.class, true, true);
 		Map configurers = new HashMap();
 		configurers.put("velocityConfigurer", vc);
 		wmc.setReturnValue(configurers);

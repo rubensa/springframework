@@ -75,6 +75,7 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 	 */
 	public void testLifecycleCallbacks() {
 		LifecycleBean lb = (LifecycleBean) getBeanFactory().getBean("lifecycle");
+		assertEquals("lifecycle", lb.getBeanName());
 		// The dummy business method will throw an exception if the
 		// necessary callbacks weren't invoked in the right order
 		lb.businessMethod();

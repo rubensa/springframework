@@ -76,4 +76,8 @@ public class DummyFactory extends AbstractFactoryBean implements InitializingBea
 		}
 	}
 
+	public Class getObjectType() {
+		return TestBean.class;
+	}
+
 }

@@ -26,8 +26,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
  * Use as follows:
  * 
  * BeanFactory bf = BeanFactoryBootstrap.getInstance().getBeanFactory();
- * 
- * 
+ *
  * TODO take properties from other sources besides System properties?
  * @author Rod Johnson
  * @since December 2, 2002
@@ -57,8 +56,7 @@ public class BeanFactoryBootstrap {
 	static {
 		initializeSingleton();
 	}
-	
-	
+
 	/**
 	 * Return the singleton instance of the bootstrap factory
 	 * @return BeanFactoryBootstrap
@@ -73,12 +71,11 @@ public class BeanFactoryBootstrap {
 		return instance;
 	}
 	
-	
 	/**
 	 * <b>For testing only. Cleans and reinitalizes the instance.
 	 * Do not use in a production application!</b>
 	 */
-	static void reinitialize() {
+	protected static void reinitialize() {
 		instance = null;
 		startupException = null;
 		initializeSingleton();
@@ -87,15 +84,13 @@ public class BeanFactoryBootstrap {
 	/** The Singleton instance */
 	private BeanFactory bootstrapFactory;
 	
-	
 	/**
-	 * Apply rules to load factory
+	 * Apply rules to load factory.
 	 */
 	private BeanFactoryBootstrap() throws BeansException {
-		
 		ListableBeanFactoryImpl startupFactory = new ListableBeanFactoryImpl();
 		try {
-			startupFactory.registerBeanDefinitions(System.getProperties(), "");
+			startupFactory.registerBeanDefinitions(System.getProperties());
 			this.bootstrapFactory = (BeanFactory) startupFactory.getBean(BEAN_FACTORY_BEAN_NAME);
 		}
 		catch (ClassCastException ex) {
@@ -108,11 +103,9 @@ public class BeanFactoryBootstrap {
 			throw new BootstrapException("Failed to bootstrap bean factory", ex);
 		}
 	}
-	
-	
+
 	/**
-	 * Return the BeanFactory managed by the Bootstrap
-	 * @return BeanFactory
+	 * Return the BeanFactory managed by the Bootstrap.
 	 */
 	public BeanFactory getBeanFactory() {
 		return bootstrapFactory;

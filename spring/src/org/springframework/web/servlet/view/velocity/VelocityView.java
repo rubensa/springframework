@@ -142,7 +142,8 @@ public class VelocityView extends AbstractView {
 			throw new ApplicationContextException("Must set templateName property on VelocityView");
 		}
 
-		Map configs = BeanFactoryUtils.beansOfTypeIncludingAncestors(VelocityConfiguration.class, getWebApplicationContext());
+		Map configs = BeanFactoryUtils.beansOfTypeIncludingAncestors(getWebApplicationContext(),
+																																 VelocityConfiguration.class, true, true);
 		if (configs.size() == 1) {
 			// We need exactly one VelocityConfiguration bean
 			VelocityConfiguration vconfig = (VelocityConfiguration) configs.values().iterator().next();

@@ -46,6 +46,7 @@ import org.springframework.dao.DataAccessException;
  * @see JdoTemplate
  * @see JdoInterceptor
  * @see #setFlushEager
+ * @version $Id$
  */
 public class JdoAccessor implements InitializingBean {
 
@@ -100,7 +101,7 @@ public class JdoAccessor implements InitializingBean {
 	 * <ul>
 	 * <li>additional communication roundtrips with the database, instead of a
 	 * single batch at transaction commit;
-	 * <li>the fact that an actual database rollback is needed if the Hibernate
+	 * <li>the fact that an actual database rollback is needed if the JDO
 	 * transaction rolls back (due to already submitted SQL statements).
 	 * </ul>
 	 */

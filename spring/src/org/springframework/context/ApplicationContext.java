@@ -22,15 +22,17 @@ import org.springframework.core.io.ResourceLoader;
 
 /** 
  * Central interface to provide configuration for an application.
- * This is read-only while the application is running,
- * but may be reloaded if the implementation supports this.
+ * This is read-only while the application is running, but may be
+ * reloaded if the implementation supports this.
  *
- * <p>The configuration provides:
+ * <p>An ApplicationContext provides:
  * <ul>
- * <li>Bean factory methods, inherited from ListableBeanFactory. This
- * avoids the need for applications to use singletons.
+ * <li>Bean factory methods, inherited from ListableBeanFactory.
+ * This avoids the need for applications to use singletons.
  * <li>The ability to resolve messages, supporting internationalization.
  * Inherited from the MessageSource interface.
+ * <li>The ability to load file resources in a generic fashion.
+ * Inherited from the ResourceLoader interface.
  * <li>The ability to publish events. Implementations must provide a means
  * of registering event listeners.
  * <li>Inheritance from a parent context. Definitions in a descendant context
@@ -39,9 +41,14 @@ import org.springframework.core.io.ResourceLoader;
  * its own child context that is independent of that of any other servlet.
  * </ul>
  *
+ * <p>In addition to standard bean factory lifecycle capabilities,
+ * ApplicationContext implementations need to detect ApplicationContextAware
+ * beans and invoke the setApplicationContext method accordingly.
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @version $Id$
+ * @see ApplicationContextAware#setApplicationContext
  */
 public interface ApplicationContext
     extends ListableBeanFactory, HierarchicalBeanFactory, MessageSource, ResourceLoader {

@@ -113,9 +113,8 @@ public class BeanDocClient {
 	 */
 	private static void usage() {
 		StringBuffer usg = new StringBuffer("Usage:\n")
-			.append("java org.springframework.beandoc.client.BeanDocClient [input file(s)] [output directory] [beandoc.properties]\n\n")
-			.append("Either a properties file, or BOTH input and output files, or all three arguments must\n")
-			.append("be specified.");
+			.append("java " + BeanDocClient.class.getName() +" [input file(s)] [output directory] [beandoc.properties]\n\n")
+			.append("Either a properties file, or BOTH input and output files, or all three arguments must be specified.");
         
 		System.out.println(usg.toString());
 	}

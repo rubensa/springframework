@@ -17,19 +17,41 @@
 package org.springframework.beandoc.client;
 
 
-
 /**
  * Composite class for configuration required to bootstrap a bean factory via
- * SpringLoader
+ * SpringLoader.  Simply aggregates a few parameters to pass to the <code>SpringLoader</code>'s
+ * static <code>getBeanFactory</code> method.
+ * <p>
+ * For ultimate flexibility you can specify a context definition file for beandoc.  It must contain a fully
+ * configured <code>ContextProcessor</code> with an id of "processor".
  * 
  * @author Darren Davison
  * @since 1.0
+ * @see SpringLoader
  */
 class SpringLoaderCommand {
 
     private String inputFiles;
     private String outputDir;
     private String beandocPropsLocation;
+    private String beandocContextLocation;
+    
+    /**
+     * @param inputFiles one or more resource resolveable Strings for input locations
+     * @param outputDir a writeable location for beandoc output
+     * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
+     *      mandatory properties are specified as parmeters to this method or as System properties 
+     *      using a "springbeandoc." qualifier (ie <code>springbeandoc.input.files=...</code> in 
+     *      place of <code>input.files=...</code>)
+     * @param private beandocContextLocation the location of a custom Context file that defines a 
+     *      ContextProcessor named "processor"    
+     */
+    public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation, String beandocContextLocation) {
+        this.inputFiles = inputFiles;
+        this.outputDir = outputDir;
+        this.beandocPropsLocation = beandocPropsLocation;
+        this.beandocContextLocation = beandocContextLocation;
+    }
     
     /**
      * @param inputFiles one or more resource resolveable Strings for input locations
@@ -40,20 +62,46 @@ class SpringLoaderCommand {
      *      place of <code>input.files=...</code>)
      */
     public SpringLoaderCommand(String inputFiles, String outputDir, String beandocPropsLocation) {
-        this.inputFiles = inputFiles;
-        this.outputDir = outputDir;
-        this.beandocPropsLocation = beandocPropsLocation;
+        this(inputFiles, outputDir, beandocPropsLocation, null);
+    }
+
+    /**
+     * @return location of the beandoc context file
+     */
+    public String getBeandocContextLocation() {
+        return beandocContextLocation;
     }
     
+    /**
+     * @return location of the beandoc.properties file
+     */
     public String getBeandocPropsLocation() {
         return beandocPropsLocation;
     }    
     
+    /**
+     * @return the input files identifier
+     */
     public String getInputFiles() {
         return inputFiles;
     }
     
+    /**
+     * @return the location of the output directory
+     */
     public String getOutputDir() {
         return outputDir;
     }
+    
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return new StringBuffer("inputFiles: ").append(inputFiles)
+        .append("; outputDir: ").append(outputDir)
+        .append("; beandocPropsLocation: ").append(beandocPropsLocation)
+        .append("; beandocContextLocation: ").append(beandocContextLocation)
+        .toString();
+    }
+
 }

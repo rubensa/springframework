@@ -155,7 +155,7 @@ public class JavaDocDecorator extends SimpleDecorator {
             if (className.startsWith(key)) {
                 String class2url = StringUtils.replace(className, ".", "/") + ".html";
                 String jdoc = (String) javaDocLocations.get(key);
-                if (jdoc == null) return null;
+                if (jdoc == null || jdoc.equals("")) return null;
                 if (!jdoc.endsWith("/")) jdoc += "/";
                 return jdoc + class2url;
             }

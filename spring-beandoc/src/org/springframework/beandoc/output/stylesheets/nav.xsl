@@ -26,10 +26,10 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:output 
-    	method="xml" 
-    	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-    	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-    	/>
+        method="xml" 
+        doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+        doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+        />
     <xsl:param name="beandocXslGraphType">png</xsl:param> 
 
     <!--
@@ -46,7 +46,7 @@
       
                 <h1>All Beans</h1>
                 <xsl:for-each select=".//bean">                    
-                    <xsl:sort select="@beandocHtmlFileName"/>
+                    <xsl:sort select="@id | @name"/>
                     <xsl:variable name="beandocId">
                         <xsl:choose>
                             <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
@@ -55,9 +55,9 @@
                         </xsl:choose>
                     </xsl:variable>
                     <xsl:if test="$beandocId != 'ignore'">
-	                    <a href="{@beandocHtmlFileName}#{$beandocId}" target="mainframe"><xsl:value-of select="$beandocId"/></a>
-		                <br/>
-	                </xsl:if>
+                        <a href="{@beandocHtmlFileName}#{$beandocId}" target="mainframe"><xsl:value-of select="$beandocId"/></a>
+                        <br/>
+                    </xsl:if>
                 </xsl:for-each>
             </body>
             

@@ -30,7 +30,7 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * SpringLoader is a simple helper class for use by multiple client types.  The
  * single static method configures a <code>BeanFactory</code> from a supplied 
- * <code>Properties</code> file and returns it to the caller.
+ * <code>SpringLoaderCommand</code> file and returns it to the caller.
  * 
  * @author Darren Davison
  * @since 1.0
@@ -41,7 +41,7 @@ class SpringLoader {
     
     private static final String PROP_OUTPUT_DIR = "output.dir";
     
-    private static final String BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
+    private static final String DEFAULT_BEANDOC_XML = "/org/springframework/beandoc/client/beandoc.xml";
     
     private static final String SYSTEM_PROPS_QUALIFIER = "springbeandoc.";
         
@@ -81,7 +81,8 @@ class SpringLoader {
         if (command.getOutputDir() != null)
             beandocProps.put(PROP_OUTPUT_DIR, command.getOutputDir());
         
-	    ClassPathResource res = new ClassPathResource(BEANDOC_XML);
+        String beandocXml = (command.getBeandocContextLocation() == null) ? DEFAULT_BEANDOC_XML : command.getBeandocContextLocation();
+	    ClassPathResource res = new ClassPathResource(beandocXml);
 	    XmlBeanFactory factory = new XmlBeanFactory(res);
 	    PropertyPlaceholderConfigurer cfgPlacehoder = new PropertyPlaceholderConfigurer();
 	    cfgPlacehoder.setProperties(beandocProps);

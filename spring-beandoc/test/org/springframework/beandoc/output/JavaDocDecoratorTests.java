@@ -49,6 +49,9 @@ public class JavaDocDecoratorTests extends TestCase {
             jdd.addJavaDocLocation(
                 "org.springframework.samples.",
                 null);
+            jdd.addJavaDocLocation(
+                "org.springframework.emptyvalue.",
+                "");
                 
             Element e = new Element("bean");
             e.setAttribute("class", "org.springframework.SomeClass");
@@ -71,6 +74,11 @@ public class JavaDocDecoratorTests extends TestCase {
                 
             e = new Element("bean");
             e.setAttribute("class", "org.springframework.samples.SomeClass");
+            jdd.decorateElement(e);            
+            assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+            
+            e = new Element("bean");
+            e.setAttribute("class", "org.springframework.emptyvalue.SomeClass");
             jdd.decorateElement(e);            
             assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
                                 

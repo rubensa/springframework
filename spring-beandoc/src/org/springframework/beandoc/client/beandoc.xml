@@ -2,33 +2,20 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <description>Application context definition for default beandoc setup</description>
-
-    <!-- ========================= GENERAL DEFINITIONS ========================= -->
-
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <description>Configurer that replaces ${...} placeholders with values from properties files</description>
-        <property name="locations">
-            <list>
-                <value>beandoc.properties</value>
-            </list>
-        </property>
-    </bean>
+    <description>Bean factory definition for default beandoc setup</description>
     
     <bean id="processor" class="org.springframework.beandoc.DefaultContextProcessor">
     	<description>main processor for generating output</description>
-    	
-    	<property name="inputFiles"><value>${input.files}</value></property>
-    	<property name="outputDir"><value>${output.dir}</value></property>
-    	<property name="validateFiles"><value>${validate.files}</value></property>
-    	<property name="transformers">
+    	<constructor-arg index="0"><value>${input.files}</value></constructor-arg>
+     	<constructor-arg index="1"><value>${output.dir}</value></constructor-arg>
+    	<property name="decorators">
     		<list>
     			<ref local="javaDocDecorator"/>
     			<ref local="graphVizDecorator"/>
     			<ref local="htmlDecorator"/>
     		</list>
     	</property>
-    	<property name="decorators">
+    	<property name="transformers">
     		<list>
     			<ref local="htmlTransformer"/>
     			<ref local="graphVizTransformer"/>
@@ -46,7 +33,6 @@
     
     <bean id="graphVizTransformer" class="org.springframework.beandoc.output.GraphVizTransformer">
     	<property name="dotExe"><value>${dot.location}</value></property>
-    	<property name="graphOutputType"><value>${graph.type}</value></property>
     </bean>
     
 </beans>

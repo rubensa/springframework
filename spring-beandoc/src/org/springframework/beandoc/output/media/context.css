@@ -65,6 +65,13 @@ img {
 	padding:2px;
 }
 
+#inlineContextImage {
+	width:200px;
+	height:150px;
+	float:left;
+	padding-right:15px;
+}
+
 table.beanHeader {
 	border-collapse: collapse;
 	border-width: 0px;

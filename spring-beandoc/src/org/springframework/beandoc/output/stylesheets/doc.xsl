@@ -26,7 +26,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     <xsl:output method="html" />
-
+	<xsl:param name="beandocXslGraphType">png</xsl:param> 
 
     <!--
 	 * Template structure of HTML output
@@ -73,7 +73,18 @@
     			</table>
     			<p/>
     			-->
-    			
+    			<xsl:variable name="fileRoot">
+    				<xsl:value-of select="substring-before(beans/@beandocFileName, '.xml')"/>
+    			</xsl:variable>
+	    			<p>
+	    			<a target="_blank" href="{$fileRoot}.{$beandocXslGraphType}" title="View full size image">
+		    			<img src="{$fileRoot}.{$beandocXslGraphType}" alt="Graph" id="inlineContextImage" />
+		    		</a>
+		    		<strong>Description:</strong><br/>
+		    		<xsl:value-of select="beans/description"/>
+		    		<br style="clear:both"/>
+		    	</p>
+		    	
     			<!-- do beandoc -->
     			<xsl:apply-templates select="beans/bean"/>
     			

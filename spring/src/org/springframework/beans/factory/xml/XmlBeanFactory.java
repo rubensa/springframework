@@ -85,10 +85,6 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
 	private static final String SINGLETON_ATTRIBUTE = "singleton";
 
-	private static final String DISTINGUISHED_VALUE_ATTRIBUTE = "distinguishedValue";
-
-	private static final String NULL_DISTINGUISHED_VALUE = "null";
-
 	private static final String PROPERTY_ELEMENT = "property";
 
 	private static final String REF_ELEMENT = "ref";
@@ -115,9 +111,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 
 	private static final String PROP_ELEMENT = "prop";
 	
-	private static final String DEPENDENCY_CHECK_ATTRIBUTE = "dependencyCheck";
-	
-	private static final String DEFAULT_DEPENDENCY_CHECK_VALUE = "none";
+	private static final String DEPENDENCY_CHECK_ATTRIBUTE = "dependency-check";
 	
 	private static final String AUTOWIRE_ATTRIBUTE = "autowire";
 
@@ -221,7 +215,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 	 */
 	public void loadBeanDefinitions(String fileName) throws BeansException {
 		try {
-			logger.info("Loading XmlBeanFactory from file '" + fileName + "'");
+			logger.info("Loading XmlBeanFactory from file [" + fileName + "]");
 			loadBeanDefinitions(new FileInputStream(fileName));
 		}
 		catch (IOException ex) {
@@ -293,7 +287,7 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 	private void loadBeanDefinition(Element el) throws BeansException {
 		// The DTD guarantees an id attribute is present
 		String id = el.getAttribute(ID_ATTRIBUTE);
-		logger.debug("Parsing bean definition with id '" + id + "'");
+		logger.debug("Parsing bean definition with id [" + id + "]");
 
 		// Create BeanDefinition now: we'll build up PropertyValues later
 		AbstractBeanDefinition beanDefinition;
@@ -417,11 +411,6 @@ public class XmlBeanFactory extends ListableBeanFactoryImpl {
 	 * Get the value of a property element. May be a list.
 	 */
 	private Object getPropertyValue(Element e) {
-		String distinguishedValue = e.getAttribute(DISTINGUISHED_VALUE_ATTRIBUTE);
-		if (distinguishedValue != null && distinguishedValue.equals(NULL_DISTINGUISHED_VALUE)) {
-			return null;
-		}
-
 		// Can only have one element child:
 		// value, ref, collection
 		NodeList nl = e.getChildNodes();

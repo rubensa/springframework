@@ -67,8 +67,7 @@
 	"all" includes both types of dependency checking
 	
 -->
-<!ATTLIST bean dependencyCheck (none|objects|simple|all) "none"> 
-
+<!ATTLIST bean dependency-check (none|objects|simple|all) "none">
 
 <!--
 	Optional attribute controlling whether to "autowire"
@@ -102,7 +101,6 @@
 -->
 <!ATTLIST bean autowire (no|byName|byType) "no"> 
 
-
 <!-- 
 	Optional attribute for the name of the custom initialization method
 	to invoke after setting bean properties. The method must have no arguments,
@@ -129,8 +127,7 @@
 <!ATTLIST bean singleton (true|false) "true"> 
 
 <!--
-	Optional. Can be used to create an alias
-	illegal in an id.
+	Optional. Can be used to create an alias illegal in an id.
 -->
 <!ATTLIST bean name CDATA #IMPLIED>
 

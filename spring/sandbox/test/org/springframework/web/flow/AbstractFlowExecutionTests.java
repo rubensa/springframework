@@ -44,7 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
  * 
  * @author Keith Donald
  */
-public abstract class AbstractFlowTests extends AbstractTransactionalSpringContextTests {
+public abstract class AbstractFlowExecutionTests extends AbstractTransactionalSpringContextTests {
 
 	/**
 	 * The flow whose execution is being tested.

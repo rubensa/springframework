@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
 /**
  * Utility class to use for JDBC queries from J2EE applications.
@@ -73,7 +74,8 @@ public class JdbcHelper {
 
 	public Object runSQLFunction(final String sql, final Class requiredType, int[] types, Object[] args) throws DataAccessException {
 		FunctionHandler fh = new FunctionHandler(sql, requiredType);
-		PreparedStatementCreator psc = PreparedStatementCreatorFactory.newPreparedStatementCreator(sql, types, args);
+		PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(sql, types);
+		PreparedStatementCreator psc = pscf.newPreparedStatementCreator(args);
 		jdbcTemplate.query(psc, fh);
 		return fh.getFunctionValue();
 	}
@@ -109,6 +111,7 @@ public class JdbcHelper {
 
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
 				PreparedStatement ps = conn.prepareStatement(sql);
+				DataSourceUtils.applyTransactionTimeout(ps, jdbcTemplate.getDataSource());
 				// Don't prepare if no params
 				if (params != null)
 					for (int i = 0; i < params.length; i++) {

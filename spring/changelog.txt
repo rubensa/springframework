@@ -6,8 +6,11 @@ $Id$
 Changes in version 1.0 RC1 (XX.12.2003)
 ---------------------------------------
 * dissolved event propagation support in BeanWrapper and DataBinder
+* fixed ManagedList and ManagedMap resolution for prototypes in AbstractBeanFactory
 * added "preInstantiateSingletons" method to ConfigurableListableBeanFactory interface
 * fixed "lazy-init" support in AbstractApplicationContext, delegating to the factory's "preInstantiateSingletons" now
+* AbstractWizardFormController overrides "handleInvalidSubmit" to show the initial page of a new wizard form now
+* renamed org.springframework.web.servlet.view.velocity.VelocityConfiguration to VelocityConfig
 
 
 Changes in version 1.0 M3 (25.11.2003)

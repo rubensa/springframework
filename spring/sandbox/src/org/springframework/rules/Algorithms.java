@@ -52,4 +52,15 @@ public abstract class Algorithms {
         }
         return null;
     }
+    
+    public static void forEach(Collection collection, UnaryProcedure callback) {
+        forEach(collection.iterator(), callback);
+    }
+
+    public static void forEach(Iterator it, UnaryProcedure callback) {
+        while (it.hasNext()) {
+            callback.run(it.next());
+        }
+    }
+    
 }

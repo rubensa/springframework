@@ -14,14 +14,12 @@ import org.springframework.aop.Pointcut;
  * @author Rod Johnson
  * @version $Id$
  */
-public class DefaultBeforeAdvisor implements BeforeAdvisor {
-	
-	private final Pointcut pointcut;
+public class DefaultBeforeAdvisor extends AbstractPointcutAdvisor implements BeforeAdvisor {
 	
 	private final BeforeAdvice advice;
 	
 	public DefaultBeforeAdvisor(Pointcut pointcut, BeforeAdvice advice) {
-		this.pointcut = pointcut;
+		super(pointcut);
 		this.advice = advice;
 	}
 	
@@ -34,20 +32,6 @@ public class DefaultBeforeAdvisor implements BeforeAdvisor {
 	 */
 	public BeforeAdvice getBeforeAdvice() {
 		return advice;
-	}
-
-	/**
-	 * @see org.springframework.aop.Advisor#isPerInstance()
-	 */
-	public boolean isPerInstance() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see org.springframework.aop.PointcutAdvisor#getPointcut()
-	 */
-	public Pointcut getPointcut() {
-		return pointcut;
 	}
 
 }

@@ -354,10 +354,8 @@ public class BeanWrapperImpl implements BeanWrapper {
 		while ((last && i >= 0) || i < propertyPath.length()) {
 			switch (propertyPath.charAt(i)) {
 				case PROPERTY_KEY_PREFIX_CHAR:
-					inKey = true;
-					break;
 				case PROPERTY_KEY_SUFFIX_CHAR:
-					inKey = false;
+					inKey = !inKey;
 					break;
 				case NESTED_PROPERTY_SEPARATOR_CHAR:
 					if (!inKey) {

@@ -1231,6 +1231,12 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 			public boolean isNativeConnectionNecessaryForNativeStatements() {
 				return false;
 			}
+			public boolean isNativeConnectionNecessaryForNativePreparedStatements() {
+				return false;
+			}
+			public boolean isNativeConnectionNecessaryForNativeCallableStatements() {
+				return false;
+			}
 			public Connection getNativeConnection(Connection con) {
 				return con;
 			}

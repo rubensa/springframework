@@ -117,9 +117,6 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	 */
 	private Set managedSingletons = new HashSet();
 
-	/** Map of shared objects, keyed by String */
-	private Map sharedObjects = new HashMap();
-
 
 	//---------------------------------------------------------------------
 	// Constructors
@@ -424,32 +421,6 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	 */
 	public String getResourceBasePath() {
 		return (new File("")).getAbsolutePath() + File.separatorChar;
-	}
-
-	public synchronized Object sharedObject(String key) {
-		Object sharedObject = this.sharedObjects.get(key);
-		if (sharedObject == null && getParent() != null) {
-			return getParent().sharedObject(key);
-		}
-		else {
-			return sharedObject;
-		}
-	}
-
-	public synchronized void shareObject(String key, Object o) {
-		logger.info("Set shared object '" + key + "'");
-		this.sharedObjects.put(key, o);
-	}
-
-	public synchronized Object removeSharedObject(String key) {
-		logger.info("Removing shared object '" + key + "'");
-		Object o = this.sharedObjects.remove(key);
-		if (o == null) {
-			logger.warn("Shared object '" + key + "' not present; could not be removed");
-		} else {
-			logger.info("Removed shared object '" + key + "'");
-		}
-		return o;
 	}
 
 

@@ -55,9 +55,9 @@ public class SQLStateSQLExceptionTranslator implements SQLExceptionTranslator {
 		if (sqlstate != null && sqlstate.length() >= 2) {
 			String classCode = sqlstate.substring(0, 2);
 			if (BAD_SQL_CODES.contains(classCode))
-				throw new BadSqlGrammarException("(" + task + "): SQL grammatical error '" + sql + "'", sql, sqlex);
+				return new BadSqlGrammarException("(" + task + "): SQL grammatical error '" + sql + "'", sql, sqlex);
 			if (INTEGRITY_VIOLATION_CODES.contains(classCode))
-				throw new DataIntegrityViolationException("(" + task + "): data integrity violated by SQL '" + sql + "'", sqlex);
+				return new DataIntegrityViolationException("(" + task + "): data integrity violated by SQL '" + sql + "'", sqlex);
 		}
 		
 		// We couldn't identify it more precisely

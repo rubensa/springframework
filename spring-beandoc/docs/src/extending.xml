@@ -89,24 +89,32 @@
     <literal>SimpleDecorator</literal> subsequently iterates each <ulink
     url="http://www.jdom.org/docs/apidocs/org/jdom/Element.html"><literal>Element</literal></ulink>
     of each <literal>Document</literal> and calls a protected
-    <literal>decorateElement()</literal> method for subclasses to fill out.
-    This is what we'll do here;</para>
+    <literal>decorateElement()</literal> method for subclasses to fill out. A
+    subclass can specify a <literal>Filter</literal> to restrict the
+    <literal>Element</literal> types it is presented with for decoration This
+    is what we'll do here;</para>
 
     <programlisting>public class CsvDecorator extends SimpleDecorator {
 
     private static final String ATTRIBUTE_PREFIX = "beandocCSV";
 
-    public static final String ATTRIBUTE_COUNTER = ATTRIBUTE_PREFIX + "Count";
+    static final String ATTRIBUTE_COUNTER = ATTRIBUTE_PREFIX + "Count";
 
     private int count = 0;
 
     /**
-     * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement
+     * specify only 'bean' elements as a Filter - we're not interested in
+     * decorating anything else
+     */
+    public CsvDecorator() {
+        setFilter(new ElementFilter("bean"));
+    }
+    
+    /**
+     * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement(org.jdom.Element)
      */
     protected void decorateElement(Element element) {
-        // we're only interested in bean elements..
-        if ("bean".equals(element.getName()))
-            element.setAttribute(ATTRIBUTE_COUNTER, String.valueOf(++count));            
+        element.setAttribute(ATTRIBUTE_COUNTER, String.valueOf(++count));      
     }
 }</programlisting>
 
@@ -260,7 +268,14 @@
 
 ...</programlisting>
 
-    <para>Your <literal>&lt;beandoc/&gt;</literal> task in Ant's buildfile
+    <para><note>
+        <para>It may appear more natural to nest the "csv" beans as anonymous
+        inner beans instead of supplying <literal>&lt;ref&gt;</literal> tags
+        for them in the <literal>&lt;list&gt;</literal>s. Remember though that
+        unless they are top level beans with a referenceable id you will be
+        unable to post-process them by setting properties in
+        beandoc.properties.</para>
+      </note>Your <literal>&lt;beandoc/&gt;</literal> task in Ant's buildfile
     will need to be told where your alternative context definition file is,
     for example;</para>
 

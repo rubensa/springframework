@@ -20,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.MethodInvoker;
+import org.springframework.beans.support.ArgumentConvertingMethodInvoker;
 
 /**
  * FactoryBean which returns a value which is the result of a static or instance
@@ -78,7 +78,8 @@ import org.springframework.util.MethodInvoker;
  * @since 2003-11-21
  * @version $Id$
  */
-public class MethodInvokingFactoryBean extends MethodInvoker implements FactoryBean, InitializingBean {
+public class MethodInvokingFactoryBean extends ArgumentConvertingMethodInvoker
+		implements FactoryBean, InitializingBean {
 
 	private boolean singleton = true;
 

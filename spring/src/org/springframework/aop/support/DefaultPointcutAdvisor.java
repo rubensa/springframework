@@ -67,5 +67,9 @@ public class DefaultPointcutAdvisor implements PointcutAdvisor {
 		return other.advice.equals(this.advice) && 
 			other.pointcut.equals(this.pointcut);
 	}
+	
+	public String toString() {
+		return "DefaultPointcutAdvisor: pointcut=[" + pointcut + "] advice=[" + advice + "]";
+	}
 
 }

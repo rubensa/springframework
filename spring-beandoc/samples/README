@@ -1,0 +1,19 @@
+THE SPRING FRAMEWORK BEANDOC TOOL
+---------------------------------
+
+
+In order to get cracking straight away with some sample output you will need
+to ensure that you have built the beandoc jar first.  If you haven't yet done
+so, switch to the ../build directory and run 'ant dist'.  Then come back here.
+
+Without modification, the sample output will be a transformation of the 
+context files in the jpetstore/ directory.  Execute either of the 
+'runbeandox-XXX' files for your platform (remember to chmod +x the .sh files
+first).  Output will be placed in the ../target/beandoc/ directory assuming
+a successful run.
+
+More information on configuring, running and extending BeanDoc is in the 
+reference documentation.
+
+
+Darren Davison, Jan. 2005

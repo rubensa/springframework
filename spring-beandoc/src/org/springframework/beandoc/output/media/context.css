@@ -115,7 +115,12 @@ div.beanHeader {
     vertical-align: middle;    
     float: left;
   }
-  
+
+div.beanFooter {
+	text-align: right;
+	font-size: smaller;
+  }
+
 #pageFooter {
 	font-style: italic;
 	text-align: right;

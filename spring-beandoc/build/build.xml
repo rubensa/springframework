@@ -131,286 +131,289 @@
             </fileset>
         </copy>
     </target>
-	
-	
-	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	 target: docclean
-    	 depends: 
-    	 notes: 
+    
+    
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         target: docclean
+         depends: 
+         notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <target name="docclean" description="Delete documentation">
-		<delete quiet="true" dir="${target.refdocs.pdf.dir}"/>
-		<delete quiet="true" dir="${target.refdocs.html.dir}"/>
-		<delete quiet="true" dir="${target.javadocs.dir}"/>
-	</target>
+        <delete quiet="true" dir="${target.refdocs.pdf.dir}"/>
+        <delete quiet="true" dir="${target.refdocs.html.dir}"/>
+        <delete quiet="true" dir="${target.javadocs.dir}"/>
+    </target>
     
     
     <!-- 
-    	Create API docs 
+        Create API docs 
     -->
     <target name="docapi" description="Generate framework Javadocs.">
-		<mkdir dir="${target.javadocs.dir}"/>
+        <mkdir dir="${target.javadocs.dir}"/>
 
-		<javadoc sourcepath="${src.dir}" destdir="${target.javadocs.dir}" windowtitle="Spring Framework"
-				source="1.3" author="true" version="true" use="true" defaultexcludes="true">
-			<doctitle><![CDATA[<h1>Spring BeanDoc</h1>]]></doctitle>
-			<bottom><![CDATA[<i>Copyright (C) 2003-2004 The Spring Framework Project.</i>]]></bottom>
-			<classpath refid="all-libs"/>
-			<packageset dir="${src.dir}">
-				<include name="org/springframework/**"/>
-			</packageset>
-		</javadoc>
+        <javadoc sourcepath="${src.dir}" destdir="${target.javadocs.dir}" windowtitle="Spring Framework"
+                source="1.3" author="true" version="true" use="true" defaultexcludes="true">
+            <doctitle><![CDATA[<h1>Spring BeanDoc</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright (C) 2003-2004 The Spring Framework Project.</i>]]></bottom>
+            <classpath refid="all-libs"/>
+            <packageset dir="${src.dir}">
+                <include name="org/springframework/**"/>
+            </packageset>
+        </javadoc>
 
-	</target>
+    </target>
 
 
-	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	 target: docpdf
-    	 depends: 
-    	 notes: 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         target: docpdf
+         depends: 
+         notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <target name="docpdf" description="Compile reference documentation to pdf">
-		<mkdir dir="${target.refdocs.pdf.dir}"/>
-		<mkdir dir="${target.refdocs.pdf.dir}/images"/>
+        <mkdir dir="${target.refdocs.pdf.dir}"/>
+        <mkdir dir="${target.refdocs.pdf.dir}/images"/>
 
-		<copy todir="${target.refdocs.pdf.dir}/images">
-			<fileset dir="${refdocs.src.dir}/images">
-				<include name="*.gif"/>
-				<include name="*.svg"/>
-				<include name="*.jpg"/>
-			</fileset>
-		</copy>
+        <copy todir="${target.refdocs.pdf.dir}/images">
+            <fileset dir="${refdocs.src.dir}/images">
+                <include name="*.gif"/>
+                <include name="*.svg"/>
+                <include name="*.jpg"/>
+                <include name="*.png"/>
+            </fileset>
+        </copy>
 
-		<java failonerror="yes" classname="com.icl.saxon.StyleSheet" fork="true" dir="${refdocs.src.dir}">
-			<classpath>
-				<fileset dir="${docbook.dir}/lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="-o"/>
-			<arg value="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
-			<arg value="${refdocs.src.dir}/index.xml"/>
-			<arg value="${refdocs.src.dir}/styles/fopdf.xsl"/>
-		</java>
+        <java failonerror="yes" classname="com.icl.saxon.StyleSheet" fork="true" dir="${refdocs.src.dir}">
+            <classpath>
+                <fileset dir="${docbook.dir}/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <arg value="-o"/>
+            <arg value="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
+            <arg value="${refdocs.src.dir}/index.xml"/>
+            <arg value="${refdocs.src.dir}/styles/fopdf.xsl"/>
+        </java>
 
-		<java classname="org.apache.fop.apps.Fop" fork="true" dir="${refdocs.src.dir}">
-			<classpath>
-				<fileset dir="${docbook.dir}/lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
-			<arg value="${target.refdocs.pdf.dir}/spring-beandoc.pdf"/>
-		</java>
+        <java classname="org.apache.fop.apps.Fop" fork="true" dir="${refdocs.src.dir}">
+            <classpath>
+                <fileset dir="${docbook.dir}/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <arg value="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
+            <arg value="${target.refdocs.pdf.dir}/spring-beandoc.pdf"/>
+        </java>
 
-		<delete file="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
-		<delete dir="${target.refdocs.pdf.dir}/images"/>
-	</target>
+        <delete file="${target.refdocs.pdf.dir}/docbook_fop.tmp"/>
+        <delete dir="${target.refdocs.pdf.dir}/images"/>
+    </target>
 
 
-	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	 target: dochtml
-    	 depends: 
-    	 notes: 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         target: dochtml
+         depends: 
+         notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <target name="dochtml" description="Compile reference documentation to chunked html">
-		<mkdir dir="${target.refdocs.html.dir}"/>
-		<mkdir dir="${target.refdocs.html.dir}/styles"/>
-		
-		<copy todir="${target.refdocs.html.dir}/images">
-			<fileset dir="${refdocs.src.dir}/images">
-				<include name="*.gif"/>
-				<include name="*.svg"/>
-				<include name="*.jpg"/>
-			</fileset>
-		</copy>
-		
-		<copy todir="${target.refdocs.html.dir}/styles">
-			<fileset dir="${refdocs.src.dir}/styles">
-				<include name="*.css"/>
-			</fileset>
-		</copy>
+        <mkdir dir="${target.refdocs.html.dir}"/>
+        <mkdir dir="${target.refdocs.html.dir}/styles"/>
+        
+        <copy todir="${target.refdocs.html.dir}/images">
+            <fileset dir="${refdocs.src.dir}/images">
+                <include name="*.gif"/>
+                <include name="*.svg"/>
+                <include name="*.jpg"/>
+                <include name="*.png"/>
+            </fileset>
+        </copy>
+        
+        <copy todir="${target.refdocs.html.dir}/styles">
+            <fileset dir="${refdocs.src.dir}/styles">
+                <include name="*.css"/>
+            </fileset>
+        </copy>
 
-		<java classname="com.icl.saxon.StyleSheet" fork="true" dir="${target.refdocs.html.dir}">
-			<classpath>
-				<fileset dir="${docbook.dir}/lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="${refdocs.src.dir}/index.xml"/>
-			<arg value="${refdocs.src.dir}/styles/html_chunk.xsl"/>
-		</java>
-	</target>
+        <java classname="com.icl.saxon.StyleSheet" fork="true" dir="${target.refdocs.html.dir}">
+            <classpath>
+                <fileset dir="${docbook.dir}/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <arg value="${refdocs.src.dir}/index.xml"/>
+            <arg value="${refdocs.src.dir}/styles/html_chunk.xsl"/>
+        </java>
+    </target>
 
 
-	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	 target: dochtmlsingle
-    	 depends: 
-    	 notes: 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         target: dochtmlsingle
+         depends: 
+         notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <target name="dochtmlsingle" description="Compile reference documentation to single html">
-		<mkdir dir="${target.refdocs.html.dir}"/>
-		<mkdir dir="${target.refdocs.html.dir}/styles"/>
+        <mkdir dir="${target.refdocs.html.dir}"/>
+        <mkdir dir="${target.refdocs.html.dir}/styles"/>
 
-		<copy todir="${target.refdocs.html.dir}/images">
-			<fileset dir="${refdocs.src.dir}/images">
-				<include name="*.gif"/>
-				<include name="*.svg"/>
-				<include name="*.jpg"/>
-			</fileset>
-		</copy>
-		
-		<copy todir="${target.refdocs.html.dir}/styles">
-			<fileset dir="${refdocs.src.dir}/styles">
-				<include name="*.css"/>
-			</fileset>
-		</copy>
+        <copy todir="${target.refdocs.html.dir}/images">
+            <fileset dir="${refdocs.src.dir}/images">
+                <include name="*.gif"/>
+                <include name="*.svg"/>
+                <include name="*.jpg"/>
+                <include name="*.png"/>
+            </fileset>
+        </copy>
+        
+        <copy todir="${target.refdocs.html.dir}/styles">
+            <fileset dir="${refdocs.src.dir}/styles">
+                <include name="*.css"/>
+            </fileset>
+        </copy>
 
-		<java classname="com.icl.saxon.StyleSheet" fork="true" dir="${refdocs.src.dir}">
-			<classpath>
-				<fileset dir="${docbook.dir}/lib">
-					<include name="**/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg value="-o"/>
-			<arg value="${target.refdocs.html.dir}/index.html"/>
-			<arg value="${refdocs.src.dir}/index.xml"/>
-			<arg value="${refdocs.src.dir}/styles/html.xsl"/>
-		</java>
-	</target>
+        <java classname="com.icl.saxon.StyleSheet" fork="true" dir="${refdocs.src.dir}">
+            <classpath>
+                <fileset dir="${docbook.dir}/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <arg value="-o"/>
+            <arg value="${target.refdocs.html.dir}/index.html"/>
+            <arg value="${refdocs.src.dir}/index.xml"/>
+            <arg value="${refdocs.src.dir}/styles/html.xsl"/>
+        </java>
+    </target>
 
 
-	<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    	 target: docall
-    	 depends: docapi,dochtml,docpdf,docapi
-    	 notes: 
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         target: docall
+         depends: docapi,dochtml,docpdf,docapi
+         notes: 
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <target name="docall"
-		depends="docapi,dochtml,docpdf"
-		description="Generate and copy all reference and api documentation">
-	</target>
-	
-	
-	<!--
-		Compile test classes into target area
-	-->
-	<target name="buildtests" depends="build" description="Compile test source tree java files into class files">
+        depends="docapi,dochtml,docpdf"
+        description="Generate and copy all reference and api documentation">
+    </target>
+    
+    
+    <!--
+        Compile test classes into target area
+    -->
+    <target name="buildtests" depends="build" description="Compile test source tree java files into class files">
 
-		<mkdir dir="${target.testclasses.dir}"/>
+        <mkdir dir="${target.testclasses.dir}"/>
 
-		<javac destdir="${target.testclasses.dir}" source="1.3" target="1.3" debug="${debug}"
-				deprecation="false" optimize="false" failonerror="true">
-			<src path="${test.dir}"/>
-			<classpath refid="all-libs"/>
-			<classpath location="${target.classes.dir}"/>
-		</javac>
+        <javac destdir="${target.testclasses.dir}" source="1.3" target="1.3" debug="${debug}"
+                deprecation="false" optimize="false" failonerror="true">
+            <src path="${test.dir}"/>
+            <classpath refid="all-libs"/>
+            <classpath location="${target.classes.dir}"/>
+        </javac>
 
-		<!-- Pick up logging config from test directory -->
-		<copy todir="${target.testclasses.dir}" preservelastmodified="true">
-			<fileset dir="${test.dir}">
-				<include name="**/*.properties"/>
-				<include name="**/*.xml"/>
-			</fileset>
-		</copy>
-	</target>
-
-
-	<!--
-		Run test suite. Includes and excludes are read from
-		build.properties. However it's possible to run specific tests by passing in
-		the test.includes and (optionally) test.excludes properties through the
-		command line, as below:
-			ant tests -Dtest.includes=org/springframework/beandoc/**/*Test*
-	-->
-	<target name="tests" depends="buildtests" description="Run tests">
-
-		<mkdir dir="${target.junit.reports.dir}"/>
-
-		<junit forkmode="perBatch" printsummary="yes" haltonfailure="yes" haltonerror="yes">
-
-			<!-- Must go first to ensure any jndi.properties files etc take precedence  -->
-			<classpath location="${target.testclasses.dir}"/>
-			<classpath location="${target.classes.dir}"/>
-
-			<!-- Need files loaded as resources -->
-			<classpath location="${test.dir}"/>
-
-			<classpath refid="all-libs"/>
-
-			<formatter type="plain" usefile="false"/>
-			<formatter type="xml"/>
-
-			<batchtest fork="yes" todir="${target.junit.reports.dir}">
-				<fileset dir="${target.testclasses.dir}"
-							includes="${test.includes}"
-							excludes="${test.excludes}">
-				</fileset>
-			</batchtest>
-		</junit>
-	</target>
-	
-	
-	<!--
-		Run test suite and generate test summary.
-		Does not halt on failure or error, in contrast to the "tests" target above.
-	-->
-	<target name="testsummary" depends="buildtests" description="Run tests and generate test summary">
+        <!-- Pick up logging config from test directory -->
+        <copy todir="${target.testclasses.dir}" preservelastmodified="true">
+            <fileset dir="${test.dir}">
+                <include name="**/*.properties"/>
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+    </target>
 
 
-		<mkdir dir="${target.junit.reports.dir}"/>
-		<mkdir dir="${target.junit.summary.dir}"/>
+    <!--
+        Run test suite. Includes and excludes are read from
+        build.properties. However it's possible to run specific tests by passing in
+        the test.includes and (optionally) test.excludes properties through the
+        command line, as below:
+            ant tests -Dtest.includes=org/springframework/beandoc/**/*Test*
+    -->
+    <target name="tests" depends="buildtests" description="Run tests">
 
-		<junit printsummary="yes" haltonfailure="no" haltonerror="no">
+        <mkdir dir="${target.junit.reports.dir}"/>
 
-			<!-- Must go first to ensure any jndi.properties files etc take precedence  -->
-			<classpath location="${target.testclasses.dir}"/>
-			<classpath location="${target.classes.dir}"/>
+        <junit forkmode="perBatch" printsummary="yes" haltonfailure="yes" haltonerror="yes">
 
-			<!-- Need files loaded as resources -->
-			<classpath location="${test.dir}"/>
+            <!-- Must go first to ensure any jndi.properties files etc take precedence  -->
+            <classpath location="${target.testclasses.dir}"/>
+            <classpath location="${target.classes.dir}"/>
 
-			<classpath refid="all-libs"/>
+            <!-- Need files loaded as resources -->
+            <classpath location="${test.dir}"/>
 
-			<formatter type="plain" usefile="false"/>
-			<formatter type="xml"/>
+            <classpath refid="all-libs"/>
 
-			<batchtest fork="yes" todir="${target.junit.reports.dir}">
-				<fileset dir="${target.testclasses.dir}" includes="${test.includes}" excludes="${test.excludes}"/>
-			</batchtest>
+            <formatter type="plain" usefile="false"/>
+            <formatter type="xml"/>
 
-		</junit>
+            <batchtest fork="yes" todir="${target.junit.reports.dir}">
+                <fileset dir="${target.testclasses.dir}"
+                            includes="${test.includes}"
+                            excludes="${test.excludes}">
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+    
+    
+    <!--
+        Run test suite and generate test summary.
+        Does not halt on failure or error, in contrast to the "tests" target above.
+    -->
+    <target name="testsummary" depends="buildtests" description="Run tests and generate test summary">
 
-		<junitreport todir="${target.junit.reports.dir}">
 
-			<fileset dir="${target.junit.reports.dir}">
-				<include name="TEST-*.xml"/>
-			</fileset>
-			<report todir="${target.junit.summary.dir}"/>
+        <mkdir dir="${target.junit.reports.dir}"/>
+        <mkdir dir="${target.junit.summary.dir}"/>
 
-		</junitreport>
+        <junit printsummary="yes" haltonfailure="no" haltonerror="no">
 
-	</target>
-	
-	
-	
-	<!--
-		Release zip file generation
-	-->
-	<target 
-		name="release" 
-		depends="clean,tests,dist,docpdf" 
-		description="Build distribution units and all documentation.  Generate release zip">
-		
-		<delete file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
-		<copy file="${target.refdocs.pdf.dir}/spring-beandoc.pdf" todir="${basedir}"/>
-		<zip zipfile="${target.dist.dir}/${project.name}-${project.version}.zip">
-			<fileset dir="${basedir}">
-				<exclude name="target/**/*"/>
-				<exclude name="docs/**/*"/>
-			</fileset>
-		</zip>
-		<delete file="${basedir}/spring-beandoc.pdf"/>
-		
-	</target>
+            <!-- Must go first to ensure any jndi.properties files etc take precedence  -->
+            <classpath location="${target.testclasses.dir}"/>
+            <classpath location="${target.classes.dir}"/>
+
+            <!-- Need files loaded as resources -->
+            <classpath location="${test.dir}"/>
+
+            <classpath refid="all-libs"/>
+
+            <formatter type="plain" usefile="false"/>
+            <formatter type="xml"/>
+
+            <batchtest fork="yes" todir="${target.junit.reports.dir}">
+                <fileset dir="${target.testclasses.dir}" includes="${test.includes}" excludes="${test.excludes}"/>
+            </batchtest>
+
+        </junit>
+
+        <junitreport todir="${target.junit.reports.dir}">
+
+            <fileset dir="${target.junit.reports.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report todir="${target.junit.summary.dir}"/>
+
+        </junitreport>
+
+    </target>
+    
+    
+    
+    <!--
+        Release zip file generation
+    -->
+    <target 
+        name="release" 
+        depends="clean,tests,dist,docpdf" 
+        description="Build distribution units and all documentation.  Generate release zip">
+        
+        <delete file="${target.dist.dir}/${project.name}-${project.version}.zip"/>
+        <copy file="${target.refdocs.pdf.dir}/spring-beandoc.pdf" todir="${basedir}"/>
+        <zip zipfile="${target.dist.dir}/${project.name}-${project.version}.zip">
+            <fileset dir="${basedir}">
+                <exclude name="target/**/*"/>
+                <exclude name="docs/**/*"/>
+            </fileset>
+        </zip>
+        <delete file="${basedir}/spring-beandoc.pdf"/>
+        
+    </target>
     
 </project>

@@ -47,6 +47,7 @@
             </head>
   
             <body>
+                <a name="top"><xsl:comment>::</xsl:comment></a>
                 <xsl:call-template name="menuBar"/>
                       
                 <xsl:variable name="fileRoot">
@@ -216,7 +217,8 @@
         </table>
         </xsl:if>
         
-        <br/><hr/>
+        <div class="beanFooter"><a href="#top"><img src="top.gif" alt="Up"/> back to top</a></div>
+        <hr/>
     </xsl:template>
     
     

@@ -11,15 +11,26 @@
     and feel to it, although the tool is highly configurable and extensible to
     meet the needs of most.</para>
 
-    <figure>
-      <title>Screenshot of sample beandoc output in FireFox</title>
+    <mediaobject>
+      <imageobject>
+        <imagedata align="center" fileref="images/main-firefox.png" />
+      </imageobject>
 
-      <mediaobject>
-        <imageobject>
-          <imagedata align="left" fileref="images/main-firefox.png" />
-        </imageobject>
-      </mediaobject>
-    </figure>
+      <caption>
+        <para>Sample output in Firefox</para>
+      </caption>
+    </mediaobject>
+
+    <para>The tool documents a multi-file application context in a repeatable,
+    fast way and is runnable from standard development tools such as IDE's,
+    Ant or command shells. Re-using a standard set of properties tailored to
+    your needs with different projects or context files is a trivial
+    operation.</para>
+
+    <para>BeanDoc integrates with other open source tools where appropriate.
+    Significant among them is the graphing package for generating the image
+    graphs, and this will need to be downloaded and installed separately on
+    your machine. Fortunately this is an extremely simple operation.</para>
   </sect1>
 
   <sect1>
@@ -30,9 +41,10 @@
 
       <para>Spring BeanDoc is part of the SpringFramework CVS repository,
       existing as a separate module from the main Spring sources. You can
-      v<ulink
-      url="http://cvs.sourceforge.net/viewcvs.py/springframework/spring-beandoc/">iew
-      the module</ulink> via ViewCVS or <ulink url="???">check it out
+      <ulink
+      url="http://cvs.sourceforge.net/viewcvs.py/springframework/spring-beandoc/">view
+      the module</ulink> via ViewCVS or <ulink
+      url="http://sourceforge.net/cvs/?group_id=73357">check it out
       anonymously</ulink> using normal CVS access. The module name is
       <emphasis role="bold">spring-beandoc</emphasis>.</para>
     </sect2>
@@ -59,7 +71,7 @@
     </sect2>
   </sect1>
 
-  <sect1>
+  <sect1 id="overview-graphviz">
     <title>GraphViz</title>
 
     <para>One of the most useful features of BeanDoc is its ability to

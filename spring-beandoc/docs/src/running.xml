@@ -11,8 +11,9 @@
     location. If you wish to take advantage of the <link
     linkend="overview-graphviz">graphing output</link> too
     (<emphasis>highly</emphasis> recomended) you'll additionally need to
-    specify the location of your <ulink url="???">GraphViz</ulink> executable
-    once it's installed.</para>
+    specify the location of your <ulink
+    url="http://www.graphviz.org">GraphViz</ulink> executable once it's
+    installed.</para>
 
     <para>BeanDoc can be run either via a command line (main method) class, or
     via an <ulink url="http://ant.apache.org">Ant</ulink> task which is

@@ -10,13 +10,12 @@ import java.lang.reflect.Method;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.beans.FatalBeanException;
-import org.springframework.beans.MethodInvocationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jndi.AbstractJndiLocator;
 
 /**
- * Superclass for all AOP interceptors invoking Stateless Session Beans.
- * These must be the last interceptor in the interceptor chain. In this case,
+ * Superclass for AOP interceptors invoking remote or local Stateless Session Beans.
+ * Such an interceptor must be the last interceptor in the advice chain. In this case,
  * there is no target object.
  * @author Rod Johnson
  * @version $Id$
@@ -25,13 +24,14 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 		implements MethodInterceptor, InitializingBean {
 
 	/** 
-	 * No arg create() method required on EJB homes,
-	 * but not part of EJBLocalHome
+	 * The no-arg create() method required on EJB homes,
+	 * but not part of EJBLocalHome. We cache this in the located() method.
 	 */
 	private Method createMethod;
 	
 	/**
-	 * The home interface. Must be object as it could be either EJBHome or EJBLocalHome.
+	 * The EJB's home interface. 
+	 * The type must be Object as it could be either EJBHome or EJBLocalHome.
 	 */
 	private Object cachedHome;
 	
@@ -44,7 +44,7 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 	
  	/**
  	 * Implementation of AbstractJndiLocator's callback, to cache the home wrapper.
-	 * Triggers afterLocated after execution.
+	 * Invokes afterLocated() after execution.
 	 * @see #afterLocated
 	 */
 	protected void located(Object jndiObject) {
@@ -64,13 +64,14 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 
 	/**
 	 * Initialization hook after the AbstractJndiLocator's located callback.
+	 * This implementation does nothing.
 	 * @see #located
 	 */
 	protected void afterLocated() {
 	}
 
 	/**
-	 * Invoke the create() method on the cached home.
+	 * Invoke the create() method on the cached EJB home.
 	 * @return a new EJBObject or EJBLocalObject
 	 */
 	protected Object create() throws InvocationTargetException {

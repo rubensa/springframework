@@ -57,7 +57,6 @@ import org.springframework.web.servlet.view.AbstractUrlBasedView;
  *
  * <p>Depends on a VelocityConfig object such as VelocityConfigurer
  * being accessible in the current web application context.
-
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @version $Id$

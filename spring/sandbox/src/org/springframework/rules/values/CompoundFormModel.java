@@ -108,6 +108,14 @@ public class CompoundFormModel implements FormModel {
                 });
     }
 
+    public Object getFormObject() {
+        return domainObjectAccessStrategy.getDomainObject();
+    }
+    
+    public ValueModel getFormObjectHolder() {
+        return domainObjectAccessStrategy.getDomainObjectHolder();
+    }
+
     /**
      * @see org.springframework.rules.values.FormModel#hasErrors()
      */

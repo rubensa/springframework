@@ -109,7 +109,7 @@ public class DispatcherServlet extends FrameworkServlet {
 	public static final String THEME_RESOLVER_BEAN_NAME = "themeResolver";
 
 	/**
-	 * Well-known name for the ViewResolver object in the bean factory for this namespace.
+	 * Well-known name for the ExceptionResolver object in the bean factory for this namespace.
 	 */
 	public static final String EXCEPTION_RESOLVER_BEAN_NAME = "exceptionResolver";
 

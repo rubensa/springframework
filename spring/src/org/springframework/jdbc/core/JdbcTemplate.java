@@ -64,7 +64,8 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
  * @version $Id$
  * @since May 3, 2001
  * @see org.springframework.dao
- * @see org.springframework.jndi.JndiObjectFactoryBean
+ * @see org.springframework.jdbc.object
+ * @see org.springframework.jdbc.datasource
  */
 public class JdbcTemplate implements InitializingBean {
 
@@ -138,10 +139,13 @@ public class JdbcTemplate implements InitializingBean {
 	}
 
 	/**
-	 * Set the exception translator used in this class.
+	 * Set the exception translator for this instance.
 	 * If no custom translator is provided, a default is used
-	 * which examines the SQLException's SQLState code.
-	 * @param exceptionTranslator custom exception translator
+	 * which examines the SQLException's vendor-specific error code.
+	 * @param exceptionTranslator exception translator
+	 * @see SQLErrorCodeSQLExceptionTranslator
+	 * @see SQLStateSQLExceptionTranslator
+	 *
 	 */
 	public void setExceptionTranslator(SQLExceptionTranslator exceptionTranslator) {
 		this.exceptionTranslator = exceptionTranslator;
@@ -723,4 +727,4 @@ public class JdbcTemplate implements InitializingBean {
 		}
 	}
 
-}	// class JdbcTemplate
+}

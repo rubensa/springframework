@@ -691,8 +691,8 @@ public abstract class AbstractBeanFactory implements AutowireCapableBeanFactory,
 				Constructor constructor = constructors[i];
 				if (constructor.getParameterTypes().length < minNrOfArgs) {
 					throw new BeanCreationException(mergedBeanDefinition.getResourceDescription(), beanName,
-							minNrOfArgs + " constructor arguments specified but no " +
-							"matching constructor found in bean '" + beanName + "'");
+							minNrOfArgs + " constructor arguments specified but no matching constructor found in bean '" +
+							beanName + "' (hint: specify index arguments for simple parameters to avoid type ambiguities)");
 				}
 				Class[] argTypes = constructor.getParameterTypes();
 				Object[] args = new Object[argTypes.length];

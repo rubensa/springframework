@@ -117,6 +117,15 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		// Shouldn't have changed first instance
 		assertTrue(inherits.getAge() == 1);
 	}
+	
+	public void testDependenciesMaterializeThis() throws Exception {
+		InputStream pis = getClass().getResourceAsStream("dependenciesMaterializeThis.xml");
+		XmlBeanFactory bf = new XmlBeanFactory(pis);
+		DummyBo bos = (DummyBo) bf.getBean("boSingleton");
+		DummyBo bop = (DummyBo) bf.getBean("boPrototype");
+		assertNotSame(bos, bop);
+		assertEquals(bos.dao, bop.dao);
+	}
 
 	/**
 	 * Check that a prototype can't inherit from a bogus parent.

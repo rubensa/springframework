@@ -457,7 +457,11 @@ public abstract class AbstractBeanFactory implements HierarchicalBeanFactory, Co
 
 		// eagerly cache singletons to be able to resolve circular references
 		// even when triggered by lifecycle interfaces like BeanFactoryAware
-		if (mergedBeanDefinition.isSingleton()) {
+		
+		if (mergedBeanDefinition.isSingleton() 
+				// We need this check because getBean on dependencies above may have materialized this bean
+				&& null == singletonCache.get(beanName)
+				) {
 			registerSingleton(beanName, bean);
 		}
 

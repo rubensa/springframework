@@ -11,11 +11,9 @@ import org.springframework.aop.Advisor;
 /**
  * Interface allowing extension to the Spring AOP framework to allow
  * handling of new Advisors and Advice types.
- * Implementing objects can wrap Advice objects in an Advisor,
- * or convert an arbitrary Advisor type to InterceptionAroundAdvisor
- * for use in the Spring AOP framework.
- * <br>Typically an implementation will understand an Advice type
- * and the matching AdvisorWrapper: e.g. MethodBeforeAdvice and BeforeAdvisor.
+ * Implementing objects can create AOP Alliance Interceptors from
+ * custom advice types, enabling these advice types to be used
+ * in the Spring AOP framework, which uses interception under the covers.
  * <br>There is no need for most Spring users to implement this interface;
  * do so only if you need to introduce more Advisor or Advice types to
  * Spring.

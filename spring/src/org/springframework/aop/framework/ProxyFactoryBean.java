@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.aopalliance.intercept.AspectException;
 import org.aopalliance.intercept.Interceptor;
+
 import org.springframework.aop.Advisor;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.adapter.GlobalAdvisorAdapterRegistry;
@@ -23,9 +24,9 @@ import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.beans.factory.support.BeanFactoryUtils;
 import org.springframework.core.OrderComparator;
 
 /**

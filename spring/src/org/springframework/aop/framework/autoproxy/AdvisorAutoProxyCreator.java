@@ -9,22 +9,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.aop.Advisor;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.beans.factory.support.BeanFactoryUtils;
 
 /**
  * BeanPostProcessor implementation that creates AOP proxies based on all candidate
  * Advisors in the current BeanFactory. This class is completely generic; it contains
  * no special code to handle any particular aspects, such as pooling aspects.
- * <br>
- * It's possible to filter out advisors--for example, to use multiple post processors
- * of this type in the same factory--by setting the <code>usePrefix</code> property
+ *
+ * <p>It's possible to filter out advisors -- for example, to use multiple post processors
+ * of this type in the same factory - -by setting the <code>usePrefix</code> property
  * to true, in which case only advisors beginning with the AdvisorAutoProxyCreator's
- * bean name followed by a . (like "aapc.") will be used.
- * This default prefix can be changed from the bean name by setting the
- * <code>advisorBeanNamePrefix</code> property. The separator (.) will also be used
- * in this case.
+ * bean name followed by a dot (like "aapc.") will be used. This default prefix can be
+ * changed from the bean name by setting the <code>advisorBeanNamePrefix</code> property.
+ * The separator (.) will also be used in this case.
+ *
  * @author Rod Johnson
  * @version $Id$
  */
@@ -33,11 +33,6 @@ public class AdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator imp
 	/** Separator between prefix and remainder of bean name */
 	public final static String SEPARATOR = ".";
 	
-	/**
-	 * BeanFactory that owns this post processor
-	 */
-	private ListableBeanFactory owningFactory;
-	
 	/** Prefix that will screen out auto proxying */
 	private String advisorBeanNamePrefix;
 	
@@ -45,7 +40,7 @@ public class AdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator imp
 	
 	
 	/**
-	 * @return return the prefix for bean names that will cause them not to
+	 * Return the prefix for bean names that will cause them not to
 	 * be considered for autoproxying by this object.
 	 */
 	public String getAdvisorBeanNamePrefix() {
@@ -53,10 +48,9 @@ public class AdvisorAutoProxyCreator extends AbstractAdvisorAutoProxyCreator imp
 	}
 
 	/** 
-	 * Set the prefix for bean names that will cause them to 
-	 * be excluded for autoproxying by this object. This prefix
-	 * should be set to avoid circular references. Default value is
-	 * the bean name of this object.
+	 * Set the prefix for bean names that will cause them to be excluded for
+	 * autoproxying by this object. This prefix should be set to avoid
+	 * circular references. Default value is the bean name of this object.
 	 * @param infrastructureBeanNamePrefix new exclusion prefix
 	 */
 	public void setAdvisorBeanNamePrefix(String infrastructureBeanNamePrefix) {

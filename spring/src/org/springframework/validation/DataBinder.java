@@ -290,7 +290,8 @@ public class DataBinder {
 	 */
 	protected Object[] getArgumentsForBindingError(String field) {
 		return new Object[] {
-			new DefaultMessageSourceResolvable(new String[] {getObjectName() + "." + field, field}, null, field)
+			new DefaultMessageSourceResolvable(new String[] {getObjectName() + Errors.NESTED_PATH_SEPARATOR + field, field},
+																				 null, field)
 		};
 	}
 

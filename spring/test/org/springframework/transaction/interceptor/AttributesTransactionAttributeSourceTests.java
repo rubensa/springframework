@@ -72,6 +72,54 @@ public class AttributesTransactionAttributeSourceTests extends TestCase {
 		assertEquals(txAtt, actual);
 	}
 	
+	/**
+	 * Test the important case where the invocation is on a proxied interface method, but
+	 * the attribute is defined on the target class
+	 * @throws Exception
+	 */
+	public void testTransactionAttributeDeclaredOnClassMethod() throws Exception {
+		Method classMethod = TestBean.class.getMethod("getAge", null);
+		Method interfaceMethod = ITestBean.class.getMethod("getAge", null);
+
+		TransactionAttribute txAtt = new DefaultTransactionAttribute();
+
+		MapAttributes ma = new MapAttributes();
+		AttributesTransactionAttributeSource atas = new AttributesTransactionAttributeSource(ma);
+		ma.register(classMethod, new Object[] { new Object(), "", txAtt, "er" });
+		// Target class implements ITestBean
+		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean.class);
+		assertEquals(txAtt, actual);
+	}
+	
+	public void testTransactionAttributeDeclaredOnInterfaceMethodOnly() throws Exception {
+		Method interfaceMethod = ITestBean.class.getMethod("getAge", null);
+
+		TransactionAttribute txAtt = new DefaultTransactionAttribute();
+
+		MapAttributes ma = new MapAttributes();
+		AttributesTransactionAttributeSource atas = new AttributesTransactionAttributeSource(ma);
+		ma.register(interfaceMethod, new Object[] { new Object(), "", txAtt, "er" });
+		// Target class implements ITestBean
+		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean.class);
+		assertEquals(txAtt, actual);
+	}
+	
+	public void testTransactionAttributeDeclaredOnTargetClassMethodTakesPrecedenceOverAttributeDeclaredOnInterfaceMethod() throws Exception {
+		Method classMethod = TestBean.class.getMethod("getAge", null);
+		Method interfaceMethod = ITestBean.class.getMethod("getAge", null);
+
+		TransactionAttribute interfaceAtt = new DefaultTransactionAttribute();
+		TransactionAttribute classAtt = new DefaultTransactionAttribute();
+
+		MapAttributes ma = new MapAttributes();
+		AttributesTransactionAttributeSource atas = new AttributesTransactionAttributeSource(ma);
+		ma.register(interfaceMethod, new Object[] { new Object(), "", interfaceAtt, "er" });
+		ma.register(classMethod, new Object[] { new Object(), "", classAtt, "er" });
+		// Target class implements ITestBean
+		TransactionAttribute actual = atas.getTransactionAttribute(interfaceMethod, TestBean.class);
+		assertEquals(classAtt, actual);
+	}
+	
 	public void testRollbackRulesAreApplied() throws Exception {
 		Method method = TestBean.class.getMethod("getAge", null);
 

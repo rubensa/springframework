@@ -121,8 +121,8 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 	public void testDependenciesMaterializeThis() throws Exception {
 		InputStream pis = getClass().getResourceAsStream("dependenciesMaterializeThis.xml");
 		XmlBeanFactory bf = new XmlBeanFactory(pis);
-		DummyBo bos = (DummyBo) bf.getBean("boSingleton");
-		DummyBo bop = (DummyBo) bf.getBean("boPrototype");
+		DummyBoImpl bos = (DummyBoImpl) bf.getBean("boSingleton");
+		DummyBoImpl bop = (DummyBoImpl) bf.getBean("boPrototype");
 		assertNotSame(bos, bop);
 		assertEquals(bos.dao, bop.dao);
 	}

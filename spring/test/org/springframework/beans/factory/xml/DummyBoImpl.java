@@ -10,8 +10,16 @@ package org.springframework.beans.factory.xml;
  * @author Rod Johnson
  * @version $Id$
  */
-public interface DummyBo {
+public class DummyBoImpl implements DummyBo {
 	
-	void something();
+	DummyDao dao;
+
+	public DummyBoImpl(DummyDao dao) {
+		this.dao = dao;
+	}
+	
+	public void something() {
+		
+	}
 
 }

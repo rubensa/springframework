@@ -5,17 +5,14 @@
  
 package org.springframework.aop.target;
 
-import java.io.InputStream;
-
 import junit.framework.TestCase;
 
 import org.springframework.aop.interceptor.SideEffectBean;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.support.ClasspathBeanDefinitionRegistryLocation;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
 
 /**
- * 
  * @author Rod Johnson
  * @version $Id$
  */
@@ -26,20 +23,10 @@ public class PrototypeTargetSourceTests extends TestCase {
 	
 	private BeanFactory beanFactory;
 	
-	public PrototypeTargetSourceTests(String s) {
-		super(s);
-	}
-	
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
-		// Load from classpath, NOT a file path
-		InputStream is = getClass().getResourceAsStream("prototypeTests.xml");
-		this.beanFactory = new XmlBeanFactory(is, new ClasspathBeanDefinitionRegistryLocation( "prototypeTests.xml"));
+		this.beanFactory = new XmlBeanFactory(new ClassPathResource("prototypeTests.xml", getClass()));
 	}
-	
-	
+
 	/**
 	 * Test that multiple invocations of the prototype bean will result
 	 * in no change to visible state, as a new instance is used.

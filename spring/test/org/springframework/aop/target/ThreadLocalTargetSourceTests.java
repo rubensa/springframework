@@ -5,17 +5,14 @@
 
 package org.springframework.aop.target;
 
-import java.io.InputStream;
-
 import junit.framework.TestCase;
 
 import org.springframework.aop.interceptor.SideEffectBean;
 import org.springframework.beans.ITestBean;
-import org.springframework.beans.factory.support.ClasspathBeanDefinitionRegistryLocation;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.core.io.ClassPathResource;
 
 /**
- * 
  * @author Rod Johnson
  * @version $Id$
  */
@@ -26,23 +23,12 @@ public class ThreadLocalTargetSourceTests extends TestCase {
 
 	private XmlBeanFactory beanFactory;
 	
-	public ThreadLocalTargetSourceTests(String s) {
-		super(s);
-	}
-
-	/**
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
-		// Load from classpath, NOT a file path
-		InputStream is = getClass().getResourceAsStream("threadLocalTests.xml");
-		this.beanFactory = new XmlBeanFactory(is, new ClasspathBeanDefinitionRegistryLocation("threadLocalTests.xml"));
+		this.beanFactory = new XmlBeanFactory(new ClassPathResource("threadLocalTests.xml", getClass()));
 	}
 	
 	/**
-	 * We must simulate container shutdown, which should clear
-	 * threads
-	 * @see junit.framework.TestCase#tearDown()
+	 * We must simulate container shutdown, which should clear threads.
 	 */
 	protected void tearDown() {
 		this.beanFactory.destroySingletons();

@@ -39,6 +39,7 @@ import org.springframework.aop.Pointcut;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.ThrowsAdvice;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
+import org.springframework.aop.target.EmptyTargetSource;
 import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.util.StringUtils;
 
@@ -62,36 +63,17 @@ import org.springframework.util.StringUtils;
 public class AdvisedSupport extends ProxyConfig implements Advised, Serializable {
 	
 	/**
-	 * Class of TargetSource when there's no target, and behavior is supplied
-	 * by interfaces and advisors.
-	 */
-	private static class EmptyTargetSource implements TargetSource, Serializable {
-
-		public Class getTargetClass() {
-			return null;
-		}
-
-		public boolean isStatic() {
-			return true;
-		}
-
-		public Object getTarget() {
-			return null;
-		}
-
-		public void releaseTarget(Object target) {
-		}
-	};
-
-	/**
 	 * Canonical TargetSource when there's no target, and behavior is supplied
 	 * by the advisors.
 	 */
-	public static final TargetSource EMPTY_TARGET_SOURCE = new EmptyTargetSource();
+	public static final TargetSource EMPTY_TARGET_SOURCE = EmptyTargetSource.INSTANCE;
 
 	/** List of AdvisedSupportListener */
 	private transient List listeners = new LinkedList();
 
+	/**
+	 * Package-protected to allow direct access for efficiency
+	 */
 	TargetSource targetSource = EMPTY_TARGET_SOURCE;
 
 	transient AdvisorChainFactory advisorChainFactory;
@@ -574,7 +556,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised, Serializable
 	}
 	
 	
-
 	/**
 	 * For debugging/diagnostic use.
 	 */

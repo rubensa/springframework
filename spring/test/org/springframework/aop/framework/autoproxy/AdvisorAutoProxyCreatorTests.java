@@ -35,17 +35,7 @@ public class AdvisorAutoProxyCreatorTests extends TestCase {
 	private static final String TXMANAGER_BEAN_NAME = "txManager";
 	
 	/**
-	 * Constructor for ProxyFactoryBeanTests.
-	 * @param arg0
-	 */
-	public AdvisorAutoProxyCreatorTests(String arg0) {
-		super(arg0);
-	}
-	
-	/**
 	 * Return a bean factory with attributes and EnterpriseServices configured.
-	 * @return
-	 * @throws IOException
 	 */
 	protected BeanFactory getBeanFactory() throws IOException {
 		return new ClassPathXmlApplicationContext("/org/springframework/aop/framework/autoproxy/advisorAutoProxyCreator.xml");
@@ -275,7 +265,6 @@ public class AdvisorAutoProxyCreatorTests extends TestCase {
 		rb.rollbackOnly(true);
 		assertEquals(1, txMan.rollbacks);
 	}
-
 
 	
 	/**

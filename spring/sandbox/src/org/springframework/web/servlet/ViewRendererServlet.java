@@ -37,6 +37,7 @@ import org.springframework.web.portlet.context.PortletApplicationContext;
  * 
  * @author William G. Thompson, Jr.
  * @version $Id$
+ * TODO: Throw appropriate exceptions, not just Exception. PortletException?
  */
 public class ViewRendererServlet extends HttpServletBean {
     

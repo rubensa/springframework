@@ -56,12 +56,15 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 		}
 
 		// call superclass to invoke the EJB create method on the cached home
-		EJBLocalObject session = (EJBLocalObject) create();
+		Object ejbInstance = create();
+		if (!(ejbInstance instanceof EJBLocalObject)) {
+			throw new AspectException("EJB instance [" + ejbInstance + "] is not a local SLSB");
+		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("Obtained reference to local EJB: " + session);
+			logger.debug("Obtained reference to local EJB: " + ejbInstance);
 		}
-		return session;
+		return (EJBLocalObject) ejbInstance;
 	}
 
 	/**
@@ -75,7 +78,9 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 		}
 		catch (InvocationTargetException ex) {
 			Throwable targetException = ex.getTargetException();
-			logger.info("Method of local EJB [" + getJndiName() + "] threw exception", targetException);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Method of local EJB [" + getJndiName() + "] threw exception", targetException);
+			}
 			if (targetException instanceof CreateException) {
 				throw new AspectException("Could not create local EJB [" + getJndiName() + "]", targetException);
 			}
@@ -92,7 +97,7 @@ public class LocalSlsbInvokerInterceptor extends AbstractSlsbInvokerInterceptor 
 					ejb.remove();
 				}
 				catch (Throwable ex) {
-					logger.warn("Could not invoker 'remove' on Stateless Session Bean proxy", ex);
+					logger.warn("Could not invoke 'remove' on local EJB proxy", ex);
 				}
 			}
 		}

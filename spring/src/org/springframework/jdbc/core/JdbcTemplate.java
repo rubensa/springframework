@@ -563,7 +563,7 @@ public class JdbcTemplate extends JdbcAccessor implements IJdbcTemplate, Initial
 		catch (SQLException ex) {
 			throw getExceptionTranslator().translate(
 			    "JdbcTemplate.execute()",
-			    cs.toString(),
+			    csc.toString(),
 			    ex);
 		}
 		finally {

@@ -16,6 +16,7 @@
 
 package org.springframework.aop.support;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
@@ -24,8 +25,9 @@ import java.lang.reflect.Method;
  * @author Juergen Hoeller
  * @since 11.02.2004
  * @see #isMatch
+ * @version $Id$
  */
-public class NameMatchMethodPointcut extends StaticMethodMatcherPointcut {
+public class NameMatchMethodPointcut extends StaticMethodMatcherPointcut implements Serializable {
 
 	private String[] mappedNames = new String[0];
 

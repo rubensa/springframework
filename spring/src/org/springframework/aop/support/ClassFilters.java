@@ -16,6 +16,8 @@
 
 package org.springframework.aop.support;
 
+import java.io.Serializable;
+
 import org.springframework.aop.ClassFilter;
 
 /**
@@ -35,7 +37,7 @@ public abstract class ClassFilters {
 	}
 	
 	
-	private static class UnionClassFilter implements ClassFilter {
+	private static class UnionClassFilter implements ClassFilter, Serializable {
 		
 		private ClassFilter[] filters;
 		
@@ -51,10 +53,9 @@ public abstract class ClassFilters {
 			}
 			return false;
 		}
-		
 	}
 	
-	private static class IntersectionClassFilter implements ClassFilter {
+	private static class IntersectionClassFilter implements ClassFilter, Serializable {
 		
 		private ClassFilter[] filters;
 		
@@ -70,7 +71,6 @@ public abstract class ClassFilters {
 			}
 			return true;
 		}
-	
 	}
 
 }

@@ -16,6 +16,7 @@
 
 package org.springframework.aop.support;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import org.springframework.aop.ClassFilter;
@@ -29,7 +30,7 @@ import org.springframework.aop.Pointcut;
  * @author Rod Johnson
  * @version $Id$
  */
-class UnionPointcut implements Pointcut {
+class UnionPointcut implements Pointcut, Serializable {
 	
 	private final Pointcut a;
 

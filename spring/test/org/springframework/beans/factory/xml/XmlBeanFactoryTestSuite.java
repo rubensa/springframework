@@ -103,10 +103,13 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals("inner1", hasInnerBeans.getSpouse().getName());
 		assertEquals(6, hasInnerBeans.getSpouse().getAge());
 		assertNotNull(hasInnerBeans.getFriends());
-		assertFalse(hasInnerBeans.getFriends().isEmpty());
-		TestBean inner2 = (TestBean) hasInnerBeans.getFriends().iterator().next();
+		List friends = (List) hasInnerBeans.getFriends();
+		assertEquals(2, friends.size());
+		TestBean inner2 = (TestBean) friends.get(0);
 		assertEquals("inner2", inner2.getName());
 		assertEquals(7, inner2.getAge());
+		TestBean innerFactory = (TestBean) friends.get(1);
+		assertEquals(DummyFactory.SINGLETON_NAME, innerFactory.getName());
 		assertNotNull(hasInnerBeans.getSomeMap());
 		assertFalse(hasInnerBeans.getSomeMap().isEmpty());
 		TestBean inner3 = (TestBean) hasInnerBeans.getSomeMap().get("someKey");

@@ -991,7 +991,8 @@ public abstract class AbstractBeanFactory implements AutowireCapableBeanFactory,
 			AbstractBeanDefinition bd = (AbstractBeanDefinition) value;
 			bd.setSingleton(false);  // inner beans should never be cached as singleton
 			String innerBeanName = "(inner bean for property '" + beanName + "." + argName + "')";
-			return createBean(innerBeanName, getMergedBeanDefinition(innerBeanName, bd));
+			Object beanInstance = createBean(innerBeanName, getMergedBeanDefinition(innerBeanName, bd));
+			return getObjectForSharedInstance(innerBeanName, beanInstance);
 		}
 		else if (value instanceof RuntimeBeanReference) {
 			RuntimeBeanReference ref = (RuntimeBeanReference) value;

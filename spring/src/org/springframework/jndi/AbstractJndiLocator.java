@@ -5,6 +5,8 @@
 
 package org.springframework.jndi;
 
+import java.util.Properties;
+
 import javax.naming.NamingException;
 
 import org.apache.commons.logging.Log;
@@ -35,6 +37,8 @@ import org.springframework.beans.factory.InitializingBean;
  *
  * @author Rod Johnson
  * @version $Id$
+ * @see #setJndiTemplate
+ * @see #setJndiEnvironment
  * @see #setResourceRef
  */
 public abstract class AbstractJndiLocator implements InitializingBean {
@@ -49,6 +53,7 @@ public abstract class AbstractJndiLocator implements InitializingBean {
 	private String jndiName;
 
 	private boolean resourceRef = false;
+
 
 	/**
 	 * Create a new JNDI locator. The jndiName property must be set,
@@ -72,9 +77,11 @@ public abstract class AbstractJndiLocator implements InitializingBean {
 
 	/**
 	 * Set the JNDI template to use for the JNDI lookup.
+	 * You can also specify JNDI environment settings via setJndiEnvironment.
+	 * @see #setJndiEnvironment
 	 */
-	public final void setJndiTemplate(JndiTemplate template) {
-		jndiTemplate = template;
+	public final void setJndiTemplate(JndiTemplate jndiTemplate) {
+		this.jndiTemplate = jndiTemplate;
 	}
 
 	/**
@@ -82,6 +89,22 @@ public abstract class AbstractJndiLocator implements InitializingBean {
 	 */
 	public final JndiTemplate getJndiTemplate() {
 		return jndiTemplate;
+	}
+
+	/**
+	 * Set the JNDI environment to use for the JNDI lookup.
+	 * Creates a JndiTemplate with the given environment settings.
+	 * @see #setJndiTemplate
+	 */
+	public final void setJndiEnvironment(Properties jndiEnvironment) {
+		this.jndiTemplate = new JndiTemplate(jndiEnvironment);
+	}
+
+	/**
+	 * Return the JNDI enviromment to use for the JNDI lookup.
+	 */
+	public final Properties getJndiEnvironment() {
+		return jndiTemplate.getEnvironment();
 	}
 
 	/**
@@ -117,6 +140,7 @@ public abstract class AbstractJndiLocator implements InitializingBean {
 	public final boolean isResourceRef() {
 		return resourceRef;
 	}
+
 
 	public final void afterPropertiesSet() throws NamingException, IllegalArgumentException {
 		if (this.jndiName == null || this.jndiName.equals("")) {

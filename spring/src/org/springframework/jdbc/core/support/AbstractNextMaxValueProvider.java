@@ -4,7 +4,6 @@ import java.sql.Types;
 
 import org.springframework.core.InternalErrorException;
 import org.springframework.jdbc.object.SqlFunction;
-import org.springframework.jdbc.util.JdbcUtils;
 
 /**
  * Abstract implementation of Classes NextMaxValueProvider used as 

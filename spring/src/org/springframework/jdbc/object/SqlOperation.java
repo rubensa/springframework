@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.SQLExceptionTranslator;
 import org.springframework.jdbc.core.QueryExecutor;
-import org.springframework.jdbc.util.JdbcUtils;
+import org.springframework.jdbc.core.support.JdbcUtils;
 
 /**
  * RdbmsOperation using a JdbcTemplate and representing a SQL-based

@@ -35,7 +35,7 @@ public class UncategorizedSQLException extends UncategorizedDataAccessException 
 	 * Return the underlying SQLException.
 	 */
 	public SQLException getSQLException() {
-		return (SQLException) getRootCause();
+		return (SQLException) getCause();
 	}
 	
 	/**

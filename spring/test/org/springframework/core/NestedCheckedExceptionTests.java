@@ -19,18 +19,11 @@ import junit.framework.TestCase;
  */
 public class NestedCheckedExceptionTests extends TestCase {
 
-	/**
-	 * @param arg0
-	 */
-	public NestedCheckedExceptionTests(String arg0) {
-		super(arg0);
-	}
-	
 	public void testNoRootCause() {
 		String mesg = "mesg of mine";
 		// Making a class abstract doesn't _really_ prevent instantiation :-)
 		NestedCheckedException nce = new NestedCheckedException(mesg) {};
-		assertNull(nce.getRootCause());
+		assertNull(nce.getCause());
 		assertEquals(nce.getMessage(), mesg);
 		
 		// Check PrintStackTrace
@@ -48,7 +41,7 @@ public class NestedCheckedExceptionTests extends TestCase {
 		ServletException rootCause = new ServletException(rootCauseMesg);
 		// Making a class abstract doesn't _really_ prevent instantiation :-)
 		NestedCheckedException nce = new NestedCheckedException(myMessage, rootCause) {};
-		assertEquals(nce.getRootCause(), rootCause);
+		assertEquals(nce.getCause(), rootCause);
 		assertTrue(nce.getMessage().indexOf(myMessage) != -1);
 		assertTrue(nce.getMessage().indexOf(rootCauseMesg) != -1);
 		

@@ -30,10 +30,10 @@ import java.io.PrintWriter;
  * @author Rod Johnson
  * @version $Id$
  */
-public abstract class NestedCheckedException extends Exception implements HasRootCause {
+public abstract class NestedCheckedException extends Exception {
 
 	/** Root cause of this nested exception */
-	private Throwable rootCause;
+	private Throwable cause;
 
 	/**
 	 * Construct a <code>ExceptionWrapperException</code> with the specified detail message.
@@ -51,14 +51,14 @@ public abstract class NestedCheckedException extends Exception implements HasRoo
 	 */
 	public NestedCheckedException(String msg, Throwable ex) {
 		super(msg);
-		this.rootCause = ex;
+		this.cause = ex;
 	}
 
 	/**
 	 * Return the nested cause, or null if none.
 	 */
-	public Throwable getRootCause() {
-		return rootCause;
+	public Throwable getCause() {
+		return cause;
 	}
 
 	/**
@@ -66,10 +66,13 @@ public abstract class NestedCheckedException extends Exception implements HasRoo
 	 * if there is one.
 	 */
 	public String getMessage() {
-		if (this.rootCause == null)
+		if (this.cause == null) {
 			return super.getMessage();
-		else
-			return super.getMessage() + "; nested exception is: \n\t" + rootCause.toString();
+		}
+		else {
+			return super.getMessage() + "; nested exception is " + this.cause.getClass().getName() +
+					": " + this.cause.getMessage();
+		}
 	}
 
 	/**
@@ -77,12 +80,12 @@ public abstract class NestedCheckedException extends Exception implements HasRoo
 	 * @param ps the print stream
 	 */
 	public void printStackTrace(PrintStream ps) {
-		if (this.rootCause == null) {
+		if (this.cause == null) {
 			super.printStackTrace(ps);
 		}
 		else {
 			ps.println(this);
-			this.rootCause.printStackTrace(ps);
+			this.cause.printStackTrace(ps);
 		}
 	}
 
@@ -91,12 +94,12 @@ public abstract class NestedCheckedException extends Exception implements HasRoo
 	 * @param pw the print writer
 	 */
 	public void printStackTrace(PrintWriter pw) {
-		if (this.rootCause == null) {
+		if (this.cause == null) {
 			super.printStackTrace(pw);
 		}
 		else {
 			pw.println(this);
-			this.rootCause.printStackTrace(pw);
+			this.cause.printStackTrace(pw);
 		}
 	}
 

@@ -87,6 +87,14 @@ ml ../target/output/ /projects/my-spring-project/beandoc.properties</programlist
     <sect2>
       <title id="running-ant">Running from an Ant script</title>
 
+      <remark>In order to run the <literal>&lt;beandoc/&gt;</literal> Ant
+      task, all of the runtime dependencies must be available to Ant when the
+      task is called. This means either wrapping the call to Ant in a batch or
+      shell script that adds these JAR files onto the classpath, or copying
+      the JAR files into $ANT_HOME/lib. The runtime dependencies are all
+      copied to the <literal>target/dist</literal> directory when you build
+      BeanDoc.</remark>
+
       <para>Once again, the samples directory contains an example build file
       showing how to use BeanDoc as an Ant task, and a couple of shell scripts
       just to setup the classpath and invoke Ant. The task itself is in

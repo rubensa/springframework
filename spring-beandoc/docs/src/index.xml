@@ -1,37 +1,38 @@
-<?xml version='1.0' encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--$Id$ -->
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-                      "../DocBook/lib/docbook-dtd/docbookx.dtd"
-[
-<!ENTITY overview           SYSTEM "overview.xml">
-<!ENTITY running            SYSTEM "running.xml">
-<!ENTITY extending          SYSTEM "extending.xml">
-<!ENTITY appendixA          SYSTEM "appendixA.xml">
+"../DocBook/lib/docbook-dtd/docbookx.dtd" [
+<!ENTITY overview SYSTEM "overview.xml">
+<!ENTITY running SYSTEM "running.xml">
+<!ENTITY extending SYSTEM "extending.xml">
+<!ENTITY appendixA SYSTEM "appendixA.xml">
 ]>
-
 <book>
+  <bookinfo>
+    <title>Spring BeanDoc</title>
 
-    <bookinfo>
-        <title>Spring BeanDoc</title>
-        <subtitle>
-          Reference Documentation
-        </subtitle>
-        <releaseinfo>Version 0.6</releaseinfo>
-        <pubdate>March 2005</pubdate>
-        
-        <authorgroup>
-            <author>
-                <firstname>Darren</firstname>
-                <surname>Davison</surname>
-            </author>
-        </authorgroup>
-    </bookinfo>
+    <subtitle>Reference Documentation</subtitle>
 
-    <toc/>
+    <releaseinfo>Version 0.7-dev</releaseinfo>
 
-        &overview;
-        &running;
-        &extending;
-        &appendixA;
-        
+    <pubdate>March 2005</pubdate>
+
+    <authorgroup>
+      <author>
+        <firstname>Darren</firstname>
+
+        <surname>Davison</surname>
+      </author>
+    </authorgroup>
+  </bookinfo>
+
+  <toc></toc>
+
+  &overview;
+
+  &running;
+
+  &extending;
+
+  &appendixA;
 </book>

@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.ErrorCodedPropertyVetoException;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.PropertyVetoExceptionsException;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.support.AbstractBeanFactory;
@@ -315,7 +316,15 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 		Object rod = getBeanFactory().getBean("rod");
 		Object aliasRod = getBeanFactory().getBean(alias);
 		assertTrue(rod == aliasRod);
-		
+
+		try {
+			((AbstractBeanFactory) getBeanFactory()).registerAlias("father", alias);
+			fail("Should have thrown FatalBeanException");
+		}
+		catch (FatalBeanException ex) {
+			// expected
+		}
+
 		// Check prototype support
 		// TODO
 	}

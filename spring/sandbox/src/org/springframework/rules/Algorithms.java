@@ -18,6 +18,8 @@ package org.springframework.rules;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.springframework.rules.factory.Functions;
+
 /**
  * Convenience utility class which provides a number of algorithms involving
  * functor objects such as predicates.
@@ -25,13 +27,17 @@ import java.util.Iterator;
  * @author Keith Donald
  * @version $Id$
  */
-public abstract class Algorithms {
-    
-    // static utility class
-    private Algorithms() {
-        
+public class Algorithms {
+    private Functions functions = Functions.instance();
+    private static final Algorithms INSTANCE = new Algorithms();
+
+    public Algorithms() {
     }
-    
+
+    public static Algorithms instance() {
+        return INSTANCE;
+    }
+
     /**
      * Find the first element in the collection matching the specified unary
      * predicate.
@@ -42,8 +48,7 @@ public abstract class Algorithms {
      *            the predicate
      * @return The first object match, or null if no match
      */
-    public static Object findFirst(Collection collection,
-            UnaryPredicate predicate) {
+    public Object findFirst(Collection collection, UnaryPredicate predicate) {
         for (Iterator i = collection.iterator(); i.hasNext();) {
             Object o = i.next();
             if (predicate.test(o)) {
@@ -52,15 +57,26 @@ public abstract class Algorithms {
         }
         return null;
     }
-    
-    public static void forEach(Collection collection, UnaryProcedure callback) {
+
+    public void forEach(Collection collection, UnaryProcedure callback) {
         forEach(collection.iterator(), callback);
     }
 
-    public static void forEach(Iterator it, UnaryProcedure callback) {
+    public void forEach(Iterator it, UnaryProcedure callback) {
         while (it.hasNext()) {
             callback.run(it.next());
         }
     }
-    
+
+    public Generator select(final Generator generator,
+            final UnaryPredicate predicate) {
+        return new Generator() {
+            public void run(UnaryProcedure procedure) {
+                UnaryProcedure constrainedProcedure = functions.constrain(
+                        procedure, predicate);
+                generator.run(constrainedProcedure);
+            }
+        };
+    }
+
 }

@@ -280,17 +280,18 @@ public class DefaultContextProcessor implements ContextProcessor {
      * 
      * @param contextDocuments
      */
-    private void mergeProxiesInContextDocs(final Document[] contextDocuments) {
+    private void mergeProxiesInContextDocs(Document[] contextDocuments) {
         logger.debug("Attempting to merge Proxy beans and their targets");
         
         Pattern[] mergedProxyPatterns = PatternMatcher.convertStringsToPatterns(mergeProxies.keySet());
+        final Map proxy2target = new HashMap();
         
         for (int i = 0; i < contextDocuments.length; i++) {
-            final List beans = contextDocuments[i].getRootElement().getContent(beanFilter);
-            for (Iterator iter = beans.iterator(); iter.hasNext();) {
-                final Element bean = (Element) iter.next();
-                final String idOrName = getBeanIdentifier(bean);
-                final String className = bean.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
+            Iterator beans = contextDocuments[i].getRootElement().getDescendants(beanFilter);
+            while (beans.hasNext()) {
+                final Element bean = (Element) beans.next();
+                String idOrName = getBeanIdentifier(bean);
+                String className = bean.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
                 String[] testForMatches = {idOrName, className};
                 
                 // patterns of beans to be merged
@@ -299,63 +300,21 @@ public class DefaultContextProcessor implements ContextProcessor {
                     testForMatches,
                     
                     new MatchedPatternCallback() {
-                        /**
-                         * handle merging proxy with target
-                         */
                         public void patternMatched(String pattern, int index) {
                             String targetPropertyName = (String) mergeProxies.get(pattern);
                             Element targetProperty = null;
                             Element targetRef = null;
                             
                             // find target ref
-                            Filter properties = new ElementFilter(Tags.TAGNAME_PROPERTY);
-                            List propertyList = bean.getContent(properties);
+                            Filter propertyFilter = new ElementFilter(Tags.TAGNAME_PROPERTY);
+                            Iterator properties = bean.getDescendants(propertyFilter);
                             
-                            for (Iterator propsIter = propertyList.iterator(); propsIter.hasNext();) {
-                                targetProperty = (Element) propsIter.next();
+                            while (properties.hasNext()) {
+                                targetProperty = (Element) properties.next();
                                 if (targetPropertyName.equals(targetProperty.getAttributeValue(Tags.ATTRIBUTE_NAME))) {
                                     targetRef = targetProperty.getChild(Tags.TAGNAME_REF);
-                                    break;
+                                    proxy2target.put(bean, targetRef);
                                 }
-                            }
-                            
-                            // target should be assigned, if not it's likely to be a config error in beandoc.properties
-                            if (targetRef == null)
-                                logger.warn("Failed to merge proxy bean [" + idOrName + "] and target.  Target not found.");
-                            else {
-                                logger.info("Merging proxy bean [" + idOrName + 
-                                    "] and its target bean [" + targetRef.getAttributeValue(Tags.ATTRIBUTE_REF_LOCAL) + 
-                                    "] at property with name [" + targetPropertyName + "]");
-                                
-                                // break the REF link
-                                targetProperty.removeChild(Tags.TAGNAME_REF);
-                                
-                                // and replace it with the first class target - demoting it to an inner bean
-                                Element targetBean = null;
-                                for (Iterator targetIter = beans.iterator(); targetIter.hasNext();) {
-                                    // hmm, we're already iterating the same content in the outer class method
-                                    targetBean = (Element) targetIter.next();
-                                    logger.debug("Checking targetIter for target bean.  Doing [" + 
-                                        targetBean.getAttributeValue(Tags.ATTRIBUTE_ID) + "]");
-                                    if (getBeanIdentifier(targetBean).equals(targetRef.getAttributeValue(Tags.ATTRIBUTE_REF_LOCAL)))
-                                        break;
-                                }
-                                
-                                if (targetBean != null) {
-                                    logger.debug("Target bean found in context, detaching from parent");
-                                    
-                                    // TODO: this will throw a ConcurrentModificationException since we're already
-                                    // iterating over the underlying structure.  It has to be done outside of the
-                                    // iteration.
-                                    /*
-                                    targetBean.detach();
-                                    logger.debug("Converting to inner bean");
-                                    targetProperty.addContent(targetBean);
-                                    targetBean.removeAttribute(Tags.ATTRIBUTE_ID);
-                                    targetBean.removeAttribute(Tags.ATTRIBUTE_NAME);
-                                    */
-                                }
-                                                                   
                             }
                         }            
                     }
@@ -363,6 +322,48 @@ public class DefaultContextProcessor implements ContextProcessor {
                 );
             }
         }
+        
+        for (Iterator i = proxy2target.keySet().iterator(); i.hasNext();) {
+            Element proxy = (Element) i.next();
+            Element targetRef = (Element) proxy2target.get(proxy);
+            String refId = getRefIdentifier(targetRef);
+            
+            logger.info("Merging proxy bean [" + getBeanIdentifier(proxy) + 
+                "] and its target bean [" + refId + "]");
+                        
+            // and replace it with the first class target - demoting it to an inner bean
+            Element targetBean = getBeanElement(contextDocuments, refId);
+            
+            if (targetBean != null) {
+                logger.debug("Target bean found in context, detaching from parent");                
+                targetBean.detach();
+                logger.debug("Converting to inner bean");
+                targetRef.getParentElement().addContent(targetBean);
+                // break the REF link
+                targetRef.getParentElement().removeChild(Tags.TAGNAME_REF);  
+            }
+                                               
+        }
+        
+    }
+
+    /**
+     * @param contextDocuments 
+     * @param refId
+     * @return
+     */
+    private Element getBeanElement(Document[] contextDocuments, String refId) {
+        for (int i = 0; i < contextDocuments.length; i++) {
+            Iterator beans = contextDocuments[i].getRootElement().getDescendants(beanFilter);
+            while (beans.hasNext()) {
+                Element targetBean = (Element) beans.next();
+                logger.debug("Checking targetIter for target bean.  Doing [" + 
+                    targetBean.getAttributeValue(Tags.ATTRIBUTE_ID) + "]");
+                if (getBeanIdentifier(targetBean).equals(refId))
+                    return targetBean;
+            }
+        }
+        return null;
     }
 
     /**
@@ -401,6 +402,24 @@ public class DefaultContextProcessor implements ContextProcessor {
         String id = bean.getAttributeValue(Tags.ATTRIBUTE_ID);
         if (id == null) return bean.getAttributeValue(Tags.ATTRIBUTE_NAME);
         return id;
+    }
+
+    /**
+     * return a String representing the <ref> identifier - either its local attribute
+     * or its bean attribute.
+     * 
+     * @param ref
+     * @return the value of either the local or bean attribute
+     * @throws IllegalArgumentException if the Element is not a <ref> tag
+     */
+    private String getRefIdentifier(Element ref) throws IllegalArgumentException {
+        if (!Tags.TAGNAME_REF.equals(ref.getName()))
+            throw new IllegalArgumentException("Not a valid <ref> tag");
+        
+        String local = ref.getAttributeValue(Tags.ATTRIBUTE_REF_LOCAL);
+        if (local == null) 
+            return ref.getAttributeValue(Tags.ATTRIBUTE_REF_BEAN);
+        return local;
     }
 
     /**

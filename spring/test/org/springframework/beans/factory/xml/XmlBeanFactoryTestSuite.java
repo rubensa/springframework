@@ -78,7 +78,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals(0, validEmpty.getAge());
 	}
 
-	/** Uses a separate factory */
 	public void testRefToSeparatePrototypeInstances() throws Exception {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
@@ -1208,18 +1207,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertEquals(s2, dos.lastArg);
 	}
 	
-	
-	public static class DoSomethingReplacer implements MethodReplacer {
-		public Object lastArg;
-		
-		public Object reimplement(Object o, Method m, Object[] args) throws Throwable {
-			assertEquals(1, args.length);
-			assertEquals("doSomething", m.getName());
-			lastArg = args[0];
-			return null;
-		}
-	}
-	
 	public void testLookupOverrideOneMethodWithConstructorInjection() {
 		DefaultListableBeanFactory xbf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(xbf);
@@ -1394,6 +1381,19 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		}
 		catch (BeanDefinitionStoreException ex) {
 			// OK			
+		}
+	}
+
+
+	public static class DoSomethingReplacer implements MethodReplacer {
+
+		public Object lastArg;
+
+		public Object reimplement(Object o, Method m, Object[] args) throws Throwable {
+			assertEquals(1, args.length);
+			assertEquals("doSomething", m.getName());
+			lastArg = args[0];
+			return null;
 		}
 	}
 

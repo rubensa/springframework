@@ -21,6 +21,7 @@ import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -39,6 +40,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.springframework.beans.propertyeditors.ClassEditor;
 import org.springframework.beans.propertyeditors.FileEditor;
+import org.springframework.beans.propertyeditors.InputStreamEditor;
 import org.springframework.beans.propertyeditors.LocaleEditor;
 import org.springframework.beans.propertyeditors.PropertiesEditor;
 import org.springframework.beans.propertyeditors.StringArrayPropertyEditor;
@@ -92,6 +94,7 @@ public class BeanWrapperImpl implements BeanWrapper {
 		// SecurityExceptions when running in a SecurityManager.
 		defaultEditors.put(Class.class, ClassEditor.class);
 		defaultEditors.put(File.class, FileEditor.class);
+		defaultEditors.put(InputStream.class, InputStreamEditor.class);
 		defaultEditors.put(Locale.class, LocaleEditor.class);
 		defaultEditors.put(Properties.class, PropertiesEditor.class);
 		defaultEditors.put(String[].class, StringArrayPropertyEditor.class);

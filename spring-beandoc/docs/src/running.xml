@@ -156,9 +156,18 @@ runbeandoc-cli.bat</programlisting>
       All of these are specified in the beandoc.properties file shown
       below.</para>
 
-      <programlisting>html.title=My Application Context
+      <programlisting># page title used in &lt;title/&gt; tags and page headings
+html.title=My Application Context
+
+# page footer
 html.footer=Copyright (C) ACME Corp. 2004
-html.cssUrl=http://our.intranet/projects/beandoc.css</programlisting>
+
+# override the default CSS file to skin the output to your liking
+html.cssUrl=http://our.intranet/projects/beandoc.css
+
+# set this to false if you DON'T wish to see graphs in your HTML
+# docs (or if you aren't generating graphs).  Defaults to true
+html.includeGraphs=false</programlisting>
 
       <para>Default values for all of the above will be used if you don't
       specify them, and additionally, a default CSS file will be copied to the

@@ -28,13 +28,14 @@ import org.springframework.util.StringUtils;
 /**
  * Command line client for the beandoc tool.  Loads and runs a 
  * {@link org.springframework.beandoc.ContextProcessor} 
- * with a default configuration.  Accepts a properties file as the sole command line
- * argument which must contain values for input resources and an output directory and
+ * with a default configuration.  Accepts various command line
+ * arguments which must contain values for input resources and an output directory and
  * can optionally contain other properties to further configure the default behaviour.
  * <p>
- * For more control and power consider using the <code>DefaultContextProcessor</code>
- * directly in code as this offers the ability to select which {@link Decorator}s and 
- * {@link Transformer}s are used in generating beandoc output.
+ * For total control and power consider supplying a context file location as this offers 
+ * the ability to select which {@link Decorator}s and 
+ * {@link Transformer}s are used in generating beandoc output.  Alternatively, use
+ * the <code>DefaultContextProcessor</code> directly in code.
  * 
  * @author Darren Davison
  * @author Michael Schuerig, <michael@schuerig.de>
@@ -80,7 +81,7 @@ public class BeanDocClient {
 	 * </table>
 	 * 
 	 * @param args command line parameters using GNU style options..  
-	 * 		<ul><li><b>-- [file]</b> -  input file</li>
+	 * 		<ul>
 	 * 		<li><b>--output [dir]</b> -  output directory</li>
 	 * 		<li><b>--properties [file]</b> - the location of a properties file 
 	 * 		containing all mandatory and optional configuration properties for the 
@@ -89,7 +90,9 @@ public class BeanDocClient {
 	 * 		to find prefixing all beandoc properties.</li>
 	 * 		<li><b>--context [file]</b> - a custom context file describing how to 
 	 * 		configure BeanDoc's dependencies.  Power users only.</li>
-	 * 		<li><b>--help</b> - print usage to stdout and quit.</li></ul>
+	 * 		<li><b>--help</b> - print usage to stdout and quit.</li>
+     *      <li><b> [file1] [file2] [fileN]</b> -  input files</li>
+     *      </ul>
 	 */
 	public static void main(String[] args) {
 	    

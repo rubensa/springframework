@@ -30,9 +30,8 @@ implementation of GraphViz (http://www.graphvix.org) is required too.
 
 3. BUILDING BEANDOC
 
-in order to build the jar file simply cd to the build directory from the
-root project directory and run ANT by calling "ant dist".  Try "ant" to get
-a list of other optional targets.
+in order to build the jar file simply run ANT by calling "ant dist".
+Try "ant" to get a list of other targets.
 
 
 4. DISTRIBUTION JAR FILES

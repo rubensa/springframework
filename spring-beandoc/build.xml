@@ -10,10 +10,10 @@
   @since 1.0  
 -->
 
-<project name="spring-beandoc" default="usage" basedir="..">
+<project name="spring-beandoc" default="usage" basedir=".">
 
-    <property file="build/build.properties"/>
-    <property file="build/project.properties"/>
+    <property file="build.properties"/>
+    <property file="project.properties"/>
 
 
     <path id="all-libs">

@@ -1,10 +1,10 @@
 /**
- * Generic framework code included with
+ * Generic framework code included with 
  * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/1861007841/">Expert One-On-One J2EE Design and Development</a>
- * by Rod Johnson (Wrox, 2002).
+ * by Rod Johnson (Wrox, 2002). 
  * This code is free to use and modify. However, please
  * acknowledge the source and include the above URL in each
- * class using or derived from this code.
+ * class using or derived from this code. 
  * Please contact <a href="mailto:rod.johnson@interface21.com">rod.johnson@interface21.com</a>
  * for commercial support.
  */
@@ -14,7 +14,6 @@ package com.interface21.jdbc.object;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,51 +21,55 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import com.interface21.dao.InvalidDataAccessApiUsageException;
+import com.interface21.jdbc.core.DataSourceUtils;
 import com.interface21.jdbc.core.SQLExceptionTranslater;
-import com.interface21.jdbc.core.SQLExceptionTranslaterFactory;
+import com.interface21.jdbc.core.SQLStateSQLExceptionTranslater;
 import com.interface21.jdbc.core.SqlParameter;
-import com.interface21.jdbc.datasource.DataSourceUtils;
 
 /**
  * Superclass for object abstractions of RDBMS stored procedures.
  * This class is abstract and its execute methods are protected, preventing use other than through
  * a subclass that offers tighter typing.
- *
- * <p>The inherited sql property is the name of the stored procedure in the RDBMS.
+ * <br>The inherited sql property is the name of the stored procedure in the RDBMS.
  * Note that JDBC 3.0 introduces named parameters, although the other features provided
  * by this class are still necessary in JDBC 3.0.
- *
  * @author Rod Johnson
  * @version $Id$
  */
 public abstract class StoredProcedure extends RdbmsOperation {
 
-	/**
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
+	/** 
 	 * Call string as defined in java.sql.CallableStatement.
-	 * String of form {call add_invoice(?, ?, ?)}
-	 * or {? = call get_invoice_count(?)} if isFunction is set to true
+	 * String of form {call add_invoice(?, ?, ?)} 
 	 * Updated after each parameter is added.
 	 */
 	private String callString;
-
-	/**
-	 * Flag used to indicate that this call is for a function and to
-	 * use the {? = call get_invoice_count(?)} syntax.
-	 */
-	private boolean function = false;
-
+	
 	/** Helper to translate SQL exceptions to DataAccessExceptions */
 	private SQLExceptionTranslater exceptionTranslater;
-
-
+	
+	
 	//---------------------------------------------------------------------
 	// Constructors
 	//---------------------------------------------------------------------
-
 	/**
 	 * Allow use as a bean
 	 */
 	protected StoredProcedure() {
+		this.exceptionTranslater = new SQLStateSQLExceptionTranslater();
+	}
+	
+	/**
+	 * Set the exception translater used in this class.
+	 * As in the JdbcTemplate class, this can be parameterized
+	 * @see com.interface21.jdbc.core.SQLExceptionTranslater
+	 * @see com.interface21.jdbc.dao
+	 */
+	public void setExceptionTranslater(SQLExceptionTranslater exceptionTranslater) {
+		this.exceptionTranslater = exceptionTranslater;
 	}
 
 	/**
@@ -80,46 +83,10 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		setSql(name);
 	}
 
-	/**
-	 * Set the exception translater used in this class.
-	 * As in the JdbcTemplate class, this can be parameterized
-	 * @see com.interface21.jdbc.core.SQLExceptionTranslater
-	 */
-	public void setExceptionTranslater(SQLExceptionTranslater exceptionTranslater) {
-		this.exceptionTranslater = exceptionTranslater;
-	}
-
-	/**
-	 * Return the exception translater for this instance.
-	 * Create a default one for the specified DataSource if none set.
-	 */
-	protected SQLExceptionTranslater getExceptionTranslater() {
-		if (this.exceptionTranslater == null) {
-			this.exceptionTranslater = SQLExceptionTranslaterFactory.getInstance().getDefaultTranslater(getDataSource());
-		}
-		return this.exceptionTranslater;
-	}
-
-	/**
-	 * get the flag ussed to indicate that this call is for a function
-	 * @return boolean
-	 */
-	public boolean isFunction() {
-		return function;
-	}
-
-	/**
-	 * Sets the flag ussed to indicate that this call is for a function
-	 * @param isFunction true or false
-	 */
-	public void setFunction(boolean function) {
-		this.function = function;
-	}
 
 	//---------------------------------------------------------------------
 	// Overriden methods
 	//---------------------------------------------------------------------
-
 	/**
 	 * Overridden method.
 	 * Add a parameter.
@@ -137,35 +104,27 @@ public abstract class StoredProcedure extends RdbmsOperation {
 
 
 	/**
-	 * Override of NOP RdbmsOperation.compileInternal() to
+	 * Override of NOP RdbmsOperation.compileInternal() to 
 	 * ensure that the call string is up to date before invoking
 	 * the RDBMS stored procedure.
 	 */
 	protected void compileInternal() {
 		List parameters = getDeclaredParameters();
-		int firstParameter = 0;
-		if (isFunction()) {
-			callString = "{? = call " + getSql() + "(";
-			firstParameter = 1;
-		}
-		else {
-			callString = "{call " + getSql() + "(";
-		}
-		for (int i = firstParameter; i < parameters.size(); i++) {
-			if (i > firstParameter)
+		callString = "{call " + getSql() + "(";
+		for (int i = 0; i < parameters.size(); i++) {
+			if (i > 0)
 				callString += ", ";
 			callString += "?";
 		}
 		callString += ")}";
 		logger.info("Compiled stored procedure. Call string is [" + callString + "]");
 	}
-
-
+	
+	
 	//---------------------------------------------------------------------
 	// Public methods
 	//---------------------------------------------------------------------
-
-	/**
+	/** 
 	 * Execute the stored procedure. Subclasses should define a strongly typed
 	 * execute method (with a meaningful name) that invokes this method, populating
 	 * the input map and extracting typed values from the output map. Subclass
@@ -176,7 +135,7 @@ public abstract class StoredProcedure extends RdbmsOperation {
 	 * It is legal for map entries to be null, and this will produce the correct
 	 * behavior using a NULL argument to the stored procedure.
 	 * @return map of output params, keyed by name as in parameter declarations.
-	 * Output parameters will appear here, with their values after the
+	 * Output parameters will appear here, with their values after the 
 	 * stored procedure has been called.
 	 */
 	protected Map execute(final Map inParams) {
@@ -187,33 +146,41 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		});
 	}
 
+
 	/**
-	 * Execute the stored procedure. All parameters must have been added
-	 * before any calls are made to this method.
-	 * <p>This method is provided as a more powerful alternative to the
+	 * Execute the stored procedure. All parameters
+	 * must have been added before any calls are made
+	 * to this method.
+	 * <br>This method is provided as a more powerful alternative to the
 	 * execute(Map) method for special cases where we need the Connection
 	 * to populate the input map. We might need to do this to use proprietary
-	 * features of the target database: for example, to use RDBMS-specific types.
-	 * <p>Maps, using parameter names given in addParameter(), are used to
-	 * hold input and output parameters.
-	 * @param mapper Map of input parameters
-	 * @return map of output parameters. In/out parameters will appear here,
-	 * with their value after the stored procedure has been called.
+	 * features of the target database: for example, to use RDBMS-specific
+	 * types.
+	 * <br/>Maps, using parameter names given in addParameter(),
+	 * are used to hold input and output parameters.
+	 * @param inParams Map of input parameters
+	 * @return map of output parameters. In/out parameters
+	 * will appear here, with their value after the stored
+	 * procedure has been called.
 	 */
 	protected Map execute(ParameterMapper mapper) throws InvalidDataAccessApiUsageException {
 		if (!isCompiled())
 			throw new InvalidDataAccessApiUsageException("Stored procedure must be compiled before execution");
-
+		
+		Connection con = null;
 		DataSource ds = getDataSource();
-		Connection con = DataSourceUtils.getConnection(ds);
 		try {
+			con = ds.getConnection();
+			
 			Map inParams = mapper.createMap(con);
+			
 			CallableStatement call = con.prepareCall(this.callString);
 			processInputParameters(inParams, call);
 
 			// Execute the stored procedure
-			logger.info("Executing stored procedure [" + callString + "]");
 			call.execute();
+
+			logger.info("Executing stored procedure [" + callString + "]");
 
 			// Now get output parameters. There need not be any.
 			Map outParams = extractOutputParameters(call);
@@ -222,14 +189,15 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		}
 		catch (SQLException ex) {
 			//throw new UncategorizedSQLException("Call to stored procedure '" + getSql() + "' failed", ex);
-			throw getExceptionTranslater().translate("Call to stored procedure '" + getSql() + "'", this.callString, ex);
+			throw this.exceptionTranslater.translate("Call to stored procedure '" + getSql() + "'", this.callString, ex);
 		}
 		finally {
-			DataSourceUtils.closeConnectionIfNecessary(con, ds);
+			DataSourceUtils.closeConnectionIfNecessary(ds, con);
 		}
-	}
+	} 	// execute
+	
 
-	/**
+	/** 
 	 * Set and register input parameters
 	 * @param inParams parameters (including output parameters) to the stored procedure
 	 * @param call CallableStatement representing the stored procedure
@@ -239,13 +207,13 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		List parameters = getDeclaredParameters();
 		for (int i = 0; i < parameters.size(); i++) {
 			SqlParameter p = (SqlParameter) parameters.get(i);
-			if (!inParams.containsKey(p.getName()) && !(p instanceof OutputParameter))
+			if (!inParams.containsKey(p.getName()) && !(p instanceof OutputParameter) )
 				throw new InvalidDataAccessApiUsageException("Required input parameter '" + p.getName() + "' is missing");
 			// The value may still be null
 			Object in = inParams.get(p.getName());
 			if (!(p instanceof OutputParameter)) {
 				// Input parameters must be supplied
-				if (in != null)
+				if (in != null)					
 					call.setObject(i + 1, in, p.getSqlType());
 				else
 					call.setNull(i + 1, p.getSqlType());
@@ -253,23 +221,21 @@ public abstract class StoredProcedure extends RdbmsOperation {
 			else {
 				// It's an output parameter.
 				// It need not (but may be) supplied by the caller.
-				if (p.getTypeName() != null) {
-					call.registerOutParameter(i + 1, p.getSqlType(), p.getTypeName());
-				}
-				else {
-					call.registerOutParameter(i + 1, p.getSqlType());
-				}
+				call.registerOutParameter(i + 1, p.getSqlType());
 				if (in != null) {
 					call.setObject(i + 1, in, p.getSqlType());
 				}
 			}
 		}
-	}
+	}	// processInputParameters
+	
 
 	/**
 	 * Extract output parameters from the completed stored procedure.
+	 * @param outParams parameters to the stored procedure
 	 * @param call JDBC wrapper for the stored procedure
-	 * @return parameters to the stored procedure
+	 * @throws SQLException
+	 * @return 
 	 */
 	private Map extractOutputParameters(CallableStatement call) throws SQLException {
 		Map outParams = new HashMap();
@@ -277,27 +243,25 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		for (int i = 0; i < parameters.size(); i++) {
 			SqlParameter p = (SqlParameter) parameters.get(i);
 			if (p instanceof OutputParameter) {
-				Object out = null;
-				out = call.getObject(i + 1);
+				Object out = call.getObject(i + 1);
 				outParams.put(p.getName(), out);
 			}
 		}
 		return outParams;
 	}
-
-
+	
+	
 	//---------------------------------------------------------------------
 	// Inner classes
 	//---------------------------------------------------------------------
-
 	/**
-	 * Implement this interface when parameters need to be customized based
+	 * Implement this interface when parameters need to be customized based 
 	 * on the connection. We might need to do this to make
 	 * use of proprietary features, available only with a specific
 	 * Connection type.
 	 */
 	protected interface ParameterMapper {
-
+		
 		/**
 		 * @param con JDBC connection. This is useful (and the purpose
 		 * of this interface) if we need to do something RDBMS-specific
@@ -310,7 +274,7 @@ public abstract class StoredProcedure extends RdbmsOperation {
 	}
 
 
-	/**
+	/** 
 	 * Subclass of SqlParameter to represent an output parameter.
 	 * No additional properties: instanceof will be used to check
 	 * for such types.
@@ -318,7 +282,7 @@ public abstract class StoredProcedure extends RdbmsOperation {
 	 * must have names.
 	 **/
 	public static class OutputParameter extends SqlParameter {
-
+		
 		/**
 		 * Create a new OutputParameter, supplying name and SQL type
 		 * @param name name of the parameter, as used in input and
@@ -329,10 +293,6 @@ public abstract class StoredProcedure extends RdbmsOperation {
 		public OutputParameter(String name, int type) {
 			super(name, type);
 		}
-
-		public OutputParameter(String name, int type, String typeName) {
-			super(name, type, typeName);
-		}
 	}
 
-}
+}	// class StoredProcedure

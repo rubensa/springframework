@@ -2,42 +2,36 @@ package com.interface21.context.support;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
- * Simple implementation of NestingMessageSource that allows messages
- * to be held in a Java object, and added programmatically.
- * This class now supports internationalization.
- *
- * <p>Intended for testing, rather than use production systems.
- *
+ * Simple implementation of NestingMessageSource that
+ * allows messages to be held in a Java object, and added
+ * programmatically.
+ * <br/>Does not support internationalization.
+ * <br/>Intended for testing, rather than use production
+ * systems.
  * @author Rod Johnson
  */
 public class StaticMessageSource extends AbstractNestingMessageSource {
-
-	private final Log logger = LogFactory.getLog(getClass());
-
-	private Map messages = new HashMap();
+	
+	private HashMap	messages = new HashMap();
+	
 
 	/**
-	 * @see AbstractNestingMessageSource#messageKey(Locale, String)
+	 * @see MessageSource#getMessage(String, Locale, String)
 	 */
 	protected String resolve(String code, Locale locale) {
-		return (String) this.messages.get(messageKey(locale, code));
+		return (String) messages.get(code);
 	}
-
+	
+	
 	/**
 	 * Associate the given message with the given code.
 	 * @param code lookup code
-   * @param locale locale message should be found within
 	 * @param message message associated with this lookup code
 	 */
-	public void addMessage(String code, Locale locale, String message) {
-		this.messages.put(messageKey(locale, code), message);
-		logger.info("Added message [" + message + " for code [" + code + "] and Locale [" + locale + "]");
+	public void addMessage(String code, String message) {
+		messages.put(code, message);
 	}
 
 }

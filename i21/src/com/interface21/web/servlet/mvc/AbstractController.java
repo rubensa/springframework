@@ -12,8 +12,8 @@
 package com.interface21.web.servlet.mvc;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,96 +25,62 @@ import com.interface21.web.servlet.LastModified;
 import com.interface21.web.servlet.ModelAndView;
 
 /**
- * <p>Convenient superclass for controller implementations, using the Template
- * Method design pattern.</p>
- * <p>As stated in the {@link com.interface21.web.servlet.mvc.Controller Controller}
- * interface, a lot of functionality is already provided by certain abstract
- * base controllers. The AbstractController is one of the most important
- * abstract base controller providing basic features such as the generation
- * of caching headers and the enabling or disabling of
- * supported methods (GET/POST).</p>
- *
- * <p><b><a name="workflow">Workflow
- * (<a href="Controller.html#workflow">and that defined by interface</a>):</b><br>
- * <ol>
- *  <li>{@link #handleRequest(HttpServletRequest,HttpServletResponse) handleRequest()}
- *      will be called by the DispatcherServlet</li>
- *  <li>Inspection of supported methods (ServletException if request method
- *      is not support)</li>
- *  <li>If session is required, try to get it (ServletException if not found)</li>
- *  <li>Set caching headers if needed according to cacheSeconds propery</li>
- *  <li>Call abstract method {@link #handleRequestInternal(HttpServletRequest,HttpServletResponse) handleRequestInternal()},
- *      which should be implemented by extending classes to provide actual
- *      functionality to return {@link com.interface21.web.servlet.ModelAndView ModelAndView} objects.</li>
- * </ol>
- * </p>
- *
- * <p><b><a name="config">Exposed configuration properties</a>
- * (<a href="Controller.html#config">and those defined by interface</a>):</b><br>
- * <table border="1">
- *  <tr>
- *      <td><b>name</b></th>
- *      <td><b>default</b></td>
- *      <td><b>description</b></td>
- *  </tr>
- *  <tr>
- *      <td>supportedMethods</td>
- *      <td>GET,POST</td>
- *      <td>comma-separated (CSV) list of methods supported by this controller,
- *          such as GET, POST and PUT</td>
- *  </tr>
- *  <tr>
- *      <td>requiresSession</td>
- *      <td>false</td>
- *      <td>whether a session should be required for requests to be able to
- *          be handled by this controller. This ensures, derived controller
- *          can - without fear of Nullpointers - call request.getSession() to
- *          retrieve a session. If no session can be found while processing
- *          the request, a ServletException will be thrown</td>
- *  </tr>
- *  <tr>
- *      <td>cacheSeconds</td>
- *      <td>-1</td>
- *      <td>indicates the amount of seconds to include in the cache header
- *          for the response following on this request. 0 (zero) will include
- *          headers for no caching at all, -1 (the default) will not generate
- *          <i>any headers</i> and any positive number will generate headers
- *          that state the amount indicated as seconds to cache the content</td>
- *  </tr>
- * </table>
- *
+ * Convenient superclass for controller implementations.
+ * Saves WebApplicationContext.
+ * <br/>
+ * Exposes the following bean properties:
+ * supportedMethods: CSV of supported methods, such as "GET,POST".
+ * Default allows GET and POST.
+ * requireSession: boolean. Whether a session should be required, meaning
+ * that subclasses can call request.getSession() in the assurance that there <b>is</b>
+ * a session.
+ * <br>This class uses the Template Method design pattern.
  * @author Rod Johnson
  */
-public abstract class AbstractController extends WebContentGenerator implements Controller {
+public abstract class AbstractController 
+	extends WebContentGenerator
+	implements Controller {
 	
-	/**
-	 * Set of supported methods (GET/POST etc.). GET and POST by default.
+	
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
+	/** HashMap of method (GET/POST etc.) --> Object or null depending on whether supported.
+	 * GET and POST are supported by default.
 	 */
-	private Set	supportedMethods;
+	private Map	supportedMethods;
 	
 	private boolean requireSession;
 	
 	private int cacheSeconds = -1;
 	
+	
+	//---------------------------------------------------------------------
+	// Constructors
+	//---------------------------------------------------------------------
 	/**
-	 * Create a new Controller supporting GET and POST methods.
+	 * Create a new Controller supporting GET and POST methods
 	 */
 	public AbstractController() {
-		this.supportedMethods = new HashSet();
-		this.supportedMethods.add("GET");
-		this.supportedMethods.add("POST");
+		supportedMethods = new HashMap();
+		supportedMethods.put("POST", Boolean.TRUE);
+		supportedMethods.put("GET", Boolean.TRUE);
 	}
 	
+	
+	//---------------------------------------------------------------------
+	// Bean properties
+	//---------------------------------------------------------------------
 	/**
-	 * Set supported methods as CSV.
-	 * The String[] property editor will get the type right.
+	 * Set as CSV: automatic property editor will get the type right
+	 * @param supportedMethodsArray
 	 */
 	public final void setSupportedMethods(String[] supportedMethodsArray) throws ApplicationContextException {
 		if (supportedMethodsArray == null || supportedMethodsArray.length == 0)
-			throw new ApplicationContextException("SupportedMethods must include some methods");
-		this.supportedMethods.clear();
+			throw new ApplicationContextException("supportedMethodsCSV must include some methods");
+		supportedMethods.clear();
 		for (int i = 0; i < supportedMethodsArray.length; i++) {
-			this.supportedMethods.add(supportedMethodsArray[i]);
+			supportedMethods.put(supportedMethodsArray[i], Boolean.TRUE);
 			logger.info("Supported request method '" + supportedMethodsArray[i] + "'");
 		}
 	}
@@ -127,8 +93,10 @@ public abstract class AbstractController extends WebContentGenerator implements 
 		logger.info("Requires session set to " + requireSession);
 	}
 	
+	
 	/**
-	 * If 0 disable caching, default is no caching header generation.
+	 * if 0 disable caching.
+	 * default is no caching header generation
 	 * Only if this is set to 0 (no cache) or a positive value (cache for this many
 	 * seconds) will this class generate cache headers.
 	 * They can be overwritten by subclasses anyway, before content is generated.
@@ -137,15 +105,25 @@ public abstract class AbstractController extends WebContentGenerator implements 
 		this.cacheSeconds = seconds;
 	}
 	
+	
+	
+	//---------------------------------------------------------------------
+	// Implementation of Controller
+	//---------------------------------------------------------------------
+	/**
+	 * @see Controller#handleRequest(HttpServletRequest, HttpServletResponse)
+	 */
 	public final ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		
 		// Check whether we should support the request method
 		String method = request.getMethod();
-		if (!this.supportedMethods.contains(method)) {
+		if (supportedMethods.get(method) == null) {
 			logger.info("Disallowed '" + method + "' request");
 			throw new ServletException("This resource does not support request method '" + method + "'");
 		}
+		
+		// ****TODO: could allow configurable session management:
+		// e.g. cookie-based session manager?
 		
 		// Check whether session was required
 		if (this.requireSession) {
@@ -169,13 +147,13 @@ public abstract class AbstractController extends WebContentGenerator implements 
 		
 		// If everything's OK, leave subclass to do the business
 		return handleRequestInternal(request, response);
-	}
+	}	// handleRequest
+	
 	
 	/**
-	 * Template method. Subclasses must implement this.
-	 * The contract is the same as for handleRequest.
-	 * @see #handleRequest
+	 * Template method. Subclasses must implement this. The contract is
+	 * the same as for handleRequest.
 	 */
 	protected abstract ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
-}
+}	// class AbstractController

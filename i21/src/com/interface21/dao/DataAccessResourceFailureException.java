@@ -20,11 +20,11 @@ public class DataAccessResourceFailureException extends DataAccessException {
 
 	/**
 	 * Constructor for ResourceFailureDataAccessException.
-	 * @param msg message
+	 * @param s message
 	 * @param ex root cause from data access API in use
 	 */
-	public DataAccessResourceFailureException(String msg, Throwable ex) {
-		super(msg, ex);
+	public DataAccessResourceFailureException(String s, Throwable ex) {
+		super(s, ex);
 	}
 
 }

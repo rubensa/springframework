@@ -27,6 +27,9 @@ import java.sql.SQLException;
  */
 public class RowCountCallbackHandler implements RowCallbackHandler {
 
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
 	/** Rows we've seen so far */
 	private int rowCount;
 
@@ -40,11 +43,14 @@ public class RowCountCallbackHandler implements RowCallbackHandler {
 	
 	private String[] columnNames;
 
-	/**
+	//---------------------------------------------------------------------
+	// Public methods
+	//---------------------------------------------------------------------
+	/** 
 	 * Implementation of ResultSetCallbackHandler.
 	 * Work out column size if this is the first row,
 	 * otherwise just count rows.
-	 * <p>Subclasses can perform custom extraction or processing
+	 * <br/>Subclasses can perform custom extraction or processing
 	 * by overriding the processRow(ResultSet, int) method.
 	 */
 	public final void processRow(ResultSet rs) throws SQLException {
@@ -62,6 +68,7 @@ public class RowCountCallbackHandler implements RowCallbackHandler {
 		processRow(rs, rowCount++);
 	}
 
+
 	/** 
 	 * Subclasses may override this to perform custom extraction
 	 * or processing. This class's implementation does nothing.
@@ -70,7 +77,10 @@ public class RowCountCallbackHandler implements RowCallbackHandler {
 	 * @param rowNum number of the current row (starting from 0)
 	 */
 	protected void processRow(ResultSet rs, int rowNum) throws SQLException {
+		//System.out.println("in processrow...");
+		//System.out.println("default process row: value at 0 is "  + rs.getObject(1));
 	}
+
 
 	/** 
 	 * Return the types of the columns as java.sql.Types constants
@@ -83,9 +93,9 @@ public class RowCountCallbackHandler implements RowCallbackHandler {
 	}
 	
 	/** 
-	 * Return the names of the columns.
+	 * Return the types of the columns as java.sql.Types constants
 	 * Valid after processRow is invoked the first time.
-	 * @return the names of the columns.
+	 * @return the types of the columns as java.sql.Types constants.
 	 * <b>Indexed from 0 to n-1.</b>
 	 */
 	public final String[] getColumnNames() {
@@ -112,4 +122,4 @@ public class RowCountCallbackHandler implements RowCallbackHandler {
 		return columnCount;
 	}
 
-}
+}	// class RowCountCallbackHandler

@@ -5,5 +5,10 @@ public class ResourceBundleViewResolverTestSuiteNoCache extends ResourceBundleVi
 	protected boolean getCache() {
 		return false;
 	}
+	
+	public ResourceBundleViewResolverTestSuiteNoCache(String name) {
+		super(name);
+	}
 }
+
  

@@ -1,80 +1,89 @@
+
+
 package com.interface21.validation;
 
+// <i> to support diff error sources?
+
+import java.io.Serializable;
+
+import com.interface21.core.ErrorCoded;
+
 /**
- * Encapsulates a field error, i.e. a reason for rejecting a
- * specific field value.
- *
- * <p>A field error gets created with a single code but uses
- * 3 codes for message resolution, in the following order:
- * <ul>
- * <li>first: code + "." + object name + "." + field;
- * <li>then: code + "." + field;
- * <li>finally: code.
- * </ul>
- *
- * <p>E.g.: code "typeMismatch", field "age", object name "user":
- * <ul>
- * <li>1. try "typeMismatch.user.age";
- * <li>2. try "typeMismatch.age";
- * <li>3. try "typeMismatch".
- * </ul>
- *
- * <p>Thus, this resolution algorithm can be leveraged for example
- * to show specific messages for binding errors like "required"
- * and "typeMismatch":
- * <ul>
- * <li>at the object + field level ("age" field, but only on "user");
- * <li>field level (all "age" fields, no matter which object name);
- * <li>or general level (all fields, on any object).
- * </ul>
  *
  * @author Rod Johnson
- * @author Juergen Hoeller
+ * @version 
  */
-public class FieldError extends ObjectError {
-
-	public static final String CODE_SEPARATOR = ".";
-
-	private final String field;
-
-	private final Object rejectedValue;
-
-	/**
-	 * Create a new FieldError instance, using multiple codes.
-	 * <p>This is only meant to be used by subclasses.
-	 * @see com.interface21.context.MessageSourceResolvable#getCodes
-	 */
-	protected FieldError(String objectName, String field, Object rejectedValue,
-	                     String[] codes, Object[] args, String defaultMessage) {
-		super(objectName, codes, args, defaultMessage);
+public class FieldError implements Serializable, ErrorCoded {
+	
+	private String objName;
+	
+	private String field;
+	
+	private String errorCode;
+	
+	private Object rejectedValue;
+	
+	private Throwable t;
+	
+	private String message;
+	
+	// TYPOE?
+	
+	 FieldError(String objectName, String field, Object rejectedValue, String errorCode, String message) {
+	 	this.objName = objectName;
 		this.field = field;
+		this.errorCode = errorCode;
 		this.rejectedValue = rejectedValue;
-	}
+		this.message = message;
+    }
 
-	/**
-	 * Create a new FieldError instance, using a default code.
-	 */
-	public FieldError(String objectName, String field, Object rejectedValue,
-	                  String code, Object[] args, String defaultMessage) {
-		this(objectName, field, rejectedValue,
-		     new String[] {code + CODE_SEPARATOR + objectName + CODE_SEPARATOR + field,
-		                   code + CODE_SEPARATOR + field,
-		                   code},
-		     args, defaultMessage);
-	}
-
-	public String getField() {
-		return field;
-	}
-
-	public Object getRejectedValue() {
-		return rejectedValue;
-	}
-
-	public String toString() {
-		return "FieldError occurred in object [" + getObjectName() + "] on [" +
-		    this.field + "]: rejectedValue [" + this.rejectedValue + "]; " +
-		    resolvableToString();
-	}
+	/** Creates new FieldError */
+//    public FieldError(String field, Object rejectedValue, String errorCode, Throwable t) {
+//		this.field = field;
+//		this.errorCode = errorCode;
+//		this.rejectedValue = rejectedValue;
+//		this.t = t;
+//		if (t != null)
+//			this.message = t.getLocalizedMessage();
+//    }
+	
+//	 public FieldError(String field, Object rejectedValue, String errorCode, String message) {
+//		 this(field, rejectedValue, errorCode, (Throwable) null);
+//		 this.message = message;
+//	 }
+//	 
+//	 public FieldError(String field, Object rejectedValue, String errorCode) {
+//		 this(field, rejectedValue, errorCode, errorCode);
+//	 }
+	 
+	 public String getObject() {
+	 	return objName;
+	 }
+	 
+	 public String getField() {
+		 return field;
+	 }
+	 
+	 /** May be null if missing */
+	 public Object getRejectedValue() {
+		 return rejectedValue;
+	 }
+	 
+	 public String getErrorCode() {
+		 return errorCode;
+	 }
+	 
+	 public String getMessage() {
+		return message;
+	 }
+	 
+	 /** Will usually return null */
+	 public Throwable getThrowable() {
+		 return t;
+	 }
+	 
+	 public String toString() {
+		 return "FieldError in object '" + objName + "' on '" + field + "': " + getMessage() + "; code=" + errorCode + "; rejected [" + rejectedValue + "]";
+	 }
 
 }

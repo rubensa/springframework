@@ -18,7 +18,6 @@ import com.interface21.beans.factory.NoSuchBeanDefinitionException;
  * Mainly useful for testing.
  * @author Rod Johnson
  * @since 06-Jan-03
- * @version $Id$
  */
 public class StaticListableBeanFactory implements ListableBeanFactory {
 
@@ -37,7 +36,7 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 	 * @see com.interface21.beans.factory.ListableBeanFactory#getBeanDefinitionNames()
 	 */
 	public String[] getBeanDefinitionNames() {
-		return (String[]) beans.keySet().toArray(new String[beans.keySet().size()]);
+		return (String[]) beans.keySet().toArray();
 	}
 
 	/**
@@ -77,7 +76,7 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 	public Object getBean(String name) throws BeansException {
 		Object bean = this.beans.get(name);
 		if (bean == null)
-			throw new NoSuchBeanDefinitionException(name, "No such bean");
+			throw new NoSuchBeanDefinitionException(name);
 		return bean;
 	}
 	
@@ -88,15 +87,13 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 		this.beans.put(name, bean);
 	}
 	
+	
+	
 	/**
 	 * @see com.interface21.beans.factory.BeanFactory#isSingleton(java.lang.String)
 	 */
 	public boolean isSingleton(String name) {
 		return true;
-	}
-
-	public String[] getAliases(String name) {
-		return null;
 	}
 
 }

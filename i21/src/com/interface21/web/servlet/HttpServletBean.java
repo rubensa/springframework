@@ -17,8 +17,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.interface21.beans.BeanWrapper;
 import com.interface21.beans.BeanWrapperImpl;
@@ -39,8 +38,16 @@ import com.interface21.beans.PropertyValues;
  */
 public class HttpServletBean extends HttpServlet {
 	
-	protected final Log logger = LogFactory.getLog(getClass());
-
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
+	/** 
+	 * Log category.
+	 * Protected to avoid the need for method calls. Final to avoid tampering
+	 * by subclasses.
+	 */
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+	
 	/** 
 	 * May be null. List of required properties (Strings) that must
 	 * be supplied as config parameters to this servlet.
@@ -54,8 +61,7 @@ public class HttpServletBean extends HttpServlet {
 	//---------------------------------------------------------------------
 	// Constructors
 	//---------------------------------------------------------------------
-
-	/**
+	/** 
 	 * Construct a new HttpServletBean
 	 */
 	public HttpServletBean() {
@@ -71,7 +77,10 @@ public class HttpServletBean extends HttpServlet {
 		requiredProperties.add(property);
 	}
 	
-	/**
+	//---------------------------------------------------------------------
+	// Overridden methods
+	//---------------------------------------------------------------------
+	/** 
 	 * Map config parameters onto bean properties of this servlet, and
 	 * invoke subclass initialization.
 	 * @throws ServletException if bean properties are invalid (or required properties
@@ -104,9 +113,10 @@ public class HttpServletBean extends HttpServlet {
 			logger.error(mesg, t);
 			throw new ServletException(mesg, t);
 		}
-	}
+	}	// init
 	
-	/**
+	
+	/** 
 	 * Subclasses may override this to perform custom initialization.
 	 *  All bean properties of this servlet will have been set before this
 	 * method is invoked. This default implementation does nothing.
@@ -129,4 +139,4 @@ public class HttpServletBean extends HttpServlet {
 		return this.identifier;
 	}
 	
-}
+}	// class HttpServletBean

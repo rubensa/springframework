@@ -22,11 +22,11 @@ public abstract class UncategorizedDataAccessException extends DataAccessExcepti
 
 	/**
 	 * Constructor for UncategorizedDataAccessException.
-	 * @param msg description of failure
+	 * @param s description of failure
 	 * @param ex exception thrown by underlying data access API
 	 */
-	public UncategorizedDataAccessException(String msg, Throwable ex) {
-		super(msg, ex);
+	public UncategorizedDataAccessException(String s, Throwable ex) {
+		super(s, ex);
 	}
 
 }

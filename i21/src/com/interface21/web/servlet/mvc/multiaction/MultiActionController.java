@@ -17,16 +17,14 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.interface21.context.ApplicationContextException;
-import com.interface21.web.bind.ServletRequestDataBinder;
+import com.interface21.web.bind.HttpServletRequestDataBinder;
 import com.interface21.web.servlet.LastModified;
 import com.interface21.web.servlet.ModelAndView;
 import com.interface21.web.servlet.mvc.Controller;
@@ -35,48 +33,42 @@ import com.interface21.web.servlet.mvc.WebContentGenerator;
 
 
 /**
- * Controller implementation that allows multiple request types to be
- * handled by the same class. Subclasses of this class can handle several
- * different types of request with methods of the form
- * <p><code>
- * &nbsp;&nbsp;ModelAndView actionName(HttpServletRequest request, HttpServletResponse response);
- * </code>
- * <p>May take a third parameter HttpSession in which an existing session will be required,
- * or a third parameter of an arbitrary class that gets treated as command
- * (i.e. an instance of the class gets created, and request parameters get bound to it)
- *
- * <p>These methods can throw any kind of exception, but should only let propagate
+ * Controller implementation that allows multiple request types
+ * to be handled by the same class.<br>
+ * Subclasses of this class can handle several different types of request
+ * with methods of the form
+ * ModelAndView actionName(HttpServletRequest request, HttpServletResponse response);
+ * May take a third parameter (HttpSession) in which an existing session will be required.
+ * <br/>These methods can throw any kind of exception, but should only let propagate
  * those that they consider fatal, or which their class or superclass is prepared to
  * catch by implementing an exception handler.
- *
- * <p>This model allows for rapid coding, but loses the advantage of compile-time
- * checking. It is similar to a Struts 1.1 DispatchAction, but more sophisticated.
- * Also supports delegation to another object.
- *
- * <p>Inherits superclass bean properties. Adds methodNameResolver bean property.
+ * <br/>This model allows for rapid coding, but loses the advantage of compile-time
+ * checking.
+ * <p>
+ * Inherits superclass bean proprties. Adds methodNameResolver bean property.
  * An implementation of the MethodNameResolver interface defined in this package
  * should return a method name for a given request, based on any aspect of the request,
  * such as its URL or an "action" or like attribute. The default behavior is URL based.
- *
+ * <br/>
+ * Also supports delegation to another object.
+ * <br/>
  * <p>Subclasses can implement custom exception handler methods with names such as
- * <p><code>
- * &nbsp;&nbsp;ModelAndView anyMeaningfulName(HttpServletRequest request, HttpServletResponse response, ExceptionClass exception);
- * </code>
- * <p>The third parameter can be any subclass or Exception or RuntimeException.
- *
- * <p>There can also be an optional lastModified method for handlers, of signature
- * <p><code>
- * &nbsp;&nbsp;long anyMeaningfulNameLastModified(HttpServletRequest request)
- * </code>
- * <p>If such a method is present, it will be invoked. Default return from getLastModified()
+ * ModelAndView anyMeaningfulName(HttpServletRequest request, HttpServletResponse response, ExceptionClass exception);
+ * The third parameter can be any subclass or Exception or RuntimeException.
+ * </br>
+ * There can also be an optional lastModified method for handlers, of signature
+ * long anyMeaningfulNameLastModified(HttpServletRequest request)
+ * If such a method is present, it will be invoked. Default return from getLastModified()
  * is -1, meaning that content must always be regenerated.
- *
- * <p>Note that method overloading isn't allowed.
- *
+ * <br>Like Struts 1.1 DispatchAction, but more sophisticated.
+ * <br>The mapping from requests to handler method names is parameterized in the MethodNameResolver
+ * interface.
+ * <br>Note that method overloading isn't allowed.
  * @author Rod Johnson
- * @see MethodNameResolver
  */
-public class MultiActionController extends WebContentGenerator implements Controller, LastModified  {
+public class MultiActionController 
+					extends WebContentGenerator 
+					implements Controller, LastModified  {
 		
 	/** Prefix for last modified methods */
 	public static final String LAST_MODIFIED_METHOD_SUFFIX = "LastModified";
@@ -84,15 +76,14 @@ public class MultiActionController extends WebContentGenerator implements Contro
 	//---------------------------------------------------------------------
 	// Instance data
 	//---------------------------------------------------------------------
-
 	/** Methods, keyed by name */
-	private Map methodHash;
+	private HashMap methodHash;
 	
 	/** LastModified methods, keyed by handler method name (without LAST_MODIFIED_SUFFIX) */
-	private Map lastModifiedMethodHash;
+	private HashMap lastModifiedMethodHash;
 	
 	/** Methods, keyed by exception class */
-	private Map exceptionHandlerHash;
+	private HashMap exceptionHandlerHash;
 
 	/** 
 	 * Helper object that knows how to return method names from incoming requests.
@@ -107,7 +98,6 @@ public class MultiActionController extends WebContentGenerator implements Contro
 	//---------------------------------------------------------------------
 	// Constructors
 	//---------------------------------------------------------------------
-
 	/**
 	 * Constructor for MultiActionController that looks for handler methods
 	 * in the present subclass.
@@ -138,7 +128,6 @@ public class MultiActionController extends WebContentGenerator implements Contro
 	//---------------------------------------------------------------------
 	// Bean properties
 	//---------------------------------------------------------------------
-
 	/**
 	 * Sets the method name resolver used by this class.
 	 * Allows parameterization of mappings.
@@ -235,7 +224,6 @@ public class MultiActionController extends WebContentGenerator implements Contro
 	//---------------------------------------------------------------------
 	// Implementation of LastModified
 	//---------------------------------------------------------------------
-
 	/**
 	 * Try to find an XXXXLastModified method, where XXXX is the name of a handler.
 	 * Return -1, indicating that content must be updated, if there's no such handler.
@@ -271,9 +259,8 @@ public class MultiActionController extends WebContentGenerator implements Contro
 	//---------------------------------------------------------------------
 	// Implementation of Controller
 	//---------------------------------------------------------------------
-
 	/**
-	 * @see com.interface21.web.servlet.mvc.AbstractController#handleRequestInternal(HttpServletRequest, HttpServletResponse)
+	 * @see AbstractController#handleRequestInternal(HttpServletRequest, HttpServletResponse)
 	 */
 	public final ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
@@ -286,6 +273,7 @@ public class MultiActionController extends WebContentGenerator implements Contro
 			throw new ServletException("No handler", ex);
 		}
 	}
+	
 	
 	/**
 	 * Invoke the named method.
@@ -320,11 +308,13 @@ public class MultiActionController extends WebContentGenerator implements Contro
 			if (m.getParameterTypes().length >= 3 && !m.getParameterTypes()[m.getParameterTypes().length - 1].equals(HttpSession.class)) {
 				Object command = newCommandObject(m.getParameterTypes()[m.getParameterTypes().length - 1]);
 				params.add(command);
-				bind(request, command);
+				bind(command, request);
 			}
 			
 			Object[] parray = params.toArray(new Object[params.size()]);
-			return (ModelAndView) m.invoke(this.delegate, parray);
+			//System.out.println(StringUtils.arrayToDelimitedString(parray, ","));
+			ModelAndView mv = (ModelAndView) m.invoke(this.delegate, parray);
+			return mv;
 		}
 		catch (IllegalAccessException ex) {
 			throw new ServletException("Cannot invoke request handler method [" + m + "]: not accessible", ex);
@@ -332,9 +322,11 @@ public class MultiActionController extends WebContentGenerator implements Contro
 		catch (InvocationTargetException ex) {
 			// This is what we're looking for: the handler method threw an exception
 			Throwable t = ex.getTargetException();
+			
 			return handleException(request, response, t);
 		}
-	}
+	}	// invokeNamedMethod
+
 
 	/**
 	 * We've encountered an exception which may be recoverable
@@ -367,11 +359,12 @@ public class MultiActionController extends WebContentGenerator implements Contro
 		
 		// Must be a checked application exception
 		throw new ServletException("Uncaught exception", t);
-	}
-
+	}	// invokeNamedMethod
+	
+	
 	/**
 	 * Create a new command object of the given class.
-	 * Subclasses can override this implementation if they want.
+	 * <br>Subclasses can override this implementation if they want.
 	 * This implementation uses class.newInstance(), so commands need to have
 	 * public no arg constructors.
 	 */
@@ -388,20 +381,21 @@ public class MultiActionController extends WebContentGenerator implements Contro
 	
 	/**
 	 * Bind request parameters onto the given command bean
-	 * @param request request from which parameters will be bound
 	 * @param command command object, that must be a JavaBean
+	 * @param request request from which parameters will be bound
+	 * onto command properties.
 	 */
-	protected void bind(ServletRequest request, Object command) throws ServletException {
+	protected void bind(Object command, HttpServletRequest request) throws ServletException {
 		logger.info("Binding request parameters onto command");
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(command, "command");
+		HttpServletRequestDataBinder binder = new HttpServletRequestDataBinder(command, "command");
 		binder.bind(request);
 		binder.closeNoCatch();
 	}
 	
 	/**
-	 * Can return null if not found.
+	 * Can return null if not found
 	 * @return a handler for the given exception type
-	 * @param exception Won't be a ServletException or IOException
+	 * @param tWon't be a ServletException or IOException
 	 */
 	protected Method getExceptionHandler(Throwable exception) {
 		Class exceptionClass = exception.getClass();
@@ -444,6 +438,6 @@ public class MultiActionController extends WebContentGenerator implements Contro
 			// Shouldn't happen
 			throw new ServletException("Unexpected exception thrown from exception handler method: ", t);
 		}  
-	}
+	}	// invokeExceptionHandler
 	
-}
+}	// class MultiActionController

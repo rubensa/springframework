@@ -1,221 +1,259 @@
 package com.interface21.validation;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.interface21.beans.BeanWrapper;
 import com.interface21.beans.BeanWrapperImpl;
 
+
 /**
- * Default implementation of the Errors interface, supporting
- * registration and evaluation of binding errors.
- * Slightly unusual, as it _is_ an exception.
- *
- * <p>This is mainly a framework-internal class. Normally,
- * application code will work with the Errors interface.
- *
- * <p>Supports exporting a model, suitable for example for web MVC.
- * Thus, it is sometimes used as parameter type instead of the
- * Errors interface itself - if extracting the model makes sense
- * in the respective context.
  *
  * @author Rod Johnson
- * @author Juergen Hoeller
- * @see #getModel
  */
 public class BindException extends Exception implements Errors {
-
-	/**
-	 * Prefix for the name of the Errors instance in a model,
-	 * followed by the object name.
-	 */
-	public static final String ERROR_KEY_PREFIX = BindException.class.getName() + ".";
-
-	private List errors = new ArrayList();
-
-	private BeanWrapper beanWrapper;
-
-	private String objectName;
-
+	
+	public static final String EXCEPTION_KEY = "com.interface21.validation.BindException";
+	
+	public static final String ERRORS_KEY = "com.interface21.validation.BindException.ERRORS";
+	
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
+	private List errors = new LinkedList();
+	
+	/** String name -> bw */
+	private HashMap bwHash = new HashMap();
+	
+	/** String name -> object */
+	private HashMap targetHash = new HashMap();
+	
+	private BeanWrapper lastBeanWrapper;
+	
+	private String lastObjectName;
+	
+	/** Nested path */
 	private String nestedPath = "";
-
-	/**
-	 * Create a new BindException instance.
-	 * @param target target object to bind onto
-	 * @param name name of the target object
-	 */
+	
+	
+	//---------------------------------------------------------------------
+	// Constructors
+	//---------------------------------------------------------------------
 	public BindException(Object target, String name) {
-		this.beanWrapper = new BeanWrapperImpl(target);
-		this.objectName = name;
+		newTarget(target, name);
+	}
+	
+
+	//---------------------------------------------------------------------
+	// Implementation of Errors
+	//---------------------------------------------------------------------
+	/**
+	 * Return a mapping of target name to target object
+	 */
+	public final Map getTargetMap() {
+		HashMap m = new HashMap();
+		m.putAll(this.targetHash);
+		return m;
+	}
+	
+	public void newTarget(Object target, String name) {
+		this.lastBeanWrapper = new BeanWrapperImpl(target);
+		bwHash.put(name, this.lastBeanWrapper);
+		targetHash.put(name, target);
+		this.lastObjectName = name;
+		
 		this.nestedPath = "";
 	}
-
-	/**
-	 * Return the BeanWrapper that this instance uses.
-	 */
-	protected BeanWrapper getBeanWrapper() {
-		return beanWrapper;
+	
+	protected BeanWrapper getLastBeanWrapper() {
+		return lastBeanWrapper;
 	}
-
+	
+	protected String lastObjectName() {
+		return lastObjectName;
+	}
+	
+	protected BeanWrapper getBeanWrapperFor(String name) throws InvalidBinderUsageException {
+		BeanWrapper bw = (BeanWrapper) bwHash.get(name);
+		if (bw == null)
+			throw new InvalidBinderUsageException("No target with name '" + name + "'");
+		return bw;
+	}
+	
+	public Object getTarget(String name) throws InvalidBinderUsageException {
+		BeanWrapper bw = getBeanWrapperFor(name);
+		return bw.getWrappedInstance();
+	}
+	
+	private BeanWrapper getBeanWrapperForSingleTarget() throws InvalidBinderUsageException {
+		if (bwHash.size() != 1)
+			throw new InvalidBinderUsageException("Multiple targets: can't get default target");
+		BeanWrapper bw = (BeanWrapper) bwHash.values().iterator().next();
+		return bw;
+	}
+	
+	public Object getTarget() throws InvalidBinderUsageException {
+		//BeanWrapper bw = getBeanWrapperForSingleTarget();
+		//return bw.getWrappedInstance();
+		return this.lastBeanWrapper;
+	}
+	
 	/**
-	 * Transform the given field into its full path,
-	 * regarding the nested path of this instance.
+	 * Reject an update from the last binding target
 	 */
+	public void rejectValue(String field, String code, String message) throws InvalidBinderUsageException {
+		rejectValue(this.lastObjectName, field, code, message);
+	}
+	
+	public void rejectValue(String objName, String field, String code, String message) throws InvalidBinderUsageException {
+		
+		field = fixedField(field);
+		Object newVal = getBeanWrapperFor(objName).getPropertyValue(field);
+		FieldError fe = new FieldError(this.lastObjectName, field, newVal, code, message);
+		errors.add(fe);
+	}
+	
 	private String fixedField(String field) {
-		return this.nestedPath + field;
+		// Add nested path, if present, allowing context changes
+		field = nestedPath + field;
+		//System.out.println("Fixed field = '" + field + "'");
+		return field;
 	}
-
-	/**
-	 * Add a FieldError to the errors list.
-	 * Intended to be used by subclasses like DataBinder.
-	 */
+	
 	protected void addFieldError(FieldError fe) {
 		errors.add(fe);
 	}
-
-	/**
-	 * Return the wrapped target object.
-	 */
-	public Object getTarget() {
-		return this.beanWrapper.getWrappedInstance();
-	}
-
-	public String getObjectName() {
-		return objectName;
-	}
-
-	public void reject(String errorCode, String defaultMessage) {
-		reject(errorCode, null, defaultMessage);
-	}
-
-	public void reject(String errorCode, Object[] errorArgs, String defaultMessage) {
-		this.errors.add(new ObjectError(this.objectName, errorCode, errorArgs, defaultMessage));
-	}
-
-	public void rejectValue(String field, String errorCode, String defaultMessage) {
-		rejectValue(field, errorCode, null, defaultMessage);
-	}
-
-	public void rejectValue(String field, String errorCode, Object[] errorArgs, String defaultMessage) {
-		field = fixedField(field);
-		Object newVal = getBeanWrapper().getPropertyValue(field);
-		FieldError fe = new FieldError(this.objectName, field, newVal, errorCode, errorArgs, defaultMessage);
-		this.errors.add(fe);
-	}
-
-	public boolean hasErrors() {
-		return !this.errors.isEmpty();
-	}
-
+	
+	
 	public int getErrorCount() {
-		return this.errors.size();
+		return errors.size();
 	}
-
-	public List getAllErrors() {
-		return Collections.unmodifiableList(this.errors);
+	
+	public boolean hasError(String objName, String field) { 
+		field = fixedField(field);
+		return getError(objName, field) != null;
 	}
-
-	public boolean hasGlobalErrors() {
-		return (getGlobalErrorCount() > 0);
+	
+	public boolean hasError(String field) { 
+		return getError(this.lastObjectName, field) != null;
 	}
-
-	public int getGlobalErrorCount() {
-		return getGlobalErrors().size();
+	
+	public boolean hasErrors() {
+		return !errors.isEmpty();
 	}
-
-	public List getGlobalErrors() {
-		List result = new ArrayList();
-		for (Iterator it = this.errors.iterator(); it.hasNext();) {
-			ObjectError fe = (ObjectError) it.next();
-			if (!(fe instanceof FieldError))
-				result.add(fe);
-		}
-		return Collections.unmodifiableList(result);
+	
+	
+	/**
+	 * Return value held in error if error, else
+	 * 
+	 */
+	public Object getPropertyValueOrRejectedUpdate(String objName, String field) {
+		field = fixedField(field);
+		FieldError fe = getError(objName, field);
+		if (fe == null)
+			return getBeanWrapperFor(objName).getPropertyValue(field);
+		return fe.getRejectedValue();
 	}
-
-	public ObjectError getGlobalError() {
-		for (Iterator it = this.errors.iterator(); it.hasNext();) {
-			ObjectError fe = (ObjectError) it.next();
-			if (!(fe instanceof FieldError))
+	
+	public Object getPropertyValueOrRejectedUpdate(String field) {
+		return getPropertyValueOrRejectedUpdate(this.lastObjectName, field);
+	}
+	
+	/**
+	 * Return FieldError or null
+	 */
+	public FieldError getError(String objName, String field) {
+		field = fixedField(field);
+		for (int i = 0; i < errors.size(); i++) {
+			FieldError fe = (FieldError) errors.get(i);
+			if (fe.getObject().equals(objName) && fe.getField().equals(field))
 				return fe;
 		}
+		// Return null if not found
 		return null;
 	}
-
-	public boolean hasFieldErrors(String field) {
-		return (getFieldErrorCount(field) > 0);
+	
+	
+	public FieldError getError(String field) {
+		return getError(this.lastObjectName, field);
 	}
-
-	public int getFieldErrorCount(String field) {
-		return getFieldErrors(field).size();
+	
+	public FieldError[] getErrors() {
+		return (FieldError[]) errors.toArray(new FieldError[0]);
 	}
-
-	public List getFieldErrors(String field) {
-		List result = new ArrayList();
-		field = fixedField(field);
-		for (Iterator it = this.errors.iterator(); it.hasNext();) {
-			ObjectError fe = (ObjectError) it.next();
-			if (fe instanceof FieldError && field.equals(((FieldError) fe).getField()))
-				result.add(fe);
-		}
-		return Collections.unmodifiableList(result);
+	
+	
+	/**
+	 * List of all errors: order isn't guaranteed OR IS IT THAT ON FORM!?
+	 */
+	public List fieldErrors() {
+		return errors;
 	}
-
-	public FieldError getFieldError(String field) {
-		field = fixedField(field);
-		for (Iterator it = errors.iterator(); it.hasNext();) {
-			ObjectError fe = (ObjectError) it.next();
-			if (fe instanceof FieldError && field.equals(((FieldError) fe).getField()))
-				return (FieldError) fe;
-		}
-		return null;
-	}
-
-	public Object getFieldValue(String field) {
-		field = fixedField(field);
-		FieldError fe = getFieldError(field);
-		if (fe == null)
-			return getBeanWrapper().getPropertyValue(field);
-		else
-			return fe.getRejectedValue();
-	}
-
+	
+	
 	public void setNestedPath(String nestedPath) {
 		if (nestedPath == null)
 			nestedPath = "";
 		if (nestedPath.length() > 0)
 			nestedPath += ".";
 		this.nestedPath = nestedPath;
+		//System.out.println("NESTEDPATH set to '" + this.nestedPath + "'");
 	}
-
-	/**
-	 * Return a model Map for the contained state, exposing an Errors
-	 * instance as ERROR_KEY_PREFIX + object name, and the object itself.
-	 * @see #ERROR_KEY_PREFIX
+	
+	/*
+	 * Return model!?
 	 */
 	public final Map getModel() {
-		Map model = new HashMap();
-		// errors instance, even if no errors
-		model.put(ERROR_KEY_PREFIX + this.objectName, this);
-		// mapping from name to target object
-		model.put(this.objectName, this.beanWrapper.getWrappedInstance());
-		return model;
-	}
+		if (hasErrors()) {
+			HashMap m = new HashMap();
+			m.put(ERRORS_KEY, getErrors());
+			
+			// or fieldErrors list?
+			m.put(EXCEPTION_KEY, this);
+			
+			m.putAll(getTargetMap());
+			return m;
+		}
+		else {
+			// Mapping from name to target object
+			return getTargetMap();
 
+//			Map m = new HashMap();
+//			Iterator itr = getTargetMap().keySet().iterator();
+//			while (itr.hasNext()) {
+//				String name = (String) itr.next();
+//				Map mm = new HashMap();
+//				BeanWrapper bw = getBeanWrapperFor(name);
+//				PropertyDescriptor[] pds = bw.getPropertyDescriptors();
+//				for (int i = 0; i < pds.length; i++) {
+//					String prop = pds[i].getName();
+//					if (bw.isReadableProperty(prop)) {
+//						Object val = bw.getPropertyValue(prop);
+//						if (val == null) val = "";
+//						mm.put(prop, val);
+//					}
+//				}
+//				m.put(name, mm);
+//			}
+//			return m;
+		}
+	}
+	
+	
 	/**
-	 * Returns diagnostic information about the errors held in this object.
+	 * @return diagnostic information about the errors held in this object
 	 */
 	public String getMessage() {
 		StringBuffer sb = new StringBuffer("BindException: " + getErrorCount() + " errors");
-		Iterator it = this.errors.iterator();
-		while (it.hasNext()) {
-			sb.append("; " + it.next());
+		System.out.println("command is " + getTarget() + "; ");
+		Iterator itr = errors.iterator();
+		while (itr.hasNext()) {
+			sb.append("; " + itr.next());
 		}
 		return sb.toString();
 	}
-
+	
 }

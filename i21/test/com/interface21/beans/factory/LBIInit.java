@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.interface21.beans.BeansException;
-import com.interface21.beans.MutablePropertyValues;
-import com.interface21.beans.PropertyValue;
 import com.interface21.beans.factory.support.*;
 
 
@@ -47,22 +45,6 @@ public class LBIInit {
 		m.put("typeMismatch.name", "typeMismatch");
 		m.put("typeMismatch.age", "34x");
 		m.put("typeMismatch.spouse(ref)", "rod");
-		
-		m.put("singletonFactory.class", "com.interface21.beans.factory.DummyFactory");
-		m.put("singletonFactory.singleton", "true");
-		
-		m.put("prototypeFactory.class", "com.interface21.beans.factory.DummyFactory");
-		m.put("prototypeFactory.singleton", "false");
-		
-		m.put("factoryPassThrough.class", "com.interface21.beans.factory.DummyFactory");
-		m.put("factoryPassThrough.singleton", "true");
-		MutablePropertyValues pvs = new MutablePropertyValues();
-		pvs.addPropertyValue(new PropertyValue("name", "passThrough"));
-		m.put("factoryPassThrough.propertyValues", pvs);
-		
-		m.put("mustBeInitialized.class", "com.interface21.beans.factory.MustBeInitialized");
-		
-		m.put("lifecycle.class", "com.interface21.beans.factory.LifecycleBean");
 		
 		lbf.registerBeanDefinitions(m, null);
 	}

@@ -12,82 +12,98 @@
 package com.interface21.web.servlet.mvc.multiaction;
 
 import java.util.Properties;
-import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.interface21.beans.factory.InitializingBean;
-import com.interface21.web.util.WebUtils;
-import com.interface21.util.PathMatcher;
+
 
 /**
  * The most sophisticated and useful framework implementation of 
  * the MethodNameResolver interface. Uses java.util.Properties
  * defining the mapping between the URL of incoming requests and
  * method name. Such properties can be held in an XML document.
- *
- * <p>Properties format is
+ * <br>Properties format is
  * <code>
  * /welcome.html=displayGenresPage
  * </code>
  * Note that method overloading isn't allowed, so there's no
  * need to specify arguments.
- *
- * <p>Supports direct matches, e.g. a registered "/test" matches "/test",
- * and a various Ant-style pattern matches, e.g. a registered "/t*" matches
- * both "/test" and "/team". For details, see the PathMatcher class.
- *
  * @author Rod Johnson
- * @author Juergen Hoeller
- * @see com.interface21.util.PathMatcher
  */
 public class PropertiesMethodNameResolver implements MethodNameResolver, InitializingBean {
 	
-	protected final Log logger = LogFactory.getLog(getClass());
-
-	private boolean alwaysUseFullPath = false;
-
-	private Properties mappings;
-
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
 	/**
-	 * Set if URL lookup should always use full path within current servlet
-	 * context. Else, the path within the current servlet mapping is used
-	 * if applicable (i.e. in the case of a ".../*" servlet mapping in web.xml).
-	 * Default is false.
-	 */
-	public final void setAlwaysUseFullPath(boolean alwaysUseFullPath) {
-		this.alwaysUseFullPath = alwaysUseFullPath;
-	}
-
+	* Create a logging category that is available
+	* to subclasses. 
+	*/
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+	
+	/** Properties defining the mapping */
+	private Properties props;
+	
+	
+	//---------------------------------------------------------------------
+	// Constructors
+	//---------------------------------------------------------------------
 	/**
-	 * Set the mapping properties for this resolver.
+	 * Create a new PropertiesMethodNameResolver. The mappings
+	 * property must be set before use.
 	 */
-	public final void setMappings(Properties mappings) {
-		this.mappings = mappings;
+	public PropertiesMethodNameResolver() {
 	}
 	
-	public void afterPropertiesSet() {
-		if (this.mappings == null) {
-			throw new IllegalArgumentException("'mappings' property is required");
-		}
+	/**
+	 * Create a new PropertiesMethodNameResolver, fully configuring this
+	 * class by passing in propertiers
+	 * @param props property mapping
+	 */
+	public PropertiesMethodNameResolver(Properties props) {
+		setMappings(props);
 	}
-
+	
+	
+	//---------------------------------------------------------------------
+	// Bean properties and initializer
+	//---------------------------------------------------------------------
+	/**
+	 * Set the mappings configuring this class
+	 * @param props mappings configuring this class
+	 */
+	public void setMappings(Properties props) {
+		this.props = props;
+		// WHAT ABOUT /!?
+	}
+	
+	/**
+	 * @see InitializingBean#afterPropertiesSet()
+	 */
+	public void afterPropertiesSet() throws Exception {
+		if (props == null)
+			throw new Exception("Must set 'mappings' property on PropertiesMethodNameResolver");
+	}
+	
+	
+	//---------------------------------------------------------------------
+	// Implementation of MethodNameResolver
+	//---------------------------------------------------------------------
+	/**
+	 * @see MethodNameResolver#getHandlerMethodName(HttpServletRequest)
+	 */
 	public String getHandlerMethodName(HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
-		String urlPath = WebUtils.getLookupPathForRequest(request, this.alwaysUseFullPath);
-		String name = this.mappings.getProperty(urlPath);
-		if (name == null) {
-			for (Iterator it = this.mappings.keySet().iterator(); it.hasNext();) {
-				String registeredPath = (String) it.next();
-				if (PathMatcher.match(registeredPath, urlPath)) {
-					return (String) this.mappings.get(registeredPath);
-				}
-			}
+		String servletPath = request.getServletPath();
+		// forward slash prepend?
+		String name = props.getProperty(servletPath);
+		if (name == null)
 			throw new NoSuchRequestHandlingMethodException(request);
-		}
-		logger.debug("Returning MultiActionController method name '" + name + "' for lookup path '" + urlPath + "'");
+			
+		if (logger.isDebugEnabled())
+			logger.debug("Returning MultiActionController method name '" + name + "' for servlet path '" + servletPath + "'");
 		return name;
 	}
 

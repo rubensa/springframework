@@ -31,11 +31,6 @@ public class PreparedStatementCreatorFactory {
 				PreparedStatement ps = conn.prepareStatement(sql);
 				return ps;
 			}
-
-			public String getSql() {
-				return sql;
-			}
-
 		};
 	}
 	
@@ -180,10 +175,6 @@ public class PreparedStatementCreatorFactory {
 				}
 			}
 			return ps;
-		}
-
-		public String getSql() {
-			return sql;
 		}
 
 		public String toString() {

@@ -1,41 +1,60 @@
+
+
 package com.interface21.web.context;
 
-import java.util.Locale;
-
 import javax.servlet.ServletContext;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-import com.interface21.beans.ITestBean;
-import com.interface21.context.AbstractApplicationContextTests;
 import com.interface21.context.ApplicationContext;
-import com.interface21.context.NoSuchMessageException;
+import com.interface21.context.AbstractApplicationContextTests;
 import com.interface21.context.TestListener;
 import com.interface21.web.context.support.XmlWebApplicationContext;
-import com.interface21.web.mock.MockServletContext;
 
 /**
- * @author Rod Johnson
+ *
+ * @author  rod  
+ * @version
  */
 public class WebApplicationContextTestSuite extends AbstractApplicationContextTests {
 
-	private ServletContext servletContext;
+	/** We use ticket WAR root for file structure.
+	 * We don't attempt to read web.xml.
+	 */
+	public static final String WAR_ROOT = "/com/interface21/web/context";
+
+	ServletContext servletContext;
 	
 	private WebApplicationContext root;
 
-	public WebApplicationContextTestSuite() throws Exception {
+	/** Creates new SeatingPlanTest */
+	public WebApplicationContextTestSuite(String name) {
+		super(name);
 	}
 
 	protected ApplicationContext createContext() throws Exception {
 		root = new XmlWebApplicationContext();
-		MockServletContext sc = new MockServletContext("", "/com/interface21/web/context/WEB-INF/web.xml");
-		sc.addInitParameter(XmlWebApplicationContext.CONFIG_LOCATION_PARAM, "/com/interface21/web/context/WEB-INF/applicationContext.xml");
-		sc.addInitParameter(XmlWebApplicationContext.CONFIG_LOCATION_PREFIX_PARAM, "/com/interface21/web/context/WEB-INF/");
+		servletapi.TestServletContext sc = new servletapi.TestServletContext(WAR_ROOT);
+
+		// This is required for the framework
+		sc.addInitParameter("configUrl", "/WEB-INF/applicationContext.xml");
+
 		this.servletContext = sc;
+
 		root.setServletContext(sc);
+		
 		WebApplicationContext wac = new XmlWebApplicationContext(root, "test-servlet");
+
 		wac.setServletContext(sc);
+		
+		// Add listeners expected by parent test case
+		//wac.(this.listener);
+		
 		return wac;
 	}
-
+	
+	
+	
 	/**
 	 * Overridden as we can't trust superclass method
 	 * @see com.interface21.context.AbstractApplicationContextTests#testEvents()
@@ -59,6 +78,7 @@ public class WebApplicationContextTestSuite extends AbstractApplicationContextTe
 		WebApplicationContext wc = (WebApplicationContext) this.servletContext.getAttribute(WebApplicationContext.WEB_APPLICATION_CONTEXT_ATTRIBUTE_NAME);
 		assertTrue("WebApplicationContext exposed in ServletContext as attribute", wc != null);
 		assertTrue("WebApplicationContext exposed in ServletContext as attribute == root", wc == this.root);
+		
 	}
 
 	/** Assumes web.xml defines testConfigObject of type TestConfigBean */
@@ -81,37 +101,21 @@ public class WebApplicationContextTestSuite extends AbstractApplicationContextTe
 		assertTrue("ctcb context is context", ctcb.getApplicationContext() == root);
 	}
 
+	public static void main(String[] args) {
+		junit.textui.TestRunner.run(suite());
+		//	junit.swingui.TestRunner.main(new String[] {PrototypeFactoryTests.class.getName() } );
+	}
+
+	public static Test suite() {
+		return new TestSuite(WebApplicationContextTestSuite.class);
+	}
+
+	/**
+	 * @see com.interface21.beans.factory.AbstractListableBeanFactoryTests#testCount()
+	 */
 	public void testCount() {
-		assertTrue("should have 17 beans, not"+ this.applicationContext.getBeanDefinitionCount(),
-			this.applicationContext.getBeanDefinitionCount() == 15);
-	}
-
-	public void testWithoutMessageSource() throws Exception {
-		MockServletContext sc = new MockServletContext("", "/com/interface21/web/context/WEB-INF/web.xml");
-		sc.addInitParameter(XmlWebApplicationContext.CONFIG_LOCATION_PREFIX_PARAM, "/com/interface21/web/context/WEB-INF/");
-		WebApplicationContext wac = new XmlWebApplicationContext(null, "testNamespace");
-		wac.setServletContext(sc);
-		try {
-			wac.getMessage("someMessage", null, Locale.getDefault());
-			fail("Should have thrown NoSuchMessageException");
-		}
-		catch (NoSuchMessageException ex) {
-			// expected;
-		}
-		String msg = wac.getMessage("someMessage", null, "default", Locale.getDefault());
-		assertTrue("Default message returned", "default".equals(msg));
-	}
-
-	public void testContextNesting() {
-		ITestBean father = (ITestBean) this.applicationContext.getBean("father");
-		assertTrue("Bean from root context", father != null);
-
-		ITestBean rod = (ITestBean) this.applicationContext.getBean("rod");
-		assertTrue("Bean from child context", "Rod".equals(rod.getName()));
-		assertTrue("Bean has external reference", rod.getSpouse() == father);
-
-		rod = (ITestBean) this.root.getBean("rod");
-		assertTrue("Bean from root context", "Roderick".equals(rod.getName()));
+		assertTrue("should have 10 beans, not"+ this.applicationContext.getBeanDefinitionCount(),
+			this.applicationContext.getBeanDefinitionCount() == 10);
 	}
 
 }

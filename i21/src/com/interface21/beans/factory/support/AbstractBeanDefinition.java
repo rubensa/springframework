@@ -1,73 +1,101 @@
-/*
- * The Spring Framework is published under the terms
- * of the Apache Software License.
- */
- 
 package com.interface21.beans.factory.support;
 
+import java.util.EventListener;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import com.interface21.beans.PropertyValues;
+import com.interface21.beans.factory.BeanFactory;
 
-/**
- * Internal BeanFactory implementation class. This abstract base
- * class defines the BeanFactory type.Use a FactoryBean to
- * customize behaviour when returning application beans.
- *
- * <p> A BeanDefinition describes a bean instance,
- * which has property values and further information supplied
- * by concrete classes or subinterfaces.
- *
- * <p>Once configuration is complete, a BeanFactory will be able
- * to return direct references to objects defined by
- * BeanDefinitions.
- *
- * @author Rod Johnson
- * @version $Id$
- */
-public abstract class AbstractBeanDefinition {
+/** 
+* Abstract implementation of the BeanDefinition interface.
+* All BeanDefinitions have a map
+* containing their properties. However, the differ in how their
+* class is defined, and concrete subclasses provide this information.
+* This BeanDefinition base class supports adding listeners (PropertyChangeListener or
+* VetoableChangeListener) to be notified on property changes.
+* @author Rod Johnson
+*/
+public abstract class AbstractBeanDefinition implements BeanDefinition {
 
-	/** Is this a singleton bean? */
+	/**
+	* Create a logging category that is available
+	* to subclasses. 
+	*/
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+	
 	private boolean singleton;
 	
 	/** Property map */
 	private PropertyValues pvs;
-	
+
+	/** List of event listeners in ListenerRegistration objects */
+	private List listeners = new LinkedList();
+
+	/** Struct */
+	protected class ListenerRegistration {
+		private String methodName;
+		private EventListener listener;
+
+		private ListenerRegistration(String methodName, EventListener l) {
+			this.methodName = methodName;
+			this.listener = l;
+		}
+
+		private ListenerRegistration(EventListener l) {
+			this(null, l);
+		}
+
+		public String getPropertyName() {
+			return methodName;
+		}
+
+		public EventListener getListener() {
+			return listener;
+		}
+	} 	// inner class ListenerRegistration
+
 	/** 
 	 * Creates new BeanDefinition
-	 * @param pvs properties of the bean
+	 * @param map properties of the bean
 	 */
 	protected AbstractBeanDefinition(PropertyValues pvs, boolean singleton) {
 		this.pvs = pvs;
 		this.singleton = singleton;
 	}
 	
-	/**
-	 * Is this a <b>Singleton</b>, with a single, shared
-	 * instance returned on all calls,
-	 * or should the BeanFactory apply the <b>Prototype</b> design pattern,
-	 * with each caller requesting an instance getting an independent
-	 * instance? How this is defined will depend on the BeanFactory.
-	 * "Singletons" are the commoner type.
-	 * @return whether this is a Singleton
-	 */
-	public final boolean isSingleton() {
-		return singleton;
+	protected AbstractBeanDefinition() {
+		this.singleton = true;
 	}
 	
-
-	/**
-	 * Return the PropertyValues to be applied to a new instance
-	 * of this bean.
-	 * @return the PropertyValues to be applied to a new instance
-	 * of this bean
-	 */
-	public PropertyValues getPropertyValues() {
-		return pvs;
+	public final boolean isSingleton() {
+		return singleton;
 	}
 	
 	public void setPropertyValues(PropertyValues pvs) {
 		this.pvs = pvs;
 	}
 
+	public PropertyValues getPropertyValues() {
+		return pvs;
+	}
+
+	/** Add a PropertyChangeListener */
+	public void addListener(EventListener l) {
+		listeners.add(new ListenerRegistration(l));
+	}
+
+	public void addListener(String methodName, EventListener l) {
+		listeners.add(new ListenerRegistration(methodName, l));
+	}
+
+	protected List getListeners() {
+		return listeners;
+	}
+	
+	
 	/**
 	 * @see Object#equals(Object)
 	 */
@@ -79,4 +107,11 @@ public abstract class AbstractBeanDefinition {
 			this.pvs.changesSince(obd.pvs).getPropertyValues().length == 0;
 	}
 
-}
+	/**
+	 * Subclasses can override this. This implementation does nothing.
+	 * @see BeanDefinition#setBeanFactory(BeanFactory)
+	 */
+	public void setBeanFactory(BeanFactory context) {
+	}
+
+} 	// class BeanDefinition

@@ -1,23 +1,22 @@
 package com.interface21.jdbc.core;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 
-import com.interface21.jdbc.mock.SpringMockPreparedStatement;
-import com.interface21.jdbc.mock.SpringMockStatement;
 import com.mockobjects.sql.CommonMockMultiRowResultSet;
 import com.mockobjects.sql.MockConnection;
 import com.mockobjects.sql.MockMultiRowResultSet;
+import com.mockobjects.sql.MockPreparedStatement;
+import com.mockobjects.sql.MockStatement;
 
 /**
- * Factory for mock objects used in JDBC testing.
- * Addresses some limitations of standard mock objects from
- * mockobjects.com, such as lack of support for warnings.
+ * 
  * @author Rod Johnson
  * @since 08-Jan-03
  */
 public abstract class MockConnectionFactory {
+	
+	
 
 	/**
 	* Constructor for SimpleMockConnection with Statement
@@ -25,27 +24,17 @@ public abstract class MockConnectionFactory {
 	public static MockConnection statement(
 		String sql,
 		Object[][] data,
-		boolean mustClose,
-		SQLException sex,
-		SQLWarning warnings) {
+		boolean mustClose) {
 
 		MockConnection mc = new MockConnection();
-		mc.setExpectedCloseCalls(mustClose ? 2 : 0);
+		mc.setExpectedCloseCalls(mustClose ? 1 : 0);
 
-		SpringMockStatement s = new SpringMockStatement();
+		// What about PS?
+		MockStatement s = new MockStatement();
 		s.setExpectedQueryString(sql);
-		
-		if (sex != null) {
-			s.setupThrowExceptionOnExecute(sex);
-		}
-		else {
-
-			if (warnings != null)
-				s.setupReportWarningOnExecute(warnings);
-		}
-		
 		mc.setupStatement(s);
-		CommonMockMultiRowResultSet rs = new MockMultiRowResultSet();
+		CommonMockMultiRowResultSet rs = new MockMultiRowResultSet() {
+		};
 		rs.setupRows(data);
 		s.addResultSet(rs);
 		return mc;
@@ -78,7 +67,7 @@ public abstract class MockConnectionFactory {
 		SQLWarning warnings) {
 
 		MockConnection mc = new MockConnection();
-		mc.setExpectedCloseCalls(mustClose ? 2 : 0);
+		mc.setExpectedCloseCalls(mustClose ? 1 : 0);
 
 		// What about PS?
 		SpringMockPreparedStatement ps = new SpringMockPreparedStatement();
@@ -102,7 +91,8 @@ public abstract class MockConnectionFactory {
 			ps.addExpectedSetParameters(bindVariables);
 		}
 		mc.addExpectedPreparedStatement(ps);
-		CommonMockMultiRowResultSet rs = new MockMultiRowResultSet();
+		CommonMockMultiRowResultSet rs = new MockMultiRowResultSet() {
+		};
 		rs.setupRows(data);
 		ps.addResultSet(rs);
 
@@ -136,7 +126,7 @@ public abstract class MockConnectionFactory {
 		SQLWarning warnings) {
 
 		MockConnection mc = new MockConnection();
-		mc.setExpectedCloseCalls(mustClose ? 2 : 0);
+		mc.setExpectedCloseCalls(mustClose ? 1 : 0);
 
 		// What about PS?
 		SpringMockPreparedStatement ps = new SpringMockPreparedStatement();
@@ -160,26 +150,6 @@ public abstract class MockConnectionFactory {
 		mc.addExpectedPreparedStatement(ps);
 		ps.setupUpdateCount(updateCount);
 		ps.setExpectedCloseCalls(1);
-
-		return mc;
-	}
-	
-	/**
-	 * Create a new Connection that will return a given mock
-	 * prepared statement. This allows us to create the PreparedStatement
-	 * as a separate mock object and script it using EasyMock
-	 * @param sql
-	 * @param mockPs
-	 * @return MockConnection
-	 */
-	public static MockConnection update(
-		String sql,
-		PreparedStatement mockPs) {
-
-		MockConnection mc = new MockConnection();
-		mc.setExpectedCloseCalls(2);
-
-		mc.addExpectedPreparedStatement(mockPs);
 
 		return mc;
 	}

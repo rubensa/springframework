@@ -20,11 +20,11 @@ public class TypeMismatchDataAccessException extends DataAccessException {
 
 	/**
 	 * Constructor for TypeMismatchDataAccessException.
-	 * @param msg mesg
+	 * @param s mesg
 	 * @param ex root cause
 	 */
-	public TypeMismatchDataAccessException(String msg, Throwable ex) {
-		super(msg, ex);
+	public TypeMismatchDataAccessException(String s, Throwable ex) {
+		super(s, ex);
 	}
 
 }

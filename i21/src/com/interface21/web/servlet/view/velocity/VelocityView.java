@@ -13,11 +13,11 @@ package com.interface21.web.servlet.view.velocity;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,35 +30,30 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.context.Context;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.io.VelocityWriter;
 import org.apache.velocity.runtime.RuntimeSingleton;
 import org.apache.velocity.util.SimplePool;
 
-import com.interface21.web.servlet.support.RequestContextUtils;
 import com.interface21.web.servlet.view.AbstractView;
 
 /**
  * View using Velocity template engine.
  * Based on code in the VelocityServlet shipped with Velocity.
- *
- * <p>Exposes the following JavaBean properties:
- * <ul>
+ * Exposes the following JavaBean properties:
  * <li>templateName: name of the Velocity template to be cached
  * <li>poolSize (optional, default=40): number of Velocity writers (refer to
  * Velocity documentation to see exactly what this means)
  * <li>cache: whether or not Velocity templates should be cached. They always should
  * be in production (the default), but setting this to false enables us to modify
  * Velocity templates without restarting the application
- * <li>exposeDateFormatter: whether to expose a date formatter helper object in the
- * Velocity context. Defaults to false, as it creates an object that is only needed
- * if we do date formatting. Velocity is currently weak in this area.
- * <li>exposeCurrencyFormatter: whether to expose a Currency formatter helper object
- * </ul>
- *
- * @author Rod Johnson
- * @see VelocityConfigurer
+ * <li>exposeDateFormatter: whether to expose a DateFormatter helper object in the Velocity context. 
+ * Defaults to false, as it creates an object that is only needed if we do date formatting.
+ * Velocity is currently weak in this area.
+ * <li>exposeCurrencyFormatter: whether to expose a CurrencyFormatter helper object.
+ * @author  Rod Johnson	
  */
 public class VelocityView extends AbstractView {
 	
@@ -68,30 +63,50 @@ public class VelocityView extends AbstractView {
 	/** Helper context name */
 	public static final String CURRENCY_FORMAT_KEY = "currencyFormat";
 
-	/** Encoding for the output stream */
+	/**
+	 *  Encoding for the output stream
+	 */
 	public static final String DEFAULT_OUTPUT_ENCODING = "ISO-8859-1";
 
-
-	private int poolSize = 40;
-
-	private boolean cache;
-
-	private boolean exposeDateFormatter;
-
-	private boolean exposeCurrencyFormatter;
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
+	/**
+	 * Velocity Template
+	 */
+	private Template velocityTemplate;
 
 	/** Name of the Velocity template */
 	private String templateName;
 
-	/** Velocity Template */
-	private Template velocityTemplate;
+	private int poolSize = 40;
 
-	/** The encoding to use when generating outputing */
-	private static String encoding = null;
-
-	/** Cache of writers */
+	/**
+	 * Cache of writers
+	 */
 	private SimplePool writerPool = new SimplePool(40);
 
+	/**
+	* The encoding to use when generating outputing.
+	*/
+	private static String encoding = null;
+
+	private boolean cache;
+	
+	private boolean exposeDateFormatter;
+	
+	private boolean exposeCurrencyFormatter;
+
+	//---------------------------------------------------------------------
+	// Constructors
+	//---------------------------------------------------------------------
+	/** Creates new VelocityView */
+	public VelocityView() {
+	}
+
+	//---------------------------------------------------------------------
+	// Bean properties
+	//---------------------------------------------------------------------
 
 	public void setPoolSize(int sz) {
 		this.poolSize = sz;
@@ -99,26 +114,53 @@ public class VelocityView extends AbstractView {
 		writerPool = new SimplePool(poolSize);
 	}
 
+	public int getPoolSize() {
+		return this.poolSize;
+	}
+
+	public boolean getCache() {
+		return this.cache;
+	}
+
 	public void setCache(boolean cache) {
 		this.cache = cache;
 	}
 	
+	
 	/**
-	 * Set whether to expose a date formatter.
+	 * Gets the exposeDateFormatter.
+	 * @return Returns a boolean
+	 */
+	public boolean getExposeDateFormatter() {
+		return exposeDateFormatter;
+	}
+
+	/**
+	 * Sets the exposeDateFormatter.
+	 * @param exposeDateFormatter The exposeDateFormatter to set
 	 */
 	public void setExposeDateFormatter(boolean exposeDateFormatter) {
 		this.exposeDateFormatter = exposeDateFormatter;
 	}
 
 	/**
-	 * Set whether to expose a currency formatter.
+	 * Gets the exposeCurrencyFormatter.
+	 * @return Returns a boolean
+	 */
+	public boolean getExposeCurrencyFormatter() {
+		return exposeCurrencyFormatter;
+	}
+
+	/**
+	 * Sets the exposeCurrencyFormatter.
+	 * @param exposeCurrencyFormatter The exposeCurrencyFormatter to set
 	 */
 	public void setExposeCurrencyFormatter(boolean exposeCurrencyFormatter) {
 		this.exposeCurrencyFormatter = exposeCurrencyFormatter;
 	}
+	
 
-	/**
-	 * Set the name of the wrapped Velocity template.
+	/** Set the name of the wrapped Velocity template.
 	 * This will cause the template to be loaded.
 	 * @param templateName the name of the wrapped Velocity template,
 	 * relative to the Velocity template root. For example,
@@ -126,10 +168,13 @@ public class VelocityView extends AbstractView {
 	 */
 	public void setTemplateName(String templateName) throws ServletException {
 		this.templateName = templateName;
+
 		encoding = RuntimeSingleton.getString(RuntimeSingleton.OUTPUT_ENCODING, DEFAULT_OUTPUT_ENCODING);
-		// Check that we can get the template, even if we might subsequently get it again
+
+		// Check that we can get the template,
+		// even if we might subsequently get it again
 		loadTemplate();
-	}
+	} 	// setTemplateName
 	
 	
 	/**
@@ -138,8 +183,10 @@ public class VelocityView extends AbstractView {
 	private void loadTemplate() throws ServletException {
 		String mesg = "Velocity resource loader is: [" + Velocity.getProperty("class.resource.loader.class") + "]; ";
 		try {
-			this.velocityTemplate = RuntimeSingleton.getTemplate(this.templateName);
-		}
+			
+			this.velocityTemplate =  RuntimeSingleton.getTemplate(this.templateName);
+			
+		} 
 		catch (ResourceNotFoundException ex) {
 			mesg += "Can't load Velocity template '" + this.templateName + "': is it on the classpath, under /WEB-INF/classes?";
 			logger.error(mesg, ex);
@@ -155,14 +202,20 @@ public class VelocityView extends AbstractView {
 			logger.error(mesg, ex);
 			throw new ServletException(mesg, ex);
 		}
-	}
+	}	// getTemplate
 	
-	/**
+
+	//---------------------------------------------------------------------
+	// Implementation of View
+	//---------------------------------------------------------------------
+	/** 
 	 * Render the view given the model to output.
 	 * @param model combined output Map, with dynamic values
 	 * taking precedence over static attributes
 	 * @param request HttpServetRequest
 	 * @param response HttpServletResponse
+	 * @throws IOException if there is an IO exception trying to obtain
+	 * or render the view
 	 * @throws ServletException if there is any other error
 	 */
 	protected void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response)
@@ -173,8 +226,9 @@ public class VelocityView extends AbstractView {
 				"FastVelocityView with name '" + getName() + "' is not configured: templateName must have been set");
 				
 		// We already hold a reference to the template, but we might want to load it
-		// if not caching. As Velocity itself caches templates, so our ability to
-		// cache templates in this class is a minor optimization only.
+		// if not caching.
+		// As Velocity itself caches templates, so our ability to cache templates
+		// in this class is a minor optimization only.
 		if (!this.cache) {
 			loadTemplate();
 		}
@@ -182,10 +236,14 @@ public class VelocityView extends AbstractView {
 		response.setContentType(getContentType());
 
 		try {
-			// Create Velocity context
+			// Create Velocity context : 
 			Context context = new VelocityContext();
+
+			// Expose model to the VelocityContext
 			exposeModelsAsContextAttributes(model, context);
+			
 			exposeHelpers(context, request);
+
 			mergeTemplate(this.velocityTemplate, context, response);
 
 			if (logger.isDebugEnabled())
@@ -221,13 +279,13 @@ public class VelocityView extends AbstractView {
 			logger.error(mesg, ex);
 			throw new ServletException(mesg, ex);
 		}
-	}
+	} 	// render
 
 	/**
-	 * Expose the models in the given map as Velocity context attributes.
-	 * Names will be taken from the map.
+	 * Expose the models in the given map as Velocity context attributes. Names will be
+	 * taken from the map. This method can be used by different view type.
 	 * @param model Map of model data to expose
-	 * @param vContext VelocityContext to add data to
+	 * @param cContext VelocityContext to add data to
 	 */
 	private void exposeModelsAsContextAttributes(Map model, Context vContext) {
 		if (model != null) {
@@ -236,6 +294,8 @@ public class VelocityView extends AbstractView {
 			while (itr.hasNext()) {
 				String modelname = (String) itr.next();
 				Object val = model.get(modelname);
+
+				// NULL!?
 
 				if (logger.isDebugEnabled())
 					logger.debug("Added model with name '" + modelname
@@ -251,62 +311,72 @@ public class VelocityView extends AbstractView {
 		else {
 			logger.debug("Model is null. Nothing to expose to FastVelocity context in view with name '" + getName() + "'");
 		}
-	}
+	} 	// exposeModelsAsContextAttributes
+	
 	
 	/**
 	 * Expose helpers unique to each rendring operation. 
 	 * This is necessary so that different rendering operations can't overwrite each other's formats etc.
 	 */
-	private void exposeHelpers(Context vContext, HttpServletRequest request) throws ServletException {
-		Locale locale = RequestContextUtils.getLocale(request);
-
+	private void exposeHelpers(Context vContext, HttpServletRequest request) {
 		if (this.exposeDateFormatter) {
 			// Javadocs indicate that this cast will work in most locales
-			SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+			SimpleDateFormat df = (SimpleDateFormat) DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, request.getLocale());
 			vContext.put(DATE_FORMAT_KEY, df);
 			logger.debug("Adding date helper to context");
 		}
 		
 		if (this.exposeCurrencyFormatter) {
-			NumberFormat nf = NumberFormat.getCurrencyInstance(locale);
+			NumberFormat nf = NumberFormat.getCurrencyInstance(request.getLocale());
 			vContext.put(CURRENCY_FORMAT_KEY, nf);
 			logger.debug("Adding currency helper to context");
 		}
 	}
 	
+
 	/**
-	 * Based on code from the VelocityServlet.
-	 * Merges the template with the context. Only override this if you really, really,
-	 * really need to. (And don't call us with questions if it breaks :)
-	 * @param template template object returned by the handleRequest() method
-	 * @param context context created by the createContext() method
-	 * @param response servlet reponse (use this to get the OutputStream or Writer)
-	 */
-	private void mergeTemplate(Template template, Context context, HttpServletResponse response) throws Exception {
+	 * Based on code from the VelocityServlet
+	*  merges the template with the context.  Only override this if you really, really
+	*  really need to. (And don't call us with questions if it breaks :)
+	*  @param template template object returned by the handleRequest() method
+	*  @param context  context created by the createContext() method
+	*  @param response servlet reponse (use this to get the output stream or Writer
+	*/
+	private void mergeTemplate(Template template, Context context, HttpServletResponse response)
+		throws
+			ResourceNotFoundException,
+			ParseErrorException,
+			MethodInvocationException,
+			IOException,
+			UnsupportedEncodingException,
+			Exception {
 		ServletOutputStream output = response.getOutputStream();
 		VelocityWriter vw = null;
+
 		try {
-			vw = (VelocityWriter) this.writerPool.get();
+			vw = (VelocityWriter) writerPool.get();
+
 			if (vw == null) {
-				vw = new VelocityWriter(new OutputStreamWriter(output, this.encoding), 4 * 1024, true);
+				vw = new VelocityWriter(new OutputStreamWriter(output, encoding), 4 * 1024, true);
 			}
 			else {
-				vw.recycle(new OutputStreamWriter(output, this.encoding));
+				vw.recycle(new OutputStreamWriter(output, encoding));
 			}
+
 			template.merge(context, vw);
 		}
 		finally {
 			try {
 				if (vw != null) {
 					vw.flush();
-					this.writerPool.put(vw);
+					writerPool.put(vw);
 					output.close();
 				}
 			}
-			catch (IOException ex) {
+			catch (Exception e) {
 				// do nothing
 			}
-		}
+		}	// mergeTemplate
 	}
 
-}
+} 	// class VelocityView

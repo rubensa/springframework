@@ -21,11 +21,11 @@ public class DataIntegrityViolationException extends DataAccessException {
 
 	/**
 	 * Constructor for DataIntegrityViolationException.
-	 * @param msg mesg
+	 * @param s mesg
 	 * @param ex root cause
 	 */
-	public DataIntegrityViolationException(String msg, Throwable ex) {
-		super(msg, ex);
+	public DataIntegrityViolationException(String s, Throwable ex) {
+		super(s, ex);
 	}
 
 }

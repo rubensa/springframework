@@ -1,14 +1,13 @@
 package com.interface21.web.servlet.mvc.multiaction;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.ServletException;
 
 /**
- * Exception thrown when there's no request handling method for
- * this request.
+ * Exception hrown when there's no request handling method for
+ * this request
  * @author Rod Johnson
  */
-public class NoSuchRequestHandlingMethodException extends ServletException {
+public class NoSuchRequestHandlingMethodException extends Exception {
 	
 	private String name;
 	
@@ -25,5 +24,4 @@ public class NoSuchRequestHandlingMethodException extends ServletException {
 	public String getName() {
 		return name;
 	}
-
 }

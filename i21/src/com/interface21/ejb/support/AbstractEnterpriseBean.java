@@ -1,89 +1,86 @@
-/*
- * The Spring Framework is published under the terms
- * of the Apache Software License.
+/**
+ * Generic framework code included with 
+ * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/1861007841/">Expert One-On-One J2EE Design and Development</a>
+ * by Rod Johnson (Wrox, 2002). 
+ * This code is free to use and modify. 
+ * Please contact <a href="mailto:rod.johnson@interface21.com">rod.johnson@interface21.com</a>
+ * for commercial support.
  */
 
 package com.interface21.ejb.support;
 
-import javax.ejb.CreateException;
+import javax.ejb.EJBException;
 import javax.ejb.EnterpriseBean;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
-import com.interface21.beans.factory.BeanFactory;
-import com.interface21.beans.factory.support.BeanFactoryLoader;
-import com.interface21.beans.factory.support.BootstrapException;
+import com.interface21.beans.BeansException;
+import com.interface21.beans.factory.ListableBeanFactory;
+import com.interface21.jndi.JndiBeanFactory;
+
 
 /** 
- * Superclass for all EJBs. Package-visible: not intended for direct
- * subclassing. Provides a logger and a standard way of loading a
- * BeanFactory. Subclasses act as a facade, with the business logic
- * deferred to beans in the BeanFactory.
- *
- * <p>Default is to use an XmlBeanFactoryLoader. For a strategy
- * other than loading an XML bean factory from the classpath
- * (with a JNDI name specified) call the setBeanFactoryLoader()
- * method <i>before</i> your EJB's ejbCreate() method is invoked
- * --for example, in setSessionContext().
- *
- * <p>Note that we cannot use final for our implementation of
- * EJB lifecycle methods, as this violates the EJB specification.
- *
+ * Superclass for all EJBs.
+ * Provides BeanFactory and logging support.
+ * As javax.ejb.EnterpriseBean is a tag interface, there
+ * are no EJB methods to implement.
  * @author Rod Johnson
- * @version $Id$
+ * @version $RevisionId$
  */
-abstract class AbstractEnterpriseBean implements EnterpriseBean {
-
-	/** Logger, available to subclasses */
-	protected final Log logger = LogFactory.getLog(getClass());
-
-	/** Spring BeanFactory that provides the namespace for this EJB */
-	private BeanFactory beanFactory;
-
-	/** Helper Strategy that knows how to load Spring BeanFactory */
-	private BeanFactoryLoader beanFactoryLoader;
-
+public abstract class AbstractEnterpriseBean implements EnterpriseBean {
+	
+	
+	//-------------------------------------------------------------------------
+	// Instance data
+	//-------------------------------------------------------------------------
 	/**
-	 * Load a Spring BeanFactory namespace.
-	 * Subclasses must invoke this method. Package-visible as it
-	 * shouldn't be called directly by user-created subclasses.
-	 * @see com.interface21.ejb.support.AbstractStatelessSessionBean#ejbCreate()
+	 * Logger, available to subclasses
 	 */
-	void loadBeanFactory() throws CreateException {
-		if (this.beanFactoryLoader == null) {
-			this.beanFactoryLoader = new XmlBeanFactoryLoader();
-		}
-		try {
-			this.beanFactory = this.beanFactoryLoader.loadBeanFactory();
-		}
-		catch (BootstrapException ex) {
-			throw new CreateException(ex.getMessage());
-		}
-	}
-
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+	
+	
+	/** BeanFactory available to subclasses.
+	 * Lazy loaded for efficiency.
+	 */ 
+	private ListableBeanFactory		beanFactory;
+	
+	
+	//-------------------------------------------------------------------------
+	// BeanFactory methods
+	//-------------------------------------------------------------------------	
 	/**
-	 * Can be invoked before loadBeanFactory.
-	 * Invoke in constructor or setXXXXContext() if you want
-	 * to override the default bean factory loader.
+	 * Get the BeanFactory for this EJB
+	 * Uses lazy loading for efficiency. We don't
+	 * need to consider thread safety in an EJB.
+	 * @return the bean factory available to this EJB.
+	 * In this implementation, the bean factory will be
+	 * populated by the EJB's ejb-jar.xml environment
+	 * variables.
 	 */
-	public void setBeanFactoryLoader(BeanFactoryLoader beanFactoryLoader) {
-		this.beanFactoryLoader = beanFactoryLoader;
-	}
-
-	/**
-	 * May be called after ejbCreate().
-	 * @return the bean Factory
-	 */
-	protected BeanFactory getBeanFactory() {
+	protected final ListableBeanFactory getBeanFactory() {		
+		
+		// ****TODO: this class could be enhanced by
+		// allowing alternative sources for the bean factory.
+		// For example, it might be taken from a database.
+		
+		if (this.beanFactory == null) {
+			loadBeanFactory();
+		}
 		return this.beanFactory;
 	}
-
+	
+	
 	/**
-	 * Useful EJB lifecycle method. Override if necessary.
+	 * Load the bean factory used by this class.
 	 */
-	public void ejbRemove() {
-		// Empty
+	private void loadBeanFactory() {
+		logger.info("Loading bean factory");
+		try {
+			this.beanFactory = new JndiBeanFactory("java:comp/env");
+		}
+		catch (BeansException ex) {
+			throw new EJBException("Cannot create bean factory", ex);
+		}
 	}
-
-}
+	
+} 	// class AbstractEnterpriseBean

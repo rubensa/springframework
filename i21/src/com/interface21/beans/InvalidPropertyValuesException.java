@@ -1,3 +1,4 @@
+
 package com.interface21.beans;
 
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ import com.interface21.core.ErrorCoded;
  * by a PropertyValuesValidator. After an object of this class
  * is constructed, MissingFieldExceptions can be added one by one.
  * @author Rod Johnson
- * @version 1.0
+ * @version
  */
 public class InvalidPropertyValuesException extends BeansException {
 	
@@ -34,18 +35,12 @@ public class InvalidPropertyValuesException extends BeansException {
 	public List getMissingFields() {
 		return missingFields;
 	}
-
+	
+	
 	public PropertyValues getPropertyValues() {
 		return pvs;
 	}
-
-
-	/**
-	 * Exception that represents a missing field within an
-	 * InvalidPropertyValuesException.
-	 * @see #addMissingField
-	 * @see #getMissingFields
-	 */
+	
 	public static class MissingFieldException extends Exception implements ErrorCoded {
 		
 		private String field;
@@ -62,9 +57,8 @@ public class InvalidPropertyValuesException extends BeansException {
 			return field;
 		}
 		
-		/**
-		 * Return the error code associated with this failure.
-		 * The GUI can render this anyway it pleases, allowing for I18n etc.
+		/** Return the error code associated with this failure.
+		 * The GUI can render this anyway it pleases, allowing for Int8ln etc.
 		 * @return a String error code associated with this failure
 		 */
 		public String getErrorCode() {

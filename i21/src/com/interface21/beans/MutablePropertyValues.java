@@ -11,20 +11,27 @@ import com.interface21.util.StringUtils;
 
 /**
  * Default implementation of the PropertyValues interface.
- * Allows simple manipulation of properties, and provides constructors
- * to support deep copy and construction from a Map.
- * @author Rod Johnson
+ * Allows simple manipulation of properties,
+ * and provides constructors to support deep copy
+ * and construction from a Map.
+ * @author  Rod Johnson
  * @since 13 May 2001
  * @version $Id$
  */
 public class MutablePropertyValues implements PropertyValues {
 	
-	/**
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
+	/** 
 	 * List of PropertyValue objects
 	 */
-	private List propertyValuesList;
+	private List	propertyValuesList;
 	
-	/**
+	//---------------------------------------------------------------------
+	// Constructors
+	//---------------------------------------------------------------------
+	/** 
 	 * Creates a new empty MutablePropertyValues object.
 	 * PropertyValue objects can be added with the
 	 * addPropertyValue() method.
@@ -39,13 +46,10 @@ public class MutablePropertyValues implements PropertyValues {
 	 * referenced by individual PropertyValue objects
 	 */
 	public MutablePropertyValues(PropertyValues other) {
-		this();
-		if (other != null) {
-			PropertyValue[] pvs = other.getPropertyValues();
-			propertyValuesList = new ArrayList(pvs.length);
-			for (int i = 0; i < pvs.length; i++)
-				addPropertyValue(new PropertyValue(pvs[i].getName(), pvs[i].getValue()));
-		}
+		PropertyValue[] pvs = other.getPropertyValues();
+		propertyValuesList = new ArrayList(pvs.length);
+		for (int i = 0; i < pvs.length; i++)
+			addPropertyValue(new PropertyValue(pvs[i].getName(), pvs[i].getValue()));
 	}
 	
 	/** 
@@ -63,33 +67,29 @@ public class MutablePropertyValues implements PropertyValues {
 		}
 	}
 	
-	/**
-	 * Add a PropertyValue object, replacing any existing one
-	 * for the respective property.
+	//---------------------------------------------------------------------
+	// Public methods
+	//---------------------------------------------------------------------
+	/** 
+	 * Add a PropertyValue object
 	 * @param pv PropertyValue object to add
 	 */
 	public void addPropertyValue(PropertyValue pv) {
-		for (int i = 0; i < propertyValuesList.size(); i++) {
-			PropertyValue currentPv = (PropertyValue) propertyValuesList.get(i);
-			if (currentPv.getName().equals(pv.getName())) {
-				propertyValuesList.set(i, pv);
-				return;
-			}
-		}
 		propertyValuesList.add(pv);
 	}		
 	
-	/**
-	 * Return an array of the PropertyValue objects held in this object.
- 	 */
+	/** Return an array of the PropertyValue objects
+	 * held in this object.
+	 * @return an array of the PropertyValue objects
+	 * held in this object.
+ 	*/
 	public PropertyValue[] getPropertyValues() {
 		return (PropertyValue[]) propertyValuesList.toArray(new PropertyValue[0]);
 	}
 	
-	/**
-	 * Is there a propertyValue object for this property?
+	/** Is there a propertyValue object for this property?
 	 * @param propertyName name of the property we're interested in
-	 * @return whether there is a propertyValue object for this property?
+	 *@return whether there is a propertyValue object for this property?
 	 */
 	public boolean contains(String propertyName) {
 		return getPropertyValue(propertyName) != null;
@@ -104,28 +104,9 @@ public class MutablePropertyValues implements PropertyValues {
 		return null;
 	}
 	
-	/**
-	 * If this object contains a property value with this name, replace it
-	 * If it doesn't, add this property value
-	 * @param newPv new PropertyValue to add or override (replace)
-	 */
-	public void addOrOverridePropertyValue(PropertyValue newPv) {
-		for (int i = 0; i < propertyValuesList.size(); i++) {
-			PropertyValue pv = (PropertyValue) propertyValuesList.get(i);
-			if (pv.getName().equals(newPv.getName())) {
-				// Replace
-				propertyValuesList.set(i, newPv);
-				return;
-			}		
-		}
-		// If we get here we must add it
-		this.propertyValuesList.add(newPv);
-	}
-	
-	
 	/** 
-	 * Modify a PropertyValue object held in this object.
-	 * Indexed from 0.
+	 * Modify a PropertyValue object held in this object 
+	 * Indexed from 0 
 	 */
 	public void setPropertyValueAt(PropertyValue pv, int i) {
 		propertyValuesList.set(i, pv);
@@ -152,15 +133,16 @@ public class MutablePropertyValues implements PropertyValues {
 			// If there wasn't an old one, add it
 			PropertyValue pvOld = old.getPropertyValue(newPv.getName());
 			if (pvOld == null) {
+				System.out.println("No old pv for " + newPv.getName());
 				changes.addPropertyValue(newPv);
 			}
 			else if (!pvOld.equals(newPv)) {
 				// It's changed
+				System.out.println("pv changed for " + newPv.getName());
 				changes.addPropertyValue(newPv);
 			}
 		}
 		return changes;
 	}
 
-
-}
+}	// class MutablePropertyValues

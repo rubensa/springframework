@@ -13,8 +13,7 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.interface21.dao.DataAccessException;
 import com.interface21.dao.DataIntegrityViolationException;
@@ -30,8 +29,6 @@ import com.interface21.dao.DataIntegrityViolationException;
  */
 public class SQLStateSQLExceptionTranslater implements SQLExceptionTranslater {
 	
-	protected final Log logger = LogFactory.getLog(getClass());
-
 	/** Set of String 2-digit codes that indicate bad SQL */
 	private static Set BAD_SQL_CODES = new HashSet();
 	
@@ -40,17 +37,22 @@ public class SQLStateSQLExceptionTranslater implements SQLExceptionTranslater {
 	
 	// Populate reference data
 	static {
-		BAD_SQL_CODES.add("07");
 		BAD_SQL_CODES.add("42");
 		BAD_SQL_CODES.add("65");				// Oracle throws on unknown identifier
-		BAD_SQL_CODES.add("S0");                // MySQL uses this - from ODBC error codes?
 		
-		INTEGRITY_VIOLATION_CODES.add("22");	// Integrity constraint violation
 		INTEGRITY_VIOLATION_CODES.add("23");	// Integrity constraint violation
 		INTEGRITY_VIOLATION_CODES.add("27");	// Triggered data change violation
 		INTEGRITY_VIOLATION_CODES.add("44");	// With check violation
 	}
 	
+	
+	/**
+	* Create a logging category that is available
+	* to subclasses. 
+	*/
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+
+
 	/**
 	 * @see SQLExceptionTranslater#translate(String,String,SQLException)
 	 */
@@ -59,7 +61,7 @@ public class SQLStateSQLExceptionTranslater implements SQLExceptionTranslater {
 						" and message=" + sqlex.getMessage() + "; sql was '" + sql + "'");
 			
 		String sqlstate = sqlex.getSQLState();
-		if (sqlstate != null && sqlstate.length() >= 2) {
+		if (sqlstate != null) {
 			String classCode = sqlstate.substring(0, 2);
 			if (BAD_SQL_CODES.contains(classCode))
 				throw new BadSqlGrammarException("(" + task + "): SQL grammatical error '" + sql + "'", sql, sqlex);

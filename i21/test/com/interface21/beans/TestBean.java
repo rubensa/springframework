@@ -4,35 +4,24 @@
 
 package com.interface21.beans;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedList;
-
 
 /**
- * Simple test bean used for testing bean factories,
- * AOP framework etc.
+ *
  * @author  Rod Johnson
  * @since 15 April 2001
  */
 public class TestBean implements ITestBean, IOther {
     
-	/** Holds value of property age. */
-	private int age;
-
-	/** Holds value of property name. */
-	private String name;
-
+    /** Holds value of property age. */
+    private int age;
+    
+    /** Holds value of property name. */
+    private String name;
+	
 	private ITestBean spouse;
 	
 	private String touchy;
-
-	private Collection friends = new LinkedList();
 	
-	private Date date = new Date();
-
-	private Float myFloat = new Float(0.0);
-
 	public String getTouchy() {
 		return touchy;
 	}
@@ -83,7 +72,7 @@ public class TestBean implements ITestBean, IOther {
     
     public String toString() {
         String s = "name=" + name + "; age=" + age + "; touchy=" + touchy;
-		s += "; spouse={" + (spouse != null ? spouse.getName() : null) + "}";
+		s += "; spouse={" + (spouse != null ? spouse : null) + "}";
 		return s;
     }
 	
@@ -94,23 +83,7 @@ public class TestBean implements ITestBean, IOther {
 	public void setSpouse(ITestBean spouse) {
 		this.spouse = spouse;
 	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public Float getMyFloat() {
-		return myFloat;
-	}
-
-	public void setMyFloat(Float myFloat) {
-		this.myFloat = myFloat;
-	}
-
+	
 	public boolean equals(Object other) {
 		if (other == null || !(other instanceof TestBean)) 
 			return false;
@@ -146,22 +119,7 @@ public class TestBean implements ITestBean, IOther {
 	 * @see IOther#absquatulate()
 	 */
 	public void absquatulate() {
-		//System.out.println("IOther.absquatulate");
-	}
-
-	/**
-	 * @return Collection
-	 */
-	public Collection getFriends() {
-		return friends;
-	}
-
-	/**
-	 * Sets the friends.
-	 * @param friends The friends to set
-	 */
-	public void setFriends(Collection friends) {
-		this.friends = friends;
+		System.out.println("IOther.absquatulate");
 	}
 
 }	// class Test

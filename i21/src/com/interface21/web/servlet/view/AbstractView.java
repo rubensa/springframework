@@ -1,6 +1,12 @@
 /*
- * The Spring Framework is published under the terms
- * of the Apache Software License.
+ * Generic framework code included with 
+ * <a href="http://www.amazon.com/exec/obidos/tg/detail/-/1861007841/">Expert One-On-One J2EE Design and Development</a>
+ * by Rod Johnson (Wrox, 2002). 
+ * This code is free to use and modify. However, please
+ * acknowledge the source and include the above URL in each
+ * class using or derived from this code. 
+ * Please contact <a href="mailto:rod.johnson@interface21.com">rod.johnson@interface21.com</a>
+ * for commercial support.
  */
 
 package com.interface21.web.servlet.view;
@@ -17,34 +23,45 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.interface21.context.support.ApplicationObjectSupport;
+import org.apache.log4j.Logger;
+
+import com.interface21.context.ApplicationContext;
+import com.interface21.context.ApplicationContextAware;
+import com.interface21.context.ApplicationContextException;
+import com.interface21.web.context.WebApplicationContext;
 import com.interface21.web.servlet.View;
-import com.interface21.web.servlet.support.RequestContext;
 
 /**
  * Abstract view superclass. Standard framework view implementations
  * and application-specific custom views can extend this class
- * to simplify their implementation. Subclasses should be JavaBeans.
- *
- * <p>Extends ApplicationObjectSupport, which will be helpful to some views.
- * Handles static attributes, and merging static with dynamic attributes.
- * Subclasses just need to implement the actual rendering.
- *
- * <p>It's recommended that subclasses <b>don't</b> cache anything, in the
- * quest for efficiency. This class offers caching. However, it's possible
+ * to simplify their implementation.
+ * <br>Subclasses should be JavaBeans.
+ * <br>Implements ApplicationContextAware, which will be helpful
+ * to some views. This means that the ApplicationContext
+ * will be set by the framework during initialization.
+ * <br/>Handles static attributes, and merging static with
+ * dynamic attributes.
+ * <br/>It's recommended that subclasses <b>don't</b> cache
+ * anything, in the quest for efficiency. This class offers
+ * caching. However, it's possible
  * to disable this class's caching, which is useful during development.
- *
- * @author Rod Johnson
- * @version $Id$
- * @see #renderMergedOutputModel
+ * <br/>Also provides a logging category.
+ * @author  Rod Johnson
  */
-public abstract class AbstractView extends ApplicationObjectSupport implements View {
+public abstract class AbstractView implements View, ApplicationContextAware {
 
+	/** Log4j Category for this object */
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+
+	
+	//---------------------------------------------------------------------
+	// Instance data
+	//---------------------------------------------------------------------
 	/** Map of static attributes, keyed by attribute name (String) */
-	private Map	staticAttributes = new HashMap();
+	private HashMap	staticAttributes = new HashMap();
 
-	/** Name of request context attribute, or null if not needed */
-	private String requestContextAttribute;
+	/** The ApplicationContext passed to this object */
+	private WebApplicationContext webApplicationContext;
 
 	/** Default content type. Overridable as bean property. */
 	private String contentType = "text/html; charset=ISO-8859-1";
@@ -53,25 +70,21 @@ public abstract class AbstractView extends ApplicationObjectSupport implements V
 	private String name;
 
 
-	/**
+	//---------------------------------------------------------------------
+	// Bean properties
+	//---------------------------------------------------------------------
+	/** 
 	 * Set static attributes as a CSV string.
-	 * Format is attname0={value1},attname1={value1}
+	 * <br>Format is attname0={value1},attname1={value1}
 	 */
-	public final void setAttributesCSV(String propString) throws IllegalArgumentException {
-		if (propString == null)
-			// Leave static attributes unchanged
-			return;
-			
-		StringTokenizer st = new StringTokenizer(propString, ",");
+	public final void setAttributesCSV(String s) throws IllegalArgumentException {
+		StringTokenizer st = new StringTokenizer(s, ",");
 		while (st.hasMoreTokens()) {
 			String tok = st.nextToken();
 			int eqindx = tok.indexOf("=");
 			if (eqindx == -1)
-				throw new IllegalArgumentException("Expected = in View string '" + propString + "'");
-			
-			if (eqindx >= tok.length() - 2)
-				throw new IllegalArgumentException("At least 2 characters ([]) required in View string '" + propString + "'");
-				
+				throw new IllegalArgumentException("Expected = in View string '" + s + "'");
+			// LENGTH CHECKS
 			String name = tok.substring(0, eqindx);
 			String val = tok.substring(eqindx + 1);
 			
@@ -80,37 +93,100 @@ public abstract class AbstractView extends ApplicationObjectSupport implements V
 			val = val.substring(0, val.length() - 1);
 
 			if (logger.isDebugEnabled()) {
-				logger.info("Set static attribute with name '" + name + "' and value [" + val + "] on view");
+				logger.debug("Set static attribute with name '" + name + "' and value [" + val + "] on view");//with name '" + viewname + "'");
 			}
 			addStaticAttribute(name, val);
 		}
-	}
+	}	// setAttributesCSV
+	
 	
 	/**
 	 * Set static attributes from a java.util.Properties object. This is
 	 * the most convenient way to set static attributes. Note that static
-	 * attributes can be overridden by dynamic attributes, if a value
+	 * attributes can be overriden by dynamic attributes, if a value
 	 * with the same name is included in the model.
-	 * <p>Relies on registration of PropertiesEditor.
-	 * @see com.interface21.beans.propertyeditors.PropertiesEditor
+	 * <br>Relies on registration of properties PropertyEditor
 	 */
-	public final void setAttributes(Properties prop) throws IllegalArgumentException {
-		if (prop != null) {
-			Iterator itr = prop.keySet().iterator();
+	public final void setAttributes(Properties p) throws IllegalArgumentException {
+		if (p != null) {
+			Iterator itr = p.keySet().iterator();
 			while (itr.hasNext()) {
 				String name = (String) itr.next();
-				String val = prop.getProperty(name);
+				String val = p.getProperty(name);
 				if (logger.isDebugEnabled()) {
 					logger.info("Set static attribute with name '" + name + "' and value [" + val + "] on view");//with name '" + viewname + "'");
 				}
 				addStaticAttribute(name, val);
 			}
 		}
+	}	// setAttributes
+	
+	public final void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+	
+	public final String getContentType() {
+		return this.contentType;
 	}
 
+
+	//---------------------------------------------------------------------
+	// Implementation of ApplicationContextAware
+	//---------------------------------------------------------------------
+	/** 
+	 * Set the ApplicationContext object used by this object.
+	 * @param ctx ApplicationContext object used by this object.
+	 * This must be of type WebApplicatinContext
+	 * @throws ApplicationContextException if the ApplicationContext
+	 * isn't of type WebApplicatinContext.
+	 */
+	public final void setApplicationContext(ApplicationContext applicationContext) throws ApplicationContextException {
+		if (this.webApplicationContext != null)
+			throw new RuntimeException("Assertion failed: View with name '" + name + "' (set previously) cannot be initialized twice");
+		
+		if (!(applicationContext instanceof WebApplicationContext))
+			throw new ApplicationContextException("AbstractView requires a WebApplicationContext. " + applicationContext + " is not acceptable");
+		this.webApplicationContext = (WebApplicationContext) applicationContext;
+		
+		// Call subclass initialization
+		onSetContext();
+	}
+	
+	/** 
+	 * Subclasses may implement this to perform their own
+	 * initialization. It's invoked after the ApplicationContext
+	 * has been set.
+	 * <br/>This implementation does nothing.
+	 * @throws ApplicationContextException if subclass initialization fails.
+	 */
+	protected void onSetContext() throws ApplicationContextException {
+	}
+
+
 	/**
+	 * @see ApplicationContextAware#getApplicationContext()
+	 */
+	public final ApplicationContext getApplicationContext() {
+		return this.webApplicationContext;
+	}
+	
+	
+	/**
+	 * Convenient method to return the application context as a WebApplicationContext,
+	 * available to subclasses.
+	 */
+	protected final WebApplicationContext getWebApplicationContext() {
+		return this.webApplicationContext;
+	}
+	
+	
+
+	//---------------------------------------------------------------------
+	// Implementation of View
+	//---------------------------------------------------------------------
+	/** 
 	 * Add static data to this view, exposed in each view.
-	 * <p>Must be invoked before any calls to render().
+	 * <br/>Must be invoked before any calls to render().
 	 * @param name name of attribute to expose
 	 * @param o object to expose
 	 */
@@ -118,40 +194,13 @@ public abstract class AbstractView extends ApplicationObjectSupport implements V
 		this.staticAttributes.put(name, o);
 	}
 
-	/**
+	/** 
 	 * Handy for testing. Return the static attributes
 	 * held in this view.
 	 * @return the static attributes in this view
 	 */
 	public final Map getStaticAttributes() {
 		return Collections.unmodifiableMap(this.staticAttributes);
-	}
-
-	/**
-	 * Set the name of the RequestContext attribute for all views,
-	 * or null if not needed.
-	 * @param requestContextAttribute name of the RequestContext attribute
-	 */
-	public final void setRequestContextAttribute(String requestContextAttribute) {
-		this.requestContextAttribute = requestContextAttribute;
-	}
-
-	/**
-	 * Set the content type for this view.
-	 * May be ignored by subclasses if the view itself is assumed
-	 * to set the content type, e.g. in case of JSPs.
-	 * @param contentType content type for this view
-	 */
-	public final void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
-
-	/**
-	 * Return the content type for this view.
-	 * @return content type for this view
-	 */
-	protected final String getContentType() {
-		return this.contentType;
 	}
 
 	/**
@@ -165,51 +214,44 @@ public abstract class AbstractView extends ApplicationObjectSupport implements V
 	}
 	
 	/** 
-	 * Return the view's name. Should never be null,
-	 * if the view was correctly configured.
+	 * Return the view's name. Should
+	 * never be null, if the view was correctly configured.
 	 * @return the view's name
 	 */
 	public final String getName() {
 		return name;
 	}
 
-
 	/**
-	 * Prepares the view given the specified model.
-	 * Delegates to renderMergedOutputModel for the actual rendering.
-	 * @see #renderMergedOutputModel
+	 * Renders the view given the specified model.  There can be many types of
+	 * view.<br/>
+	 * The first take will be preparing the request: this may include setting the model
+	 * as an attribute, in the case of a JSP view.
 	 */
-	public final void render(Map model, HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException {
+	public final void render(Map pModel, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (logger.isDebugEnabled())
-			logger.debug("Rendering view with name '" + this.name + "' with model=" + model +
-				" and static attributes=" + this.staticAttributes);
+			logger.debug("Rendering view with name '" + this.name + " with model={" + pModel + 
+				"} and static attributes={" + this.staticAttributes + "}");
 		
 		// Consolidate static and dynamic model attributes
-		Map mergedModel = new HashMap(this.staticAttributes);
-		mergedModel.putAll(model);
-
-		// expose request context?
-		if (this.requestContextAttribute != null) {
-			mergedModel.put(this.requestContextAttribute, new RequestContext(request, mergedModel));
-		}
-
-		renderMergedOutputModel(mergedModel, request, response);
-	}
-
+		Map model = new HashMap(this.staticAttributes);
+		model.putAll(pModel);
+		
+		renderMergedOutputModel(model, request, response);
+	}	// render
+	
+	
 	/** 
-	 * Subclasses must implement this method to render the view.
-	 * <p>The first take will be preparing the request: This may include setting
-	 * the model elements as attributes, e.g. in the case of a JSP view.
+	 * Subclasses must implement this method. 
+	 * Render the view given the model to output.
 	 * @param model combined output Map, with dynamic values
 	 * taking precedence over static attributes
-	 * @param request current HTTP request
-	 * @param response current HTTP response
-	 * @throws ServletException if there is any other error
+	 * @param request HttpServetRequest
+	 * @param response HttpServletResponse
 	 * @throws IOException if there is an IO exception trying to obtain
 	 * or render the view
+	 * @throws ServletException if there is any other error
 	 */
-	protected abstract void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException;
+	protected abstract void renderMergedOutputModel(Map model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
-}
+}	// AbstractView

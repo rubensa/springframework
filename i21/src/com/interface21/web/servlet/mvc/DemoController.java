@@ -17,7 +17,7 @@ public class DemoController implements Controller {
 	public static final String VALID_NAME_VIEW = "validNameView";
 
 	/**
-	 * @see AbstractController#handleRequest(HttpServletRequest, HttpServletResponse)
+	 * @see SimpleController#handleRequest(HttpServletRequest, HttpServletResponse)
 	 */
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		String name = request.getParameter("name");

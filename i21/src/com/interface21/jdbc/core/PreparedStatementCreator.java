@@ -39,7 +39,5 @@ public interface PreparedStatementCreator {
 	* The JdbcTemplate class will handle them.
 	*/
 	PreparedStatement createPreparedStatement(Connection conn) throws SQLException;
-	
-	String getSql();
 
 }

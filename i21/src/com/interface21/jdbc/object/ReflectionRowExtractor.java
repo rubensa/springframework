@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import com.interface21.beans.BeanWrapper;
 import com.interface21.beans.BeanWrapperImpl;
@@ -18,13 +17,17 @@ import com.interface21.dao.InvalidDataAccessApiUsageException;
 import com.interface21.jdbc.core.ResultReader;
 import com.interface21.jdbc.core.RowCountCallbackHandler;
 
-/**
- * DEMONSTRATION OF THIS APPROACH ONLY: NOT FULLY IMPLEMENTED,
+/** 
+ * DEMONSTRATION OF THIS APPROACH ONLY: NOT FULLY IMPLEMENTED, 
  * DOCUMENTED OR TESTED.
  */
 public class ReflectionRowExtractor extends RowCountCallbackHandler implements ResultReader {
-
-	protected final Log logger = LogFactory.getLog(getClass());
+	
+	/**
+	* Create a logging category that is available
+	* to subclasses. 
+	*/
+	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	private List l;
 
@@ -36,7 +39,7 @@ public class ReflectionRowExtractor extends RowCountCallbackHandler implements R
 	public ReflectionRowExtractor(Class resultClass, int rowsExpected) throws InvalidDataAccessApiUsageException {
 		// Use the more efficient collection if we know how many rows to expect
 		this.l = (rowsExpected > 0) ? (List) new ArrayList(rowsExpected) : (List) new LinkedList();
-
+			
 		this.resultClass = resultClass;
 		//this.columnExtractor = new DefaultColumnExtractor();
 		try {
@@ -53,10 +56,10 @@ public class ReflectionRowExtractor extends RowCountCallbackHandler implements R
 		MutablePropertyValues pvs = new MutablePropertyValues();
 		for (int i = 0; i < getColumnCount(); i++) {
 			String colname = getColumnNames()[i];
-
+			
 			// HACK!!!!
 			colname = colname.toLowerCase();
-
+			
 			// TODO: clean up types
 			PropertyValue pv = new PropertyValue(colname, rs.getObject(colname));
 			logger.info("Found property value " + pv);

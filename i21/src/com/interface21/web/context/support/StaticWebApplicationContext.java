@@ -1,51 +1,53 @@
 package com.interface21.web.context.support;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
-import com.interface21.beans.BeansException;
-import com.interface21.context.ApplicationContext;
 import com.interface21.context.ApplicationContextException;
-import com.interface21.ui.context.support.StaticUiApplicationContext;
+import com.interface21.context.support.StaticApplicationContext;
 import com.interface21.web.context.WebApplicationContext;
 
 /**
  * WebApplicationContext implementation for testing.
  * Not for use in production applications.
  */
-public class StaticWebApplicationContext extends StaticUiApplicationContext implements WebApplicationContext {
+public class StaticWebApplicationContext extends StaticApplicationContext implements WebApplicationContext {
 
-	private String namespace;
-
-	private ServletContext servletContext;
-
-	public StaticWebApplicationContext() {
+	private ServletContext sc;
+	
+	
+	/** Allow superclass to throw exception
+	 */
+	public StaticWebApplicationContext() throws Exception {
 	}
-
-	public StaticWebApplicationContext(ApplicationContext parent, String namespace)
-	    throws BeansException, ApplicationContextException {
-		super(parent);
-		this.namespace = namespace;
-	}
-
-	public String getNamespace() {
-		return namespace;
-	}
-
+	
 	/**
-	 * Normally this would cause loading, but this class doesn't rely on loading.
+	 * Normally this would cause loading, but this
+	 * class doesn't rely on loading
 	 * @see WebApplicationContext#setServletContext(ServletContext)
 	 */
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-		refresh();
-		WebApplicationContextUtils.publishConfigObjects(this);
+	public void setServletContext(ServletContext servletContext) throws ServletException {
+		this.sc = servletContext;
+		try {
+			refresh();
+			WebApplicationContextUtils.configureConfigObjects(this);
+		}
+		catch (ApplicationContextException ex) {
+			// TODO nest properly
+			throw new ServletException(ex.getMessage());
+		}
+		
 		// Expose as a ServletContext object
-		WebApplicationContextUtils.publishWebApplicationContext(this);
+		WebApplicationContextUtils.setAsContextAttribute(this);
 	}
 	
 
+	/**
+	 * @see WebApplicationContext#getServletContext()
+	 */
 	public ServletContext getServletContext() {
-		return servletContext;
+		return sc;
 	}
 
 }
+

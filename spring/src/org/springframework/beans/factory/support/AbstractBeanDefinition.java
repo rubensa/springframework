@@ -17,7 +17,9 @@
 package org.springframework.beans.factory.support;
 
 import java.lang.reflect.Constructor;
+import java.util.Iterator;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -445,12 +447,32 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 	 */
 	public void validate() throws BeanDefinitionValidationException {
 		if (this.lazyInit && !this.singleton) {
-			throw new BeanDefinitionValidationException("Lazy initialization is just applicable to singleton beans");
+			throw new BeanDefinitionValidationException("Lazy initialization is applicable only to singleton beans");
 		}
 
 		if (!getMethodOverrides().isEmpty() && getStaticFactoryMethodName() != null) {
 			throw new  BeanDefinitionValidationException("Cannot combine static factory method with method overrides: " +
 					"the static factory method must create the instance");
+		}
+		
+		
+		if (hasBeanClass()) {
+			// Check that lookup methods exists
+			Class beanClass = getBeanClass();
+			for (Iterator itr = getMethodOverrides().getOverrides().iterator(); itr.hasNext(); ) {
+				MethodOverride mo = (MethodOverride) itr.next();
+				validateMethodOverride(mo, beanClass);
+			}
+		}
+	}
+	
+	private void validateMethodOverride(MethodOverride mo, Class beanClass) throws BeanDefinitionValidationException {
+		if (!(mo instanceof LookupOverride)) {
+			throw new BeanDefinitionValidationException("Unknown method override type: " + mo.getClass());
+		}
+		if (!BeanUtils.isAtLeastOneMethodWithName(mo.getMethodName(), beanClass)) {
+			throw new BeanDefinitionValidationException("No method with name '" + mo.getMethodName() + 
+					"' on class " + beanClass.getName() + " specified in lookup override");
 		}
 	}
 

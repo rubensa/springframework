@@ -30,7 +30,7 @@ public class AdvisorAutoProxyCreatorTests extends TestCase {
 	
 	private static final String ADVISOR_APC_BEAN_NAME = "aapc";
 	
-	private static final String TXMANAGER_BEAN_NAME = ADVISOR_APC_BEAN_NAME + ".txManager";
+	private static final String TXMANAGER_BEAN_NAME = "txManager";
 	
 	/**
 	 * Constructor for ProxyFactoryBeanTests.
@@ -51,7 +51,8 @@ public class AdvisorAutoProxyCreatorTests extends TestCase {
 	
 	public void testDefaultExclusionPrefix() throws Exception {
 		AdvisorAutoProxyCreator aapc = (AdvisorAutoProxyCreator) getBeanFactory().getBean(ADVISOR_APC_BEAN_NAME);
-		assertEquals(ADVISOR_APC_BEAN_NAME + AdvisorAutoProxyCreator.SEPARATOR, aapc.getInfrastructureBeanNamePrefix() );
+		assertEquals(ADVISOR_APC_BEAN_NAME + AdvisorAutoProxyCreator.SEPARATOR, aapc.getAdvisorBeanNamePrefix() );
+		assertFalse(aapc.getUsePrefix());
 	}
 	
 	/**

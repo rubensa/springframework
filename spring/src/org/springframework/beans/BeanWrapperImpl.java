@@ -751,6 +751,15 @@ public class BeanWrapperImpl implements BeanWrapper {
 			// value not of required type?
 			if (pe != null || (requiredType != null && !requiredType.isAssignableFrom(newValue.getClass()))) {
 
+				if (pe == null && requiredType != null) {
+					// no custom editor -> check BeanWrapper's default editors
+					pe = findDefaultEditor(requiredType);
+					if (pe == null) {
+						// no BeanWrapper default editor -> check standard JavaBean editors
+						pe = PropertyEditorManager.findEditor(requiredType);
+					}
+				}
+
 				if (newValue instanceof String[]) {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Converting String array to comma-delimited String [" + newValue + "]");
@@ -759,14 +768,6 @@ public class BeanWrapperImpl implements BeanWrapper {
 				}
 
 				if (newValue instanceof String) {
-					if (pe == null) {
-						// no custom editor -> check BeanWrapper's default editors
-						pe = findDefaultEditor(requiredType);
-						if (pe == null) {
-							// no BeanWrapper default editor -> check standard JavaBean editors
-							pe = PropertyEditorManager.findEditor(requiredType);
-						}
-					}
 					if (pe != null) {
 						// use PropertyEditor's setAsText in case of a String value
 						if (logger.isDebugEnabled()) {

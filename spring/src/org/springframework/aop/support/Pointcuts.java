@@ -18,7 +18,7 @@ import org.springframework.aop.Pointcut;
 public abstract class Pointcuts {
 	
 	public static Pointcut union(Pointcut a, Pointcut b) {
-		return new ComposablePointcut(a.getClassFilter(), a.getMethodMatcher()).union(b);
+		return new UnionPointcut(a, b);
 	}
 	
 	public static Pointcut intersection(Pointcut a, Pointcut b) {

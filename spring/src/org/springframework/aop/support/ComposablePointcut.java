@@ -51,11 +51,6 @@ public class ComposablePointcut implements Pointcut {
 		return this;
 	}
 	
-	public ComposablePointcut union(Pointcut other) {
-		this.classFilter = ClassFilters.union(this.classFilter, other.getClassFilter());
-		this.methodMatcher = MethodMatchers.union(this.methodMatcher, other.getMethodMatcher());
-		return this;
-	}
 	
 	public ComposablePointcut intersection(Pointcut other) {
 		// TODO vertical composition issue

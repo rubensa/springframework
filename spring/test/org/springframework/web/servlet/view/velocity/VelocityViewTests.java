@@ -70,7 +70,7 @@ public class VelocityViewTests extends TestCase {
 			vv.setApplicationContext(wac);
 			fail();
 		}
-		catch (ApplicationContextException ex) {
+		catch (IllegalArgumentException ex) {
 			// Check there's a helpful error message
 			assertTrue(ex.getMessage().indexOf("templateName") != -1);
 		}

@@ -622,7 +622,8 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		t.getName();
 		assertEquals(3, di.getCount());
 		assertEquals(1, di2.getCount());
-		config.removeInterceptor(di);
+		// will remove di
+		config.removeAdvisor(0);
 		t.getAge();
 		// Unchanged
 		assertEquals(3, di.getCount());

@@ -27,6 +27,11 @@ import java.util.Iterator;
  */
 public abstract class Algorithms {
     
+    // static utility class
+    private Algorithms() {
+        
+    }
+    
     /**
      * Find the first element in the collection matching the specified unary
      * predicate.

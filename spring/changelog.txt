@@ -7,6 +7,7 @@ Changes in version 1.0 RC1 (xx.01.2003)
 ---------------------------------------
 
 Package org.springframework.aop
+* Overhauled advice manipulation methods on AdvisedSupport
 * SimpleIntroductionAdvisor -> DefaultInterceptionIntroductionAdvisor
 * added AfterReturning advice to complete AOP advice types
 * RegexpMethodPointcut now also handles multiple patterns (backward compatible)

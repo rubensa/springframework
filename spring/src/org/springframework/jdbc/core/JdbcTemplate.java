@@ -797,7 +797,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		}
 
 		public void cleanupParameters() {
-			StatementCreatorUtils.cleanupParameters(Arrays.asList(this.args));
+			StatementCreatorUtils.cleanupParameters(this.args);
 		}
 	}
 
@@ -830,7 +830,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 		}
 
 		public void cleanupParameters() {
-			StatementCreatorUtils.cleanupParameters(Arrays.asList(this.args));
+			StatementCreatorUtils.cleanupParameters(this.args);
 		}
 	}
 

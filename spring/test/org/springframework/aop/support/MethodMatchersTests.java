@@ -45,10 +45,10 @@ public class MethodMatchersTests extends TestCase {
 	 */
 	public MethodMatchersTests(String arg0) throws Exception {
 		super(arg0);
-		EXCEPTION_GETMESSAGE = Exception.class.getMethod("getMessage", null);
-		ITESTBEAN_GETAGE = ITestBean.class.getMethod("getAge", null);
+		EXCEPTION_GETMESSAGE = Exception.class.getMethod("getMessage", (Class[]) null);
+		ITESTBEAN_GETAGE = ITestBean.class.getMethod("getAge", (Class[]) null);
 		ITESTBEAN_SETAGE = ITestBean.class.getMethod("setAge", new Class[] { int.class });
-		IOTHER_ABSQUATULATE = IOther.class.getMethod("absquatulate", null);
+		IOTHER_ABSQUATULATE = IOther.class.getMethod("absquatulate", (Class[]) null);
 	}
 
 	public void testDefaultMatchesAll() throws Exception {

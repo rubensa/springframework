@@ -1,6 +1,5 @@
 package org.springframework.jdbc.datasource;
 
-
 /**
  * DataSource transaction object, representing a ConnectionHolder.
  * Used as transaction object by DataSourceTransactionManager.
@@ -53,16 +52,12 @@ public class DataSourceTransactionObject {
 		return previousIsolationLevel;
 	}
 
-	/**
-	 * @return was autocommit previously set?
-	 */
-	public boolean getMustRestoreAutoCommit() {
-		return mustRestoreAutoCommit;
-	}
-	/**
-	 * @param whether autocommit was previously set?
-	 */
 	public void setMustRestoreAutoCommit(boolean mustRestoreAutoCommit) {
 		this.mustRestoreAutoCommit = mustRestoreAutoCommit;
 	}
+
+	public boolean getMustRestoreAutoCommit() {
+		return mustRestoreAutoCommit;
+	}
+
 }

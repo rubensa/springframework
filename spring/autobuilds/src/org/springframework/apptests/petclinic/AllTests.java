@@ -19,7 +19,7 @@ import com.meterware.httpunit.*;
  * AllTests
  * 
  * Not every use case is covered here since the point is to exrcise the 
- * Spring code rather than the petclinic code.  Tests implemented here 
+ * Spring code rather than the application code.  Tests implemented here 
  * are sufficient to check all aspects of Spring that the sample app
  * makes use of.
  * 

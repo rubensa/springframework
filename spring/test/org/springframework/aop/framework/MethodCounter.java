@@ -16,6 +16,7 @@
 
 package org.springframework.aop.framework;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
@@ -26,7 +27,7 @@ import java.util.HashMap;
  * @author Rod Johnson
  * @version $Id$
  */
-public class MethodCounter {
+public class MethodCounter implements Serializable {
 	
 	/** Method name --> count, does not understand overloading */
 	private HashMap map = new HashMap();
@@ -51,5 +52,18 @@ public class MethodCounter {
 	
 	public int getCalls() {
 		return allCount;
+	}
+	
+	/**
+	 * A bit simplistic: just wants the same class.
+	 * Doesn't worry about counts.
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	public boolean equals(Object other) {
+		if (other == null || other.getClass() != this.getClass()) {
+			return false;
+		}
+		MethodCounter mc2 = (MethodCounter) other;
+		return true;
 	}
 }

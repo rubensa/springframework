@@ -32,7 +32,7 @@ import org.springframework.util.StringUtils;
  */
 public class HtmlDecorator extends SimpleDecorator {
 
-    private static final String DEFAULT_CSS_FILE = "context.css";
+    private static final String DEFAULT_CSS_FILE = "default.css";
   
     private static final String ATTRIBUTE_CSS_NAME = "beandocCssLocation";
 

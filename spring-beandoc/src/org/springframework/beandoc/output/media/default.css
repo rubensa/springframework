@@ -31,18 +31,18 @@
   }
 
 a {
-    color : #ff6;
+    color : #008;
     text-decoration: none;
   }
 
 a:hover {
     text-decoration: none;
-    color: #cca
+    background-color: #f0f0ff
   }
 
 body {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     font-size: 70%;
     margin-top: 0px;
     margin-left: 0px;
@@ -50,12 +50,12 @@ body {
   }
 
 h1, h2 {
-    background-color: #ffd;
-    color: black;
+    background-color: #004;
+    color: white;
     padding: 2px;
     background-image: url(round-corner-tl.gif);
     background-repeat: no-repeat;
-    border-bottom: 1px solid #000000
+    border-bottom: 1px solid #000
 }
     
 h1 {
@@ -69,7 +69,7 @@ h2 {
 
 hr {
     border-width: 0px;
-    border-bottom: 1px solid #443;
+    border-bottom: 1px solid #ccc;
   }
 
 img {
@@ -79,7 +79,7 @@ img {
 td {
     padding: 4px;
     vertical-align: top;
-    border-bottom: 1px solid #444444;
+    border-bottom: 1px solid #f3f3f3;
   }
 
 th {
@@ -99,12 +99,13 @@ th {
 table.invisibleTable {
     border-width: 0px;
     border-collapse: collapse;
+    width: inherit;
   }
 
 td.keyLabel {
     color: #808080;
-    width: 200px;
-    background-color: #333333;
+    width: 140px;
+    background-color: #f3f3ff;
     text-align: right;
   }
 
@@ -158,8 +159,8 @@ div.beanFooter {
   }
 
 #menuBar, #bannerBar {
-    background: #c0c0c0 url(spring_clear.png) no-repeat  right;
-    border-bottom: 2px solid #996;
+    background: #eeeeff url(spring_clear.png) no-repeat  right;
+    border-bottom: 2px solid #004;
     padding: 5px;
   }
   
@@ -170,5 +171,5 @@ div.beanFooter {
 
 #bannerBar {
     height: 45px;
-    color: black;
+    color: #808080;
   }

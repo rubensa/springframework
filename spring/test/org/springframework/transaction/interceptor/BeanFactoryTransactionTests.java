@@ -87,7 +87,7 @@ public class BeanFactoryTransactionTests extends TestCase {
 		// Install facade expecting a call
 		ptmControl = MockControl.createControl(PlatformTransactionManager.class);
 		ptm = (PlatformTransactionManager) ptmControl.getMock();
-		TransactionStatus txStatus = new TransactionStatus(null, true);
+		TransactionStatus txStatus = new TransactionStatus(null, true, false, false);
 		TransactionInterceptor txInterceptor = (TransactionInterceptor) factory.getBean("txInterceptor");
 		MethodMapTransactionAttributeSource txAttSrc = (MethodMapTransactionAttributeSource) txInterceptor.getTransactionAttributeSource();
 		ptm.getTransaction((TransactionDefinition) txAttSrc.methodMap.values().iterator().next());

@@ -166,7 +166,7 @@ public class TransactionInterceptor implements MethodInterceptor, InitializingBe
 			}
 		}
 		if (status != null) {
-			if (status.isDebugEnabled()) {
+			if (status.isDebug()) {
 				logger.debug("Invoking commit for transaction on method '" + invocation.getMethod().getName() + "'");
 			}
 			this.transactionManager.commit(status);

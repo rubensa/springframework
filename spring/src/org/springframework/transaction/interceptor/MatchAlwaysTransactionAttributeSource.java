@@ -12,24 +12,15 @@ import java.lang.reflect.Method;
  * may be specified, but will otherwise default to PROPOGATION_REQUIRED. This may be
  * used in the cases where you want to use the same transaction attribute with all
  * methods being handled by a transaction interceptor.
- *
  * @author Colin Sampaleanu
  * @since 15.10.2003
  * @version $Id$
  * @see org.springframework.transaction.interceptor.TransactionProxyFactoryBean
- * @see org.springframework.aop.framework.support.BeanNameAutoProxyCreator
+ * @see org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator
  */
 public class MatchAlwaysTransactionAttributeSource implements TransactionAttributeSource {
   
-	TransactionAttribute _transactionAttribute;
-
-	/**
-	 * Create an instance. Will default to PROPOGATION_REQUIRED, which may be overriden
-	 * by calling {@link #setTransactionAttribute}.
-	 */
-	public MatchAlwaysTransactionAttributeSource() {
-		setTransactionAttribute("PROPAGATION_REQUIRED");
-	}
+	private TransactionAttribute transactionAttribute = new DefaultTransactionAttribute();
 
 	/**
 	 * Allows a transaction attribute to be specified, using the String form, for
@@ -37,14 +28,12 @@ public class MatchAlwaysTransactionAttributeSource implements TransactionAttribu
 	 * @param transactionAttribute The String form of the transactionAttribute to use.
 	 * @see org.springframework.transaction.interceptor.TransactionAttributeEditor
 	 */
-	public void setTransactionAttribute(String transactionAttribute) {
-		TransactionAttributeEditor tae = new TransactionAttributeEditor();
-		tae.setAsText(transactionAttribute);
-		_transactionAttribute = (TransactionAttribute) tae.getValue();
+	public void setTransactionAttribute(TransactionAttribute transactionAttribute) {
+		this.transactionAttribute = transactionAttribute;
 	}
 
-	public TransactionAttribute getTransactionAttribute(Method m, Class targetClass) {
-		return _transactionAttribute;
+	public TransactionAttribute getTransactionAttribute(Method method, Class targetClass) {
+		return transactionAttribute;
 	}
 
 }

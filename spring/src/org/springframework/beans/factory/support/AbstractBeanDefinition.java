@@ -38,6 +38,8 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 	private boolean singleton = true;
 
 	private boolean lazyInit = false;
+	
+	private MethodOverrides methodOverrides = new MethodOverrides();
 
 	/**
 	 * Create a new bean definition.
@@ -62,6 +64,14 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 		return null;
 	}
 
+	public MethodOverrides getMethodOverrides() {
+		return this.methodOverrides;
+	}
+	
+	public void setMethodOverrides(MethodOverrides lookupOverrides) {
+		this.methodOverrides = lookupOverrides;
+	}
+	
 	/**
 	 * Set a description of the resource that this bean definition
 	 * came from (for the purpose of showing context in case of errors).

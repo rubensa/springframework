@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.AbstractUrlBasedView;
 import org.springframework.context.ApplicationContextException;
 
@@ -126,6 +127,9 @@ public class FreemarkerView extends AbstractUrlBasedView {
         HttpServletResponse response)
         throws Exception {
         
+		// grab the locale specific version of the template if applicable
+		loadTemplate(RequestContextUtils.getLocale(request));
+			
         if (logger.isDebugEnabled())
         	logger.debug("Preparing to process model [" 
         				 + model + "] with FreeMarker Template [" + freemarkerTemplate.getName() + "]");

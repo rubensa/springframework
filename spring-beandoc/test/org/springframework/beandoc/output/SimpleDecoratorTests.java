@@ -77,6 +77,38 @@ public class SimpleDecoratorTests extends TestCase {
         assertEquals("bean", elementNames.get(0));
     }
     
+    public void testFilteredDecorationUsingNullFilterThrowsException() {
+        try {
+            sd.setFilter(null);
+            fail("Null filter should not be allowed");
+        } catch (IllegalArgumentException iae) {
+            // ok
+        }
+    }
+    
+    public void testValidFilterMatchingNothing() {
+        sd.setFilter(new ElementFilter("noSuchElementInTheContextFiles"));
+        sd.decorate(docs);   
+        assertEquals(0, elementNames.size());     
+    }
+    
+    public void testFilteredDecorationUsingNullOrEmptyStringArrayThrowsException() {
+        try {
+            sd.setFilterNames(null);
+            fail("Null filterNames should not be allowed");
+        } catch (IllegalArgumentException iae) {
+            // ok
+        }
+        
+        String[] noNames = new String[0];
+        try {
+            sd.setFilterNames(noNames);
+            fail("Empty filterNames should not be allowed");
+        } catch (IllegalArgumentException iae) {
+            // ok
+        }
+    }
+    
     public void testFilteredDecorationUsingSingleName() {
         sd.setFilterNames(new String[] {"bean"});
         sd.decorate(docs);   

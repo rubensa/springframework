@@ -57,20 +57,24 @@ public abstract class SimpleDecorator implements Decorator {
      * @see #setFilter
      */
     public void decorate(Document[] contextDocuments) {
-        for (int i = 0; i < contextDocuments.length; i++) {
+        for (int i = 0; i < contextDocuments.length; i++)
             for (Iterator iter = contextDocuments[i].getDescendants(elementFilter); iter.hasNext();) {
                 Element element = (Element) iter.next();
                 decorateElement(element);
             }
-        }
+        
     }
     
     /**
      * Each <code>Element</code> in each input <code>Document</code> is iteratively
      * passed to this method allowing subclasses to add or amend any attributes they
-     * desire.
+     * desire.  It's possible to filter the view of the DOM, and thereby the list of
+     * <code>Element</code>s that will be passed to this method by setting a 
+     * <code>Filter</code> on this instance.
      * 
      * @param element
+     * @see #setFilterNames
+     * @see #setFilter
      */
     protected abstract void decorateElement(Element element);
     
@@ -81,12 +85,17 @@ public abstract class SimpleDecorator implements Decorator {
      * @param elementFilter
      */
     public void setFilter(ElementFilter elementFilter) {
+        if (elementFilter == null)
+            throw new IllegalArgumentException("Null elementFilter is not permitted");
         this.elementFilter = elementFilter;
     }
     
     /**
      * Specify an array of tag names that define Elements this instance will iterate
-     * over.
+     * over.  If your subclass need only be concerned with <code>&lt;bean&gt;</code>
+     * and <code>&lt;property&gt;</code> tags for example, you can set those two names
+     * as elements of the array of names and only these <code>Element</code> types will
+     * be passed into the <code>decorateElement</code> method. 
      * 
      * @param tagNames
      */

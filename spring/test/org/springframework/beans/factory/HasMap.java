@@ -72,31 +72,18 @@ public class HasMap {
 		this.objectArray = objectArray;
 	}
 
-	/**
-	 * @return Class[]
-	 */
 	public Class[] getClassArray() {
 		return classArray;
 	}
 
-	/**
-	 * Sets the classArray.
-	 * @param classArray The classArray to set
-	 */
 	public void setClassArray(Class[] classArray) {
 		this.classArray = classArray;
 	}
 
-	/**
-	 * @return
-	 */
 	public Integer[] getIntegerArray() {
 		return intArray;
 	}
 
-	/**
-	 * @param is
-	 */
 	public void setIntegerArray(Integer[] is) {
 		intArray = is;
 	}

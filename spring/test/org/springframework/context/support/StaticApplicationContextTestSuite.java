@@ -145,5 +145,10 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 			return methodInvocation.proceed();
 		}
 	}
+	
+	
+	public static void main(String[] args) {
+		junit.textui.TestRunner.run(StaticApplicationContextTestSuite.class);
+	}
 
 }

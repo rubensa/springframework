@@ -31,12 +31,6 @@ import org.springframework.util.StringUtils;
  */
 public class TransactionAttributeEditor extends PropertyEditorSupport {
 
-	public static final String READ_ONLY_MARKER = "readOnly";
-
-	public static final String COMMIT_RULE_PREFIX = "+";
-
-	public static final String ROLLBACK_RULE_PREFIX = "-";
-
 	/**
 	 * Format is PROPAGATION_NAME,ISOLATION_NAME,readOnly,+Exception1,-Exception2.
 	 * Null or the empty string means that the method is non transactional.
@@ -59,13 +53,17 @@ public class TransactionAttributeEditor extends PropertyEditorSupport {
 				else if (token.startsWith(TransactionDefinition.ISOLATION_CONSTANT_PREFIX)) {
 					attr.setIsolationLevelName(tokens[i]);
 				}
-				else if (token.equals(READ_ONLY_MARKER)) {
+				else if (token.startsWith(DefaultTransactionAttribute.TIMEOUT_PREFIX)) {
+					String value = token.substring(DefaultTransactionAttribute.TIMEOUT_PREFIX.length());
+					attr.setTimeout(Integer.parseInt(value));
+				}
+				else if (token.equals(DefaultTransactionAttribute.READ_ONLY_MARKER)) {
 					attr.setReadOnly(true);
 				}
-				else if (token.startsWith(COMMIT_RULE_PREFIX)) {
+				else if (token.startsWith(DefaultTransactionAttribute.COMMIT_RULE_PREFIX)) {
 					attr.getRollbackRules().add(new NoRollbackRuleAttribute(token.substring(1)));
 				}
-				else if (token.startsWith(ROLLBACK_RULE_PREFIX)) {
+				else if (token.startsWith(DefaultTransactionAttribute.ROLLBACK_RULE_PREFIX)) {
 					attr.getRollbackRules().add(new RollbackRuleAttribute(token.substring(1)));
 				}
 				else {

@@ -333,8 +333,9 @@
 >
 
 <!--
-	Each property element must specify the key. The value
-	is the element content.
+	Each property element must specify the key. The value is the
+	element content: Note that whitespace is trimmed off to avoid
+	unwanted whitespace caused by typical XML formatting.
 -->
 <!ATTLIST prop key CDATA #REQUIRED>
 
@@ -358,5 +359,5 @@
 	null value unless a special PropertyEditor does so.
 -->
 <!ELEMENT null (#PCDATA)>
-			]]></programlisting></para>
+]]></programlisting></para>
 		</appendix>

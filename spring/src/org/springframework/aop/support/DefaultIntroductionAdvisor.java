@@ -20,10 +20,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.aopalliance.aop.Advice;
+
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
 import org.springframework.aop.framework.AopConfigException;
+import org.springframework.core.Ordered;
 
 /**
  * Simple IntroductionAdvisor implementation that by default applies to any class.
@@ -31,8 +33,10 @@ import org.springframework.aop.framework.AopConfigException;
  * @since 11-Nov-2003
  * @version $Id$
  */
-public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFilter {
-	
+public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFilter, Ordered {
+
+	private int order = Integer.MAX_VALUE;
+
 	private IntroductionInterceptor interceptor;
 	
 	private Set interfaces = new HashSet();
@@ -57,6 +61,14 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 		}
 	}
 	
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
 	public void addInterface(Class intf) throws AopConfigException {
 		this.interfaces.add(intf);
 	}

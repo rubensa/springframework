@@ -222,9 +222,9 @@
     &lt;constructor-arg index="1"&gt;&lt;value&gt;${output.dir}&lt;/value&gt;&lt;/constructor-arg&gt;
     &lt;property name="decorators"&gt;
         &lt;list&gt;
-            &lt;ref local="javaDocDecorator"/&gt;
-            &lt;ref local="htmlDecorator"/&gt; 
-            &lt;ref local="graphVizDecorator"/&gt;
+            &lt;ref local="javadoc"/&gt;
+            &lt;ref local="html"/&gt; 
+            &lt;ref local="graphs"/&gt;
             <emphasis role="bold">&lt;ref local="csvDecorator"/&gt;</emphasis> 
         &lt;/list&gt;
     &lt;/property&gt;

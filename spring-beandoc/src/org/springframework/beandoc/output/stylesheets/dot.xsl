@@ -44,7 +44,7 @@
         <xsl:apply-templates select="beans"/>
         
         /* bean definitions */
-        <xsl:apply-templates select="beans/bean"/>
+        <xsl:apply-templates select="beans/bean[not(@beandocGraphIgnore)]"/>
         
         /* dependencies */
         <xsl:apply-templates select="beans/bean/property//ref"/>

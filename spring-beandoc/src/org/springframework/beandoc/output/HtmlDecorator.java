@@ -38,7 +38,7 @@ public class HtmlDecorator extends SimpleDecorator {
 
     private static final String ATTRIBUTE_FOOTER = "beandocPageFooter";
 
-    private String contextCssUrl = DEFAULT_CSS_FILE;
+    private String cssUrl = DEFAULT_CSS_FILE;
     
     private String title = "Application Context";    
     
@@ -54,7 +54,7 @@ public class HtmlDecorator extends SimpleDecorator {
     protected void decorateElement(Element element) {
         if (element.isRootElement()) {
             // add CSS file locations, title
-            element.setAttribute(ATTRIBUTE_CSS_NAME, contextCssUrl);
+            element.setAttribute(ATTRIBUTE_CSS_NAME, cssUrl);
             element.setAttribute(ATTRIBUTE_TITLE, title);
             thisFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             thisHtmlFileName = StringUtils.replace(thisFileName, ".xml", ".html");
@@ -81,11 +81,11 @@ public class HtmlDecorator extends SimpleDecorator {
      * reference.  If you set a value here, this file will not be copied to the output directory
      * and your reference will be used instead.
      * 
-     * @param contextCssUrl a locations (absolute or relative to your output directory) 
+     * @param cssUrl a locations (absolute or relative to your output directory) 
      *      that the CSS file can be found which is used to skin the beandoc output.
      */
-    public void setContextCssUrl(String contextCssUrl) {
-        this.contextCssUrl = contextCssUrl;
+    public void setCssUrl(String contextCssUrl) {
+        this.cssUrl = contextCssUrl;
     }
 
     /**
@@ -97,8 +97,8 @@ public class HtmlDecorator extends SimpleDecorator {
      * @return the String representing absolute or relative references to a CSS file
      *      used to skin the beandoc output.
      */
-    public String getContextCssUrl() {
-        return contextCssUrl;
+    public String getCssUrl() {
+        return cssUrl;
     }
     
     /**

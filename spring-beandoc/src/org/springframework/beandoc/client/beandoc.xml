@@ -14,9 +14,9 @@
      	<constructor-arg index="1"><value>${output.dir}</value></constructor-arg>
     	<property name="decorators">
     		<list>
-    			<ref local="javaDocDecorator"/>
-				<ref local="graphVizDecorator"/>
-    			<ref local="htmlDecorator"/> 
+    			<ref local="javadoc"/>
+				<ref local="graphs"/>
+    			<ref local="html"/> 
     		</list>
     	</property>
     	<property name="transformers">
@@ -32,16 +32,16 @@
     	</property>    	    	
     	<property name="compilers">
     		<list>
-				<ref local="htmlGraphVizCompiler"/>
+				<ref local="compiler"/>
     		</list>
     	</property>    	
     </bean>   
     
-	<bean id="javaDocDecorator" class="org.springframework.beandoc.output.JavaDocDecorator"/>			    
+	<bean id="javadoc" class="org.springframework.beandoc.output.JavaDocDecorator"/>			    
 			    
-	<bean id="graphVizDecorator" class="org.springframework.beandoc.output.GraphVizDecorator"/>			    
+	<bean id="graphs" class="org.springframework.beandoc.output.GraphVizDecorator"/>			    
 			    
-	<bean id="htmlDecorator" class="org.springframework.beandoc.output.HtmlDecorator"/>
+	<bean id="html" class="org.springframework.beandoc.output.HtmlDecorator"/>
     
     <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
 	    <description>
@@ -95,6 +95,6 @@
       
 	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer"/>
 	
-	<bean id="htmlGraphVizCompiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
+	<bean id="compiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
     
 </beans>

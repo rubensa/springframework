@@ -40,7 +40,7 @@ public class JavaDocDecorator extends SimpleDecorator {
 
     private static String javaVersion = System.getProperty("java.specification.version");
     
-    private SortedMap javaDocLocations = new TreeMap(
+    private SortedMap locations = new TreeMap(
         new Comparator() {
             public int compare(Object path1, Object path2) {
                 String sPath1 = (String) path1;
@@ -58,21 +58,21 @@ public class JavaDocDecorator extends SimpleDecorator {
      * which can be used by a Transformer.
      */
     public JavaDocDecorator() {
-        addJavaDocLocation(
+        addLocation(
             "java.",
             "http://java.sun.com/j2se/" + javaVersion + "/docs/api/");
-        addJavaDocLocation(
+        addLocation(
             "javax.",
             "http://java.sun.com/j2se/" + javaVersion + "/docs/api/");
-        addJavaDocLocation(
+        addLocation(
             "org.springframework.",
             "http://www.springframework.org/docs/api/");
-        addJavaDocLocation(
+        addLocation(
             "org.springframework.samples.",
             null);
             
         for (int i = 0; i < COMMONS_PROJECTS.length; i++)
-            addJavaDocLocation(
+            addLocation(
                 "org.apache.commons." + COMMONS_PROJECTS[i] + ".", 
                 "http://jakarta.apache.org/commons/" + COMMONS_PROJECTS[i] + "/apidocs/"); 
            
@@ -99,13 +99,13 @@ public class JavaDocDecorator extends SimpleDecorator {
      * A <code>SortedMap</code> keyed by package prefixes that point to URI's (local, remote,
      * absolute or relative) of JavaDoc locations.  Used to link classnames to their javadoc
      * locations in the HTML output.  The preferred way to modify this list programmatically is 
-     * through the {@link #addJavaDocLocation} convenience method.
+     * through the {@link #addLocation} convenience method.
      * 
      * @param map a <code>SortedMap</code> of javadoc locations keyed by package name prefixes.
      * @see #addJavaDocLocation
      */
-    public void setJavaDocLocations(SortedMap map) {
-        javaDocLocations = map;
+    public void setLocations(SortedMap map) {
+        locations = map;
     }
 
     /**
@@ -133,9 +133,9 @@ public class JavaDocDecorator extends SimpleDecorator {
      *      match against.  May not be null (will be ignored)
      * @param url the root of the API documentation
      */
-    public void addJavaDocLocation(String classPrefix, String url) {
+    public void addLocation(String classPrefix, String url) {
         if (classPrefix == null) return;
-        javaDocLocations.put(classPrefix, url);
+        locations.put(classPrefix, url);
     }
 
     /**
@@ -146,13 +146,13 @@ public class JavaDocDecorator extends SimpleDecorator {
      * The returned underlying <code>SortedMap</code> is modifiable and will, if modified, affect
      * subsequent calls to the <code>BeanDocEngine</code>'s <code>process()</code> method if
      * you are using the tool programmatically.  The preferred way to modify this list is 
-     * through the {@link #addJavaDocLocation} convenience method.
+     * through the {@link #addLocation} convenience method.
      * 
      * @return a <code>SortedMap</code> of javadoc locations keyed by package name prefixes.
      * @see #addJavaDocLocation
      */
-    public SortedMap getJavaDocLocations() {
-        return javaDocLocations;
+    public SortedMap getLocations() {
+        return locations;
     }
     
     /**
@@ -166,11 +166,11 @@ public class JavaDocDecorator extends SimpleDecorator {
      * @see #addJavaDocLocation
      */
     private String getJavaDocForClassName(String className) {
-        for (Iterator i = javaDocLocations.keySet().iterator(); i.hasNext();) {
+        for (Iterator i = locations.keySet().iterator(); i.hasNext();) {
             String key = (String) i.next();
             if (className.startsWith(key)) {
                 String class2url = StringUtils.replace(className, ".", "/") + ".html";
-                String jdoc = (String) javaDocLocations.get(key);
+                String jdoc = (String) locations.get(key);
                 if (jdoc == null || jdoc.equals("")) return null;
                 if (!jdoc.endsWith("/")) jdoc += "/";
                 return jdoc + class2url;

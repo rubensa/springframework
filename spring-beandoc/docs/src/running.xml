@@ -22,7 +22,7 @@
 
     <programlisting>input.files=/projects/my-spring-project/*.xml
 output.dir=/projects/my-spring-project/beandoc/
-graphVizCompiler.dotExe=C:/Program Files/ATT/GraphViz/bin/dot.exe</programlisting>
+compiler.dotExe=C:/Program Files/ATT/GraphViz/bin/dot.exe</programlisting>
 
     <para>The above values are saved in a properties file, the location and
     name of which can be anything you like, but I'll assume it's been saved as
@@ -137,7 +137,7 @@ beandoc.properties file
 
     <para>or</para>
 
-    <programlisting>set springframeworg.output.dir=C:\my\output\dir\
+    <programlisting>set springframework.output.dir=C:\my\output\dir\
 runbeandoc-cli.bat</programlisting>
 
     <para>System properties are lowest in the hierarchy of places to define
@@ -156,9 +156,9 @@ runbeandoc-cli.bat</programlisting>
       All of these are specified in the beandoc.properties file shown
       below.</para>
 
-      <programlisting>htmlDecorator.title=My Application Context
-htmlDecorator.footer=Copyright (C) ACME Corp. 2004
-htmlDecorator.cssLocation=http://our.intranet/projects/beandoc.css</programlisting>
+      <programlisting>html.title=My Application Context
+html.footer=Copyright (C) ACME Corp. 2004
+html.cssUrl=http://our.intranet/projects/beandoc.css</programlisting>
 
       <para>Default values for all of the above will be used if you don't
       specify them, and additionally, a default CSS file will be copied to the
@@ -187,14 +187,14 @@ htmlDecorator.cssLocation=http://our.intranet/projects/beandoc.css</programlisti
         (id) or the bean's fully qualified class name. The format for doing so
         is to set a property like;</para>
 
-        <para><literal>graphVizDecorator.beanColours[NameOrClassPattern]=colour</literal></para>
+        <para><literal>graphs.beanColours[NameOrClassPattern]=colour</literal></para>
 
         <para>where NameOrClassPattern is a simple (wildcarded) pattern to
         match against. Some examples are shown below:</para>
 
-        <programlisting>graphVizDecorator.beanColours[com.foo.bar*]=#a090a0
-graphVizDecorator.beanColours[Service*]=#f0f080
-graphVizDecorator.beanColours[*Proxy]=blue</programlisting>
+        <programlisting>graphs.beanColours[com.foo.bar*]=#a090a0
+graphs.beanColours[Service*]=#f0f080
+graphs.beanColours[*Proxy]=blue</programlisting>
 
         <para>In the examples shown, beans in the package
         <literal>com.foo.bar</literal> will all be coloured
@@ -205,8 +205,7 @@ graphVizDecorator.beanColours[*Proxy]=blue</programlisting>
 
         <para>Note that you can also override the default colour for beans
         with no other colour specified from the dark-gray by setting the
-        property
-        <literal>graphVizDecorator.defaultFillColour=#aaaaaa</literal> as
+        property <literal>graphs.defaultFillColour=#aaaaaa</literal> as
         appropriate.</para>
       </sect3>
 
@@ -219,7 +218,7 @@ graphVizDecorator.beanColours[*Proxy]=blue</programlisting>
         browsers. You can however override this format and have graphs
         produced in other formats if desired. The relevant property is;</para>
 
-        <para><literal>graphVizDecorator.graphOutputType=[OutputType]</literal></para>
+        <para><literal>graphs.outputType=[OutputType]</literal></para>
 
         <para>Some common output types that you may like to specify
         are;</para>
@@ -257,11 +256,11 @@ graphVizDecorator.beanColours[*Proxy]=blue</programlisting>
         specify your font directories as a path separated (:) list. Below are
         examples of setting the style attributes in beandoc.properties;</para>
 
-        <programlisting>graphVizDecorator.graphFontSize=20
-graphVizDecorator.graphFontName=Arial
-graphVizDecorator.graphLabelLocation=b</programlisting>
+        <programlisting>graphs.fontSize=20
+graphs.fontName=Arial
+graphs.labelLocation=b</programlisting>
 
-        <para>In the above list, the <literal>graphLabelLocation</literal>
+        <para>In the above list, the <literal>labelLocation</literal>
         additionally specifies that graph titles should be at the bottom (b)
         of the graph. By default, they are at the top (t).</para>
       </sect3>
@@ -276,12 +275,11 @@ graphVizDecorator.graphLabelLocation=b</programlisting>
         of the final output. The example below will attempt to force the graph
         to a size that can be printed on a single A4 sheet.</para>
 
-        <programlisting>graphVizDecorator.graphXSize=11.5
-graphVizDecorator.graphYSize=8.5</programlisting>
+        <programlisting>graphs.graphXSize=11.5
+graphs.graphYSize=8.5</programlisting>
 
         <para>Aspect ratio can be affected by specifying the value of
-        <literal>graphVizDecorator.graphRatio</literal> as a floating point
-        number.</para>
+        <literal>graphs.ratio</literal> as a floating point number.</para>
 
         <para>Because of the extreme effect that the above properties can have
         on output, there are no real best practices or sensible defaults - you

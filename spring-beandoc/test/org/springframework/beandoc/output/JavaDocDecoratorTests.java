@@ -34,9 +34,9 @@ public class JavaDocDecoratorTests extends TestCase {
     /*
      * test javadoc lookups
      */
-    public void testJavaDocLocations() {
+    public void testLocations() {
         try {
-            jdd.addJavaDocLocation(
+            jdd.addLocation(
                 "org.springframework.emptyvalue.",
                 "");
                 

@@ -18,6 +18,8 @@ package org.springframework.beandoc.output;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.jdom.Element;
@@ -48,27 +50,31 @@ public class GraphVizDecorator extends SimpleDecorator {
     
     protected static final String ATTRIBUTE_GRAPH_CONSOLIDATED = "beandocConsolidatedImage";
 	
+    protected static final String ATTRIBUTE_GRAPH_IGNORE = "beandocGraphIgnore";
+	
     protected static final String ATTRIBUTE_COLOUR = "beandocFillColour";
     
-    private String graphFontName = "helvetica";
+    private String fontName = "helvetica";
     
-    private int graphFontSize = 10;
+    private int fontSize = 10;
     
-    private String graphRatio = "auto";
+    private String ratio = "auto";
     
     private float graphXSize = -1f;
     
     private float graphYSize = -1f;
     
-    private String graphBeanShape = "box";
+    private String beanShape = "box";
     
-    private char graphLabelLocation = 't';
+    private char labelLocation = 't';
     
     private String defaultFillColour = "#cfcccc";
 
-    private String graphOutputType = "png";
+    private String outputType = "png";
     
     private Map beanColours = new HashMap();
+
+    private List ignoreBeans = new LinkedList();
 
     /**
      * 
@@ -91,15 +97,15 @@ public class GraphVizDecorator extends SimpleDecorator {
      */
     protected void decorateElement(Element element) {
         if (element.isRootElement()) {
-            element.setAttribute(ATTRIBUTE_GRAPH_FONTNAME, graphFontName);
-            element.setAttribute(ATTRIBUTE_GRAPH_TYPE, graphOutputType);
-			element.setAttribute(ATTRIBUTE_GRAPH_FONTSIZE, String.valueOf(graphFontSize));
+            element.setAttribute(ATTRIBUTE_GRAPH_FONTNAME, fontName);
+            element.setAttribute(ATTRIBUTE_GRAPH_TYPE, outputType);
+			element.setAttribute(ATTRIBUTE_GRAPH_FONTSIZE, String.valueOf(fontSize));
 			if (graphXSize > -1 && graphYSize > -1)
 			    element.setAttribute(ATTRIBUTE_GRAPH_SIZE, graphXSize + ", " + graphYSize);		
-			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, graphRatio);		
-			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, graphBeanShape);
-			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(graphLabelLocation));
-            element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated." + graphOutputType);
+			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, ratio);		
+			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, beanShape);
+			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(labelLocation));
+            element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated." + outputType);
         }
         
         
@@ -108,11 +114,44 @@ public class GraphVizDecorator extends SimpleDecorator {
 			if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
 			String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
 			
-			String colour = getColourForBean(idOrName, className);
-			
+			String colour = getColourForBean(idOrName, className);			
 			element.setAttribute(ATTRIBUTE_COLOUR, colour);
-			logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");	        
+			logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");	 
+			
+			if (isBeanIgnored(idOrName, className)) {		
+				element.setAttribute(ATTRIBUTE_GRAPH_IGNORE, "true");
+				logger.debug("bean [" + idOrName + "] will be excluded from graphs");				    
+			}
         }
+    }
+
+    /**
+     * Patterns of bean or classnames can be used to indicate that some beans should be
+     * excluded from the output.
+     * 
+     * @return true if the bean should be ignored on graphing output, false
+     *      otherwise.
+     * @see #addIgnoreBeans
+     */
+    public boolean isBeanIgnored(String idOrName, String className) {
+        
+        String[] ignored = (String[]) ignoreBeans.toArray(new String[ignoreBeans.size()]);
+        for (int i = 0; i < ignored.length; i++) {
+            String key = ignored[i];
+            if (
+                (key.startsWith("*") && 
+                    ((idOrName != null && idOrName.endsWith(key.substring(1))) || 
+                    (className != null && className.endsWith(key.substring(1)))))
+                ||
+                (key.endsWith("*") && 
+                    ((idOrName != null && idOrName.startsWith(key.substring(0, key.length() - 1))) || 
+                    (className != null && className.startsWith(key.substring(0, key.length() - 1)))))
+                ||
+                (key.equals(idOrName) || key.equals(className))
+            )
+                return true;
+        }
+        return false;
     }
     
     /**
@@ -171,8 +210,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @param shape the shape for bean nodes in generated graphs.
      */
-    public void setGraphBeanShape(String shape) {
-        graphBeanShape = shape;
+    public void setBeanShape(String shape) {
+        beanShape = shape;
     }
 
     /**
@@ -181,8 +220,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @param font the font to use, default is "helvetica" which should work
      * on most platforms
      */
-    public void setGraphFontName(String font) {
-        graphFontName = font;
+    public void setFontName(String font) {
+        fontName = font;
     }
 
     /**
@@ -190,8 +229,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @param fontSize the font point size, default is 10
      */
-    public void setGraphFontSize(int fontSize) {
-        graphFontSize = fontSize;
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
     /**
@@ -200,8 +239,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @param labelLocation a char representing Top ('t') or Bottom ('b').  Default is 't'
      */
-    public void setGraphLabelLocation(char labelLocation) {
-        graphLabelLocation = labelLocation;
+    public void setLabelLocation(char labelLocation) {
+        this.labelLocation = labelLocation;
     }
 
     /**
@@ -235,8 +274,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @see #setGraphXSize
      * @see #setGraphYSize
      */
-    public void setGraphRatio(String ratio) {
-        graphRatio = ratio;
+    public void setRatio(String ratio) {
+        this.ratio = ratio;
     }
 
     /**
@@ -279,8 +318,53 @@ public class GraphVizDecorator extends SimpleDecorator {
      * gif and jpg if your viewer supports it.  Most modern browsers can display 
      * PNG files.
      */
-    public void setGraphOutputType(String graphType) {
-        graphOutputType = graphType;
+    public void setOutputType(String graphType) {
+        outputType = graphType;
+    }
+
+    /**
+     * A <code>List</code> of patterns representing bean names/ids or classnames that should
+     * be excluded from the output.
+     * <p>
+     * The returned underlying <code>List</code> is modifiable and will, if modified, affect
+     * subsequent calls to the <code>ContextProcessor</code>'s <code>process()</code> method if
+     * you are using the tool programmatically.  The preferred way to modify this list is 
+     * through the {@link #addIgnoreBeans} convenience method.
+     * 
+     * @return a <code>List</code> of patterns of bean names to be excluded from graphs
+     * @see #addIgnoreBeans
+     * @see #isBeanIgnored
+     */
+    public List getIgnoreBeans() {
+        return ignoreBeans;
+    }
+
+    /**
+     * A <code>List</code> of patterns representing bean names/ids or classnames that should
+     * be excluded from the output documents.  The preferred way to modify this list is 
+     * through the {@link #addIgnoreBeans} convenience method.
+     * 
+     * @param list a <code>List</code> of patterns of bean names to be excluded from graphs
+     * @see #addIgnoreBeans
+     */
+    public void setIgnoreBeans(List list) {
+        ignoreBeans = list;
+    }    
+
+    /**
+     * Add a naming pattern of bean id's or bean names or classnames that should not be displayed
+     * on output.  Some beans (such as PropertyConfigurers and MessageSources)
+     * are auxilliary and you may wish to exclude them from documents to keep the output
+     * focused.
+     * <p>
+     * This method may be called any number of times to add different patterns to the
+     * list of ignored beans.  Pattern may not be null (such a value will be ignored).
+     * 
+     * @param pattern a String representing a pattern to match.  The pattern can be prefixed or
+     *      suffixed with a wildcard (*) but does not use RegEx matching.  May not be null
+     */
+    public void addIgnoreBeans(String pattern) {
+        if (pattern != null) ignoreBeans.add(pattern);
     }
     
     /**
@@ -350,8 +434,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      *      .dot files
      * @see #setGraphOutputType
      */
-    public String getGraphOutputType() {
-        return graphOutputType;
+    public String getOutputType() {
+        return outputType;
     }
     
     /**
@@ -373,8 +457,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @return the shape GraphViz should use to display beans
      * @see #setGraphBeanShape
      */
-    public String getGraphBeanShape() {
-        return graphBeanShape;
+    public String getBeanShape() {
+        return beanShape;
     }
 
     /**
@@ -388,8 +472,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @return the font name used for bean labels on the graph
      */
-    public String getGraphFontName() {
-        return graphFontName;
+    public String getFontName() {
+        return fontName;
     }
 
     /**
@@ -397,8 +481,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @return the font size used for bean labels on the graph
      */
-    public int getGraphFontSize() {
-        return graphFontSize;
+    public int getFontSize() {
+        return fontSize;
     }
 
     /**
@@ -407,8 +491,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @return 't' or 'b' to denote top or bottom respectively
      */
-    public char getGraphLabelLocation() {
-        return graphLabelLocation;
+    public char getLabelLocation() {
+        return labelLocation;
     }
 
     /**
@@ -420,8 +504,8 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @see #getGraphXSize
      * @see #getGraphYSize
      */
-    public String getGraphRatio() {
-        return graphRatio;
+    public String getRatio() {
+        return ratio;
     }
 
     /**

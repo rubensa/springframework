@@ -71,8 +71,6 @@ public class DefaultContextProcessor implements ContextProcessor {
     
     private List compilers;
 
-    private List ignoreBeans = new LinkedList();
-
     /**
      * Convert string values to actual resources
      * 
@@ -435,80 +433,6 @@ public class DefaultContextProcessor implements ContextProcessor {
      */
     public void setCompilers(List list) {
         compilers = list;
-    }
-
-    /**
-     * A <code>List</code> of patterns representing bean names/ids or classnames that should
-     * be excluded from the output.
-     * <p>
-     * The returned underlying <code>List</code> is modifiable and will, if modified, affect
-     * subsequent calls to the <code>ContextProcessor</code>'s <code>process()</code> method if
-     * you are using the tool programmatically.  The preferred way to modify this list is 
-     * through the {@link #addIgnoreBeans} convenience method.
-     * 
-     * @return a <code>List</code> of patterns of bean names to be excluded from graphs
-     * @see #addIgnoreBeans
-     * @see #isBeanIgnored
-     */
-    public List getIgnoreBeans() {
-        return ignoreBeans;
-    }
-
-    /**
-     * Patterns of bean or classnames can be used to indicate that some beans should be
-     * excluded from the output.
-     * 
-     * @return true if the bean should be ignored on graphing output, false
-     *      otherwise.
-     * @see #addIgnoreBeans
-     */
-    public boolean isBeanIgnored(String idOrName, String className) {
-        
-        String[] ignored = (String[]) ignoreBeans.toArray(new String[ignoreBeans.size()]);
-        for (int i = 0; i < ignored.length; i++) {
-            String key = ignored[i];
-            if (
-                (key.startsWith("*") && 
-                    ((idOrName != null && idOrName.endsWith(key.substring(1))) || 
-                    (className != null && className.endsWith(key.substring(1)))))
-                ||
-                (key.endsWith("*") && 
-                    ((idOrName != null && idOrName.startsWith(key.substring(0, key.length() - 1))) || 
-                    (className != null && className.startsWith(key.substring(0, key.length() - 1)))))
-                ||
-                (key.equals(idOrName) || key.equals(className))
-            )
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * A <code>List</code> of patterns representing bean names/ids or classnames that should
-     * be excluded from the output documents.  The preferred way to modify this list is 
-     * through the {@link #addIgnoreBeans} convenience method.
-     * 
-     * @param list a <code>List</code> of patterns of bean names to be excluded from graphs
-     * @see #addIgnoreBeans
-     */
-    public void setIgnoreBeans(List list) {
-        ignoreBeans = list;
-    }    
-
-    /**
-     * Add a naming pattern of bean id's or bean names or classnames that should not be displayed
-     * on output.  Some beans (such as PropertyConfigurers and MessageSources)
-     * are auxilliary and you may wish to exclude them from documents to keep the output
-     * focused.
-     * <p>
-     * This method may be called any number of times to add different patterns to the
-     * list of ignored beans.  Pattern may not be null (such a value will be ignored).
-     * 
-     * @param pattern a String representing a pattern to match.  The pattern can be prefixed or
-     *      suffixed with a wildcard (*) but does not use RegEx matching.  May not be null
-     */
-    public void addIgnoreBeans(String pattern) {
-        if (pattern != null) ignoreBeans.add(pattern);
     }
 
 }

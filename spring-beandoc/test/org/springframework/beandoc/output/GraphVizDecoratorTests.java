@@ -76,10 +76,10 @@ public class GraphVizDecoratorTests extends TestCase {
     }
     
     public void testRootElementDecoration() {
-        gvd.setGraphBeanShape("ellipse");
-        gvd.setGraphFontName("Times");
-        gvd.setGraphFontSize(34);
-        gvd.setGraphRatio("auto");
+        gvd.setBeanShape("ellipse");
+        gvd.setFontName("Times");
+        gvd.setFontSize(34);
+        gvd.setRatio("auto");
         
         Document d = new Document();
         Element e = new Element("beans");
@@ -108,6 +108,45 @@ public class GraphVizDecoratorTests extends TestCase {
         e1.setAttribute("class", "something.else");
         gvd.decorateElement(e1);
         assertEquals("BLACK", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+    }
+    
+    /*
+     * add some patterns to the ignore list and verify their status
+     */
+    public void testIgnoreBeans() {
+        try {
+            
+            gvd.addIgnoreBeans("*Validator");
+            gvd.addIgnoreBeans("org.springframework.samples*");
+            gvd.addIgnoreBeans("simpleForm*");
+            gvd.addIgnoreBeans("*.foo.bar");
+            
+            assertTrue(gvd.isBeanIgnored("myValidator", "anything"));
+            assertTrue(gvd.isBeanIgnored("anything", "org.springframework.samples.IgnoreMe"));
+            assertTrue(gvd.isBeanIgnored("simpleFormControllerTest", "anything"));
+            assertTrue(gvd.isBeanIgnored("anything", "IgnoreMe.test.foo.bar"));
+            
+            assertFalse(gvd.isBeanIgnored("doNotIgnoreMe", "do.not.ignore"));
+            
+            
+        } catch (Exception e) {
+            fail();
+        }        
+    }
+    
+    public void testNullParamsForIgnoredLists() {
+        try {
+            // try first before adding anything to the ignored list (null list)
+            assertFalse(gvd.isBeanIgnored("doNotIgnoreMe", "do.not.ignore"));
+            
+            // add patterns and throw null params at it
+            gvd.addIgnoreBeans("*Validator");            
+            assertFalse(gvd.isBeanIgnored(null, "any.old.Class"));            
+            assertTrue(gvd.isBeanIgnored("someValidator", null));
+            
+        } catch (Exception e) {
+            fail();
+        }  
     }
     
 }

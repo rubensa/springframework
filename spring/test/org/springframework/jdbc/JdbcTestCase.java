@@ -74,10 +74,14 @@ public abstract class JdbcTestCase extends TestCase {
 		super.tearDown();
 
 		// We shouldn't verify unless the user called replay()
-		if (this.shouldVerify) {
+		if (shouldVerify()) {
 			ctrlDataSource.verify();
 			ctrlConnection.verify();
 		}
+	}
+
+	protected boolean shouldVerify() {
+		return this.shouldVerify;
 	}
 
 	protected void replay() {

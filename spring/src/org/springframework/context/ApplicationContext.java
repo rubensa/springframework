@@ -5,11 +5,12 @@
 
 package org.springframework.context;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.springframework.beans.factory.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
-import org.springframework.beans.factory.ListableBeanFactory;
 
 /** 
  * Interface to provide configuration for an application.
@@ -36,7 +37,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
  * @author Rod Johnson
  * @version $Id$
  */
-public interface ApplicationContext extends MessageSource, ListableBeanFactory, HierarchicalBeanFactory {
+public interface ApplicationContext extends AutowireCapableBeanFactory, HierarchicalBeanFactory, MessageSource {
 	
 	/**
 	 * Return the parent context, or null if there is no parent,
@@ -91,6 +92,6 @@ public interface ApplicationContext extends MessageSource, ListableBeanFactory, 
 	 * for evaluating relative paths.
 	 * @return the resource base path (ending with a separator), or null
 	 */
-	String getResourceBasePath();
+	File getResourceBase();
 
 }

@@ -74,8 +74,9 @@ import org.springframework.core.JdkVersion;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 13.02.2004
- * @see #findMatchingBeans
  * @version $Id$
+ * @see #findMatchingBeans
+ * @see DefaultListableBeanFactory
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
     implements AutowireCapableBeanFactory {
@@ -119,7 +120,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * Set the instantiation strategy to use.
-	 * Can be called by subclasses during initializationo.
+	 * Can be called by subclasses during initialization.
 	 * Default is CglibSubclassingInstantiationStrategy.
 	 * @see CglibSubclassingInstantiationStrategy
 	 */
@@ -196,7 +197,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * Delegates to full createBean version with allowEagerCaching=true.
-	 * @see #createBean(String, RootBeanDefinition, boolean).
+	 * @see #createBean(String, RootBeanDefinition, Object[], boolean)
 	 */
 	protected Object createBean(String beanName, RootBeanDefinition mergedBeanDefinition, Object[] args)
 	    throws BeansException {
@@ -246,8 +247,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				instanceWrapper = autowireConstructor(beanName, mergedBeanDefinition);
 			}
 			else {
-				// Use no-arg constructor
-				Object beanInstance = instantiationStrategy.instantiate(mergedBeanDefinition, this);
+				// use no-arg constructor
+				Object beanInstance = this.instantiationStrategy.instantiate(mergedBeanDefinition, this);
 				instanceWrapper = new BeanWrapperImpl(beanInstance);
 				initBeanWrapper(instanceWrapper);
 			}

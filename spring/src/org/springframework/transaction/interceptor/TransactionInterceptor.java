@@ -64,7 +64,7 @@ public class TransactionInterceptor extends TransactionAspectSupport implements 
 		finally {
 			doFinally(txInfo);
 		}
-		doAfterFinallyOnReturning(txInfo);
+		doCommitTransactionAfterReturning(txInfo);
 
 		return retVal;
 	}

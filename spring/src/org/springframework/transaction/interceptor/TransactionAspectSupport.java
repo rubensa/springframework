@@ -255,7 +255,7 @@ public class TransactionAspectSupport implements InitializingBean {
 	 * Do nothing if we didn't create a transaction.
 	 * @param txInfo information about the current transaction
 	 */
-	protected void doAfterFinallyOnReturning(TransactionInfo txInfo) {
+	protected void doCommitTransactionAfterReturning(TransactionInfo txInfo) {
 		if (txInfo != null && txInfo.hasTransaction()) {			
 			if (logger.isDebugEnabled()) {
 				logger.debug("Invoking commit for transaction on " + txInfo.joinpointIdentification());

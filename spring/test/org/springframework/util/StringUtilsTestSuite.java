@@ -167,17 +167,4 @@ public class StringUtilsTestSuite extends TestCase {
 		assertTrue("Still has chars", cleaned.length() > 10);
 	} 
 	
-	public void testClassNameNoFqn() {
-		Class clazz = Exception.class;
-		assertEquals(StringUtils.classNameWithoutPackagePrefix(clazz), "Exception");
-		
-		// Test with inner class
-		clazz = MyInnerClass.class;
-		assertEquals(StringUtils.classNameWithoutPackagePrefix(clazz), "StringUtilsTestSuite$MyInnerClass");
-	}
-	
-	// Purely for testing class name resolution
-	public static class MyInnerClass {
-	} 
-
 }

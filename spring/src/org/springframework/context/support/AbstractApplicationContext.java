@@ -55,6 +55,7 @@ import org.springframework.core.OrderComparator;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceEditor;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.PathMatcher;
 
@@ -233,8 +234,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
 
 		// configure the bean factory with context semantics
-		beanFactory.registerCustomEditor(Resource.class, new ContextResourceEditor(this));
-		beanFactory.registerCustomEditor(InputStream.class, new InputStreamEditor(new ContextResourceEditor(this)));
+		beanFactory.registerCustomEditor(Resource.class, new ResourceEditor(this));
+		beanFactory.registerCustomEditor(InputStream.class, new InputStreamEditor(new ResourceEditor(this)));
 		beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
 		beanFactory.ignoreDependencyType(ResourceLoader.class);
 		beanFactory.ignoreDependencyType(ApplicationContext.class);

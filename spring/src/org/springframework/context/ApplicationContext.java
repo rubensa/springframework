@@ -132,6 +132,7 @@ public interface ApplicationContext extends MessageSource, ListableBeanFactory, 
 	
 	/**
 	 * Retrieve a shared object added with a call to shareObject().
+	 * Delegate to the parent application context if not found.
 	 * @return the object, or null if no object is known under
 	 * this name (this is not an error).
 	 */

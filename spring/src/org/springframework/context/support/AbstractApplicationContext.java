@@ -426,7 +426,13 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	}
 
 	public synchronized Object sharedObject(String key) {
-		return this.sharedObjects.get(key);
+		Object sharedObject = this.sharedObjects.get(key);
+		if (sharedObject == null && getParent() != null) {
+			return getParent().sharedObject(key);
+		}
+		else {
+			return sharedObject;
+		}
 	}
 
 	public synchronized void shareObject(String key, Object o) {

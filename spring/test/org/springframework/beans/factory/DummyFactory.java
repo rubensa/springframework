@@ -31,6 +31,14 @@ public class DummyFactory extends AbstractFactoryBean implements InitializingBea
 	private TestBean testBean;
 
 	private TestBean otherTestBean;
+	
+	/**
+	 * Clear static state
+	 *
+	 */
+	public static void reset() {
+		prototypeCreated = false;
+	}
 
 	public DummyFactory() {
 		this.testBean = new TestBean();

@@ -413,6 +413,9 @@
 	</target>
 
 
+	<target name="clean_release" depends="clean, release"/>
+
+
  	<target name="compiletestattr" depends="buildmock">
 
 		<taskdef resource="org/apache/commons/attributes/anttasks.properties">
@@ -492,6 +495,9 @@
 		</junit>
 
 	</target>
+
+
+	<target name="clean_tests" depends="clean, tests"/>
 
 
 	<!--

@@ -435,13 +435,7 @@ public abstract class AbstractAopProxyTests extends TestCase {
 		NeedsToSeeProxy target = new NeedsToSeeProxy();
 		AdvisedSupport pc = new AdvisedSupport(new Class[] { INeedsToSeeProxy.class } );
 		pc.setTarget(target);
-		assertTrue(pc.canOptimizeOutEmptyAdviceChain());
-		pc.setExposeInvocation(true);
-		assertFalse(pc.canOptimizeOutEmptyAdviceChain());
-		pc.setExposeInvocation(false);
-		assertTrue(pc.canOptimizeOutEmptyAdviceChain());
 		pc.setExposeProxy(true);
-		assertFalse(pc.canOptimizeOutEmptyAdviceChain());
 		
 		// Now let's try it with the special target
 		AopProxy aop = createAopProxy(pc);

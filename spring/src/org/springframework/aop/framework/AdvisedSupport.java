@@ -183,15 +183,6 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 		}
 	}
 
-
-	/**
-	 * @return true if when there's no advice for a method, a final InvokerInterceptor
-	 * can be optimized out. This can't be done if the proxy or invocation is
-	 * exposed, as users might have written code that expects to get them.
-	 */
-	public final boolean canOptimizeOutEmptyAdviceChain() {
-		return !(getExposeInvocation() || getExposeProxy());
-	}
 	
 	public void addInterceptor(Interceptor interceptor) {
 		int pos = (this.advisors != null) ? this.advisors.size() : 0;

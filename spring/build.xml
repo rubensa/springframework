@@ -48,12 +48,6 @@
 		<echo message="alljars  --> create all JAR files"/>
 		<echo message="tests    --> run tests"/>
 		<echo message=""/>
-		<echo message="Note that several targets depend on Commons Attributes attribute compilation."/>
-		<echo message="You will need to copy the following 3 jars to $ANT_HOME/lib:"/>
-		<echo message="1. Commons Attributes compiler Jar"/>
-		<echo message="2. xjavadoc.jar, from XDoclet project"/>
-		<echo message="3. commons-collections.jar from Apache Commons"/>
-		<echo message="All 3 jars are in Spring CVS, and available from the respective projects"/>
 
 	</target>
 

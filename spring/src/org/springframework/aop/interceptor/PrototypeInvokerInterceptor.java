@@ -44,6 +44,10 @@ public class PrototypeInvokerInterceptor extends AbstractReflectionInvokerInterc
 		this.targetBeanName = targetBeanName;
 	}
 	
+	public String getTargetBeanName() {
+		return this.targetBeanName;
+	}
+	
 	/**
 	 * Set the owning BeanFactory. We need to save a reference
 	 * so that we can use the getBean() method on every invocation.

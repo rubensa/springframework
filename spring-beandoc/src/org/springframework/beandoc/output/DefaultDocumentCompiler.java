@@ -75,6 +75,7 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
             
             // insert map into -graph.html file
             plugMap(mapFile);
+            mapFile.delete();
             
             if (removeDotFiles) dotFileList[i].delete();
         }

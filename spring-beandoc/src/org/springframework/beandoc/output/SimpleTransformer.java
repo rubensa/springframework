@@ -16,15 +16,6 @@
 
 package org.springframework.beandoc.output;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
-import org.jdom.Document;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.StringUtils;
 
 /**

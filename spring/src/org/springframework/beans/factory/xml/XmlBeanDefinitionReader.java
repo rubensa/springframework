@@ -123,11 +123,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throw new BeanDefinitionStoreException("IOException parsing XML document from " + resource, ex);
 		}
 		finally {
-			try {
-				if (is != null)
+			if (is != null) {
+				try {
 					is.close();
-			}
-			catch (IOException ignore) {
+				}
+				catch (IOException ex) {
+					logger.warn("Could not close InputStream", ex);
+				}
 			}
 		}
 	}

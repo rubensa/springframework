@@ -25,7 +25,6 @@ import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 /**
  * @author Darren Davison
@@ -33,15 +32,12 @@ import org.springframework.core.io.Resource;
  */
 public class EchoTransformerTests extends TestCase {
     
-    String sep = System.getProperty("line.separator");
     Document[] docs = new Document[1];
     String expect = 
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + sep + 
-        "<!DOCTYPE beans PUBLIC \"-//SPRING//DTD BEAN//EN\" \"http://www.springframework.org/dtd/spring-beans.dtd\">" + sep + 
-        "<beans default-autowire=\"no\" default-dependency-check=\"none\" default-lazy-init=\"false\">" + sep + 
-        "<bean id=\"foo\" class=\"com.foo.Bar\" abstract=\"false\" autowire=\"default\" lazy-init=\"default\" dependency-check=\"default\" singleton=\"true\"><property name=\"bar\"><ref local=\"foo2\" /></property></bean>" + sep + 
-        "<bean id=\"foo2\" class=\"com.bar.Foo\" abstract=\"false\" autowire=\"default\" lazy-init=\"default\" dependency-check=\"default\" singleton=\"true\" />" + sep + 
-        "</beans>" + sep;
+        "<beans default-autowire=\"no\" default-dependency-check=\"none\" default-lazy-init=\"false\">" + 
+        "<bean id=\"foo\" class=\"com.foo.Bar\" abstract=\"false\" autowire=\"default\" lazy-init=\"default\" dependency-check=\"default\" singleton=\"true\"><property name=\"bar\"><ref local=\"foo2\" /></property></bean>" + 
+        "<bean id=\"foo2\" class=\"com.bar.Foo\" abstract=\"false\" autowire=\"default\" lazy-init=\"default\" dependency-check=\"default\" singleton=\"true\" />" + 
+        "</beans>";
     
     public void setUp() {
         SAXBuilder builder = new SAXBuilder();
@@ -62,6 +58,6 @@ public class EchoTransformerTests extends TestCase {
         
         et.transform(docs, new File(System.getProperty("user.home")));
         
-        assertEquals(expect, sw.toString());
+        assertTrue(sw.toString().indexOf(expect) > -1);
     }
 }

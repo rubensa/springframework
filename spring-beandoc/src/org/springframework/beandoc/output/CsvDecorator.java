@@ -17,6 +17,7 @@
 package org.springframework.beandoc.output;
 
 import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
 
 /**
  * From the example in the Reference Docs.
@@ -33,12 +34,17 @@ public class CsvDecorator extends SimpleDecorator {
     private int count = 0;
 
     /**
+     * specify only 'bean' elements as a Filter - we're not interested in
+     * decorating anything else
+     */
+    public CsvDecorator() {
+        setFilter(new ElementFilter("bean"));
+    }
+    
+    /**
      * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement(org.jdom.Element)
      */
     protected void decorateElement(Element element) {
-        // we're only interested in bean elements..
-        if ("bean".equals(element.getName()))
-            element.setAttribute(ATTRIBUTE_COUNTER, String.valueOf(++count));      
+        element.setAttribute(ATTRIBUTE_COUNTER, String.valueOf(++count));      
     }
-
 }

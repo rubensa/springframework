@@ -101,6 +101,9 @@ public class GraphVizDecorator extends SimpleDecorator {
         addColourBeans(".*HandlerMapping", "#cceeee");
         addColourBeans(".*Filter", "#cceeee");
         addColourBeans(".*Validator", "#eecc80");
+        
+        // specify only 'beans' and 'bean' elements for decoration
+        setFilterNames(new String[] {Tags.TAGNAME_BEANS, Tags.TAGNAME_BEAN});
     }
     
     /**
@@ -130,10 +133,9 @@ public class GraphVizDecorator extends SimpleDecorator {
 			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, beanShape);
 			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(labelLocation));
             element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated." + outputType);
-        }
-        
-        
-        if (Tags.TAGNAME_BEAN.equals(element.getName())) {
+            
+        } else {
+            
 			String id = element.getAttributeValue(Tags.ATTRIBUTE_ID);
 			String name = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
 			if (name == null) name = "anon";
@@ -200,11 +202,11 @@ public class GraphVizDecorator extends SimpleDecorator {
     /**
      * A <code>Map</code> keyed by bean names/ids or classnames that hold colour attributes
      * used to fill graph nodes or key the HTML output. The preferred way to modify colours is 
-     * through the {@link #addBeanColours} convenience method.
+     * through the {@link #addColourBeans} convenience method.
      * 
      * @param colours a <code>Map</code> of node fill colours for graph output.  Also used to key
      *      the HTML documentation.
-     * @see #addBeanColours
+     * @see #addColourBeans
      */
     public void setColourBeans(Map colours) {
         colourBeans.putAll(colours);
@@ -364,8 +366,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * through the {@link #addIgnoreBeans} convenience method.
      * 
      * @return a <code>List</code> of patterns of bean names to be excluded from graphs
-     * @see #addIgnoreBeans
-     * @see #isBeanIgnored
+     * @see #addIgnoreBeans(String)
      */
     public List getIgnoreBeans() {
         return ignoreBeans;
@@ -404,7 +405,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * similar beans are graphed.  Specifically, a ranked set of beans will all 
      * appear on the same rank (row) of a graph.
      * 
-     * @param rankBeans the List of patterns of grouped beans
+     * @param rankedBeans the List of patterns of grouped beans
      */
     public void setRankBeans(List rankedBeans) {
         this.rankBeans = rankedBeans;
@@ -431,7 +432,7 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @return the Map used to describe fill colours of beans, keyed by bean name
      *      or classname
-     * @see #getColourForBean
+     * @see #getDefaultFillColour
      */
     public Map getColourBeans() {
         return colourBeans;
@@ -439,12 +440,12 @@ public class GraphVizDecorator extends SimpleDecorator {
 
     /**
      * The type of output that the GraphViz 'dot' program should create from the
-     * intermediate .dot files.  Default is PNG.  See {@link #setGraphOutputType} for 
+     * intermediate .dot files.  Default is PNG.  See {@link #setOutputType} for 
      * some of the optional formats supported
      * 
      * @return the type of graph output that will be generated from the 
      *      .dot files
-     * @see #setGraphOutputType
+     * @see #setOutputType
      */
     public String getOutputType() {
         return outputType;
@@ -456,18 +457,19 @@ public class GraphVizDecorator extends SimpleDecorator {
      * 
      * @return the default fill colour for beans that don't match any pattern used for 
      *      determining fill colours
-     * @see #addBeanColours
+     * @see #addColourBeans(String, String)
+     * @see #getColourBeans
      */
     public String getDefaultFillColour() {
         return defaultFillColour;
     }
 
     /**
-     * Default shape used to describe bean nodes on the graph.  See {@link #setGraphBeanShape}
+     * Default shape used to describe bean nodes on the graph.  See {@link #setBeanShape}
      * for some of the options
      * 
      * @return the shape GraphViz should use to display beans
-     * @see #setGraphBeanShape
+     * @see #setBeanShape
      */
     public String getBeanShape() {
         return beanShape;

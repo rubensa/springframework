@@ -77,7 +77,7 @@ public final class PatternMatcher {
      * the String representation of the matching pattern and its index in the original array.
      * 
      * @param patterns an array of compiled <code>Pattern</code>s
-     * @param strings the array of Strings to test against the patterns.  Usually consists of
+     * @param testStrings the array of Strings to test against the patterns.  Usually consists of
      *      the id/name of the bean and its fully qualified classname
      * @param callback an implementation of MatchedPatternCallback
      */

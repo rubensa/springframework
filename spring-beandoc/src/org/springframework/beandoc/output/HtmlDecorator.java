@@ -96,8 +96,8 @@ public class HtmlDecorator extends SimpleDecorator {
      * @param cssUrl a locations (absolute or relative to your output directory) 
      *      that the CSS file can be found which is used to skin the beandoc output.
      */
-    public void setCssUrl(String contextCssUrl) {
-        this.cssUrl = contextCssUrl;
+    public void setCssUrl(String cssUrl) {
+        this.cssUrl = cssUrl;
     }
 
     /**

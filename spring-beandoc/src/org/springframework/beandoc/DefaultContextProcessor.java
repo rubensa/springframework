@@ -284,15 +284,19 @@ public class DefaultContextProcessor implements ContextProcessor {
         logger.debug("Attempting to merge Proxy beans and their targets");
         
         Pattern[] mergedProxyPatterns = PatternMatcher.convertStringsToPatterns(mergeProxies.keySet());
+        logger.debug("Generated [" + mergedProxyPatterns.length + "] legal patterns");
+            
         final Map proxy2target = new HashMap();
         
         for (int i = 0; i < contextDocuments.length; i++) {
-            Iterator beans = contextDocuments[i].getRootElement().getDescendants(beanFilter);
-            while (beans.hasNext()) {
-                final Element bean = (Element) beans.next();
-                String idOrName = getBeanIdentifier(bean);
+            Element rootElement = contextDocuments[i].getRootElement();
+            Iterator allBeans = rootElement.getDescendants(beanFilter);
+            while (allBeans.hasNext()) {
+                final Element bean = (Element) allBeans.next();
+                final String idOrName = getBeanIdentifier(bean);
                 String className = bean.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
                 String[] testForMatches = {idOrName, className};
+                logger.debug("Testing bean [" + idOrName + "] against all patterns");
                 
                 // patterns of beans to be merged
                 PatternMatcher.matchPatterns(
@@ -301,6 +305,7 @@ public class DefaultContextProcessor implements ContextProcessor {
                     
                     new MatchedPatternCallback() {
                         public void patternMatched(String pattern, int index) {
+                            logger.debug("Got a match against pattern [" + pattern + "]");
                             String targetPropertyName = (String) mergeProxies.get(pattern);
                             Element targetProperty = null;
                             Element targetRef = null;
@@ -308,12 +313,21 @@ public class DefaultContextProcessor implements ContextProcessor {
                             // find target ref
                             Filter propertyFilter = new ElementFilter(Tags.TAGNAME_PROPERTY);
                             Iterator properties = bean.getDescendants(propertyFilter);
+                            logger.debug("Checking properties of bean for property named [" + 
+                                targetPropertyName + "]");
                             
                             while (properties.hasNext()) {
                                 targetProperty = (Element) properties.next();
                                 if (targetPropertyName.equals(targetProperty.getAttributeValue(Tags.ATTRIBUTE_NAME))) {
+                                    logger.debug("Found matching property");
                                     targetRef = targetProperty.getChild(Tags.TAGNAME_REF);
-                                    proxy2target.put(bean, targetRef);
+                                    if (targetRef != null) 
+                                        proxy2target.put(bean, targetRef);
+                                    else
+                                        logger.warn("Found matching target property for outer bean [" + 
+                                            idOrName + "] against pattern [" + 
+                                            pattern + "] but no <ref/> element was found at the target property [" + 
+                                            targetPropertyName + "]");
                                 }
                             }
                         }            
@@ -335,9 +349,9 @@ public class DefaultContextProcessor implements ContextProcessor {
             Element targetBean = getBeanElement(contextDocuments, refId);
             
             if (targetBean != null) {
-                logger.debug("Target bean found in context, detaching from parent");                
+                logger.debug("Target bean [" + refId + "] found in context, detaching from parent");                
                 targetBean.detach();
-                logger.debug("Converting to inner bean");
+                logger.debug("Converting [" + refId + "] to a named inner bean");
                 targetRef.getParentElement().addContent(targetBean);
                 // break the REF link
                 targetRef.getParentElement().removeChild(Tags.TAGNAME_REF);  
@@ -353,16 +367,18 @@ public class DefaultContextProcessor implements ContextProcessor {
      * @return
      */
     private Element getBeanElement(Document[] contextDocuments, String refId) {
+        logger.debug("Searching entire context for bean [" + refId + "]");
         for (int i = 0; i < contextDocuments.length; i++) {
             Iterator beans = contextDocuments[i].getRootElement().getDescendants(beanFilter);
             while (beans.hasNext()) {
                 Element targetBean = (Element) beans.next();
-                logger.debug("Checking targetIter for target bean.  Doing [" + 
+                logger.debug("Found bean with id [" + 
                     targetBean.getAttributeValue(Tags.ATTRIBUTE_ID) + "]");
                 if (getBeanIdentifier(targetBean).equals(refId))
                     return targetBean;
             }
         }
+        logger.debug("Unable to find [" + refId + "] in any context file");
         return null;
     }
 

@@ -50,7 +50,7 @@ public class BeanDocUtils {
      * @param map the original <code>Map</code> to be filtered; must not be <code>null</code>
      * @param prefix prefix by which entries are filtered; may be empty of <code>null</code>
      * @return a new <code>Map</code> with filtered entries
-     * @see #filterByPrefix(Map<String,?>, String, boolean)
+     * @see #filterByPrefix(Map, String, boolean)
      */
     public static Map filterByPrefix(Map map, String prefix) {
         return filterByPrefix(map, prefix, true);        

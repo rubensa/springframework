@@ -16,9 +16,13 @@
 
 package org.springframework.beandoc.output;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.jdom.Element;
+import org.jdom.filter.ElementFilter;
 import org.springframework.util.StringUtils;
 
 /**
@@ -58,6 +62,9 @@ public class JavaDocDecorator extends SimpleDecorator {
      * which can be used by a Transformer.
      */
     public JavaDocDecorator() {
+        // we're only interested in 'bean' elements
+        setFilter(new ElementFilter(Tags.TAGNAME_BEAN));
+        
         addLocation(
             "java.",
             "http://java.sun.com/j2se/" + javaVersion + "/docs/api/");
@@ -81,18 +88,16 @@ public class JavaDocDecorator extends SimpleDecorator {
     /**
      * @see org.springframework.beandoc.output.SimpleDecorator#decorateElement
      */
-    protected void decorateElement(Element element) {
-	    if (element.getName().equals("bean")) {
-		    String idOrName = element.getAttributeValue(Tags.ATTRIBUTE_ID);
-		    if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
-		    String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
-		      
-		    String javaDoc = null;
-		    if (className != null) 
-		        javaDoc = getJavaDocForClassName(className);
-		      
-		    if (javaDoc != null) element.setAttribute(ATTRIBUTE_JAVADOC, javaDoc);
-	    }        
+    protected void decorateElement(Element element) {	    
+	    String idOrName = element.getAttributeValue(Tags.ATTRIBUTE_ID);
+	    if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
+	    String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
+	      
+	    String javaDoc = null;
+	    if (className != null) 
+	        javaDoc = getJavaDocForClassName(className);
+	      
+	    if (javaDoc != null) element.setAttribute(ATTRIBUTE_JAVADOC, javaDoc);	    
     }    
 
     /**
@@ -102,7 +107,7 @@ public class JavaDocDecorator extends SimpleDecorator {
      * through the {@link #addLocation} convenience method.
      * 
      * @param map a <code>SortedMap</code> of javadoc locations keyed by package name prefixes.
-     * @see #addJavaDocLocation
+     * @see #addLocation(String, String)
      */
     public void setLocations(SortedMap map) {
         locations = map;
@@ -149,7 +154,7 @@ public class JavaDocDecorator extends SimpleDecorator {
      * through the {@link #addLocation} convenience method.
      * 
      * @return a <code>SortedMap</code> of javadoc locations keyed by package name prefixes.
-     * @see #addJavaDocLocation
+     * @see #addLocation
      */
     public SortedMap getLocations() {
         return locations;

@@ -22,14 +22,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.filter.ContentFilter;
-import org.jdom.filter.Filter;
+import org.jdom.filter.AbstractFilter;
+import org.jdom.filter.ElementFilter;
 
 /**
  * Abstract implementation of the <code>Decorator</code> interface which 
  * simply iterates each <code>Element</code> in each <code>Document</code>
  * and calls the protected <code>decorateElement</code> method that
  * subclasses will implement.
+ * <p>
+ * The <code>Element</code>s selected for iteration can be modified from 
+ * the default (all Elements in the DOM) by specifying a <code>Filter</code>
+ * based on <code>Element</code> names.
  * 
  * @author Darren Davison
  * @since 1.0
@@ -37,18 +41,24 @@ import org.jdom.filter.Filter;
 public abstract class SimpleDecorator implements Decorator {
     
     protected final Log logger = LogFactory.getLog(getClass());
-
+    
+    private AbstractFilter elementFilter = new ElementFilter();
+    
     /**
-     * Permits decoration of the document by iterating all the 
+     * Permits decoration of the document by iterating all the filtered
      * child elements in the Documents supplied and calls a decorateElement() for 
      * each one.  decorateElement() must be implemented by subclasses.
+     * <p>
+     * By default, all Elements in the DOM are iterated.  To filter the list to
+     * specific named Elements, use setFilterNames() or setFilter()
      * 
      * @see org.springframework.beandoc.output.Decorator#decorate
+     * @see #setFilterNames
+     * @see #setFilter
      */
     public void decorate(Document[] contextDocuments) {
         for (int i = 0; i < contextDocuments.length; i++) {
-            Filter filter = new ContentFilter(ContentFilter.ELEMENT);
-            for (Iterator iter = contextDocuments[i].getDescendants(filter); iter.hasNext();) {
+            for (Iterator iter = contextDocuments[i].getDescendants(elementFilter); iter.hasNext();) {
                 Element element = (Element) iter.next();
                 decorateElement(element);
             }
@@ -63,5 +73,38 @@ public abstract class SimpleDecorator implements Decorator {
      * @param element
      */
     protected abstract void decorateElement(Element element);
+    
+    /**
+     * Directly specify a Filter to limit the Elements from the DOM that this instance
+     * will iterate over when permitting decoration.
+     * 
+     * @param elementFilter
+     */
+    public void setFilter(ElementFilter elementFilter) {
+        this.elementFilter = elementFilter;
+    }
+    
+    /**
+     * Specify an array of tag names that define Elements this instance will iterate
+     * over.
+     * 
+     * @param tagNames
+     */
+    public void setFilterNames(String[] tagNames) {
+        if (tagNames == null || tagNames.length == 0)
+            throw new IllegalArgumentException(
+                "Cannot have null or empty array of names for Element filter"
+            );
+        
+        this.elementFilter = new ElementFilter(tagNames[0]);
+        if (tagNames.length == 1)
+            return;
+                
+        else {
+            for (int i = 1; i < tagNames.length; i++)
+                elementFilter = (AbstractFilter) elementFilter.or(new ElementFilter(tagNames[i]));
+        }                            
+        
+    }
 
 }

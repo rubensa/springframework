@@ -58,7 +58,7 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
      * by DotFileTransformer.  Subsequently plugs the image maps into placeholders in the
      * graph html files.
      * 
-     * @see org.springframework.beandoc.output.DocumentCompiler#compile()
+     * @see org.springframework.beandoc.output.DocumentCompiler#compile(Document[], File)
      */
     public void compile(Document[] contextDocuments, File outputDir) {
         
@@ -75,6 +75,7 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
         });
         
         // generate graphs and image maps from all .dot files in output location
+        logger.info("Generating [" + graphOutputType + "] graphs");
         for (int i = 0; i < dotFileList.length; i++) {
             runDot(dotFileList[i], graphOutputType, graphOutputType);
             File mapFile = runDot(dotFileList[i], dotFileMapFormat, "map");
@@ -106,7 +107,7 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
             " " + dotFile.getAbsolutePath();
        
         try {
-            logger.info("Generating graph from file [" + dotFileName + "]");
+            logger.debug("Generating graph from file [" + dotFileName + "]");
             Process dot = Runtime.getRuntime().exec(dotExe + dotArgs);
             dot.waitFor();
             logger.debug("Process exited with value [" + dot.exitValue() + "]");
@@ -176,7 +177,8 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
     /**
      * Writes the media files to the output location.
      */
-    private void copyMediaResources(File outputDir) {        
+    private void copyMediaResources(File outputDir) {      
+        logger.info("Copying media resources to output location");
         try {            
             ResourcePatternResolver resolver = 
                 new PathMatchingResourcePatternResolver(new DefaultResourceLoader());
@@ -184,7 +186,7 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
             
             for (int i = 0; i < media.length; i++) {
                 File target = new File(outputDir, media[i].getFilename());
-                logger.info("copying media resource [" + target.getAbsolutePath() + "]");
+                logger.debug("copying media resource [" + target.getAbsolutePath() + "]");
                 FileOutputStream fos = new FileOutputStream(target);            
                 InputStream is = media[i].getInputStream();
                 byte[] buff = new byte[1];

@@ -139,6 +139,7 @@ public abstract class AbstractXslTransformer implements Transformer {
      * @param outputDirectory the file handle for the output directory
      */
     protected void handleTransform(Document[] contextDocuments, File outputDirectory) {
+        logger.info("Generating documentation to [" + outputDirectory.getAbsolutePath() + "]");
         for (int i = 0; i < contextDocuments.length; i++)
             doXslTransform(contextDocuments[i], outputDirectory);
     }
@@ -150,12 +151,12 @@ public abstract class AbstractXslTransformer implements Transformer {
      * @param doc the document to transform
      * @param outputDir the file handle of the output location
      */
-    protected final void doXslTransform(Document doc, File outputDir) {
+    protected final void doXslTransform(Document doc, File outputDir) {        
         String inputFileName = null;
         try {
             inputFileName = doc.getRootElement().getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             File outputFile = new File(outputDir, getOutputForDocument(inputFileName));
-            logger.info("Generating output [" + outputFile.getName() + "]");
+            logger.debug("Generating output [" + outputFile.getName() + "]");
             
             Result result = new StreamResult(
                 new BufferedOutputStream(

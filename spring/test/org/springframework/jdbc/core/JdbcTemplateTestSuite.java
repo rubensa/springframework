@@ -1587,7 +1587,6 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 		replay();
 
 		JdbcTemplate template = new JdbcTemplate(mockDataSource);
-
 		int i = template.queryForInt(sql);
 		assertEquals("Return of an int", 22, i);
 
@@ -1646,8 +1645,7 @@ public class JdbcTemplateTestSuite extends JdbcTestCase {
 		replay();
 
 		JdbcTemplate template = new JdbcTemplate(mockDataSource);
-
-		long l = template.queryForInt(sql);
+		long l = template.queryForLong(sql);
 		assertEquals("Return of a long", 87, l);
 
 		ctrlResultSet.verify();

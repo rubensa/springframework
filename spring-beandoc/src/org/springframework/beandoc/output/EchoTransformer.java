@@ -16,33 +16,66 @@
 
 package org.springframework.beandoc.output;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 import org.jdom.Document;
+import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 /**
  * Transformer that simply echoes the XML representation of the decorated DOM.  Useful for
- * testing or debugging.
+ * testing or debugging.  Not included in the default context file for the beandoc tool.
+ * <p>
+ * This transformer can be configured to write the XML to any <code>Writer</code> object
+ * you like by setting the 'writer' bean property.  Defaults to <code>System.out</code>
+ * (wrapped by an <code>OutputStreamWriter</code>).
  * 
  * @author Darren Davison
+ * @since 1.0
  */
 public class EchoTransformer implements Transformer {
+    
+    private Writer writer = new OutputStreamWriter(System.out);
+    
+    private boolean prettyPrint = false;
+    
+    private Format format = Format.getRawFormat();
 
     /**
+     * Simply echoes a textual representation of the decorated JDOM documents to the configured
+     * Writer (or System.out if no other was specified).
+     * 
      * @see org.springframework.beandoc.output.Transformer#transform(org.jdom.Document[], File)
      */
     public void transform(Document[] contextDocuments, File outputDir) {
-        for (int i = 0; i < contextDocuments.length; i++) {
-            Document doc = contextDocuments[i];
+        for (int i = 0; i < contextDocuments.length; i++)
             try {
-                new XMLOutputter().output(doc, new OutputStreamWriter(System.out));
+                new XMLOutputter(format).output(contextDocuments[i], writer);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-        }
+            }        
+    }
+
+    /**
+     * Set the Writer that you wish output to be directed to.  Defaults to an OutputStreamWriter
+     * around System.out
+     * 
+     * @param writer
+     */
+    public void setWriter(Writer writer) {
+        this.writer = writer;
+    }
+
+    /**
+     * The default processor removes all comments and whitespcace by default for efficiency.  If
+     * you want the debug output to be a bit more readable, set this to true.  False by default
+     * which echoes the raw format of the DOMified XML.
+     * 
+     * @param prettyPrint
+     */
+    public void setPrettyPrint(boolean prettyPrint) {
+        this.prettyPrint = prettyPrint;
+        this.format = prettyPrint ? Format.getPrettyFormat() : Format.getRawFormat();
     }
 
 }

@@ -3,7 +3,7 @@
  * of the Apache Software License.
  */
  
-package org.springframework.web.servlet.handler.commonsattributes;
+package org.springframework.web.servlet.handler.metadata;
 
 /**
  * Attribute to be used on Controller classes to allow for automatic

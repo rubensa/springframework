@@ -7,6 +7,11 @@
   <bean id="publisher" class="org.springframework.samples.aspectj.bank.Publisher" >
   </bean>
   
+  <bean id="securityManager" 
+		class="org.springframework.samples.aspectj.bank.SecurityManager" >
+		
+  </bean>
+  
   <bean id="instantiationAspect" class="org.springframework.samples.aspectj.bank.AccountInstantiationAspect" 
 		factory-method="aspectOf">
 
@@ -31,6 +36,13 @@
 		class="org.springframework.samples.aspectj.bank.AuditAspect" 
 		factory-method="aspectOf">
 	<property name="quiet"><value>false</value></property>
+		
+  </bean>
+  
+  <bean id="securityAspect" 
+		class="org.springframework.samples.aspectj.bank.BalanceChangeSecurityAspect" 
+		factory-method="aspectOf">
+	<property name="securityManager"><ref local="securityManager"/></property>
 		
   </bean>
   

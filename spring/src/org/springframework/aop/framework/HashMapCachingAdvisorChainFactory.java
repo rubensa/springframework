@@ -18,7 +18,7 @@ package org.springframework.aop.framework;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +79,7 @@ public final class HashMapCachingAdvisorChainFactory implements AdvisorChainFact
 	private static abstract class IdentityHashMapCreator {
 
 		private static Map createIdentityHashMap() {
-			return new LinkedHashMap();
+			return new IdentityHashMap();
 		}
 	}
 

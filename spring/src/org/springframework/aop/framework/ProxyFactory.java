@@ -25,7 +25,11 @@ public class ProxyFactory extends DefaultProxyConfig {
 	 * Proxy all interfaces of the given target.
 	 */
 	public ProxyFactory(Object target) throws AopConfigException {
-		addTarget(target);
+		if (target == null) {
+			throw new AopConfigException("Can't proxy null object");
+		}
+		setInterfaces(AopUtils.getAllInterfaces(target));
+		addInterceptor(new InvokerInterceptor(target));
 	}
 	
 	/**
@@ -33,15 +37,6 @@ public class ProxyFactory extends DefaultProxyConfig {
 	 */
 	public ProxyFactory(Class[] interfaces) {
 		setInterfaces(interfaces);
-	}
-
-	public void addTarget(Object target) throws AopConfigException {
-		if (target == null) {
-			throw new AopConfigException("Can't proxy null object");
-		}
-		setInterfaces(AopUtils.getAllInterfaces(target));
-		InvokerInterceptor ii = new InvokerInterceptor(target);
-		addInterceptor(ii);
 	}
 
 	/**

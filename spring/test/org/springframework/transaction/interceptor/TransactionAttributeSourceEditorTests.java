@@ -9,8 +9,6 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 
-import org.aopalliance.intercept.MethodInvocation;
-import org.easymock.MockControl;
 import org.springframework.transaction.TransactionDefinition;
 
 /**

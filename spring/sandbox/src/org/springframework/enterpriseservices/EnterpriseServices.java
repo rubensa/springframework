@@ -7,14 +7,9 @@ package org.springframework.enterpriseservices;
 
 import java.util.List;
 
-import org.aopalliance.intercept.Interceptor;
-
 import org.springframework.aop.framework.support.AdvisorAutoProxyCreator;
 import org.springframework.aop.target.AbstractPoolingTargetSource;
 import org.springframework.aop.target.CommonsPoolTargetSource;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.metadata.Attributes;
 import org.springframework.metadata.bcel.BcelAttributes;
 import org.springframework.transaction.PlatformTransactionManager;

@@ -15,7 +15,6 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.easymock.MockControl;
-import org.springframework.aop.framework.AbstractAopProxyTests;
 import org.springframework.aop.framework.AopConfigException;
 import org.springframework.aop.framework.MethodCounter;
 

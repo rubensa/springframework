@@ -7,7 +7,6 @@ package org.springframework.web.context;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.ui.context.ThemeSource;
 

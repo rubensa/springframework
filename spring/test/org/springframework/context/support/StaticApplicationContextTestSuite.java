@@ -2,7 +2,7 @@
  * The Spring Framework is published under the terms
  * of the Apache Software License.
  */
- 
+
 package org.springframework.context.support;
 
 import java.lang.reflect.Proxy;
@@ -139,7 +139,9 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		public int nrOfInvocations = 0;
 
 		public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-			nrOfInvocations++;
+			if (!methodInvocation.getMethod().getName().equals("finalize")) {
+				nrOfInvocations++;
+			}
 			return methodInvocation.proceed();
 		}
 	}

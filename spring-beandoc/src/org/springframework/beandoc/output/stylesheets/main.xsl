@@ -27,6 +27,7 @@
 
     <xsl:output 
     	method="xml" 
+    	indent="no"
     	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
     	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     	/>
@@ -41,6 +42,10 @@
             <head>
                 <title><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></title>
                 <link rel="stylesheet" href="{consolidated/beans[1]/@beandocCssLocation}" type="text/css"/>
+                <!-- hack using an MS extension to ensure the next stylesheet is only loaded by IE5 browsers -->
+                <xsl:comment>[if IE 5]>
+					&lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
+					&lt;![endif]</xsl:comment>				
             </head>
   
             <body>

@@ -50,10 +50,10 @@ public class CglibProxyTests extends AbstractAopProxyTests {
 	}
 
 	
-	public void testSerializationSerializableTargetAndAdvice() throws Exception {
+	/*public void testSerializationSerializableTargetAndAdvice() throws Exception {
 		// TODO remove override--
 		// it's only to conceal superclass test that fails here
-	}
+	}*/
 	
 	public void testNullConfig() {
 		try {

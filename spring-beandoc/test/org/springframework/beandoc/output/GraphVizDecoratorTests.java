@@ -34,45 +34,23 @@ public class GraphVizDecoratorTests extends TestCase {
     GraphVizDecorator gvd;
     
     public void setUp() {
-        gvd = new GraphVizDecorator();
-        
-        gvd.addBeanColours("*Validator", "RED");
-        gvd.addBeanColours("org.springframework.samples*", "BLUE");
-        gvd.addBeanColours("simpleForm*", "GREEN");
-        gvd.addBeanColours("*.foo.bar", "YELLOW");       
-        
+        gvd = new GraphVizDecorator();               
         gvd.setDefaultFillColour("BLACK");
-    }
-    
-    /*
-     * test colour matches
-     */
-    public void testColourMatches() {
-        try {
-            assertEquals("RED", gvd.getColourForBean("myValidator", "anything"));
-            assertEquals("BLUE", gvd.getColourForBean("anything", "org.springframework.samples.AnyClass"));
-            assertEquals("GREEN", gvd.getColourForBean("simpleFormControllerTest", "anything"));
-            assertEquals("YELLOW", gvd.getColourForBean("anything", "com.foo.bar"));
-            assertEquals(gvd.getDefaultFillColour(), gvd.getColourForBean("anything", "anything"));
-            
-            try {
-                // null pattern ignored
-                gvd.addBeanColours(null, "#ffffff");
-            } catch (Exception e) {
-                fail();
-            }
-            
-            try {
-                // null colour illegal
-                gvd.addBeanColours("*", null);
-                fail();
-            } catch (BeanDocException e) {
-                // ok
-            }
-    
-        } catch (Exception e) {
-            fail();
-        }   
+        
+        gvd.addBeanColours(".*Validator", "RED");
+        gvd.addBeanColours("^org.springframework.samples.*", "BLUE");
+        gvd.addBeanColours("^simpleForm.*", "GREEN");
+        gvd.addBeanColours(".*.foo.bar", "YELLOW");
+        
+        gvd.addIgnoreBeans(".*Validator");
+        gvd.addIgnoreBeans("org.springframework.samples.*");
+        gvd.addIgnoreBeans("^simpleForm.*");
+        gvd.addIgnoreBeans(".*.foo.bar");
+        
+        gvd.addRankBeans(".*Dao");
+        gvd.addRankBeans(".*DataSource");
+        
+        gvd.init();
     }
     
     public void testRootElementDecoration() {
@@ -94,59 +72,112 @@ public class GraphVizDecoratorTests extends TestCase {
         
     }
     
-    public void testBeanElementDecoration() {
-        Element e = new Element("bean");
-        e.setAttribute("id", "MyValidator");
-        gvd.decorateElement(e);
-        assertEquals("RED", e.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+    /*
+     * test colour matches
+     */
+    public void testColourMatches() {
         
         Element e1 = new Element("bean");
+        e1.setAttribute("id", "MyValidator");
+        gvd.decorateElement(e1);
+        assertEquals("RED", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+        
+        e1 = new Element("bean");
         e1.setAttribute("class", "org.springframework.samples.foo.Bar");
         gvd.decorateElement(e1);
         assertEquals("BLUE", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
         
-        e1.setAttribute("class", "something.else");
+        e1 = new Element("bean");
+        e1.setAttribute("id", "simpleFormAnythingAtAll");
+        gvd.decorateElement(e1);
+        assertEquals("GREEN", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+        
+        e1 = new Element("bean");
+        e1.setAttribute("class", "javax.foo.bar");
+        gvd.decorateElement(e1);
+        assertEquals("YELLOW", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+        
+        e1 = new Element("bean");
+        e1.setAttribute("class", "whatever");
         gvd.decorateElement(e1);
         assertEquals("BLACK", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
+    }
+    
+    public void testNullParamsForColours() {
+        try {
+            // null pattern ignored
+            gvd.addBeanColours(null, "#ffffff");
+        } catch (Exception ex) {
+            fail();
+        }
+        
+        try {
+            // null colour illegal
+            gvd.addBeanColours(".*", null);
+            fail();
+        } catch (BeanDocException e) {
+            // ok
+        }
     }
     
     /*
      * add some patterns to the ignore list and verify their status
      */
     public void testIgnoreBeans() {
-        try {
-            
-            gvd.addIgnoreBeans("*Validator");
-            gvd.addIgnoreBeans("org.springframework.samples*");
-            gvd.addIgnoreBeans("simpleForm*");
-            gvd.addIgnoreBeans("*.foo.bar");
-            
-            assertTrue(gvd.isBeanIgnored("myValidator", "anything"));
-            assertTrue(gvd.isBeanIgnored("anything", "org.springframework.samples.IgnoreMe"));
-            assertTrue(gvd.isBeanIgnored("simpleFormControllerTest", "anything"));
-            assertTrue(gvd.isBeanIgnored("anything", "IgnoreMe.test.foo.bar"));
-            
-            assertFalse(gvd.isBeanIgnored("doNotIgnoreMe", "do.not.ignore"));
-            
-            
-        } catch (Exception e) {
-            fail();
-        }        
+        
+        Element e1 = new Element("bean");
+        e1.setAttribute("id", "MyValidator");
+        gvd.decorateElement(e1);
+        assertEquals("true", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_IGNORE));
+        
+        e1 = new Element("bean");
+        e1.setAttribute("class", "org.springframework.samples.foo.Bar");
+        gvd.decorateElement(e1);
+        assertEquals("true", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_IGNORE));
+        
+        e1 = new Element("bean");
+        e1.setAttribute("id", "simpleFormAnythingAtAll");
+        gvd.decorateElement(e1);
+        assertEquals("true", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_IGNORE));
+        
+        e1 = new Element("bean");
+        e1.setAttribute("class", "javax.foo.bar");
+        gvd.decorateElement(e1);
+        assertEquals("true", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_IGNORE));
+        
+        e1 = new Element("bean");
+        e1.setAttribute("class", "whatever");
+        gvd.decorateElement(e1);
+        assertNull(e1.getAttribute(GraphVizDecorator.ATTRIBUTE_GRAPH_IGNORE));    
     }
     
-    public void testNullParamsForIgnoredLists() {
-        try {
-            // try first before adding anything to the ignored list (null list)
-            assertFalse(gvd.isBeanIgnored("doNotIgnoreMe", "do.not.ignore"));
-            
-            // add patterns and throw null params at it
-            gvd.addIgnoreBeans("*Validator");            
-            assertFalse(gvd.isBeanIgnored(null, "any.old.Class"));            
-            assertTrue(gvd.isBeanIgnored("someValidator", null));
-            
-        } catch (Exception e) {
-            fail();
-        }  
+    public void testRankedBeans() {
+        
+        Element e1 = new Element("bean");
+        e1.setAttribute("id", "MyDao");
+        gvd.decorateElement(e1);
+        assertNotNull(e1.getAttribute(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK));
+        
+        Element e2 = new Element("bean");
+        e2.setAttribute("id", "MyOtherDao");
+        gvd.decorateElement(e2);
+        assertEquals(
+            e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK), 
+            e2.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK)
+        );
+        
+        Element e3 = new Element("bean");
+        e3.setAttribute("id", "MyDataSource");
+        gvd.decorateElement(e3);
+        assertNotNull(e3.getAttribute(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK));
+        assertNotSame(
+            e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK), 
+            e3.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK)
+        );
+
+        e1 = new Element("bean");
+        e1.setAttribute("id", "something");
+        gvd.decorateElement(e1);
+        assertNull(e1.getAttribute(GraphVizDecorator.ATTRIBUTE_GRAPH_RANK));
     }
-    
 }

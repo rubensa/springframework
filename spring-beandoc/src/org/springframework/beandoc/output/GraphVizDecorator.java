@@ -17,13 +17,15 @@
 package org.springframework.beandoc.output;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jdom.Element;
 import org.springframework.beandoc.BeanDocException;
+import org.springframework.beandoc.util.BeanDocUtils;
 
 
 /**
@@ -51,6 +53,8 @@ public class GraphVizDecorator extends SimpleDecorator {
     protected static final String ATTRIBUTE_GRAPH_CONSOLIDATED = "beandocConsolidatedImage";
 	
     protected static final String ATTRIBUTE_GRAPH_IGNORE = "beandocGraphIgnore";
+    
+    protected static final String ATTRIBUTE_GRAPH_RANK = "beandocRank";
 	
     protected static final String ATTRIBUTE_COLOUR = "beandocFillColour";
     
@@ -73,20 +77,39 @@ public class GraphVizDecorator extends SimpleDecorator {
     private String outputType = "png";
     
     private Map beanColours = new HashMap();
+    
+    private Pattern[] beanColoursPatterns;
 
     private List ignoreBeans = new LinkedList();
+    
+    private Pattern[] ignoreBeansPatterns;
+    
+    private List rankBeans = new LinkedList();
+    
+    private Pattern[] rankBeansPatterns;
+    
 
     /**
      * 
      */
     public GraphVizDecorator() {
-        addBeanColours("*Dao", "#80cc80");
-        addBeanColours("*DataSource", "#cceecc");
-        addBeanColours("*Interceptor", "#cceeee");
-        addBeanColours("*Controller", "#cceeee");
-        addBeanColours("*HandlerMapping", "#cceeee");
-        addBeanColours("*Filter", "#cceeee");
-        addBeanColours("*Validator", "#eecc80");
+        addBeanColours(".*Dao", "#80cc80");
+        addBeanColours(".*DataSource", "#cceecc");
+        addBeanColours(".*Interceptor", "#cceeee");
+        addBeanColours(".*Controller", "#cceeee");
+        addBeanColours(".*HandlerMapping", "#cceeee");
+        addBeanColours(".*Filter", "#cceeee");
+        addBeanColours(".*Validator", "#eecc80");
+    }
+    
+    /**
+     * should be called after all bean properties are set.  Converts String
+     * patterns to Regex patterns.
+     */
+    void init() {
+        rankBeansPatterns = BeanDocUtils.convertStringsToPatterns(rankBeans);
+        ignoreBeansPatterns = BeanDocUtils.convertStringsToPatterns(ignoreBeans);
+        beanColoursPatterns = BeanDocUtils.convertStringsToPatterns(beanColours.keySet());
     }
     
     /**
@@ -110,48 +133,61 @@ public class GraphVizDecorator extends SimpleDecorator {
         
         
         if ("bean".equals(element.getName())) {
-			String idOrName = element.getAttributeValue(Tags.ATTRIBUTE_ID);
-			if (idOrName == null) idOrName = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
+			String id = element.getAttributeValue(Tags.ATTRIBUTE_ID);
+			String name = element.getAttributeValue(Tags.ATTRIBUTE_NAME);
+			if (name == null) name = "anon";
+			String idOrName = (id == null) ? name : id;
 			String className = element.getAttributeValue(Tags.ATTRIBUTE_CLASSNAME);
 			
-			String colour = getColourForBean(idOrName, className);			
-			element.setAttribute(ATTRIBUTE_COLOUR, colour);
-			logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");	 
+			// patterns of beans to be coloured
+			element.setAttribute(ATTRIBUTE_COLOUR, getDefaultFillColour());
+			for (int i = 0; i < beanColoursPatterns.length; i++) {
+		        Matcher beanMatcher = beanColoursPatterns[i].matcher(idOrName);
+		        Matcher classMatcher = beanColoursPatterns[i].matcher(className);
+		        String colour;
+		        try {
+		            if (beanMatcher.matches() || classMatcher.matches()) {
+		                colour = (String) beanColours.get(beanColoursPatterns[i].pattern());
+		                element.setAttribute(ATTRIBUTE_COLOUR, colour);
+		                logger.debug("bean [" + idOrName + "] has colour [" + colour + "]");
+		            }
+	                
+		        } catch (NullPointerException npe) {
+		            // no match (!)
+		            logger.debug("d)");
+		        }
+		    }
 			
-			if (isBeanIgnored(idOrName, className)) {		
-				element.setAttribute(ATTRIBUTE_GRAPH_IGNORE, "true");
-				logger.debug("bean [" + idOrName + "] will be excluded from graphs");				    
-			}
-        }
-    }
-
-    /**
-     * Patterns of bean or classnames can be used to indicate that some beans should be
-     * excluded from the output.
-     * 
-     * @return true if the bean should be ignored on graphing output, false
-     *      otherwise.
-     * @see #addIgnoreBeans
-     */
-    public boolean isBeanIgnored(String idOrName, String className) {
-        
-        String[] ignored = (String[]) ignoreBeans.toArray(new String[ignoreBeans.size()]);
-        for (int i = 0; i < ignored.length; i++) {
-            String key = ignored[i];
-            if (
-                (key.startsWith("*") && 
-                    ((idOrName != null && idOrName.endsWith(key.substring(1))) || 
-                    (className != null && className.endsWith(key.substring(1)))))
-                ||
-                (key.endsWith("*") && 
-                    ((idOrName != null && idOrName.startsWith(key.substring(0, key.length() - 1))) || 
-                    (className != null && className.startsWith(key.substring(0, key.length() - 1)))))
-                ||
-                (key.equals(idOrName) || key.equals(className))
-            )
-                return true;
-        }
-        return false;
+			// patterns of beans to be ignored on graphs
+			for (int i = 0; i < ignoreBeansPatterns.length; i++) {
+		        Matcher beanMatcher = ignoreBeansPatterns[i].matcher(idOrName);
+		        Matcher classMatcher = ignoreBeansPatterns[i].matcher(className);
+		        try {
+		            if (beanMatcher.matches() || classMatcher.matches()) {		        
+		                element.setAttribute(ATTRIBUTE_GRAPH_IGNORE, "true");
+		                logger.debug("bean [" + idOrName + "] will be excluded from graphs");		
+		            }
+		        } catch (NullPointerException npe) {
+		            // no match (!)
+		        }
+		    }
+			
+			// patterns of beans to be constrained by rank on graphs
+			for (int i = 0; i < rankBeansPatterns.length; i++) {
+		        Matcher beanMatcher = rankBeansPatterns[i].matcher(idOrName);
+		        Matcher classMatcher = rankBeansPatterns[i].matcher(className);
+		        try {
+		            if (beanMatcher.matches() || classMatcher.matches()) {		        
+		                element.setAttribute(ATTRIBUTE_GRAPH_RANK, String.valueOf(i));
+		                logger.debug("bean [" + idOrName + 
+		                    "] will be constrained to rank with token value [" + i + "]");		
+		            }
+		        } catch (NullPointerException npe) {
+		            // no match (!)
+		        }
+		    }
+			
+        }	    
     }
     
     /**
@@ -360,11 +396,36 @@ public class GraphVizDecorator extends SimpleDecorator {
      * This method may be called any number of times to add different patterns to the
      * list of ignored beans.  Pattern may not be null (such a value will be ignored).
      * 
-     * @param pattern a String representing a pattern to match.  The pattern can be prefixed or
-     *      suffixed with a wildcard (*) but does not use RegEx matching.  May not be null
+     * @param pattern a String representing a pattern to match.  The pattern uses
+     * 		RegEx matching.  May not be null
      */
     public void addIgnoreBeans(String pattern) {
         if (pattern != null) ignoreBeans.add(pattern);
+    }
+    
+    /**
+     * A list of patterns of bean names or package names that determine how groups of
+     * similar beans are graphed.  Specifically, a ranked set of beans will all 
+     * appear on the same rank (row) of a graph.
+     * 
+     * @param rankBeans the List of patterns of grouped beans
+     */
+    public void setRankBeans(List rankedBeans) {
+        this.rankBeans = rankedBeans;
+    }    
+
+    /**
+     * Add a naming pattern of bean id's or bean names or classnames that should be
+     * constrained to the same rank of a graph.
+     * <p>
+     * This method may be called any number of times to add different patterns to the
+     * list of ignored beans.  Pattern may not be null (such a value will be ignored).
+     * 
+     * @param pattern a String representing a pattern to match.  The pattern uses 
+     * 		RegEx matching.  May not be null
+     */
+    public void addRankBeans(String pattern) {
+        if (pattern != null) rankBeans.add(pattern);
     }
     
     /**
@@ -379,51 +440,6 @@ public class GraphVizDecorator extends SimpleDecorator {
     public Map getBeanColours() {
         return beanColours;
     }
-	
-	/**
-	 * Return the correct colour to describe this bean based on prior
-	 * configuration settings.  Bean names (or id's) override classname
-	 * matches where a conflicting result would otherwise occur.
-	 * 
-	 * @param idOrName the id or name attribute of the bean you wish to get the
-     *      fill colour for
-	 * @param className the fully qualified classname of the bean 
-	 * @return the colour (as an RGB triplet prefixed with a # symbol) that 
-	 * 		should be used to describe the bean with paramters supplied.
-	 */
-	public String getColourForBean(String idOrName, String className) {
-		// check names first
-		String colour = getColourMatch(idOrName);
-		if (colour != null) return colour;
-		
-		// try classnames
-		colour = getColourMatch(className);
-		if (colour != null) return colour;
-		
-		// no match
-		return defaultFillColour;
-	}
-
-    /**
-	 * @param pattern
-	 * @return the first colour from the Map that matches the pattern
-	 */
-	private String getColourMatch(String pattern) {
-		if (pattern == null) return null;
-		
-		for (Iterator i = beanColours.keySet().iterator(); i.hasNext();) {
-			String key = (String) i.next();
-			if (
-				(key.startsWith("*") && pattern.endsWith(key.substring(1)))
-				||
-				(key.endsWith("*") && pattern.startsWith(key.substring(0, key.length() - 1)))
-				||
-				(key.equals(pattern))
-			)
-				return (String) beanColours.get(key);
-		}
-		return null;
-	}
 
     /**
      * The type of output that the GraphViz 'dot' program should create from the
@@ -542,4 +558,14 @@ public class GraphVizDecorator extends SimpleDecorator {
         return graphYSize;
     }
 
+    /**
+     * A list of patterns of bean names or package names that determine how groups of
+     * similar beans are graphed.  Specifically, a ranked set of beans will all 
+     * appear on the same rank (row) of a graph.
+     * 
+     * @return the List of patterns of grouped beans
+     */
+    public List getRankBeans() {
+        return rankBeans;
+    }
 }

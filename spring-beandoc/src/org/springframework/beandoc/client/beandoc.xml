@@ -39,7 +39,7 @@
     
 	<bean id="javadoc" class="org.springframework.beandoc.output.JavaDocDecorator"/>			    
 			    
-	<bean id="graphs" class="org.springframework.beandoc.output.GraphVizDecorator"/>			    
+	<bean id="graphs" class="org.springframework.beandoc.output.GraphVizDecorator" init-method="init"/>			    
 			    
 	<bean id="html" class="org.springframework.beandoc.output.HtmlDecorator"/>
     

@@ -44,10 +44,13 @@
         <xsl:apply-templates select="beans"/>
         
         /* bean definitions */
-        <xsl:apply-templates select="beans/bean[not(@beandocGraphIgnore)]"/>
+        <xsl:apply-templates select="beans/bean[not(@beandocGraphIgnore) and @beandocRank]">
+        	<xsl:sort select="@beandocRank" order="ascending"/>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="beans/bean[not(@beandocGraphIgnore) and not(@beandocRank)]"/>
         
         /* dependencies */
-        <xsl:apply-templates select="beans/bean/property//ref"/>
+        <xsl:apply-templates select="beans/bean//ref"/>
 	}
     </xsl:template>
 
@@ -102,6 +105,15 @@
 			  	</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		
+		<!-- group ranked beans -->
+		<xsl:if test="not(@beandocRank=preceding::node()/@beandocRank)">
+			<xsl:text> </xsl:text>	
+			<xsl:if test="@beandocRank">
+		{ rank=same;
+			</xsl:if>
+		</xsl:if>
+		
 		"<xsl:value-of select="$beandocId"/>" [
         	peripheries=<xsl:value-of select="$beandocPeripheries"/>, 
 	        style=filled, 
@@ -119,6 +131,14 @@
         	style=dotted arrowhead=none arrowtail=odot
         ];
         </xsl:if>
+        
+        <!-- close rank goup -->
+        <xsl:if test="not(@beandocRank=following::node()/@beandocRank)">
+        	<xsl:text> </xsl:text>
+        	<xsl:if test="@beandocRank">
+        }
+        	</xsl:if>
+       	</xsl:if>
     </xsl:template>
 
 

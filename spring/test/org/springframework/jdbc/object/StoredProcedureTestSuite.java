@@ -416,7 +416,7 @@ public class StoredProcedureTestSuite extends AbstractJdbcTests {
 	}
 
 	public void testParameterMapper() throws Exception {
-		mockCallable.setObject(1, "EasyMock for interface java.sql.Connection", Types.VARCHAR);
+		mockCallable.setString(1, "EasyMock for interface java.sql.Connection");
 		ctrlCallable.setVoidCallable();
 		mockCallable.registerOutParameter(2, Types.VARCHAR);
 		ctrlCallable.setVoidCallable();

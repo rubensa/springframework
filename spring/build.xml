@@ -263,7 +263,7 @@
 		<javadoc sourcepath="src" destdir="${javadocs.dir}" windowtitle="Spring Framework"
 			defaultexcludes="yes"	author="true" version="true" use="true">
 			<doctitle><![CDATA[<h1>Spring Framework</h1>]]></doctitle>
-			<bottom><![CDATA[<i>Rod Johnson and Spring contributors 2001-2003.</i>]]></bottom>
+			<bottom><![CDATA[<i>Copyright (C) 2003-2004 The Spring Framework Project.</i>]]></bottom>
 			<classpath refid="all-libs"/>
 			<packageset dir="${src.dir}">
 				<include name="org/springframework/**"/>

@@ -836,6 +836,15 @@ public class BeanWrapperTestSuite extends TestCase {
 		assertEquals("-a,b-", tb.getName());
 	}
 
+	public void testPrimitiveArray() {
+		PrimitiveArrayBean tb = new PrimitiveArrayBean();
+		BeanWrapper bw = new BeanWrapperImpl(tb);
+		bw.setPropertyValue("array", new String[] {"1", "2"});
+		assertEquals(2, tb.getArray().length);
+		assertEquals(1, tb.getArray()[0]);
+		assertEquals(2, tb.getArray()[1]);
+	}
+
 
 	private static class NoRead {
 
@@ -887,6 +896,20 @@ public class BeanWrapperTestSuite extends TestCase {
 
 		public void doSomething(Throwable t) throws Throwable {
 			throw t;
+		}
+	}
+
+
+	private static class PrimitiveArrayBean {
+
+		private int[] array;
+
+		public int[] getArray() {
+			return array;
+		}
+
+		public void setArray(int[] array) {
+			this.array = array;
 		}
 	}
 

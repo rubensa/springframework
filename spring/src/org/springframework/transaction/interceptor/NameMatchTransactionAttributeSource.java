@@ -16,6 +16,7 @@
 
 package org.springframework.transaction.interceptor;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,11 +32,18 @@ import org.apache.commons.logging.LogFactory;
  * @author Juergen Hoeller
  * @since 21.08.2003
  * @see #isMatch
+*  @version $Id$
  */
-public class NameMatchTransactionAttributeSource implements TransactionAttributeSource {
+public class NameMatchTransactionAttributeSource implements TransactionAttributeSource, Serializable {
 
-	protected final Log logger = LogFactory.getLog(getClass());
+	/**
+	 * Static for optimal serialization
+	 */
+	protected static final Log logger = LogFactory.getLog(NameMatchTransactionAttributeSource.class);
 
+	/**
+	 * Keys are methods: values are TransactionAttributes
+	 */
 	private Map nameMap = new HashMap();
 
 	/**

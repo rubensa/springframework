@@ -40,7 +40,10 @@ import org.apache.commons.logging.LogFactory;
  */
 public class RuleBasedTransactionAttribute extends DefaultTransactionAttribute {
 	
-	protected final Log logger = LogFactory.getLog(getClass());
+	/**
+	 * Static for optimal serializability
+	 */
+	protected static final Log logger = LogFactory.getLog(RuleBasedTransactionAttribute.class);
 
 	private List rollbackRules;
 	

@@ -43,7 +43,7 @@ public class ProxyConfig {
 	 * method access. - RJ, December 10, 2003.
 	 */
 	
-	protected final Log logger = LogFactory.getLog(getClass());
+	protected transient Log logger = LogFactory.getLog(getClass());
 
 	private boolean proxyTargetClass;
 	

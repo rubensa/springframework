@@ -17,18 +17,18 @@
 package org.springframework.dao;
 
 /**
- * Exception thrown on an optimistic locking violation. This exception will
- * be thrown either by O/R mapping tools or by custom DAO implementations.
+ * Exception thrown on failure to complete a transaction in serialized mode due to update conflicts. 
+ * This exception will be thrown either by O/R mapping tools or by custom DAO implementations.
  * @author Rod Johnson
  * @version $Id$
  */
-public class OptimisticLockingFailureException extends ConcurrencyFailureException {
+public class CannotSerializeTransactionException extends ConcurrencyFailureException {
 
-	public OptimisticLockingFailureException(String msg) {
+	public CannotSerializeTransactionException(String msg) {
 		super(msg);
 	}
 
-	public OptimisticLockingFailureException(String msg, Throwable ex) {
+	public CannotSerializeTransactionException(String msg, Throwable ex) {
 		super(msg, ex);
 	}
 

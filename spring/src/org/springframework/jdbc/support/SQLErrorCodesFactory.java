@@ -139,6 +139,12 @@ public class SQLErrorCodesFactory {
 				else {
 					Arrays.sort(ec.getOptimisticLockingFailureCodes());
 				}
+				if (ec.getCannotAcquireLockCodes() == null) {
+					ec.setCannotAcquireLockCodes(new String[0]);
+				}
+				else {
+					Arrays.sort(ec.getCannotAcquireLockCodes());
+				}
 				if (ec.getDataAccessResourceFailureCodes() == null) {
 					ec.setDataAccessResourceFailureCodes(new String[0]);
 				}

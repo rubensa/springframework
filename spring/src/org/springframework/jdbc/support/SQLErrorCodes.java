@@ -40,6 +40,8 @@ public class SQLErrorCodes {
 	
 	private String[] optimisticLockingFailureCodes = new String[0];
 	
+	private String[] cannotAcquireLockCodes = new String[0];
+	
 	private String[] dataAccessResourceFailureCodes = new String[0];
 	
 	private List customTranslations = new LinkedList();
@@ -113,6 +115,19 @@ public class SQLErrorCodes {
 	public void setOptimisticLockingFailureCodes(
 			String[] optimisticLockingFailureCodes) {
 		this.optimisticLockingFailureCodes = optimisticLockingFailureCodes;
+	}
+
+	/**
+	 * @return Returns the cannotAcquireLockCodes.
+	 */
+	public String[] getCannotAcquireLockCodes() {
+		return cannotAcquireLockCodes;
+	}
+	/**
+	 * @param cannotAcquireLockCodes The cannotAcquireLockCodes to set.
+	 */
+	public void setCannotAcquireLockCodes(String[] cannotAcquireLockCodes) {
+		this.cannotAcquireLockCodes = cannotAcquireLockCodes;
 	}
 
 	/**

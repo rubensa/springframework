@@ -20,9 +20,16 @@ import org.springframework.beans.factory.InitializingBean;
  * true (the default) and no other scheme like "java:" is given.
  *
  * <p>Subclasses must implement the located() method to cache the results
- * of the JNDI lookup. They don't need to worry about error handling.
- *
+ * of the JNDI lookup. They don't need to worry about error handling.</p>
+ * 
  * <p><b>Assumptions:</b> The resource obtained from JNDI can be cached.
+ * 
+ * <p>Subclasses will often be used as singletons in a bean container. This
+ * sometiems presents a problem if that bean container pre-instantiates singletons,
+ * since this class does the JNDI lookup in its init method, but the resource being
+ * pointed to may not exist at that time, even though it may exist at the time of
+ * first usage. The solution is to tell the bean container not to pre-instantiate
+ * this class (i.e. lazy load it instead).<p> 
  *
  * @author Rod Johnson
  * @version $Id$

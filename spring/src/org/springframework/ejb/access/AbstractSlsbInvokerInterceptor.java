@@ -14,9 +14,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jndi.AbstractJndiLocator;
 
 /**
- * Superclass for AOP interceptors invoking remote or local Stateless Session Beans.
+ * <p>Superclass for AOP interceptors invoking remote or local Stateless Session Beans.
  * Such an interceptor must be the last interceptor in the advice chain. In this case,
- * there is no target object.
+ * there is no target object.</p>
+ * 
  * @author Rod Johnson
  * @version $Id$
  */
@@ -86,5 +87,4 @@ public abstract class AbstractSlsbInvokerInterceptor extends AbstractJndiLocator
 			throw new FatalBeanException("Could not access ejbCreate() method", ex);
 		}
 	}
-
 }

@@ -110,6 +110,8 @@ public class SchedulerFactoryBean
 
 	private List triggers;
 
+	private boolean autoStartup = true;
+
 	private int startupDelay = 0;
 
 	private boolean waitForJobsToCompleteOnShutdown = false;
@@ -301,6 +303,14 @@ public class SchedulerFactoryBean
 	}
 
 	/**
+	 * Set whether to automatically start the scheduler after initialization.
+	 * Default is true; set this to false to allow for manual startup.
+	 */
+	public void setAutoStartup(boolean autoStartup) {
+		this.autoStartup = autoStartup;
+	}
+
+	/**
 	 * Set the number of seconds to wait after initialization before
 	 * starting the scheduler asynchronously. Default is 0, meaning
 	 * immediate synchronous startup on initialization of this bean.
@@ -393,7 +403,10 @@ public class SchedulerFactoryBean
 
 		registerJobsAndTriggers();
 
-		startScheduler(this.scheduler, this.startupDelay);
+		// start Sheduler if demanded
+		if (this.autoStartup) {
+			startScheduler(this.scheduler, this.startupDelay);
+		}
 	}
 
 	/**

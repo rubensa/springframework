@@ -218,7 +218,9 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 			Object o = getBeanFactory().getBean("typeMismatch");
 			fail("Shouldn't succeed with type mismatch");
 		}
-		catch (PropertyVetoExceptionsException ex) {
+		catch (BeanCreationException wex) {
+			assertTrue(wex.getRootCause() instanceof PropertyVetoExceptionsException);
+			PropertyVetoExceptionsException ex = (PropertyVetoExceptionsException) wex.getRootCause();
 			// Further tests
 			assertTrue("Has one error ", ex.getExceptionCount() == 1);
 			assertTrue("Error is for field age", ex.getPropertyVetoException("age") != null);
@@ -228,10 +230,6 @@ public abstract class AbstractBeanFactoryTests extends TestCase {
 			assertTrue("We have rejected age in exception", ex.getPropertyVetoException("age").getPropertyChangeEvent().getNewValue().equals("34x"));
 			assertTrue("valid name stuck", tb.getName().equals("typeMismatch"));
 			assertTrue("valid spouse stuck", tb.getSpouse().getName().equals("Rod"));
-		}
-		catch (BeansException ex) {
-			ex.printStackTrace();
-			fail("Shouldn't throw generic BeanException on type mismatch");
 		}
 	}
 

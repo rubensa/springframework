@@ -5,7 +5,6 @@
 
 package org.springframework.beans.factory.support;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
@@ -31,15 +28,12 @@ import org.springframework.util.StringUtils;
  * Can be used as a standalone bean factory,
  * or as a superclass for custom bean factories.
  * @author Rod Johnson
+ * @author Juergen Hoeller
  * @since 16 April 2001
  * @version $Id$
  */
 public class DefaultListableBeanFactory extends AbstractBeanFactory
     implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
-
-	//---------------------------------------------------------------------
-	// Instance data
-	//---------------------------------------------------------------------
 
 	/* Whether to allow re-registration of a different definition with the same name */
 	private boolean allowBeanDefinitionOverriding = true;
@@ -47,10 +41,6 @@ public class DefaultListableBeanFactory extends AbstractBeanFactory
 	/** Map of BeanDefinition objects, keyed by prototype name */
 	private Map beanDefinitionMap = new HashMap();
 
-
-	//---------------------------------------------------------------------
-	// Constructors
-	//---------------------------------------------------------------------
 
 	/**
 	 * Create a new DefaultListableBeanFactory.

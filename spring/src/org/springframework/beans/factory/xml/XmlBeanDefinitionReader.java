@@ -17,7 +17,6 @@ import org.xml.sax.SAXParseException;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -128,8 +127,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 				if (is != null)
 					is.close();
 			}
-			catch (IOException ex) {
-				throw new FatalBeanException("IOException closing stream for XML document from " + resource, ex);
+			catch (IOException ignore) {
 			}
 		}
 	}

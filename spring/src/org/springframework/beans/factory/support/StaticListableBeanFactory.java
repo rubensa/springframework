@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.FatalBeanException;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.BeanNotOfRequiredTypeException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -33,7 +33,7 @@ public class StaticListableBeanFactory implements ListableBeanFactory {
 				return ((FactoryBean) bean).getObject();
 			}
 			catch (Exception ex) {
-				throw new FatalBeanException("Could not get object from FactoryBean", ex);
+				throw new BeanCreationException("FactoryBean threw exception on object creation", ex);
 			}
 		}
 		if (bean == null)

@@ -50,35 +50,67 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 
 	/**
 	 * Create a new ClassPathXmlApplicationContext, loading the definitions
-	 * from the given XML file.
+	 * from the given XML file and automatically refreshing the context.
 	 * @param configLocation file path
 	 */
 	public ClassPathXmlApplicationContext(String configLocation) throws BeansException {
-		this.configLocations = new String[] {configLocation};
-		refresh();
+		this(new String[] {configLocation});
+	}
+
+	/**
+	 * Create a new ClassPathXmlApplicationContext, loading the definitions
+	 * from the given XML files and automatically refreshing the context.
+	 * @param configLocations array of file paths
+	 */
+	public ClassPathXmlApplicationContext(String[] configLocations) throws BeansException {
+		this(configLocations, true);
 	}
 
 	/**
 	 * Create a new ClassPathXmlApplicationContext, loading the definitions
 	 * from the given XML files.
 	 * @param configLocations array of file paths
+	 * @param refresh whether to automatically refresh the context,
+	 * loading all bean definitions and creating all singletons.
+	 * Alternatively, call refresh manually after further configuring the context.
+	 * @see #refresh
 	 */
-	public ClassPathXmlApplicationContext(String[] configLocations) throws BeansException {
+	public ClassPathXmlApplicationContext(String[] configLocations, boolean refresh) throws BeansException {
 		this.configLocations = configLocations;
-		refresh();
+		if (refresh) {
+			refresh();
+		}
+	}
+
+	/**
+	 * Create a new ClassPathXmlApplicationContext with the given parent,
+	 * loading the definitions from the given XML files and automatically
+	 * refreshing the context.
+	 * @param configLocations array of file paths
+	 * @param parent the parent context
+	 */
+	public ClassPathXmlApplicationContext(String[] configLocations, ApplicationContext parent)
+			throws BeansException {
+		this(configLocations, true, parent);
 	}
 
 	/**
 	 * Create a new ClassPathXmlApplicationContext with the given parent,
 	 * loading the definitions from the given XML files.
 	 * @param configLocations array of file paths
+	 * @param refresh whether to automatically refresh the context,
+	 * loading all bean definitions and creating all singletons.
+	 * Alternatively, call refresh manually after further configuring the context.
 	 * @param parent the parent context
+	 * @see #refresh
 	 */
-	public ClassPathXmlApplicationContext(String[] configLocations, ApplicationContext parent)
+	public ClassPathXmlApplicationContext(String[] configLocations, boolean refresh, ApplicationContext parent)
 			throws BeansException {
 		super(parent);
 		this.configLocations = configLocations;
-		refresh();
+		if (refresh) {
+			refresh();
+		}
 	}
 
 	protected String[] getConfigLocations() {

@@ -11,11 +11,12 @@ import java.util.Map;
 
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.TestBean;
-import org.springframework.beans.factory.LBIInit;
+import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 import org.springframework.context.ACATest;
 import org.springframework.context.AbstractApplicationContextTests;
 import org.springframework.context.BeanThatListens;
 import org.springframework.context.config.ConfigurableApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Tests for static application context.
@@ -45,7 +46,8 @@ public class StaticApplicationContextTestSuite extends AbstractApplicationContex
 		sac.registerSingleton("beanThatListens", BeanThatListens.class, new MutablePropertyValues());
 		sac.registerSingleton("aca", ACATest.class, new MutablePropertyValues());
 		sac.registerPrototype("aca-prototype", ACATest.class, new MutablePropertyValues());
-		LBIInit.createTestBeans(sac.getListableBeanFactory());
+		PropertiesBeanDefinitionReader reader = new PropertiesBeanDefinitionReader(sac.getDefaultListableBeanFactory());
+		reader.loadBeanDefinitions(new ClassPathResource("testBeans.properties", getClass()));
 		sac.refresh();
 
 		StaticMessageSource sacMessageSource = (StaticMessageSource) sac.getBean("messageSource");

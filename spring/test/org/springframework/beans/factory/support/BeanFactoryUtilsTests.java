@@ -32,9 +32,9 @@ public class BeanFactoryUtilsTests extends TestCase {
 	protected void setUp() {
 		// Interesting hierarchical factory to test counts
 		// Slow to read so we cache it
-		XmlBeanFactory grandParent = new XmlBeanFactory(getClass().getResourceAsStream("root.xml"));
-		XmlBeanFactory parent = new XmlBeanFactory(getClass().getResourceAsStream("middle.xml"), grandParent);
-		XmlBeanFactory child = new XmlBeanFactory(getClass().getResourceAsStream("leaf.xml"), parent);
+		XmlBeanFactory grandParent = new XmlBeanFactory(getClass().getResourceAsStream("root.xml"), new ClasspathBeanDefinitionRegistryLocation("root.xml"));
+		XmlBeanFactory parent = new XmlBeanFactory(getClass().getResourceAsStream("middle.xml"), grandParent, new ClasspathBeanDefinitionRegistryLocation("middle.xml"));
+		XmlBeanFactory child = new XmlBeanFactory(getClass().getResourceAsStream("leaf.xml"), parent, new ClasspathBeanDefinitionRegistryLocation("leaf.xml"));
 		this.listableFactory = child;
 	}
 

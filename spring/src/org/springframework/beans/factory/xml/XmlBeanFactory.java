@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistryLocation;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 /**
@@ -60,9 +61,17 @@ public class XmlBeanFactory extends DefaultListableBeanFactory {
 	 * which must be parsable using DOM.
 	 * @param is InputStream containing XML
 	 * @throws BeansException
+	 * @param location location of the resource
 	 */
-	public XmlBeanFactory(InputStream is) throws BeansException {
-		this(is, null);
+	public XmlBeanFactory(InputStream is, BeanDefinitionRegistryLocation location) throws BeansException {
+		this(is, null, location);
+	}
+	
+	/**
+	 * Convenient method for testing: doesn't require location info
+	 */
+	XmlBeanFactory(InputStream is) {
+		this(is, null, null);
 	}
 
 	/**
@@ -70,11 +79,12 @@ public class XmlBeanFactory extends DefaultListableBeanFactory {
 	 * which must be parsable using DOM.
 	 * @param is InputStream containing XML
 	 * @param parentBeanFactory parent bean factory
+	 * @param location location information, for display on parse errors
 	 * @throws BeansException
 	 */
-	public XmlBeanFactory(InputStream is, BeanFactory parentBeanFactory) throws BeansException {
+	public XmlBeanFactory(InputStream is, BeanFactory parentBeanFactory, BeanDefinitionRegistryLocation location) throws BeansException {
 		super(parentBeanFactory);
-		this.reader.loadBeanDefinitions(is);
+		this.reader.loadBeanDefinitions(is, location);
 	}
 
 }

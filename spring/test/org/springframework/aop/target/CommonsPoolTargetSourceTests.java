@@ -10,6 +10,7 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.springframework.aop.interceptor.SideEffectBean;
+import org.springframework.beans.factory.support.ClasspathBeanDefinitionRegistryLocation;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 
 /**
@@ -36,7 +37,7 @@ public class CommonsPoolTargetSourceTests extends TestCase {
 	protected void setUp() throws Exception {
 		// Load from classpath, NOT a file path
 		InputStream is = getClass().getResourceAsStream("commonsPoolTests.xml");
-		this.beanFactory = new XmlBeanFactory(is);
+		this.beanFactory = new XmlBeanFactory(is, new ClasspathBeanDefinitionRegistryLocation("commonsPoolTests.xml"));
 	}
 	
 	/**

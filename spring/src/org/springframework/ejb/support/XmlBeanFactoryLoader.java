@@ -18,6 +18,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.support.BeanFactoryLoader;
 import org.springframework.beans.factory.support.BootstrapException;
+import org.springframework.beans.factory.support.ClasspathBeanDefinitionRegistryLocation;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.jndi.JndiTemplate;
 import org.springframework.util.ClassLoaderUtils;
@@ -55,7 +56,8 @@ public class XmlBeanFactoryLoader implements BeanFactoryLoader {
 			if (is == null) {
 				throw new BootstrapException("Cannot load bean factory path '" + beanFactoryPath + "'", null);
 			}
-			ListableBeanFactory beanFactory = new XmlBeanFactory(is);
+			ListableBeanFactory beanFactory = new XmlBeanFactory(is, 
+					new ClasspathBeanDefinitionRegistryLocation(beanFactoryPath));
 			logger.info("Loaded BeanFactory [" + beanFactory + "]");
 			return beanFactory;
 		}

@@ -12,27 +12,25 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 
 /**
- * One singleton to rule them all.
- * Reads System properties, which must contain the definition of
- * a bootstrap bean factory using the Properties syntax supported
- * by DefaultListableBeanFactory.
- * <br>
- * The name of the bootstrap factory must be
- * "bootstrapBeanFactory".
+ * One singleton to rule them all. Reads System properties, which
+ * must contain the definition of a bootstrap bean factory using
+ * the Properties syntax supported by PropertiesBeanDefinitionReader.
+ *
+ * <oo>The name of the bootstrap factory must be "bootstrapBeanFactory".
  * 
  * Thus a typical definition might be:
  * <code>
  * bootstrapBeanFactory.class=com.mycompany.MyBeanFactory
  * </code>
- * <br>
- * Use as follows:
- * 
- * BeanFactory bf = BeanFactoryBootstrap.getInstance().getBeanFactory();
  *
- * TODO take properties from other sources besides System properties?
+ * <p>Use as follows:
+ * <code>
+ * BeanFactory bf = BeanFactoryBootstrap.getInstance().getBeanFactory();
+ * </code>
+ *
  * @author Rod Johnson
  * @since December 2, 2002
- * @see org.springframework.beans.factory.support.DefaultListableBeanFactory
+ * @see org.springframework.beans.factory.support.PropertiesBeanDefinitionReader
  * @version $Id$
  */
 public class BeanFactoryBootstrap {
@@ -53,8 +51,7 @@ public class BeanFactoryBootstrap {
 	}
 	
 	// Do initialization when this class is loaded to avoid
-	// potential concurrency issues or the need to synchronize
-	// later
+	// potential concurrency issues or the need to synchronize later
 	static {
 		initializeSingleton();
 	}
@@ -82,7 +79,8 @@ public class BeanFactoryBootstrap {
 		startupException = null;
 		initializeSingleton();
 	}
-	
+
+
 	/** The Singleton instance */
 	private BeanFactory bootstrapFactory;
 	

@@ -99,7 +99,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		}
 		InputStream is = null;
 		try {
-			logger.info("Loading XmlBeanFactory from resource [" + resource + "]");
+			logger.info("Loading XML bean definitions from " + resource + "");
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			logger.debug("Using JAXP implementation [" + factory + "]");
 			factory.setValidating(this.validating);

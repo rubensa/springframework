@@ -7,6 +7,7 @@ package org.springframework.beans.factory;
 
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * Bean exposing a map. Used for bean factory tests.
@@ -17,7 +18,9 @@ import java.util.Properties;
 public class HasMap {
 	
 	private Map map;
-	
+
+	private Set set;
+
 	private Properties props;
 	
 	private Object[] objectArray;
@@ -26,47 +29,34 @@ public class HasMap {
 	
 	private Integer[] intArray;
 
-	/**
-	 * @return Map
-	 */
 	public Map getMap() {
 		return map;
 	}
 
-	/**
-	 * Sets the map.
-	 * @param map The map to set
-	 */
 	public void setMap(Map map) {
 		this.map = map;
 	}
 
-	/**
-	 * @return Properties
-	 */
+	public Set getSet() {
+		return set;
+	}
+
+	public void setSet(Set set) {
+		this.set = set;
+	}
+
 	public Properties getProps() {
 		return props;
 	}
 
-	/**
-	 * Sets the props.
-	 * @param props The props to set
-	 */
 	public void setProps(Properties props) {
 		this.props = props;
 	}
 
-	/**
-	 * @return Object[]
-	 */
 	public Object[] getObjectArray() {
 		return objectArray;
 	}
 
-	/**
-	 * Sets the objectArray.
-	 * @param objectArray The objectArray to set
-	 */
 	public void setObjectArray(Object[] objectArray) {
 		this.objectArray = objectArray;
 	}

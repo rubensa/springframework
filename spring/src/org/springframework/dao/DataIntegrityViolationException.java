@@ -28,7 +28,15 @@ public class DataIntegrityViolationException extends DataAccessException {
 
 	/**
 	 * Constructor for DataIntegrityViolationException.
-	 * @param msg mesg
+	 * @param msg message
+	 */
+	public DataIntegrityViolationException(String msg) {
+		super(msg);
+	}
+
+	/**
+	 * Constructor for DataIntegrityViolationException.
+	 * @param msg message
 	 * @param ex root cause
 	 */
 	public DataIntegrityViolationException(String msg, Throwable ex) {

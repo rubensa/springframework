@@ -69,16 +69,15 @@ public class TestBean implements BeanFactoryAware, ITestBean, IOther, Comparable
 
 	private IndexedTestBean nestedIndexedBean;
 
-
 	public TestBean() {
-	}
+	}	
 
 	public TestBean(String name, int age) {
 		this.name = name;
 		this.age = age;
 	}
 
-
+	
 	public void setBeanFactory(BeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}

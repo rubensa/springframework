@@ -467,9 +467,6 @@ public abstract class AbstractBeanDefinition implements BeanDefinition {
 	}
 	
 	private void validateMethodOverride(MethodOverride mo, Class beanClass) throws BeanDefinitionValidationException {
-		if (!(mo instanceof LookupOverride)) {
-			throw new BeanDefinitionValidationException("Unknown method override type: " + mo.getClass());
-		}
 		if (!BeanUtils.isAtLeastOneMethodWithName(mo.getMethodName(), beanClass)) {
 			throw new BeanDefinitionValidationException("No method with name '" + mo.getMethodName() + 
 					"' on class " + beanClass.getName() + " specified in lookup override");

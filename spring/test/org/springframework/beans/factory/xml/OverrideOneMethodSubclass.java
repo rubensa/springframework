@@ -23,5 +23,10 @@ package org.springframework.beans.factory.xml;
  * @version $Id$
  */
 public abstract class OverrideOneMethodSubclass extends OverrideOneMethod {
+	
+	protected void doSomething(String arg) {
+		// This implementation does nothing!
+		// It's not overloaded
+	}
 
 }

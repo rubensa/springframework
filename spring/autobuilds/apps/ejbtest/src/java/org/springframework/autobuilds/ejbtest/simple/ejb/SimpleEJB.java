@@ -17,7 +17,6 @@
 package org.springframework.autobuilds.ejbtest.simple.ejb;
 
 import javax.ejb.CreateException;
-import javax.ejb.SessionBean;
 import javax.ejb.SessionContext;
 
 import net.sf.hibernate.SessionFactory;
@@ -25,6 +24,7 @@ import net.sf.hibernate.SessionFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.autobuilds.ejbtest.Constants;
+import org.springframework.autobuilds.ejbtest.simple.SimpleService;
 import org.springframework.context.access.ContextSingletonBeanFactoryLocator;
 import org.springframework.ejb.support.AbstractStatelessSessionBean;
 

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package org.springframework.autobuilds.ejbtest.simple.ejb;
+package org.springframework.autobuilds.ejbtest.simple;
 
 
 /**

@@ -56,21 +56,21 @@
  */
 package org.springframework.autobuilds.ejbtest.simple.ejb;
 
-import java.rmi.RemoteException;
-
 import javax.ejb.CreateException;
-import javax.ejb.EJBHome;
+import javax.ejb.EJBLocalHome;
+
+import org.springframework.autobuilds.ejbtest.simple.SimpleService;
 
 /**
- * Simple EJB home interface
+ * Simple EJB local home interface
  *
- * @author colin sampaleanu
+ * @author Colin Sampaleanu
  * @version $Id$
  */
-public interface SimpleHome extends EJBHome
+public interface SimpleHomeLocal extends EJBLocalHome
 {
-    /**
-     * @see EJB specifications
-     */
-	SimpleService create() throws RemoteException, CreateException;
+	/**
+	 * @see EJB specifications
+	 */
+	SimpleService create() throws CreateException;
 }

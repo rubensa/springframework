@@ -5,6 +5,7 @@
  
 package org.springframework.beans.factory.support;
 
+import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
@@ -18,9 +19,21 @@ public interface BeanFactoryLoader {
 	
 	/**
 	 * Load the BeanFactory.
+	 * <br/>In an EJB usage scenario this would normally be called from ejbCreate and
+	 * ejbActivate. 
 	 * @return BeanFactory loaded BeanFactory. Never returns null. 
 	 * @throws BootstrapException if a BeanFactory cannot be loaded
 	 */
 	BeanFactory loadBeanFactory() throws BootstrapException;
+	
+	/**
+	 * Unload the BeanFactory. This may possibly not actually do anything, or 
+	 * alternately in the case of a 'closeable' BeanFactory or derived class
+	 * (such as ApplicationContext) may 'close' it.
+	 * <br/>In an EJB usage scenario this would normally be called from ejbRemove and
+	 * ejbPassivate. 
+	 * @throws FatalBeanException
+	 */
+	void unloadBeanFactory(BeanFactory bf) throws FatalBeanException;
 
 }

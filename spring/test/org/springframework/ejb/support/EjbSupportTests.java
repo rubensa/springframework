@@ -16,6 +16,7 @@ import javax.jms.Message;
 import junit.framework.TestCase;
 
 import org.easymock.MockControl;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanFactoryLoader;
 import org.springframework.beans.factory.support.BootstrapException;
@@ -46,6 +47,8 @@ public class EjbSupportTests extends TestCase {
 		BeanFactoryLoader bfl = new BeanFactoryLoader() {
 			public BeanFactory loadBeanFactory() throws BootstrapException {
 				return bf;
+			}
+			public void unloadBeanFactory(BeanFactory bf) throws FatalBeanException {
 			}
 		};
 		
@@ -111,6 +114,8 @@ public class EjbSupportTests extends TestCase {
 			public BeanFactory loadBeanFactory() throws BootstrapException {
 				return bf;
 			}
+			public void unloadBeanFactory(BeanFactory bf) throws FatalBeanException {
+			}
 		};
 	
 		AbstractStatelessSessionBean slsb = new AbstractStatelessSessionBean() {
@@ -151,6 +156,8 @@ public class EjbSupportTests extends TestCase {
 			public BeanFactory loadBeanFactory() throws BootstrapException {
 				return bf;
 			}
+			public void unloadBeanFactory(BeanFactory bf) throws FatalBeanException {
+			}
 		};
 
 		AbstractJmsMessageDrivenBean mdb = new AbstractJmsMessageDrivenBean() {
@@ -179,6 +186,8 @@ public class EjbSupportTests extends TestCase {
 		BeanFactoryLoader bfl = new BeanFactoryLoader() {
 			public BeanFactory loadBeanFactory() throws BootstrapException {
 				throw new BootstrapException("", null);
+			}
+			public void unloadBeanFactory(BeanFactory bf) throws FatalBeanException {
 			}
 		};
 

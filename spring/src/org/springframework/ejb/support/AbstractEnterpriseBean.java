@@ -9,6 +9,7 @@ import javax.ejb.EnterpriseBean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanFactoryLoader;
 import org.springframework.beans.factory.support.BootstrapException;
@@ -53,6 +54,20 @@ abstract class AbstractEnterpriseBean implements EnterpriseBean {
 			this.beanFactoryLoader = new XmlBeanFactoryLoader();
 		}
 		this.beanFactory = this.beanFactoryLoader.loadBeanFactory();
+	}
+	
+	/**
+	 * Unload the Spring BeanFactory instance.
+	 * The default ejbRemove method invokes this method, but subclasses which
+	 * override ejbRemove must invoke this method themselves.
+	 * Package-visible as it shouldn't be called directly by user-created
+	 * subclasses.
+	 */
+	void unloadBeanFactory() throws FatalBeanException {
+		if (this.beanFactory != null) {
+		  this.beanFactoryLoader.unloadBeanFactory(this.beanFactory);
+		  this.beanFactory = null;
+		}
 	}
 
 	/**

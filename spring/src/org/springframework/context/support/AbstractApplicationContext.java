@@ -33,9 +33,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NestingMessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.context.config.ApplicationContextAwareProcessor;
-import org.springframework.context.config.ConfigurableApplicationContext;
-import org.springframework.context.config.ContextResourceEditor;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.ApplicationEventMulticasterImpl;
 import org.springframework.context.event.ContextClosedEvent;
@@ -201,15 +199,22 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 	}
 
 	/**
-	 * Return a Resource handle for the resource at the given path.
-	 * <p>Default implementation supports file paths, either absolute or
-	 * relative to the application's working directory. This should be
-	 * appropriate for standalone implementations but can be overridden,
-	 * e.g. for implementations targeted at a container.
+	 * Return a Resource handle for the resource at the given file path.
+	 * <p>Default implementation supports file system paths relative to
+	 * the application's working directory. This should be appropriate for
+	 * standalone implementations but can be overridden, e.g. for
+	 * implementations targeted at a Servlet container.
+	 * <p>Note: Even if a given path starts with a slash, it will get
+	 * interpreted as relative to the application's working directory.
+	 * This is consisted with the semantics in a Servlet container.
 	 * @param path path to the resource
 	 * @return Resource handle
+	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
 	 */
 	protected Resource getResourceByPath(String path) {
+		if (path != null && path.startsWith("/")) {
+			path = path.substring(1);
+		}
 		return new FileSystemResource(path);
 	}
 

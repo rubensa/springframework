@@ -11,7 +11,7 @@ import java.util.Iterator;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContextException;
-import org.springframework.context.config.ConfigurableApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.servlet.handler.AbstractUrlHandlerMapping;
 
 /**

@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
  * Used by BindUtils' bindAndValidate method.
  *
  * @author Juergen Hoeller
+ * @author Dmitriy Kopylenko
  * @since 06.05.2003
  * @see Validator
  * @see Errors

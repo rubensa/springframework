@@ -16,9 +16,12 @@
 
 package org.springframework.beandoc.output;
 
-import org.jdom.Element;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import junit.framework.TestCase;
+
+import org.jdom.Element;
 
 
 
@@ -32,24 +35,42 @@ public class JavaDocDecoratorTests extends TestCase {
     private static String javaVersion = System.getProperty("java.specification.version");
     
     JavaDocDecorator jdd = new JavaDocDecorator();
+    Element e;
+    
+    public void setUp() {
+        e = new Element("bean");
+    }
+    
+    public void testSetLocationMap() {
+        try {
+            jdd.setLocations(null);
+            fail();
+        } catch (IllegalArgumentException e ) {
+            // ok
+        }
+        
+        try {
+            jdd.setLocations(new TreeMap());
+        } catch (Exception e) {
+            fail();
+        }
+    }
     
     /*
      * test javadoc lookups
      */
-    public void testLocations() {
+    public void testKnownLocations() {
         try {
-            jdd.addLocation(
-                "org.springframework.emptyvalue.",
-                "");
                 
-            Element e = new Element("bean");
             e.setAttribute("class", "org.springframework.SomeClass");
+            e.setAttribute("id", "aBean");
             jdd.decorateElement(e);            
             assertEquals(
                 "http://www.springframework.org/docs/api/org/springframework/SomeClass.html", 
                 e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
                 
             e.setAttribute("class", "java.util.HashMap");
+            e.setAttribute("name", "bBean");
             jdd.decorateElement(e);            
             assertEquals(
                 "http://java.sun.com/j2se/" + javaVersion + "/docs/api/java/util/HashMap.html", 
@@ -60,19 +81,57 @@ public class JavaDocDecoratorTests extends TestCase {
             assertEquals(
                 "http://java.sun.com/j2se/" + javaVersion + "/docs/api/javax/sql/DataSource.html", 
                 e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
-                
-            e = new Element("bean");
-            e.setAttribute("class", "org.springframework.samples.SomeClass");
-            jdd.decorateElement(e);            
-            assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
-            
-            e = new Element("bean");
-            e.setAttribute("class", "org.springframework.emptyvalue.SomeClass");
-            jdd.decorateElement(e);            
-            assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
-                                
+                                       
         } catch (Exception e) {
             fail();
         }           
     }
+        
+    public void testNoConfiguredLocation() {
+        e.setAttribute("class", "org.springframework.samples.SomeClass");
+        jdd.decorateElement(e);            
+        assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+    }
+    
+    public void testEmptyLocation() {   
+        jdd.addLocation(
+            "org.springframework.emptyvalue.",
+            "");
+        e.setAttribute("class", "org.springframework.emptyvalue.SomeClass");
+        jdd.decorateElement(e);            
+        assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+    }
+    
+    public void testNoTrailingSlashInLocation() {   
+        jdd.addLocation(
+            "com.foo.",
+            "http://my.server/docs");
+        e.setAttribute("class", "com.foo.SomeClass");
+        jdd.decorateElement(e);            
+        assertEquals("http://my.server/docs/com/foo/SomeClass.html", e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+    }
+    
+    public void testNullClass() {
+        e.setAttribute("id", "aBean");
+        jdd.decorateElement(e);
+        assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+    }
+    
+    public void testUnknownClass() {
+        e.setAttribute("class", "no.location.configured.for.ThisClass");
+        jdd.decorateElement(e);
+        assertNull(e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
+    }
+    
+    public void testNullClassPrefixForLocation() {
+        try {
+            jdd.addLocation(null, "http://nowhere.to.go");
+            SortedMap m = jdd.getLocations();
+            assertFalse(m.containsValue("http://nowhere.to.go/"));
+            
+        } catch (Exception e) {
+            fail();
+        }
+    }
+        
 }

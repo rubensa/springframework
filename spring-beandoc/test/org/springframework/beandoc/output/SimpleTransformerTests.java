@@ -16,21 +16,18 @@
 
 package org.springframework.beandoc.output;
 
-import org.springframework.beandoc.BeanDocException;
+import junit.framework.TestCase;
 
 /**
  * @author Darren Davison
  * @since 1.0
  */
-public class InvalidTransformerException extends BeanDocException {  
-
-    private static final long serialVersionUID = 3256446923383911734L;
-
-    /**
-     * @param cause
-     */
-    public InvalidTransformerException(Throwable cause) {
-        super(cause);
+public class SimpleTransformerTests extends TestCase {
+    
+    public void testOutputFileName() {
+        SimpleTransformer st = new SimpleTransformer();
+        assertEquals(".html", st.getFileExtension()); 
+        st.setFileExtension(".txt");      
+        assertEquals("echotest.txt", st.getOutputForDocument("echotest.xml"));
     }
-
 }

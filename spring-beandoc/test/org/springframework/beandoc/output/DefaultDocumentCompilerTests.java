@@ -16,21 +16,22 @@
 
 package org.springframework.beandoc.output;
 
-import org.springframework.beandoc.BeanDocException;
+import junit.framework.TestCase;
 
 /**
  * @author Darren Davison
  * @since 1.0
  */
-public class InvalidTransformerException extends BeanDocException {  
-
-    private static final long serialVersionUID = 3256446923383911734L;
-
-    /**
-     * @param cause
-     */
-    public InvalidTransformerException(Throwable cause) {
-        super(cause);
+public class DefaultDocumentCompilerTests extends TestCase {
+    
+    DefaultDocumentCompiler ddc;
+    
+    public void setUp() {
+        ddc = new DefaultDocumentCompiler();
     }
-
+    
+    public void testCompiler() {
+        // hmm..
+    }
+    
 }

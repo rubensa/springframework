@@ -44,6 +44,9 @@ public class CsvTransformer implements Transformer {
             );
             
             try {
+                if (!outputFile.exists())
+                    outputFile.createNewFile();            
+            
                 FileWriter out = new FileWriter(outputFile);
                 String csvLine = "";
                 

@@ -16,13 +16,16 @@
 
 package org.springframework.beandoc.output;
 
+import java.io.*;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 
 import junit.framework.TestCase;
 
 import org.jdom.Document;
 import org.jdom.input.SAXBuilder;
+import org.springframework.beandoc.BeanDocException;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
 import org.springframework.core.io.ClassPathResource;
 
@@ -71,5 +74,29 @@ public class EchoTransformerTests extends TestCase {
         et.transform(docs, new File(System.getProperty("user.home")));
         
         assertTrue(sw.toString().indexOf(expect) > -1);
+    }
+    
+    public void testInvalidWriter() {
+        EchoTransformer et = new EchoTransformer();
+        Writer w = new Writer() {
+            public void close() throws IOException {
+            }
+            public void flush() throws IOException {
+            }
+            public void write(char[] cbuf, int off, int len) throws IOException {
+                throw new IOException("Not a very useful writer is it?");
+            }            
+        };
+        et.setWriter(w);
+        et.setWriter(null);
+        et.setPrettyPrint(true);
+
+        try {
+            et.transform(docs, new File(System.getProperty("user.home")));
+            fail();
+        } catch (BeanDocException bde) {
+            // ok
+        }
+
     }
 }

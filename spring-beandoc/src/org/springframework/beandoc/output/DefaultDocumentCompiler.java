@@ -76,17 +76,20 @@ public class DefaultDocumentCompiler implements DocumentCompiler {
         
         // generate graphs and image maps from all .dot files in output location
         logger.info("Generating [" + graphOutputType + "] graphs");
-        for (int i = 0; i < dotFileList.length; i++) {
-            runDot(dotFileList[i], graphOutputType, graphOutputType);
-            File mapFile = runDot(dotFileList[i], dotFileMapFormat, "map");
+        if (dotExe != null && new File(dotExe).isFile())
+            for (int i = 0; i < dotFileList.length; i++) {
+                runDot(dotFileList[i], graphOutputType, graphOutputType);
+                File mapFile = runDot(dotFileList[i], dotFileMapFormat, "map");
+                
+                // insert map into -graph.html file
+                plugMap(mapFile);
+                mapFile.delete();
+                
+                if (removeDotFiles) dotFileList[i].delete();
+            }
+        else
+            logger.info("GraphViz 'dot' executable not set or couldn't be found.  No graphs generated.");
             
-            // insert map into -graph.html file
-            plugMap(mapFile);
-            mapFile.delete();
-            
-            if (removeDotFiles) dotFileList[i].delete();
-        }
-        
         copyMediaResources(outputDir);
 
     }

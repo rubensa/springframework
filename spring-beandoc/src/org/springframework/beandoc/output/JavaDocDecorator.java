@@ -110,6 +110,8 @@ public class JavaDocDecorator extends SimpleDecorator {
      * @see #addLocation(String, String)
      */
     public void setLocations(SortedMap map) {
+        if (map == null)
+            throw new IllegalArgumentException("Locations cannot be null");
         locations = map;
     }
 

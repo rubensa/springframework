@@ -18,20 +18,13 @@ package org.springframework.beandoc;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import junit.framework.TestCase;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beandoc.output.Decorator;
-import org.springframework.beandoc.output.DocumentCompiler;
-import org.springframework.beandoc.output.SimpleDecorator;
-import org.springframework.beandoc.output.Tags;
-import org.springframework.beandoc.output.Transformer;
+import org.springframework.beandoc.output.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -174,6 +167,7 @@ public class DefaultContextProcessorTests extends TestCase {
     }
     
     public void testDecoratorsAreApplied() {
+        assertNull(dcp.getDecorators());
         Decorator d = new Decorator() {
             public void decorate(Document[] contextDocuments) {
                 called();
@@ -191,6 +185,7 @@ public class DefaultContextProcessorTests extends TestCase {
     }
 
     public void testTransformersAreApplied() {
+        assertNull(dcp.getTransformers());
         Transformer t = new Transformer() {
             public void transform(Document[] contextDocuments, File outputDir) {
                 called();
@@ -209,6 +204,7 @@ public class DefaultContextProcessorTests extends TestCase {
     }
     
     public void testCompilersAreApplied() {
+        assertNull(dcp.getCompilers());
         DocumentCompiler c = new DocumentCompiler() {
             public void compile(Document[] contextDocuments, File outputDir) {
                 called();
@@ -227,6 +223,7 @@ public class DefaultContextProcessorTests extends TestCase {
     }
     
     public void testProxiesAreMerged() {
+        assertEquals(0, dcp.getMergeProxies().size());
         Resource[] proxyInputs = {new ClassPathResource("org/springframework/beandoc/proxymerge.xml")};
         try {
             DefaultContextProcessor dcp2 = new DefaultContextProcessor(
@@ -241,7 +238,8 @@ public class DefaultContextProcessorTests extends TestCase {
             Decorator testMerge = new SimpleDecorator() {
                 protected void decorateElement(Element element) {
                     if (Tags.TAGNAME_BEAN.equals(element.getName()) && 
-                        element.getAttributeValue(Tags.ATTRIBUTE_ID).equals("myProxy")) {
+                        ("myProxy".equals(element.getAttributeValue(Tags.ATTRIBUTE_ID)) ||
+                         "myProxy".equals(element.getAttributeValue(Tags.ATTRIBUTE_NAME)))) {
                         called();
                         try {
                             Element target = element.getChild(Tags.TAGNAME_PROPERTY);                        
@@ -249,7 +247,7 @@ public class DefaultContextProcessorTests extends TestCase {
                         
                             // ref tag should have been replaced with bean tag
                             assertEquals(Tags.TAGNAME_BEAN, targetBean.getName());
-                            assertEquals("myTarget", targetBean.getAttributeValue(Tags.ATTRIBUTE_ID));
+                            assertEquals("myTarget", targetBean.getAttributeValue(Tags.ATTRIBUTE_NAME));
                         } catch (Exception e) {
                             fail();
                         }
@@ -263,7 +261,7 @@ public class DefaultContextProcessorTests extends TestCase {
             try {
                 dcp2.process();
             } catch (Exception e) {
-                fail();
+                fail(e.getMessage());
             }
             
             assertEquals(1, called);

@@ -14,29 +14,39 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beandoc;
+package org.springframework.beandoc.client;
 
-import org.springframework.core.io.Resource;
+import java.io.File;
+
+import org.apache.tools.ant.BuildException;
 
 import junit.framework.TestCase;
 
+
+
 /**
+ * BeanDocClientTests
+ * 
  * @author Darren Davison
  * @since 1.0
  */
-public class DefaultFileSystemResourceLoaderTests extends TestCase { 
+public class BeanDocClientTests extends TestCase {
+
+    String[] args = {
+        "--output", System.getProperty("java.io.tmpdir"),
+        "--prefix", "anything.",
+        "--context", "org/springframework/beandoc/client/dummyContext.xml",
+        "--title", "BeanDocTest",
+        "classpath:org/springframework/beandoc/context1.xml"
+    };
     
-    DefaultFileSystemResourceLoader rl;
-    
-    public void setUp() {
-        rl = new DefaultFileSystemResourceLoader();
-    }
-    
-    public void testResourceLoading() {
-        Resource res = rl.getResourceByPath(System.getProperty("user.dir"));
-        assertTrue(res.exists());
-        Resource res2 = rl.getResourceByPath("/bet/you/do/not/have/a/path/like/this.huh?");
-        assertFalse(res2.exists());
+    public void testMain() {        
+        try {
+            BeanDocClient.main(args);
+            
+        } catch (Exception e) {
+            fail();
+        }
     }
     
 }

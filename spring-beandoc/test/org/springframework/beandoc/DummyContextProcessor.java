@@ -14,23 +14,23 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beandoc.output;
+package org.springframework.beandoc;
 
-import org.springframework.beandoc.BeanDocException;
+import java.io.IOException;
+
 
 /**
  * @author Darren Davison
  * @since 1.0
  */
-public class InvalidTransformerException extends BeanDocException {  
+public class DummyContextProcessor implements ContextProcessor {
 
-    private static final long serialVersionUID = 3256446923383911734L;
+    public DummyContextProcessor(String inputs, String outputDir) {
+        // no-op
+    }
 
-    /**
-     * @param cause
-     */
-    public InvalidTransformerException(Throwable cause) {
-        super(cause);
+    public void process() throws IOException, BeanDocException {
+        // no-op
     }
 
 }

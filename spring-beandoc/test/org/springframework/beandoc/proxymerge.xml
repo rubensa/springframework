@@ -3,8 +3,14 @@
 
 <beans>
 	<bean id="myProxy" class="com.bar.Foo">
-	  <property name="target"><ref local="myTarget"/></property>
+	  <property name="target"><ref bean="myTarget"/></property>
 	</bean>
 	
-	<bean id="myTarget" class="com.foo.Bar"/>
+	<bean name="myTarget" class="com.foo.Bar"/>
+	
+	<!-- duff example that won't find the target bean -->
+	<bean id="myProxy2" class="com.bar.Foo">
+	  <property name="target"><ref local="myTarget2"/></property>
+	</bean>
+	
 </beans>

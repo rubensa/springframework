@@ -16,11 +16,13 @@
 
 package org.springframework.beandoc.output;
 
+import java.util.*;
+
+import junit.framework.TestCase;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.springframework.beandoc.BeanDocException;
-
-import junit.framework.TestCase;
 
 
 
@@ -32,8 +34,17 @@ import junit.framework.TestCase;
 public class GraphVizDecoratorTests extends TestCase {
 
     GraphVizDecorator gvd;
+    Element root;
+    Document d;
+        
+        
     
     public void setUp() {
+        d = new Document();
+        root = new Element("beans");
+        d.setRootElement(root);
+       
+        
         gvd = new GraphVizDecorator();               
         gvd.setDefaultFillColour("BLACK");
         
@@ -57,25 +68,68 @@ public class GraphVizDecoratorTests extends TestCase {
         gvd.setBeanShape("ellipse");
         gvd.setFontName("Times");
         gvd.setFontSize(34);
-        gvd.setRatio("auto");
+        gvd.setRatio("auto");        
         
-        Document d = new Document();
-        Element e = new Element("beans");
-        d.setRootElement(e);
+        gvd.decorateElement(root);
         
-        gvd.decorateElement(e);
+        assertEquals("ellipse", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_BEANSHAPE));
+        assertEquals("Times", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_FONTNAME));
+        assertEquals("34", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_FONTSIZE));
+        assertEquals("auto", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_RATIO));
         
-        assertEquals("ellipse", e.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_BEANSHAPE));
-        assertEquals("Times", e.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_FONTNAME));
-        assertEquals("34", e.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_FONTSIZE));
-        assertEquals("auto", e.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_RATIO));
+    }
+    
+    public void testGraphSize() {
+        gvd.setGraphXSize(0.5f);
+        gvd.decorateElement(root);
+        assertNull(root.getAttribute(GraphVizDecorator.ATTRIBUTE_GRAPH_SIZE));
         
+        gvd.setGraphYSize(0.6f);
+        gvd.decorateElement(root);
+        assertEquals("0.5, 0.6", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_SIZE));
+    }
+    
+    public void testSetColourBeansMap() {
+        Date date = new Date();
+        Map m = new HashMap();
+        m.put(".*Foo", "CRIMSON");
+        m.put(date, "MARIGOLD"); // not a string key
+        m.put(".*Bar", null); // not a string value
+        m.put(".*Baz", "TURQUOISE"); // ok
+        gvd.setColourBeans(m);
+        
+        Map m2 = gvd.getColourBeans();
+        assertTrue(m2.containsKey(".*Foo"));
+        assertFalse(m2.containsKey(date));
+        assertFalse(m2.containsKey(".*Bar"));
+        assertTrue(m2.containsKey(".*Baz"));
+    }
+    
+    public void testSetLabelLocation() {
+        gvd.decorateElement(root);
+        assertEquals("t", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_LABELLOCATION));
+        
+        gvd.setLabelLocation('b');
+        gvd.decorateElement(root);
+        assertEquals("b", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_LABELLOCATION));
+    }
+    
+    public void testSetOutputType() {
+        gvd.decorateElement(root);
+        assertEquals("png", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_TYPE));
+        
+        gvd.setOutputType("svg");
+        gvd.decorateElement(root);
+        assertEquals("svg", root.getAttributeValue(GraphVizDecorator.ATTRIBUTE_GRAPH_TYPE));
     }
     
     /*
      * test colour matches
      */
     public void testColourMatches() {
+        
+        Map m = gvd.getColourBeans();
+        assertEquals(10, m.size());
         
         Element e1 = new Element("bean");
         e1.setAttribute("id", "MyValidator");
@@ -88,7 +142,7 @@ public class GraphVizDecoratorTests extends TestCase {
         assertEquals("BLUE", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
         
         e1 = new Element("bean");
-        e1.setAttribute("id", "simpleFormAnythingAtAll");
+        e1.setAttribute("name", "simpleFormAnythingAtAll");
         gvd.decorateElement(e1);
         assertEquals("GREEN", e1.getAttributeValue(GraphVizDecorator.ATTRIBUTE_COLOUR));
         
@@ -125,6 +179,9 @@ public class GraphVizDecoratorTests extends TestCase {
      */
     public void testIgnoreBeans() {
         
+        List l = gvd.getIgnoreBeans();
+        assertEquals(4, l.size());
+        
         Element e1 = new Element("bean");
         e1.setAttribute("id", "MyValidator");
         gvd.decorateElement(e1);
@@ -152,6 +209,9 @@ public class GraphVizDecoratorTests extends TestCase {
     }
     
     public void testRankedBeans() {
+        
+        List l = gvd.getRankBeans();
+        assertEquals(2, l.size());
         
         Element e1 = new Element("bean");
         e1.setAttribute("id", "MyDao");

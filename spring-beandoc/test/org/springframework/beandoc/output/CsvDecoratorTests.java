@@ -16,21 +16,24 @@
 
 package org.springframework.beandoc.output;
 
-import org.springframework.beandoc.BeanDocException;
+import junit.framework.TestCase;
+
+import org.jdom.Element;
+
+
 
 /**
+ * SimpleDecoratorTests
+ * 
  * @author Darren Davison
  * @since 1.0
  */
-public class InvalidTransformerException extends BeanDocException {  
-
-    private static final long serialVersionUID = 3256446923383911734L;
-
-    /**
-     * @param cause
-     */
-    public InvalidTransformerException(Throwable cause) {
-        super(cause);
+public class CsvDecoratorTests extends TestCase {
+    
+    public void testCounter() {
+        CsvDecorator cd = new CsvDecorator();
+        Element bean = new Element("bean");
+        cd.decorateElement(bean);
+        assertEquals(1, Integer.parseInt(bean.getAttributeValue("beandocCSVCount")));
     }
-
 }

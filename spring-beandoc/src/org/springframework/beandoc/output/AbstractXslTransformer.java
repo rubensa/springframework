@@ -151,7 +151,7 @@ public abstract class AbstractXslTransformer implements Transformer {
      * @param doc the document to transform
      * @param outputDir the file handle of the output location
      */
-    protected final void doXslTransform(Document doc, File outputDir) {        
+    protected void doXslTransform(Document doc, File outputDir) {        
         String inputFileName = null;
         try {
             inputFileName = doc.getRootElement().getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);

@@ -16,10 +16,8 @@
 
 package org.springframework.beandoc.output;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.jdom.Element;
@@ -209,7 +207,16 @@ public class GraphVizDecorator extends SimpleDecorator {
      * @see #addColourBeans
      */
     public void setColourBeans(Map colours) {
-        colourBeans.putAll(colours);
+        for (Iterator i = colours.entrySet().iterator(); i.hasNext();) {
+            Map.Entry entry = (Entry) i.next();
+            try {
+                addColourBeans((String) entry.getKey(), (String) entry.getValue());
+            } catch (Exception e) {
+                logger.warn("Failed to add entry with key [" + entry.getKey() + 
+                    "] and value [" + entry.getValue() + "] to the colour map; " + 
+                    e.getMessage());
+            }
+        }
     }
     
     /**

@@ -18,4 +18,8 @@
 			<bean id="foo66" class="something"/>
 		</property>		
 	</bean>
+	
+	<bean id="rep1" class="something.else">
+		<replaced-method name="foo" replacer="bar"/>
+	</bean>
 </beans>

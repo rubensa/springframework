@@ -29,6 +29,8 @@ import junit.framework.TestCase;
  */
 public class JavaDocDecoratorTests extends TestCase {
 
+    private static String javaVersion = System.getProperty("java.specification.version");
+    
     JavaDocDecorator jdd = new JavaDocDecorator();
     
     /*
@@ -50,13 +52,13 @@ public class JavaDocDecoratorTests extends TestCase {
             e.setAttribute("class", "java.util.HashMap");
             jdd.decorateElement(e);            
             assertEquals(
-                "http://java.sun.com/j2se/1.4/docs/api/java/util/HashMap.html", 
+                "http://java.sun.com/j2se/" + javaVersion + "/docs/api/java/util/HashMap.html", 
                 e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
                 
             e.setAttribute("class", "javax.sql.DataSource");
             jdd.decorateElement(e);            
             assertEquals(
-                "http://java.sun.com/j2se/1.4/docs/api/javax/sql/DataSource.html", 
+                "http://java.sun.com/j2se/" + javaVersion + "/docs/api/javax/sql/DataSource.html", 
                 e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
                 
             e = new Element("bean");

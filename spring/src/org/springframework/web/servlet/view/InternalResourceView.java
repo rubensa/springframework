@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.ApplicationContextException;
 import org.springframework.web.util.WebUtils;
 
 /**
@@ -64,9 +63,9 @@ public class InternalResourceView extends AbstractView {
 	/**
 	 * Overridden lifecycle method to check that 'url' property is set.
 	 */
-	protected void initApplicationContext() throws ApplicationContextException {
+	protected void initApplicationContext() throws IllegalArgumentException {
 		if (this.url == null) {
-			throw new ApplicationContextException("Must set 'url' property in class [" + getClass().getName() + "]");
+			throw new IllegalArgumentException("Must set 'url' property in class [" + getClass().getName() + "]");
 		}
 	}
 

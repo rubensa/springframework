@@ -73,11 +73,16 @@ public abstract class AbstractPdfView extends AbstractView {
 			baos.writeTo(out);
 			out.flush();
 		}
-		catch (DocumentException ex) {
+		catch (ServletException ex) {
+			throw ex;
+		}
+		catch (IOException ex) {
+			throw ex;
+		}
+		catch (Exception ex) {
 			throw new ServletException("Error creating PDF document", ex);
 		}
-	}	// renderMergedOutputModel
-
+	}
 
 	/**
 	 * Subclasses must implement this method to create an iText PDF document,
@@ -85,7 +90,8 @@ public abstract class AbstractPdfView extends AbstractView {
 	 * @param request in case we need locale etc. Shouldn't look at attributes
 	 * @param response in case we need to set cookies. Shouldn't write to it.
 	 */
-	protected abstract void buildPdfDocument(Map model, Document pdfDoc, PdfWriter writer, HttpServletRequest request, HttpServletResponse response) throws DocumentException;
+	protected abstract void buildPdfDocument(Map model, Document pdfDoc, PdfWriter writer, HttpServletRequest request,
+																					 HttpServletResponse response) throws Exception;
 
 	/**
 	 * Return a new com.lowagie.text.Document. 

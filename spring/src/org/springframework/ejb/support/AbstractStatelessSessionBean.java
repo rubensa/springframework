@@ -8,7 +8,7 @@ package org.springframework.ejb.support;
 import javax.ejb.CreateException;
 import javax.ejb.EJBException;
 
-import org.springframework.beans.factory.support.BootstrapException;
+import org.springframework.beans.factory.access.BootstrapException;
 
 /**
  * Convenient superclass for stateless session beans (SLSBs), minimizing
@@ -37,7 +37,7 @@ import org.springframework.beans.factory.support.BootstrapException;
 public abstract class AbstractStatelessSessionBean extends AbstractSessionBean {
 
 	/** 
-	 * This implementation loads the BeanFactory. Any {@link BootstrapException}
+	 * This implementation loads the BeanFactory. Any {@link org.springframework.beans.factory.access.BootstrapException}
 	 * thrown by loadBeanFactory is rethrown as CreateException.
 	 * <p>Don't override it (although it can't be made final): code initialization
 	 * in onEjbCreate(), which is called when the BeanFactory is available.

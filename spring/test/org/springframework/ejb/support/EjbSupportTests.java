@@ -15,13 +15,13 @@ import javax.jms.Message;
 import javax.naming.NamingException;
 
 import junit.framework.TestCase;
-
 import org.easymock.MockControl;
+
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.access.BeanFactoryLocator;
-import org.springframework.beans.factory.access.BeanFactoryRef;
-import org.springframework.beans.factory.support.BootstrapException;
+import org.springframework.beans.factory.access.BeanFactoryReference;
+import org.springframework.beans.factory.access.BootstrapException;
 import org.springframework.beans.factory.support.StaticListableBeanFactory;
 import org.springframework.jndi.support.SimpleNamingContextBuilder;
 
@@ -41,9 +41,9 @@ public class EjbSupportTests extends TestCase {
 		
 		final BeanFactory bf = new StaticListableBeanFactory();
 		BeanFactoryLocator bfl = new BeanFactoryLocator() {
-			public BeanFactoryRef useFactory(String factoryKey)
+			public BeanFactoryReference useFactory(String factoryKey)
 					throws FatalBeanException {
-				return new BeanFactoryRef() {
+				return new BeanFactoryReference() {
 					public BeanFactory getFactory() {
 						return bf;
 					}
@@ -113,9 +113,9 @@ public class EjbSupportTests extends TestCase {
 		
 		final BeanFactory bf = new StaticListableBeanFactory();
 		BeanFactoryLocator bfl = new BeanFactoryLocator() {
-			public BeanFactoryRef useFactory(String factoryKey)
+			public BeanFactoryReference useFactory(String factoryKey)
 					throws FatalBeanException {
-				return new BeanFactoryRef() {
+				return new BeanFactoryReference() {
 					public BeanFactory getFactory() {
 						return bf;
 					}
@@ -161,9 +161,9 @@ public class EjbSupportTests extends TestCase {
 	
 		final BeanFactory bf = new StaticListableBeanFactory();
 		BeanFactoryLocator bfl = new BeanFactoryLocator() {
-			public BeanFactoryRef useFactory(String factoryKey)
+			public BeanFactoryReference useFactory(String factoryKey)
 					throws FatalBeanException {
-				return new BeanFactoryRef() {
+				return new BeanFactoryReference() {
 					public BeanFactory getFactory() {
 						return bf;
 					}
@@ -198,7 +198,7 @@ public class EjbSupportTests extends TestCase {
 	
 		final BeanFactory bf = new StaticListableBeanFactory();
 		BeanFactoryLocator bfl = new BeanFactoryLocator() {
-			public BeanFactoryRef useFactory(String factoryKey)
+			public BeanFactoryReference useFactory(String factoryKey)
 					throws FatalBeanException {
 				throw new BootstrapException("", null);
 		}};

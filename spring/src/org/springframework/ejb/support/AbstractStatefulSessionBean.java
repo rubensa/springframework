@@ -6,7 +6,7 @@
 package org.springframework.ejb.support;
 
 import org.springframework.beans.FatalBeanException;
-import org.springframework.beans.factory.support.BootstrapException;
+import org.springframework.beans.factory.access.BootstrapException;
 
 /**
  * Convenient superclass for stateful session beans.

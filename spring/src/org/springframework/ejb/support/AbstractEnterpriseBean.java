@@ -9,11 +9,12 @@ import javax.ejb.EnterpriseBean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.access.BeanFactoryLocator;
-import org.springframework.beans.factory.access.BeanFactoryRef;
-import org.springframework.beans.factory.support.BootstrapException;
+import org.springframework.beans.factory.access.BeanFactoryReference;
+import org.springframework.beans.factory.access.BootstrapException;
 import org.springframework.context.access.JndiBeanFactoryLocator;
 
 /** 
@@ -60,7 +61,7 @@ abstract class AbstractEnterpriseBean implements EnterpriseBean {
 	private String factoryKey;
 
 	/** Spring BeanFactory that provides the namespace for this EJB */
-	private BeanFactoryRef beanFactoryRef;
+	private BeanFactoryReference beanFactoryRef;
 
 	/**
 	 * Load a Spring BeanFactory namespace.

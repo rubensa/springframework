@@ -26,6 +26,7 @@ import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +34,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.JdkVersion;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.SQLWarningException;
@@ -793,7 +794,12 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations, Initia
 			int numberOfColumns = rsmd.getColumnCount();
 			List listOfRows = new ArrayList();
 			while (rs.next()) {
-				Map mapOfColValues = new HashMap(numberOfColumns);
+				Map mapOfColValues = null;
+				// a LinkedHashMap will preserve column order, but is not available pre 1.4
+				if (JdkVersion.getMajorJavaVersion() < JdkVersion.JAVA_14)
+					mapOfColValues = new HashMap(numberOfColumns);
+				else
+					mapOfColValues = new LinkedHashMap(numberOfColumns);
 				for (int i = 1; i <= numberOfColumns; i++) {
 					mapOfColValues.put(rsmd.getColumnName(i), rs.getObject(i));
 				}

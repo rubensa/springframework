@@ -9,6 +9,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.BeanFactory;
@@ -24,6 +26,8 @@ import org.springframework.util.StringUtils;
  * @version $Id$
  */
 public class DefaultInstantiationStrategy implements InstantiationStrategy {
+	
+	protected final Log log = LogFactory.getLog(getClass());
 
 	public final Object instantiate(RootBeanDefinition rbd, BeanFactory owner) {
 		// Don't override the class with CGLIB if no overrides
@@ -42,7 +46,7 @@ public class DefaultInstantiationStrategy implements InstantiationStrategy {
 	 * RootBeanDefinition. Instantiation should use a no-arg constructor.
 	 */
 	protected Object instantiateWithMethodInjection(RootBeanDefinition rbd, BeanFactory owner) {
-		throw new UnsupportedOperationException("Method Injection not suppored in DefaultInstantiationStrategy");
+		throw new UnsupportedOperationException("Method Injection not supported in DefaultInstantiationStrategy");
 	}
 	
 
@@ -61,7 +65,7 @@ public class DefaultInstantiationStrategy implements InstantiationStrategy {
 	 * RootBeanDefinition. Instantiation should use the given constructor and parameters.
 	 */
 	protected Object instantiateWithMethodInjection(RootBeanDefinition rbd, BeanFactory owner, Constructor ctor, Object[] args) {
-		throw new UnsupportedOperationException("Method Injection not suppored in DefaultInstantiationStrategy");
+		throw new UnsupportedOperationException("Method Injection not supported in DefaultInstantiationStrategy");
 	}
 	
 	public final Object instantiate(RootBeanDefinition rbd, BeanFactory owner, Method factoryMethod, Object[] args) {

@@ -15,8 +15,6 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import net.sf.cglib.proxy.NoOp;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanFactory;
 
 /**
@@ -29,8 +27,6 @@ import org.springframework.beans.factory.BeanFactory;
  * @version $Id$
  */
 class CglibSubclassingInstantiationStrategy extends DefaultInstantiationStrategy {
-
-	private final Log log = LogFactory.getLog(getClass());
 
 	/** 
 	 * Index in the CGLIB callback array for passthrough behaviour,

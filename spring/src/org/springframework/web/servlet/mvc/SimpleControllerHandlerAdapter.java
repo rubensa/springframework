@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.support.ApplicationObjectSupport;
+import org.springframework.web.context.support.WebApplicationObjectSupport;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.LastModified;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @see org.springframework.web.servlet.DispatcherServlet
  * @version $Id$
  */
-public class SimpleControllerHandlerAdapter extends ApplicationObjectSupport implements HandlerAdapter {
+public class SimpleControllerHandlerAdapter extends WebApplicationObjectSupport implements HandlerAdapter {
 	
 	public boolean supports(Object handler) {
 		return handler != null && Controller.class.isAssignableFrom(handler.getClass());

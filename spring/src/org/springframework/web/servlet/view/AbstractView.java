@@ -17,7 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.support.ApplicationObjectSupport;
+import org.springframework.web.context.support.WebApplicationObjectSupport;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.support.RequestContext;
 
@@ -38,7 +38,7 @@ import org.springframework.web.servlet.support.RequestContext;
  * @version $Id$
  * @see #renderMergedOutputModel
  */
-public abstract class AbstractView extends ApplicationObjectSupport implements View {
+public abstract class AbstractView extends WebApplicationObjectSupport implements View {
 
 	/** Map of static attributes, keyed by attribute name (String) */
 	private Map	staticAttributes = new HashMap();

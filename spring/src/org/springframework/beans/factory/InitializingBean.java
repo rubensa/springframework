@@ -16,8 +16,7 @@ package org.springframework.beans.factory;
  * 
  * @author Rod Johnson
  * @version $Revision$
- * 
- * @see org.springframework.beans.factory.BeanFactoryAware; 
+ * @see org.springframework.beans.factory.BeanFactoryAware 
  */
 public interface InitializingBean {
 	

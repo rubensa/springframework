@@ -234,10 +234,12 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 		if (this.singletonCache.containsKey(beanName) || containsBeanDefinition(beanName)) {
 			// if found, gather aliases
 			List aliases = new ArrayList();
-			for (Iterator it = this.aliasMap.entrySet().iterator(); it.hasNext();) {
-				Map.Entry entry = (Map.Entry) it.next();
-				if (entry.getValue().equals(beanName)) {
-					aliases.add(entry.getKey());
+			synchronized (this.aliasMap) {
+				for (Iterator it = this.aliasMap.entrySet().iterator(); it.hasNext();) {
+					Map.Entry entry = (Map.Entry) it.next();
+					if (entry.getValue().equals(beanName)) {
+						aliases.add(entry.getKey());
+					}
 				}
 			}
 			return (String[]) aliases.toArray(new String[aliases.size()]);

@@ -257,7 +257,7 @@ public class DispatcherPortlet extends FrameworkPortlet {
 		}
 		request.setAttribute(ViewRendererServlet.VIEW_ATTRIBUTE, view);
 		request.setAttribute(ViewRendererServlet.MODEL_ATTRIBUTE, mv.getModel());
-		request.setAttribute(ViewRendererServlet.DISPATCHER_PORTLET_APPLICATION_CONTEXT_ATTRIBUTE, getPortletContextAttributeName());
+		request.setAttribute(ViewRendererServlet.DISPATCHER_PORTLET_APPLICATION_CONTEXT_ATTRIBUTE, getPortletApplicationContext());
 		PortletRequestDispatcher prd = getPortletContext().getRequestDispatcher(getViewRendererServlet());
 		prd.include(request, response);
 	}

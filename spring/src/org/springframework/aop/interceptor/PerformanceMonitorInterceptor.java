@@ -16,6 +16,8 @@
 
 package org.springframework.aop.interceptor;
 
+import java.io.Serializable;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
@@ -33,9 +35,12 @@ import org.springframework.util.StopWatch;
  * @author Dmitriy Kopylenko
  * @version $Id$
  */
-public class PerformanceMonitorInterceptor implements MethodInterceptor {
+public class PerformanceMonitorInterceptor implements MethodInterceptor, Serializable {
 
-	protected final Log logger = LogFactory.getLog(getClass());
+	/**
+	 * Static to avoid the need to serialize it
+	 */
+	protected static final Log logger = LogFactory.getLog(PerformanceMonitorInterceptor.class);
 
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		String name = invocation.getMethod().getDeclaringClass().getName() + "." + invocation.getMethod().getName();

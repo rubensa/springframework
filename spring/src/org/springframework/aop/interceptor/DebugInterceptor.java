@@ -16,6 +16,8 @@
 
 package org.springframework.aop.interceptor;
 
+import java.io.Serializable;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -25,7 +27,7 @@ import org.aopalliance.intercept.MethodInvocation;
  * @author Rod Johnson
  * @version $Id$
  */
-public class DebugInterceptor implements MethodInterceptor {
+public class DebugInterceptor implements MethodInterceptor, Serializable {
 	
 	private int count;
 

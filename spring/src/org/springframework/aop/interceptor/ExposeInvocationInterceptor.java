@@ -16,6 +16,8 @@
 
 package org.springframework.aop.interceptor;
 
+import java.io.Serializable;
+
 import org.aopalliance.aop.AspectException;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -33,7 +35,7 @@ import org.aopalliance.intercept.MethodInvocation;
  * @author Rod Johnson
  * @version $Id$
  */
-public class ExposeInvocationInterceptor implements MethodInterceptor {
+public class ExposeInvocationInterceptor implements MethodInterceptor, Serializable {
 	
 	private static ThreadLocal invocation = new ThreadLocal();
 	

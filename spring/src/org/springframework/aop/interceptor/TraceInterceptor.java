@@ -9,6 +9,8 @@
 
 package org.springframework.aop.interceptor;
 
+import java.io.Serializable;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
@@ -21,9 +23,12 @@ import org.apache.commons.logging.LogFactory;
  * @author Dmitriy Kopylenko
  * @version $Id$
  */
-public class TraceInterceptor implements MethodInterceptor {
+public class TraceInterceptor implements MethodInterceptor, Serializable {
 
-    protected final Log logger = LogFactory.getLog(getClass());
+	/**
+	 * Static to avoid serializing the logger
+	 */
+	protected static final Log logger = LogFactory.getLog(TraceInterceptor.class);
 
     /**
      * @see org.aopalliance.intercept.MethodInterceptor#invoke(MethodInvocation)

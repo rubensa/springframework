@@ -1,0 +1,8 @@
+.classes
+.testclasses
+bin
+dist
+junit-reports
+release
+*.log
+maven.log

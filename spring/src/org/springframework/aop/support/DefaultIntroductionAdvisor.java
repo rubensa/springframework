@@ -22,7 +22,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.aopalliance.aop.Advice;
-
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.IntroductionAdvisor;
 import org.springframework.aop.IntroductionInterceptor;
@@ -109,6 +108,12 @@ public class DefaultIntroductionAdvisor implements IntroductionAdvisor, ClassFil
 					 "does not implement interface '" + intf.getName() + "' specified in introduction advice");
 			}
 		}
+	}
+	
+	public String toString() {
+		return "DefaultIntroductionAdvisor: interfaces=(" +
+			AopUtils.interfacesString(interfaces) + "); " +
+			"introductionInterceptor=" + interceptor;
 	}
 
 }

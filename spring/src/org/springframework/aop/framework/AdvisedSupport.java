@@ -35,6 +35,7 @@ import org.springframework.aop.MethodBeforeAdvice;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.ThrowsAdvice;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.target.EmptyTargetSource;
 import org.springframework.aop.target.SingletonTargetSource;
@@ -592,14 +593,7 @@ public class AdvisedSupport extends ProxyConfig implements Advised {
 	public String toString() {
 		StringBuffer sb = new StringBuffer(getClass().getName() + ": ");
 		sb.append(this.interfaces.size()).append(" interfaces=[");
-		int i = 0;
-		for (Iterator itr = this.interfaces.iterator(); itr.hasNext(); ) {
-			Class intf = (Class) itr.next();
-			if (i++ > 0) {
-				sb.append(",");
-			}
-			sb.append(intf.getName());
-		}
+		sb.append(AopUtils.interfacesString(interfaces));
 		sb.append("]; ");
 		sb.append(this.advisors.size()).append(" advisors=[");
 		sb.append(StringUtils.collectionToDelimitedString(this.advisors, ",", "{", "}")).append("]; ");

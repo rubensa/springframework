@@ -20,6 +20,8 @@ package org.springframework.aop.support;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.aop.Advisor;
@@ -114,6 +116,22 @@ public abstract class AopUtils {
 	public static Class[] getAllInterfaces(Object object) {
 		List interfaces = getAllInterfacesAsList(object);
 		return (Class[]) interfaces.toArray(new Class[interfaces.size()]);
+	}
+	
+	/**
+	 * @return a string of form com.foo.Bar,com.foo.Baz
+	 */
+	public static String interfacesString(Collection interfaces) {
+		StringBuffer sb = new StringBuffer();
+		int i = 0;
+		for (Iterator itr = interfaces.iterator(); itr.hasNext(); ) {
+			Class intf = (Class) itr.next();
+			if (i++ > 0) {
+				sb.append(",");
+			}
+			sb.append(intf.getName());
+		}
+		return sb.toString();
 	}
 
 	/**

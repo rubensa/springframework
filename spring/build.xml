@@ -758,8 +758,11 @@
 			<fileset dir="${sandbox.test.dir}">
 				<include name="**/*.properties"/>
 			</fileset>
+			<fileset dir="${sandbox.test.dir}">
+				<include name="**/*.xml"/>
+			</fileset>
 		</copy>
-
+		
 	</target>
 
 

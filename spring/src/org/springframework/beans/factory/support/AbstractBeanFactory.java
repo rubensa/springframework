@@ -305,7 +305,9 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 	}
 
 	public void registerAlias(String beanName, String alias) throws BeanDefinitionStoreException {
-		logger.debug("Registering alias '" + alias + "' for bean with name '" + beanName + "'");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Registering alias '" + alias + "' for bean with name '" + beanName + "'");
+		}
 		synchronized (this.aliasMap) {
 			Object registeredName = this.aliasMap.get(alias);
 			if (registeredName != null) {

@@ -253,7 +253,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				if (bd.getDependsOn() != null) {
 					List dependsOn = Arrays.asList(bd.getDependsOn());
 					if (dependsOn.contains(beanName)) {
-						logger.debug("Found depending bean '" + beanDefinitionNames[i] + "' for bean '" + beanName + "'");
+						if (logger.isDebugEnabled()) {
+							logger.debug("Found depending bean '" + beanDefinitionNames[i] + "' for bean '" + beanName + "'");
+						}
 						dependingBeanNames.add(beanDefinitionNames[i]);
 					}
 				}

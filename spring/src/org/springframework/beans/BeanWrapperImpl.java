@@ -269,7 +269,11 @@ public class BeanWrapperImpl implements BeanWrapper {
 			catch (BeansException ex) {
 				// probably an indexed or mapped property
 				// we need to retrieve the value to determine the type
-				requiredType = getPropertyValue(propertyName).getClass();
+				Object value = getPropertyValue(propertyName);
+				if (value == null) {
+					return null;
+				}
+				requiredType = value.getClass();
 			}
 		}
 		// no property-specific editor -> check type-specific editor

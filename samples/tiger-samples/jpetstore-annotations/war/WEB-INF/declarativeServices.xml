@@ -42,7 +42,7 @@
 	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
 		<property name="transactionManager"><ref bean="transactionManager"/></property>
 		<property name="transactionAttributeSource">
-			<bean class="org.springframework.transaction.annotations.AnnotationsTransactionAttributeSource">
+			<bean class="org.springframework.transaction.annotations.AnnotationTransactionAttributeSource">
 				<property name="attributes"><ref bean="attributes"/></property>
 			</bean>
 		</property>

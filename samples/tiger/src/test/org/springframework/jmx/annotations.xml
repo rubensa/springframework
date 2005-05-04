@@ -18,7 +18,7 @@
 		</property>
 	</bean>
 
-	<bean id="testBean" class="org.springframework.jmx.AnnotationTestBean">
+	<bean id="testBean" class="org.springframework.jmx.export.annotation.AnnotationTestBean">
 		<property name="name">
 			<value>TEST</value>
 		</property>
@@ -27,7 +27,7 @@
 		</property>
 	</bean>
 
-	<bean id="attributeSource" class="org.springframework.jmx.metadata.support.annotations.AnnotationsJmxAttributeSource"/>
+	<bean id="attributeSource" class="org.springframework.jmx.metadata.support.annotations.AnnotationJmxAttributeSource"/>
 
 
 	<bean id="metadataNamingStrategy" class="org.springframework.jmx.naming.MetadataNamingStrategy">

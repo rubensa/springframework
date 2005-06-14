@@ -32,6 +32,9 @@
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
         />
 
+		
+	<xsl:variable name="pathRel"><xsl:value-of select="/beans/@beandocPathRelative"/></xsl:variable>
+
     <!--
      * Template structure of HTML output
     -->
@@ -39,22 +42,17 @@
         <html>
             <head>
                 <title><xsl:value-of select="beans/@beandocFileName"/></title>
-                <link rel="stylesheet" href="{beans/@beandocCssLocation}" type="text/css"/>
+                <link rel="stylesheet" href="{$pathRel}{beans/@beandocCssLocation}" type="text/css"/>
                 <!-- hack using an MS extension to ensure the next stylesheet is *only* loaded by IE5 browsers -->
                 <xsl:comment>[if IE 5]>
                     &lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
                     &lt;![endif]</xsl:comment>              
             </head>
   
-            <body>
-                <xsl:variable name="fileRoot">
-                    <xsl:value-of select="substring-before(beans/@beandocFileName, '.xml')"/>
-                </xsl:variable>
-                
-                <img src="{$fileRoot}.{beans/@beandocGraphType}" alt="Graph" usemap ="#G"/>
-                
-                <xsl:comment> ## imagemap ## </xsl:comment>
-                
+            <body>        
+                <img src="{$pathRel}{beans/@beandocFileName}.{beans/@beandocGraphType}" alt="Graph" usemap ="#G"/>   
+                <base href="{$pathRel}.."/>             
+                <xsl:comment> ## imagemap ## </xsl:comment>                
             </body>
         </html>
 

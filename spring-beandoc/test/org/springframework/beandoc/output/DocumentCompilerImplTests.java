@@ -22,12 +22,16 @@ import junit.framework.TestCase;
  * @author Darren Davison
  * @since 1.0
  */
-public class SimpleTransformerTests extends TestCase {
+public class DocumentCompilerImplTests extends TestCase {
     
-    public void testOutputFileName() {
-        SimpleTransformer st = new SimpleTransformer();
-        assertEquals(".html", st.getFileExtension()); 
-        st.setFileExtension(".txt");      
-        assertEquals("echotest.txt", st.getOutputForDocument("echotest.xml"));
+    DocumentCompilerImpl ddc;
+    
+    public void setUp() {
+        ddc = new DocumentCompilerImpl();
     }
+    
+    public void testCompiler() {
+        // hmm..
+    }
+    
 }

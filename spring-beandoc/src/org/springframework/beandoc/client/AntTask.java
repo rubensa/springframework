@@ -18,6 +18,7 @@ package org.springframework.beandoc.client;
 
 import java.io.File;
 
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.springframework.beandoc.ContextProcessor;
@@ -55,7 +56,14 @@ public class AntTask extends Task {
      * 
      * @see org.apache.tools.ant.Task#execute()
      */
-    public void execute() throws BuildException {  		
+    public void execute() throws BuildException {  	        
+
+        ClassLoader sysClassLoader = Thread.currentThread().getContextClassLoader();
+        AntClassLoader newClassLoader = 
+            new AntClassLoader(getClass().getClassLoader(), true);
+
+        Thread.currentThread().setContextClassLoader(newClassLoader);
+        
 		try {            
             BeanFactory factory = 
                 SpringLoader.getBeanFactory(
@@ -74,7 +82,11 @@ public class AntTask extends Task {
             
 		} catch (Exception e) {
 		    throw new BuildException(e);
-		}
+            
+		} finally {
+            // rollback of our classloader change
+            Thread.currentThread().setContextClassLoader(sysClassLoader);
+        }
     }
 
     /**

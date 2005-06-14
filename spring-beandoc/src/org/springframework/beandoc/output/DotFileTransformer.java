@@ -24,7 +24,6 @@ import java.util.List;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.util.StringUtils;
 
 /**
  * Generates graphs from the context files, firstly transforming the XML to an 
@@ -35,7 +34,7 @@ import org.springframework.util.StringUtils;
  * @author Darren Davison
  * @since 1.0
  */
-public class DotFileTransformer extends AbstractXslTransformer {
+public class DotFileTransformer extends XslTransformer {
     
     private static final String DEFAULT_XSL_RESOURCE = 
         "/org/springframework/beandoc/output/stylesheets/dot.xsl";    
@@ -70,7 +69,7 @@ public class DotFileTransformer extends AbstractXslTransformer {
      * Stores references to the context documents and output directory which it
      * later uses to build a consolidated graph.
      * 
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform
+     * @see org.springframework.beandoc.output.XslTransformer#initTransform
      */
     protected void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
         // store values - we need them to post process the context
@@ -79,13 +78,13 @@ public class DotFileTransformer extends AbstractXslTransformer {
     }
 
     /**
-     * Output file names are the same as the context documents, switching ".xml" for 
-     * ".dot"
+     * Adds input files to a list for post-processing prior to returning the
+     * name of the output file.
      * 
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument
+     * @see org.springframework.beandoc.output.XslTransformer#getOutputForDocument
      */
     protected String getOutputForDocument(String inputFileName) {
-        String dotFile = StringUtils.replace(inputFileName, ".xml", ".dot");
+        String dotFile = filenameStrategy.getFileName(inputFileName);
         dotFileList.add(dotFile);
         return dotFile;
     }
@@ -94,7 +93,7 @@ public class DotFileTransformer extends AbstractXslTransformer {
      * Generate a consolidated graph of the entire context using the same 
      * stylesheet reference provided on construction.
      * 
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#postTransform
+     * @see org.springframework.beandoc.output.XslTransformer#postTransform
      */
     protected void postTransform() {
         Document context = new Document();

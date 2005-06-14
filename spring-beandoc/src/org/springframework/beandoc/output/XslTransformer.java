@@ -51,9 +51,11 @@ import org.w3c.dom.Node;
  * @author Darren Davison
  * @since 1.0
  */
-public abstract class AbstractXslTransformer implements Transformer {
+public class XslTransformer implements Transformer {
 
     protected final Log logger = LogFactory.getLog(getClass());
+
+    protected FilenameStrategy filenameStrategy = new FilenameAppenderStrategy(".html");
     
     protected Map staticParameters;
     
@@ -68,7 +70,7 @@ public abstract class AbstractXslTransformer implements Transformer {
     /**
      * default constructor
      */
-    public AbstractXslTransformer() {
+    public XslTransformer() {
         
     }
     
@@ -80,7 +82,7 @@ public abstract class AbstractXslTransformer implements Transformer {
      * 
      * @param templateName the XSL resource used to generate output
      */
-    public AbstractXslTransformer(String templateName) {
+    public XslTransformer(String templateName) {
         setTemplateName(templateName);
     }
 
@@ -134,7 +136,7 @@ public abstract class AbstractXslTransformer implements Transformer {
      * @param outputDirectory the file handle for the output directory
      */
     protected void handleTransform(Document[] contextDocuments, File outputDirectory) {
-        logger.info("Generating documentation to [" + outputDirectory.getAbsolutePath() + "]");
+        logger.debug("Generating documentation to [" + outputDirectory.getAbsolutePath() + "]");
         for (int i = 0; i < contextDocuments.length; i++)
             doXslTransform(contextDocuments[i], outputDirectory);
     }
@@ -151,6 +153,10 @@ public abstract class AbstractXslTransformer implements Transformer {
         try {
             inputFileName = doc.getRootElement().getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
             File outputFile = new File(outputDir, getOutputForDocument(inputFileName));
+            
+            // ensure subdirs exist if needed
+            outputFile.getParentFile().mkdirs();
+            
             logger.debug("Generating output [" + outputFile.getName() + "]");
             
             Result result = new StreamResult(
@@ -202,13 +208,17 @@ public abstract class AbstractXslTransformer implements Transformer {
     
     /**
      * Return the name of the output file (relative to the configured output directory) that
-     * this transformer will use to generate output to.  Subclasses should implement this
-     * method according to their output needs
+     * this transformer will use to generate output to.  Default impl. uses the filenameStrategy.
      * 
      * @param inputFileName the original file name (not including path) of the context file
      * @return the output file name to use
      */
-    protected abstract String getOutputForDocument(String inputFileName);
+    protected String getOutputForDocument(String inputFileName) {
+        String output = filenameStrategy.getFileName(inputFileName);
+        logger.debug("Returning output file name [" + output + 
+            "] for input file name [" + inputFileName + "]");
+        return output;
+    }
 
     /**
      * Perform any finalization or one-off tasks after the actual transformation of the
@@ -288,6 +298,15 @@ public abstract class AbstractXslTransformer implements Transformer {
      */
     public void setStaticParameters(Map staticParameters) {
         this.staticParameters = staticParameters;
+    }
+
+    /**
+     * set the output filename strategy to use.
+     * 
+     * @param filenameStrategy
+     */
+    public void setFilenameStrategy(FilenameStrategy filenameStrategy) {
+        this.filenameStrategy = filenameStrategy;
     }
 
 }

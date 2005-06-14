@@ -19,6 +19,9 @@ package org.springframework.beandoc.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+
 import junit.framework.TestCase;
 
 /**
@@ -67,10 +70,29 @@ public class BeanDocUtilsTests extends TestCase {
     public void testNonStringKeyInMap() {
         m.put(new Object(), new Object());
         try {
-            Map filtered = BeanDocUtils.filterByPrefix(m, "prefix.", true);
+            BeanDocUtils.filterByPrefix(m, "prefix.", true);
         } catch (Exception e) {
             fail(); // s/be swallowed
         }
+    }
+    
+    public void testNormaliseFileNames() {
+        Resource[] inputs = new Resource[] {
+            new FileSystemResource("/projects/myproject/module2/file1.xml"),
+            new FileSystemResource("/projects/myproject/file1.xml"),
+            new FileSystemResource("/projects/myproject/module1/file1.xml"),
+            new FileSystemResource("/projects/myproject/module1/file2.xml")
+        };
+        String[] outputs = BeanDocUtils.normaliseFileNames(inputs);
+        assertEquals(inputs.length, outputs.length);
+        assertEquals("module2/file1.xml", outputs[1]);
+        assertEquals("file1.xml", outputs[0]);
+        assertEquals("module1/file1.xml", outputs[2]);        
+    }
+    
+    public void testGetRelativePath() {
+        String p = BeanDocUtils.getRelativePath("foo/bar/baz.html");
+        assertEquals("../../", p);
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beandoc;
+package org.springframework.beandoc.util;
 
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.FileSystemResource;
@@ -28,7 +28,7 @@ import org.springframework.core.io.Resource;
  * @author Darren Davison
  * @since 1.0
  */
-class DefaultFileSystemResourceLoader extends DefaultResourceLoader {
+class FileSystemResourceLoader extends DefaultResourceLoader {
     protected Resource getResourceByPath(String path) {
         return new FileSystemResource(path);
     }

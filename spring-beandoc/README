@@ -1,12 +1,6 @@
 THE SPRING FRAMEWORK BEANDOC TOOL
 ---------------------------------
-http://springframework.sourceforge.net/beandoc/
-
-
-** IMPORTANT NOTE **
-
-At the present time, this tool is BETA software.
-
+http://opensource.atlassian.com/confluence/spring/display/BDOC/Home
 
 
 1. INTRODUCTION
@@ -21,7 +15,8 @@ programmatically, from the command line or as an ANT task.
 
 2. RELEASE INFO
 
-beandoc requires J2SE 1.4+, JDOM 1.0, commons-logging and spring-core 1.1.4+.
+beandoc requires J2SE 1.4+, JDOM 1.0, commons-logging and either 
+spring-core 1.1.4+ or both spring-core.jar and spring-beans.jar 1.2+
 The "lib" directory may contain additional build dependencies that are not
 required at runtime.  In order to generate graphs, a platform dependent 
 implementation of GraphViz (http://www.graphviz.org) is required too.
@@ -41,4 +36,4 @@ tool programmatically or from the command line.  In order to use the ANT
 task, you will obviously also need to have ANT available.
 
 
-Darren Davison, Feb 2005.
+Darren Davison, Apr 2005.

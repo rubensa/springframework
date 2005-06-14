@@ -85,7 +85,7 @@ td {
 th {
     font-size: larger;
     text-align: left;
-    padding:2px;
+    padding: 2px;
   }
 
 .menuItem {
@@ -113,18 +113,18 @@ span.abstractTitle {
     padding-left: 8px;
     font-style: italic;
     font-size: 120%;
-    font-weight:bold;
+    font-weight: bold;
   }
 
 span.concreteTitle {
     padding-left: 8px;
     font-size: 120%;
-    font-weight:bold;
+    font-weight: bold;
   }
   
 div.beanHeader {
     width: 18px; 
-    border:1px solid #808080;
+    border: 1px solid #808080;
     vertical-align: middle;
     float: left;
   }
@@ -148,14 +148,14 @@ div.beanFooter {
 #fileListTable {
     border-collapse: collapse;
     border-width: 0px;
-    padding:2px;
+    padding: 2px;
   }
 
 #inlineContextImage {
-    width:200px;
-    height:150px;
-    float:left;
-    padding-right:15px;
+    width: 200px;
+    height: 150px;
+    float: left;
+    padding-right: 15px;
   }
 
 #menuBar, #bannerBar {

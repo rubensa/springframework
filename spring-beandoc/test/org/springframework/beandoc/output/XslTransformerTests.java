@@ -30,7 +30,7 @@ import org.jdom.Element;
  * @author Darren Davison
  * @since 1.0
  */
-public class DoAbstractTransformerTests extends TestCase {
+public class XslTransformerTests extends TestCase {
     
     TestAbstractTransformer tat;
     TestBetterTransformer tbt;
@@ -88,8 +88,14 @@ public class DoAbstractTransformerTests extends TestCase {
             fail();
         }        
     }
+    
+    public void testOutputFileName() {
+        XslTransformer st = new XslTransformer();
+        st.setFilenameStrategy(new FilenameAppenderStrategy(".html"));
+        assertEquals("echotest.xml.html", st.getOutputForDocument("echotest.xml"));
+    }
         
-    class TestAbstractTransformer extends AbstractXslTransformer {        
+    class TestAbstractTransformer extends XslTransformer {        
         protected void initTransform(Document[] contextDocuments, File outputDir) throws Exception {
             throw new Exception("Cannot init me!");
         }
@@ -103,7 +109,7 @@ public class DoAbstractTransformerTests extends TestCase {
         }
     }
         
-    class TestBetterTransformer extends AbstractXslTransformer {        
+    class TestBetterTransformer extends XslTransformer {        
         protected String getOutputForDocument(String inputFileName) {
             return "beandoc-transform-test.txt";
         }

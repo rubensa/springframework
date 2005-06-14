@@ -25,6 +25,8 @@ package org.springframework.beandoc.output;
  */
 public class Tags {
 
+    public static final String TAGNAME_IMPORT = "import";
+
     public static final String TAGNAME_BEANS = "beans";
 
     public static final String TAGNAME_BEAN = "bean";
@@ -50,6 +52,8 @@ public class Tags {
     public static final String ATTRIBUTE_CLASSNAME = "class";
 
     public static final String ATTRIBUTE_BD_FILENAME = "beandocFileName";
+
+    public static final String ATTRIBUTE_BD_PATHRELATIVE = "beandocPathRelative";
 
     public static final String ATTRIBUTE_REF_BEAN = "bean";
 

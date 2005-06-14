@@ -107,6 +107,6 @@
       
 	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer"/>
 	
-	<bean id="compiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
+	<bean id="compiler" class="org.springframework.beandoc.output.DocumentCompilerImpl"/>
     
 </beans>

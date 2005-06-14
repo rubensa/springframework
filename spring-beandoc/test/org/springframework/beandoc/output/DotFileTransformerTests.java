@@ -37,6 +37,7 @@ public class DotFileTransformerTests extends TestCase {
     public void setUp() {
         outputDir = new File("/tmp"); // never used, doesn't matter
         dft = new DotFileTransformer();
+        dft.setFilenameStrategy(new FilenameAppenderStrategy(".dot"));
         assertEquals("/org/springframework/beandoc/output/stylesheets/dot.xsl", dft.getTemplateName());
         
         for (int i = 0; i < 2; i++) {
@@ -55,7 +56,7 @@ public class DotFileTransformerTests extends TestCase {
     }
     
     public void testOutputNames() {
-        assertEquals("testfile.dot", dft.getOutputForDocument("testfile.xml"));
+        assertEquals("testfile.xml.dot", dft.getOutputForDocument("testfile.xml"));
     }
     
     public void testPostTransform() {

@@ -18,27 +18,33 @@ package org.springframework.beandoc;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdom.*;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.IllegalDataException;
+import org.jdom.JDOMException;
 import org.jdom.filter.ContentFilter;
 import org.jdom.filter.ElementFilter;
 import org.jdom.filter.Filter;
 import org.jdom.input.SAXBuilder;
-import org.springframework.beandoc.output.*;
 import org.springframework.beandoc.output.Decorator;
+import org.springframework.beandoc.output.DocumentCompiler;
 import org.springframework.beandoc.output.Tags;
 import org.springframework.beandoc.output.Transformer;
+import org.springframework.beandoc.util.BeanDocUtils;
 import org.springframework.beandoc.util.MatchedPatternCallback;
 import org.springframework.beandoc.util.PatternMatcher;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.util.Assert;
+
 
 /**
  * Default implementation of the <code>ContextProcessor</code> interface that generates documentation
@@ -60,7 +66,7 @@ import org.springframework.util.Assert;
  */
 public class DefaultContextProcessor implements ContextProcessor {
     
-    private Object synchLock = new Object();
+    private static final Object synchLock = new Object();
     
     private Log logger = LogFactory.getLog(getClass());
 
@@ -84,31 +90,6 @@ public class DefaultContextProcessor implements ContextProcessor {
         
 
     /**
-     * Convert string values to actual resources
-     * 
-     * @param inputFileNames
-     * @return
-     */
-    private static Resource[] getResources(String[] inputFileNames) throws IOException {
-        // resolve resources assuming Files as the default (rather than classpath resources)
-        ResourcePatternResolver resolver = 
-            new PathMatchingResourcePatternResolver(new DefaultFileSystemResourceLoader());
-        List allResources = new ArrayList();
-        
-        // each input location could resolve to multiple Resources..
-        for (int i = 0; i < inputFileNames.length; i++) {
-            Resource[] resources = resolver.getResources(inputFileNames[i]);
-            allResources.addAll(Arrays.asList(resources));
-        }
-
-        File outputDir = new File(inputFileNames[inputFileNames.length - 1]);
-        Resource[] inputFiles = (Resource[]) 
-            allResources.toArray(new Resource[allResources.size()]);
-            
-        return inputFiles;
-    }
-
-    /**
      * Construct with an array of Spring Resources used as input files for the program
      * 
      * @param inputFiles
@@ -121,7 +102,7 @@ public class DefaultContextProcessor implements ContextProcessor {
         if (logger.isDebugEnabled()) {
             String resourceNames = "";
             for (int i = 0; i < inputFiles.length; i++)
-                resourceNames += (inputFiles[i].getFilename() + ",");
+                resourceNames += (inputFiles[i].getFile().getAbsolutePath() + ",");
             logger.debug("Attempting to construct with input files [" + 
                 resourceNames + "] and output directory [" + outputDir.getAbsolutePath() + "]");
         }
@@ -140,7 +121,7 @@ public class DefaultContextProcessor implements ContextProcessor {
      * @param outputDir
      */
     public DefaultContextProcessor(String[] inputFileNames, File outputDir) throws IOException {
-        this(getResources(inputFileNames), outputDir);
+        this(BeanDocUtils.getResources(inputFileNames), outputDir);
     }
 
     /**
@@ -151,7 +132,7 @@ public class DefaultContextProcessor implements ContextProcessor {
      * @param outputDirName
      */
     public DefaultContextProcessor(String[] inputFileNames, String outputDirName) throws IOException {
-        this(getResources(inputFileNames), new File(outputDirName));
+        this(BeanDocUtils.getResources(inputFileNames), new File(outputDirName));
     }
     
     /**
@@ -238,16 +219,18 @@ public class DefaultContextProcessor implements ContextProcessor {
         builder.setValidation(validateFiles);
         logger.debug("Input file validation is set to [" + validateFiles + "]");
         
+        // two or more input files may have the same name but different paths.
+        String[] normalisedFileNames = BeanDocUtils.normaliseFileNames(inputFiles);
+        
         // process each context file, decorating and consolidating.  
         for (int i = 0; i < inputFiles.length; i++) {
-            String fileName = inputFiles[i].getFilename();
-            logger.info("  building [" + fileName + "]");
+            logger.info("  building [" + normalisedFileNames[i] + "]");
             
             try {
                 contextDocuments[i] = builder.build(inputFiles[i].getInputStream());
             } catch (JDOMException e) {
                 throw new BeanDocException(
-                    "Unable to parse or validate input resource [" + fileName + "]", e);
+                    "Unable to parse or validate input resource [" + normalisedFileNames[i] + "]", e);
             }
             
             // remove the DTD as our output no longer subscribes to it.
@@ -257,10 +240,17 @@ public class DefaultContextProcessor implements ContextProcessor {
             Filter filter = new ContentFilter(ContentFilter.COMMENT | ContentFilter.TEXT);
             contextDocuments[i].getRootElement().removeContent(filter);
             contextDocuments[i].removeContent(filter);
+            logger.debug("Extraneous content removed");
             
             // set an attribute on the root element to mark the original input file
             Element root = contextDocuments[i].getRootElement();
-            root.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, fileName);
+            root.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, normalisedFileNames[i]);
+            logger.debug("Attribute [" + Tags.ATTRIBUTE_BD_FILENAME + "] set to [" + normalisedFileNames[i] + "]");
+
+            // set a root attribute denoting the path relative to the output root
+            String relativePath = BeanDocUtils.getRelativePath(normalisedFileNames[i]);
+            root.setAttribute(Tags.ATTRIBUTE_BD_PATHRELATIVE, relativePath);
+            logger.debug("Attribute [" + Tags.ATTRIBUTE_BD_PATHRELATIVE + "] set to [" + normalisedFileNames[i] + "]");
             
             // force a description even if empty
             Element desc = root.getChild(Tags.TAGNAME_DESCRIPTION);

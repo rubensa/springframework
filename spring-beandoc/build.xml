@@ -126,6 +126,7 @@
         <copy todir="${target.dist.dir}" preservelastmodified="true">
             <fileset dir="${lib.dir}">
                 <include name="spring-core.jar"/>
+                <include name="spring-beans.jar"/>
                 <include name="jdom.jar"/>
                 <include name="commons-logging.jar"/>
             </fileset>
@@ -530,6 +531,7 @@
         <tar destfile="${target.dist.dir}/${project.name}-${project.version}.tgz" compression="gzip">
             <tarfileset dir="${basedir}" prefix="${project.name}-${project.version}">
                 <exclude name="target/**/*"/>
+                <exclude name="lib/clover.*"/>
                 <exclude name="docs/**/*"/>
             </tarfileset>
         </tar>

@@ -10,8 +10,8 @@
     	<description>
     		main processor for generating output
     	</description>
-    	<constructor-arg index="0"><value>${input.files}</value></constructor-arg>
-     	<constructor-arg index="1"><value>${output.dir}</value></constructor-arg>
+    	<constructor-arg index="0" value="${input.files}"/>
+     	<constructor-arg index="1" value="${output.dir}"/>
     	<property name="decorators">
     		<list>
     			<ref local="javadoc"/>
@@ -48,13 +48,13 @@
 	    	A consolidated transformer that creates the frameset document and whose stylesheet applies
 	    	the user-configured documentation title
 	    </description>
-    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/index.xsl</value></property>
-    	<property name="outputFileName"><value>index.html</value></property>
+    	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/index.xsl"/>
+    	<property name="filenameRoot" value="index"/>
     </bean>
     
     <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
-    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/nav.xsl</value></property>
-    	<property name="outputFileName"><value>nav.html</value></property>
+    	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/nav.xsl"/>
+    	<property name="filenameRoot" value="nav"/>
     </bean>
     
     <bean id="htmlMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
@@ -62,8 +62,8 @@
 	    	Another consolidated transformer generating the main summary page.  Passes an XSL parameter to the
 	    	stylesheet consisting of the current system time (documentation generation time)
 	    </description>
-    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/main.xsl</value></property>
-    	<property name="outputFileName"><value>main.html</value></property>
+    	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/main.xsl"/>
+    	<property name="filenameRoot" value="main"/>
     	<property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
     </bean>
     
@@ -71,30 +71,46 @@
 	    <description>
 	    	Another consolidated transformer generating the main image map HTML skeleton
 	    </description>
-    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/map-main.xsl</value></property>
-    	<property name="outputFileName"><value>consolidated-graph.html</value></property>
+    	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/map-main.xsl"/>
+    	<property name="filenameRoot" value="consolidated"/>
+    	<property name="filenameStrategy">
+            <bean class="org.springframework.beandoc.output.FilenameAppenderStrategy">
+                <constructor-arg index="0" value=".xml.graph.html"/>
+            </bean>
+        </property>
     </bean>
     
-    <bean id="htmlDocTransformer" class="org.springframework.beandoc.output.SimpleTransformer">
+    <bean id="htmlDocTransformer" class="org.springframework.beandoc.output.XslTransformer">
     	<description>
 	    	Transformer generating an HTML document for each input DOM.  A summary of beans followed by
 	    	the detailed configuration of each follows.
 	    </description>
-    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/doc.xsl</value></property>
-    	<property name="fileExtension"><value>.html</value></property>
+    	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/doc.xsl"/>
     </bean>
     
-    <bean id="htmlImageMapTransformer" class="org.springframework.beandoc.output.SimpleTransformer">
+    <bean id="htmlImageMapTransformer" class="org.springframework.beandoc.output.XslTransformer">
     	<description>
 	    	Transformer generating an HTML document for each input DOM.  A placeholder for an image map is
 	    	included that the HtmlCompiler will use to insert the generated image map over the graph.
 	    </description>
-    	<property name="templateName"><value>/org/springframework/beandoc/output/stylesheets/map.xsl</value></property>
-    	<property name="fileExtension"><value>-graph.html</value></property>
+    	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/map.xsl"/>
+    	<property name="filenameStrategy"><ref local="graphHtmlStrategy"/></property>
     </bean>
       
-	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer"/>
+	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer">
+		<property name="filenameStrategy"><ref local="dotStrategy"/></property>
+	</bean>
 	
-	<bean id="compiler" class="org.springframework.beandoc.output.DefaultDocumentCompiler"/>
-    
+	<bean id="compiler" class="org.springframework.beandoc.output.DocumentCompilerImpl">
+		<property name="dotFileExtension" value=".dot"/>
+    	<property name="filenameStrategy"><ref local="graphHtmlStrategy"/></property>
+	</bean>
+
+	<bean id="graphHtmlStrategy" class="org.springframework.beandoc.output.FilenameAppenderStrategy">
+		<constructor-arg index="0" value=".graph.html"/>
+	</bean>
+	
+	<bean id="dotStrategy" class="org.springframework.beandoc.output.FilenameAppenderStrategy">
+		<constructor-arg index="0" value=".dot"/>
+	</bean>
 </beans>

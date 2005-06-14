@@ -130,7 +130,7 @@ public class GraphVizDecorator extends SimpleDecorator {
 			element.setAttribute(ATTRIBUTE_GRAPH_RATIO, ratio);		
 			element.setAttribute(ATTRIBUTE_GRAPH_BEANSHAPE, beanShape);
 			element.setAttribute(ATTRIBUTE_GRAPH_LABELLOCATION, String.valueOf(labelLocation));
-            element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated." + outputType);
+            element.setAttribute(ATTRIBUTE_GRAPH_CONSOLIDATED, "consolidated.xml." + outputType);
             
         } else {
             

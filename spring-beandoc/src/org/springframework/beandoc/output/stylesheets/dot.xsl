@@ -51,6 +51,7 @@
         
         /* dependencies */
         <xsl:apply-templates select="beans/bean//ref"/>
+        <xsl:apply-templates select="beans/bean//@*"/>
         <xsl:apply-templates select="beans/bean//lookup-method"/>
 	}
     </xsl:template>
@@ -151,5 +152,15 @@
     <xsl:template match="ref|lookup-method">
         "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="@bean"/><xsl:value-of select="@local"/>" [ ]
     </xsl:template>
+	
+    <xsl:template match="@ref|@idref|@value-ref">
+        "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="."/>" [ ]
+    </xsl:template>
+	
+	
+	<!--
+	 * hide other attribs
+	-->
+	<xsl:template match="@*"/>
 
 </xsl:stylesheet>

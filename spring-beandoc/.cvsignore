@@ -1,2 +1,7 @@
 target
 bin
+spring-beandoc.iml
+spring-beandoc.iws
+spring-beandoc.ipr
+.nbintdb
+nbproject

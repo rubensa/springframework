@@ -36,11 +36,6 @@ import org.springframework.core.io.ClassPathResource;
 public class EchoTransformerTests extends TestCase {
     
     Document[] docs = new Document[1];
-    String expect = 
-        "<beans default-autowire=\"no\" default-dependency-check=\"none\" default-lazy-init=\"false\">" + 
-        "<bean id=\"foo\" class=\"com.foo.Bar\" abstract=\"false\" autowire=\"default\" lazy-init=\"default\" dependency-check=\"default\" singleton=\"true\"><property name=\"bar\"><ref local=\"foo2\" /></property></bean>" + 
-        "<bean id=\"foo2\" class=\"com.bar.Foo\" abstract=\"false\" autowire=\"default\" lazy-init=\"default\" dependency-check=\"default\" singleton=\"true\" />" + 
-        "</beans>";
     
     public void setUp() {
         SAXBuilder builder = new SAXBuilder();
@@ -54,6 +49,15 @@ public class EchoTransformerTests extends TestCase {
     }
     
     public void testTransform() {
+        String[] expect = { 
+            "default-autowire=\"no\"",
+            "default-dependency-check=\"none\"",
+            "default-lazy-init=\"false\"", 
+            "<bean id=\"foo\" class=\"com.foo.Bar\" abstract=\"false\" singleton=\"true\" lazy-init=\"default\" autowire=\"default\" dependency-check=\"default\"><property name=\"bar\"><ref local=\"foo2\" /></property></bean>", 
+            "<bean id=\"foo2\" class=\"com.bar.Foo\" abstract=\"false\" singleton=\"true\" lazy-init=\"default\" autowire=\"default\" dependency-check=\"default\" />", 
+            "</beans>"
+        };
+        
         EchoTransformer et = new EchoTransformer();
         StringWriter sw = new StringWriter();
         et.setWriter(sw);
@@ -61,7 +65,9 @@ public class EchoTransformerTests extends TestCase {
         
         et.transform(docs, new File(System.getProperty("user.home")));
         
-        assertTrue(sw.toString().indexOf(expect) > -1);
+        System.out.println(sw.toString());
+        for (int i = 0; i < expect.length; i++)
+            assertTrue(sw.toString().indexOf(expect[i]) > -1);
     }
     
     public void testNullWriter() {

@@ -113,13 +113,13 @@ public class HtmlDecoratorTests extends TestCase {
         hd.decorateElement(root);
         Element bean = root.getChild("bean");
         hd.decorateElement(bean);
-        assertEquals("context1.html", bean.getAttributeValue("beandocHtmlFileName"));
+        assertEquals("context1.xml.html", bean.getAttributeValue("beandocHtmlFileName"));
     }
     
     public void testRefDecoration() {
         Element ref = root.getChild("bean").getChild("property").getChild("ref");
         ref.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, "anotherFile.xml");
         hd.decorateElement(ref);
-        assertEquals("anotherFile.html", ref.getAttributeValue("beandocHtmlFileName"));        
+        assertEquals("anotherFile.xml.html", ref.getAttributeValue("beandocHtmlFileName"));        
     }
 }

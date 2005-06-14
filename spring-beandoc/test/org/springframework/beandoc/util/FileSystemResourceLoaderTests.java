@@ -14,8 +14,9 @@
  * limitations under the License.
  */ 
 
-package org.springframework.beandoc;
+package org.springframework.beandoc.util;
 
+import org.springframework.beandoc.util.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 
 import junit.framework.TestCase;
@@ -24,12 +25,12 @@ import junit.framework.TestCase;
  * @author Darren Davison
  * @since 1.0
  */
-public class DefaultFileSystemResourceLoaderTests extends TestCase { 
+public class FileSystemResourceLoaderTests extends TestCase { 
     
-    DefaultFileSystemResourceLoader rl;
+    FileSystemResourceLoader rl;
     
     public void setUp() {
-        rl = new DefaultFileSystemResourceLoader();
+        rl = new FileSystemResourceLoader();
     }
     
     public void testResourceLoading() {

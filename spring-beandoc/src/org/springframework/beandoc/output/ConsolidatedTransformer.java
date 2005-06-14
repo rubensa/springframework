@@ -31,11 +31,11 @@ import org.springframework.util.Assert;
  * @author Darren Davison
  * @since 1.0
  */
-public class ConsolidatedTransformer extends AbstractXslTransformer {
+public class ConsolidatedTransformer extends XslTransformer {
 
     private static final String TAG_CONSOLIDATED = "consolidated";
     
-    private String outputFileName;
+    private String filenameRoot;
     
     protected Document consolidatedDocument;
     
@@ -55,7 +55,7 @@ public class ConsolidatedTransformer extends AbstractXslTransformer {
      * Generates a single <code>Document</code> from the array of input <code>Document</code>s and stores
      * the reference for later use.
      * 
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#initTransform
+     * @see org.springframework.beandoc.output.XslTransformer#initTransform
      */
     protected final void initTransform(Document[] contextDocuments, File outputDirectory) throws Exception {
         consolidatedDocument = new Document();
@@ -72,32 +72,34 @@ public class ConsolidatedTransformer extends AbstractXslTransformer {
      * Override default behaviour to provide a single transformation of the consolidated 
      * DOM created.
      * 
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#handleTransform
+     * @see org.springframework.beandoc.output.XslTransformer#handleTransform
      */
     protected void handleTransform(Document[] contextDocuments, File outputDir) {
         doXslTransform(consolidatedDocument, outputDir);
     }
 
     /**
-     * @see org.springframework.beandoc.output.AbstractXslTransformer#getOutputForDocument(java.lang.String)
+     * Always ignore any parameter and return the consolidated file root input
+     * with the default strategy
+     * 
+     * @see org.springframework.beandoc.output.XslTransformer#getOutputForDocument(java.lang.String)
      */
     protected String getOutputForDocument(String inputFileName) {
-        return outputFileName;
+        return filenameStrategy.getFileName(this.filenameRoot);
     }
 
     /**
-     * @return the filename that will represent the consolidated output of the DOM transformation
+     * @param filenameRoot the filename that will represent the consolidated output of the DOM transformation
      */
-    public String getOutputFileName() {
-        return outputFileName;
+    public void setFilenameRoot(String filenameRoot) {
+        Assert.hasText(filenameRoot);
+        this.filenameRoot = filenameRoot;
     }
 
     /**
-     * @param outputFileName the filename that will represent the consolidated output of the DOM transformation
+     * @return the filename root for this transformer
      */
-    public void setOutputFileName(String outputFileName) {
-        Assert.hasText(outputFileName);
-        this.outputFileName = outputFileName;
+    public String getFilenameRoot() {
+        return filenameRoot;
     }
-
 }

@@ -87,20 +87,21 @@ public final class PatternMatcher {
     public static void matchPatterns(Pattern[] patterns, String[] testStrings, MatchedPatternCallback callback) {
         // patterns of beans to be ignored on graphs
         for (int i = 0; i < patterns.length; i++)
-            for (int j = 0; j < testStrings.length; j++) {
-                Matcher matcher = patterns[i].matcher(testStrings[j]);
-                try {
-                    if (matcher.matches()) {              
-                        callback.patternMatched(patterns[i].pattern(), i);
+            for (int j = 0; j < testStrings.length; j++)
+                if (testStrings[j] != null) {
+                    Matcher matcher = patterns[i].matcher(testStrings[j]);                
+                    try {
+                        if (matcher.matches())             
+                            callback.patternMatched(patterns[i].pattern(), i);
+                        
+                    } catch (NullPointerException npe) {                
+                        /*
+                         * JDK 1.5 seems to have changed the behaviour of Pattern.matches(arg)
+                         * in that a null arg now throws a NPE where as JDK 1.4 didn't - it just
+                         * resulted in no match.  This has been recorded as a bug with Sun;
+                         * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6178785
+                         */
                     }
-                } catch (NullPointerException npe) {                
-                    /*
-                     * JDK 1.5 seems to have changed the behaviour of Pattern.matches(arg)
-                     * in that a null arg now throws a NPE where as JDK 1.4 didn't - it just
-                     * resulted in no match.  This has been recorded as a bug with Sun;
-                     * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6178785
-                     */
-                }
-            }        
+                }        
     }
 }

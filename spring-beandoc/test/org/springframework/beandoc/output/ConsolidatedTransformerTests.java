@@ -50,14 +50,14 @@ public class ConsolidatedTransformerTests extends TestCase {
     }
     
     public void testValidFileName() {
-        ct.setOutputFileName("anything");
+        ct.setFilenameRoot("anything");
         
         try {
-            ct.setOutputFileName(null);
+            ct.setFilenameRoot(null);
             fail();
         } catch (IllegalArgumentException e) {
             // ok
-            assertEquals("anything", ct.getOutputFileName());
+            assertEquals("anything", ct.getFilenameRoot());
         }
     }
     

@@ -18,7 +18,6 @@ package org.springframework.beandoc.output;
 
 import org.jdom.Element;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 
 /**
@@ -44,6 +43,8 @@ public class HtmlDecorator extends SimpleDecorator {
     private static final String ATTRIBUTE_FOOTER = "beandocPageFooter";
 
     private static final String ATTRIBUTE_NOGRAPHS = "beandocNoGraphs";
+    
+    private FilenameStrategy filenameStrategy = new FilenameAppenderStrategy(".html");
 
     private String cssUrl = DEFAULT_CSS_FILE;
     
@@ -69,7 +70,7 @@ public class HtmlDecorator extends SimpleDecorator {
             
             // keep a reference to file names
             thisFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
-            thisHtmlFileName = StringUtils.replace(thisFileName, ".xml", ".html");
+            thisHtmlFileName = filenameStrategy.getFileName(thisFileName);
             
             // set ignore graph output?
             if (!includeGraphs)
@@ -77,10 +78,8 @@ public class HtmlDecorator extends SimpleDecorator {
         }
         
         String refFileName = element.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME);
-        if (refFileName != null) {
-            String htmlFileName = StringUtils.replace(refFileName, ".xml", ".html");
-            element.setAttribute(ATTRIBUTE_HTML_NAME, htmlFileName);
-        }
+        if (refFileName != null)
+            element.setAttribute(ATTRIBUTE_HTML_NAME, filenameStrategy.getFileName(refFileName));
         
         String tag = element.getName();
         if (tag.equals(Tags.TAGNAME_BEAN) || tag.equals(Tags.TAGNAME_DESCRIPTION))
@@ -157,5 +156,14 @@ public class HtmlDecorator extends SimpleDecorator {
      */
     public void setIncludeGraphs(boolean includeGraphs) {
         this.includeGraphs = includeGraphs;
+    }
+    
+    /**
+     * sets the filename resolution strategy to use for this decorator
+     * 
+     * @param filenameStrategy
+     */
+    public void setFilenameStrategy(FilenameStrategy filenameStrategy) {
+        this.filenameStrategy = filenameStrategy;
     }
 }

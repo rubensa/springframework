@@ -31,7 +31,8 @@
   <property name="target.release.dir" value="${target.dir}/release"/>
   
   <!-- directory for release zips -->
-  <property name="release.zip" value="spring.zip"/>
+  <property name="release.bin.zip" value="spring-bin.zip"/>
+  <property name="release.src.zip" value="spring-src.zip"/>
   
   <path id="modules">
     <pathelement location="../spring-core"/>
@@ -39,9 +40,12 @@
     <pathelement location="../spring-aop"/>
   </path>
   
+  <!-- simplistic pattern for zipping up sources for all subprojects. Future changes
+       may require special handling per project, but this is fine for now -->
   <selector id="project.source.zip.includes">
     <and>
       <or>
+        <filename name="build-spring/**"/>
         <filename name="common-build/**"/>
         <filename name="spring-core/**"/>
         <filename name="spring-beans/**"/>
@@ -50,10 +54,7 @@
       <and>
         <filename name="*/target/**" negate="true"/>
         <filename name="*/build.properties" negate="true"/>
-        <filename name="*/lib/default/**" negate="true"/>
-        <filename name="*/lib/global/**" negate="true"/>
-        <filename name="*/lib/buildtime/**" negate="true"/>
-        <filename name="*/lib/test/**" negate="true"/>
+        <filename name="*/lib/**" negate="true"/>
       </and>
     </and>  
   </selector>
@@ -119,18 +120,38 @@
     </subant>
   </target>
   
-  <target name="release" description="Generate release zips">
+  <target name="release" depends="publish, gen-release-bins, gen-release-sources"
+          description="Generate release zips">
+
+  </target>
+
+  <target name="gen-release-bins" depends="init"
+          description="Generate bin zips/tarballs">
 
     <mkdir dir="${target.release.dir}"/>
+    <delete file="${target.release.dir}/${release.bin.zip}"/>
 
-      <delete file="${target.release.dir}/{release.zip}"/>
+    <zip zipfile="${target.release.dir}/${release.bin.zip}">
+	  <zipfileset dir="../spring-core/target/dist/jars" prefix="dist"/>
+	  <zipfileset dir="../spring-core/target/dist/ivys" prefix="dist/ivys"/>
+	  <zipfileset dir="../spring-beans/target/dist/jars" prefix="dist"/>
+	  <zipfileset dir="../spring-beans/target/dist/ivys" prefix="dist/ivys"/>
+	  <zipfileset dir="../spring-aop/target/dist/jars" prefix="dist"/>
+	  <zipfileset dir="../spring-aop/target/dist/ivys" prefix="dist/ivys"/>
+    </zip>
+  </target>
+  
+  <target name="gen-release-sources" depends="init"
+          description="Generate source zips/tarballs">
 
-		<zip zipfile="${target.release.dir}/${release.zip}">
-          <zipfileset dir="..">
-            <selector refid="project.source.zip.includes"/>
-          </zipfileset>
-		</zip>
+    <mkdir dir="${target.release.dir}"/>
+    <delete file="${target.release.dir}/${release.src.zip}"/>
 
-	</target>
+    <zip zipfile="${target.release.dir}/${release.src.zip}">
+      <zipfileset dir="..">
+        <selector refid="project.source.zip.includes"/>
+      </zipfileset>
+    </zip>
+  </target>
   
 </project>

@@ -76,6 +76,8 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 
 	private boolean destroyed = false;
 
+	private Number someNumber;
+
 
 	public TestBean() {
 	}
@@ -210,6 +212,14 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 
 	public void setLawyer(INestedTestBean bean) {
 		lawyer = bean;
+	}
+
+	public Number getSomeNumber() {
+		return someNumber;
+	}
+
+	public void setSomeNumber(Number someNumber) {
+		this.someNumber = someNumber;
 	}
 
 	public IndexedTestBean getNestedIndexedBean() {

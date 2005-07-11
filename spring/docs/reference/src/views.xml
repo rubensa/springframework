@@ -106,28 +106,27 @@ productList.url=/WEB-INF/jsp/productlist.jsp</programlisting>
 
       <para><itemizedlist spacing="compact">
           <listitem>
-            <para><literal>struts version 1.1</literal></para>
+            <para><literal>Struts version 1.1 or higher</literal></para>
           </listitem>
 
           <listitem>
-            <para><literal>commons-beanutils</literal></para>
+            <para><literal>Commons BeanUtils</literal></para>
           </listitem>
 
           <listitem>
-            <para><literal>commons-digester</literal></para>
+            <para><literal>Commons Digester</literal></para>
           </listitem>
 
           <listitem>
-            <para><literal>commons-logging</literal></para>
+            <para><literal>Commons Lang</literal></para>
           </listitem>
 
           <listitem>
-            <para><literal>commons-lang</literal></para>
+            <para><literal>Commons Logging</literal></para>
           </listitem>
         </itemizedlist></para>
 
-      <para>The dependencies are all available in the Spring
-      distribution.</para>
+      <para>These dependencies are all available in the Spring distribution.</para>
     </sect2>
 
     <sect2 id="view-tiles-integrate">

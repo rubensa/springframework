@@ -1,6 +1,6 @@
 <ivy-module version="1.1">
 
-	<info organisation="springframework" module="spring-binding" revision="1.0-20050725061503" status="integration" publication="20050725061506"/>
+	<info organisation="springframework" module="spring-binding" revision="1.0-dev-20050727232106" status="integration" publication="20050727232120"/>
 
 	<configurations>
 		<conf name="default" extends="global"/>

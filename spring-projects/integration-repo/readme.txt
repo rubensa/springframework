@@ -1,5 +1,5 @@
 This is the spring-projects integration repository.  This is where
-locally built spring-project artifacts are are published.
+locally built spring-project artifacts are published.
 
 Within any spring-project ivy.xml you may mark a dependency on
 another spring-project with rev "latest.integration".  If that

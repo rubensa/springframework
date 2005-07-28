@@ -1,6 +1,6 @@
 <ivy-module version="1.1">
 
-  <info organisation="springframework" module="spring-webflow" revision="pr5" status="release" publication="20050727233437"/>
+  <info organisation="springframework" module="spring-webflow" revision="pr5" status="release" publication="20050728010117"/>
 
   <configurations>
     <conf name="default" extends="global"/>

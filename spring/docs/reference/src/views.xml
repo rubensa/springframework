@@ -858,7 +858,7 @@ New York</programlisting>
       </sect3>
 
       <sect3>
-        <title>overriding HTML escaping and making tags XHTML
+        <title>Overriding HTML escaping and making tags XHTML
         compliant</title>
 
         <para>Default usage of the form macros above will result in HTML tags

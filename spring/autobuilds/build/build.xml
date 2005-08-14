@@ -58,7 +58,7 @@
         tomcat, resin, jetty are ok with about 15s on my 2.4Ghz P4
         jboss needs about 60 on the same machine.
     -->
-    <property name="autobuilds.server.timewait" value="75" />
+    <property name="autobuilds.server.timewait" value="180" />
     
     <!-- 
         directory where the server tarballs are stored locally.  If the relevant 
@@ -177,7 +177,7 @@ realclean       --> delete ALL build products and sandbox.
         
         workflow task for autobuilds
     -->
-    <target name="main" depends="setup,spring-build,taskdefs,init">
+    <target name="main" depends="setup,taskdefs,init">
 
         <!--<record name="${reports.dir}/${autobuilds.buildlog}"/>-->
         

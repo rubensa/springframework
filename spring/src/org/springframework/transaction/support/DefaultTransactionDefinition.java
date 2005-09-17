@@ -179,7 +179,7 @@ public class DefaultTransactionDefinition implements TransactionDefinition, Seri
 
 	/**
 	 * Set whether to optimize as read-only transaction.
-	 * Default is false.
+	 * Default is "false".
 	 */
 	public final void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;

@@ -4,7 +4,7 @@
   <artifactId>spring-beandoc</artifactId>
   <name>spring-beandoc</name>
   <groupId>springframework</groupId>
-  <currentVersion>0.7.0</currentVersion>
+  <currentVersion>0.6.2</currentVersion>
   <organization>
     <name>Darren Davison</name>
     <url>http://opensource.atlassian.com/confluence/spring/display/BDOC/Home</url>
@@ -20,9 +20,9 @@
   </repository>
   <versions>
     <version>
-      <id>0.7.0</id>
-      <name>0.7.0</name>
-      <tag>RELEASE_0_7_0</tag>
+      <id>0.6.2</id>
+      <name>0.6.2</name>
+      <tag>RELEASE_0_6_2</tag>
     </version>
   </versions>
   <developers>

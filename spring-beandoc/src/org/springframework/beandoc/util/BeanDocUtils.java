@@ -16,10 +16,9 @@
 
 package org.springframework.beandoc.util;
 
-import java.io.IOException;
 import java.io.File;
 import java.io.FileFilter;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,6 +49,11 @@ import org.springframework.util.StringUtils;
 public class BeanDocUtils {
     
     private static final Log logger = LogFactory.getLog(BeanDocUtils.class);
+    
+    private static final boolean isWindows = 
+        System.getProperty("os.name").toLowerCase().indexOf("windows") > -1;
+        
+    private static final String FILE_SEP_REGEX = (isWindows ? "\\\\" : File.separator);
     
     private static FileFilter dirFilter = new FileFilter() {
         public boolean accept(File pathname) {
@@ -130,8 +134,7 @@ public class BeanDocUtils {
             Resource[] resources = resolver.getResources(inputFileNames[i]);
             allResources.addAll(Arrays.asList(resources));
         }
-    
-        File outputDir = new File(inputFileNames[inputFileNames.length - 1]);
+        
         Resource[] inputFiles = (Resource[]) 
             allResources.toArray(new Resource[allResources.size()]);
             
@@ -171,7 +174,7 @@ public class BeanDocUtils {
         List tokenList = new ArrayList(numFiles);        
         for (int i = 0; i < numFiles; i++)
             try {
-                tokenList.add(inputFiles[i].getFile().getAbsolutePath().split(File.separator));
+                tokenList.add(inputFiles[i].getFile().getAbsolutePath().split(FILE_SEP_REGEX));
             } catch (IOException e) {
                 throw new BeanDocException("Failed to tokenize file resource paths.  Are your resources files?");
             }

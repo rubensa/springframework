@@ -50,7 +50,6 @@ public class ProcessDefinitionFactoryBeanTests extends AbstractTransactionalData
         ProcessDefinition processDefinition = (ProcessDefinition) factoryBean.getObject();
         assertNotNull("Process Definition should not be null", processDefinition);
         assertEquals("simple", processDefinition.getName());
-        System.out.println(processDefinition.getVersion());
     }
 
     public void testWithDeployButNoSessionFactory() throws Exception {

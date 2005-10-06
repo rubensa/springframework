@@ -35,7 +35,7 @@ public class JbpmSessionFactoryUtilsTests extends AbstractDependencyInjectionSpr
         JbpmSession secondJbpmSession = JbpmSessionFactoryUtils.getSession(this.jbpmSessionFactory);
         assertNotNull(secondJbpmSession);
 
-        assertNotSame(firstJbpmSession, secondJbpmSession);
+				assertNotSame(firstJbpmSession, secondJbpmSession);
     }
 
     public void testGetSessionInsideTransaction() {
@@ -60,7 +60,7 @@ public class JbpmSessionFactoryUtilsTests extends AbstractDependencyInjectionSpr
         JbpmSession first = (JbpmSession)sessionMap.get("first");
         JbpmSession second = (JbpmSession)sessionMap.get("second");
 
-        assertSame("Should've got thesame session twice inside the transaction", first, second);
+        assertSame("Should've got the same session twice inside the transaction", first, second);
         assertFalse("Session not closed in synchronization", first.getSession().isOpen());
     }
 

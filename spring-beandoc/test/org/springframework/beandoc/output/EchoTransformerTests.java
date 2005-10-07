@@ -53,8 +53,9 @@ public class EchoTransformerTests extends TestCase {
             "default-autowire=\"no\"",
             "default-dependency-check=\"none\"",
             "default-lazy-init=\"false\"", 
-            "<bean id=\"foo\" class=\"com.foo.Bar\" abstract=\"false\" singleton=\"true\" lazy-init=\"default\" autowire=\"default\" dependency-check=\"default\"><property name=\"bar\"><ref local=\"foo2\" /></property></bean>", 
-            "<bean id=\"foo2\" class=\"com.bar.Foo\" abstract=\"false\" singleton=\"true\" lazy-init=\"default\" autowire=\"default\" dependency-check=\"default\" />", 
+            "<bean id=\"foo\" class=\"com.foo.Bar\"",
+            "<property name=\"bar\"><ref local=\"foo2\" /></property></bean>", 
+            "<bean id=\"foo2\" class=\"com.bar.Foo\"", 
             "</beans>"
         };
         
@@ -67,7 +68,8 @@ public class EchoTransformerTests extends TestCase {
         
         System.out.println(sw.toString());
         for (int i = 0; i < expect.length; i++)
-            assertTrue(sw.toString().indexOf(expect[i]) > -1);
+            assertTrue("Failed to find " + expect[i] + " in the output",
+                sw.toString().indexOf(expect[i]) > -1);
     }
     
     public void testNullWriter() {

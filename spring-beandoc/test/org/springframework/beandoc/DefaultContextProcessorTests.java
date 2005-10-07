@@ -57,6 +57,16 @@ public class DefaultContextProcessorTests extends TestCase {
         }
     }
     
+    public void testImportTags() throws Exception {
+        DefaultContextProcessor dcpImport = new DefaultContextProcessor(
+            new String[] {"classpath:org/springframework/beandoc/importer.xml"}, 
+            testOutputDir
+        );
+
+        dcpImport.process();
+        
+    }
+    
     public void testNullProxyMapThrowsException() {
         try {
             dcp.setMergeProxies(null);

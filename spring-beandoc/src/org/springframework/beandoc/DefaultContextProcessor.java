@@ -18,6 +18,7 @@ package org.springframework.beandoc;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +43,9 @@ import org.springframework.beandoc.util.BeanDocUtils;
 import org.springframework.beandoc.util.MatchedPatternCallback;
 import org.springframework.beandoc.util.PatternMatcher;
 import org.springframework.beans.factory.xml.BeansDtdResolver;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
 
@@ -246,7 +249,9 @@ public class DefaultContextProcessor implements ContextProcessor {
             Element root = contextDocuments[i].getRootElement();
             root.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, normalisedFileNames[i]);
             logger.debug("Attribute [" + Tags.ATTRIBUTE_BD_FILENAME + "] set to [" + normalisedFileNames[i] + "]");
-
+            
+            handleIncludes(root, builder); 
+            
             // set a root attribute denoting the path relative to the output root
             String relativePath = BeanDocUtils.getRelativePath(normalisedFileNames[i]);
             root.setAttribute(Tags.ATTRIBUTE_BD_PATHRELATIVE, relativePath);
@@ -262,12 +267,53 @@ public class DefaultContextProcessor implements ContextProcessor {
         }
         return contextDocuments;
     }
+    
+    /**
+     * Handles a single level (non-recursive) list of import tags from the Document
+     * currently being processed.  Adds all beans from the imported resource as 
+     * children of the rootElement.
+     * 
+     * @param rootElement the root Element to add imported beans to
+     * @param builder a pre-initialized builder to build the Document
+     * @throws IOException if the resource cannot be read
+     */
+    private void handleIncludes(Element rootElement, SAXBuilder builder) throws IOException {
+        List importedBeans = new ArrayList();
+        ResourceLoader loader = new DefaultResourceLoader();
+        Iterator importIter = rootElement.getDescendants(
+            new ElementFilter(Tags.TAGNAME_IMPORT));
+
+        while (importIter.hasNext()) {
+            Element includedImport = (Element) importIter.next();
+            String importfile = includedImport.getAttributeValue("resource");
+            Resource res = loader.getResource(importfile);
+            try {
+                Document importDocument = builder.build(res.getInputStream());
+                Iterator beanIter = importDocument.getRootElement().getDescendants(beanFilter);
+                
+                // can't directly add to the root element - must save temporarily
+                while (beanIter.hasNext()) 
+                    importedBeans.add(beanIter.next());
+                
+
+            } catch (JDOMException e) {
+                throw new BeanDocException(
+                    "Unable to parse or validate input resource [" + res + "]", e);
+            }
+
+        }
+        
+        // now safe to add beans to root element
+        for (Iterator i = importedBeans.iterator(); i.hasNext();)
+            rootElement.addContent(((Element) i.next()).detach());     
+    } 
 
     /**
-     * User can specify a map of proxy bean RegEx's --> property name mappings.  Each
-     * mapping denotes a split proxy/target in the context that should be merged in the 
-     * output.  This method takes those <ref>'s and replaces them with an inlined 
-     * <bean> definition instead for the property named as the Map value.
+     * User can specify a map of proxy bean RegEx's --> property name mappings.
+     * Each mapping denotes a split proxy/target in the context that should be
+     * merged in the output. This method takes those <ref>'s and replaces them
+     * with an inlined <bean> definition instead for the property named as the
+     * Map value.
      * 
      * @param contextDocuments
      */

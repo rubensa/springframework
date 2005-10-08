@@ -50,19 +50,24 @@ import org.springframework.util.Assert;
 
 
 /**
- * Default implementation of the <code>ContextProcessor</code> interface that generates documentation
- * in a file system directory.  Input context files can be any resolveable Spring <code>Resource</code>.
+ * Default implementation of the <code>ContextProcessor</code> interface that
+ * generates documentation in a file system directory. Input context files can
+ * be any resolveable Spring <code>Resource</code>.
  * <p>
- * This class maintains a <code>List</code> of <code>Decorator</code> objects and a <code>List</code> of
- * <code>Transformer</code> objects that it manages and uses to conduct most of the actual output.  Input
- * resources are verified and loaded into memory before being cleaned of XML comments and extra whitespace.
- * Bean references are marked with an additional attribute denoting the original name of the file that they
- * were found in prior to each <code>Decorator</code> being applied in turn.  Following decoration of the
- * DOM trees, each <code>Transformer</code> is subsequently applied to the array of input DOM's.
+ * This class maintains a <code>List</code> of <code>Decorator</code>
+ * objects and a <code>List</code> of <code>Transformer</code> objects that
+ * it manages and uses to conduct most of the actual output. Input resources are
+ * verified and loaded into memory before being cleaned of XML comments and
+ * extra whitespace. Bean references are marked with an additional attribute
+ * denoting the original name of the file that they were found in prior to each
+ * <code>Decorator</code> being applied in turn. Following decoration of the
+ * DOM trees, each <code>Transformer</code> is subsequently applied to the
+ * array of input DOM's.
  * <p>
- * The processor offers the ability to ignore some beans in the context by means of simple pattern matching.
- * Ignored bean definitions are stripped from the DOM prior to decoration and transformation and will therefore 
- * not show up in any output.
+ * The processor offers the ability to ignore some beans in the context by means
+ * of simple pattern matching. Ignored bean definitions are stripped from the
+ * DOM prior to decoration and transformation and will therefore not show up in
+ * any output.
  * 
  * @author Darren Davison
  * @since 1.0
@@ -128,8 +133,9 @@ public class DefaultContextProcessor implements ContextProcessor {
     }
 
     /**
-     * Construct with an array of resource names that will resolve to one or more input
-     * resources using standard Spring Resource resolution strategies.
+     * Construct with an array of resource names that will resolve to one or
+     * more input resources using standard Spring Resource resolution
+     * strategies.
      * 
      * @param inputFileNames
      * @param outputDirName
@@ -139,29 +145,31 @@ public class DefaultContextProcessor implements ContextProcessor {
     }
     
     /**
-     * Handles each input file in turn, parsing the XML (which must validate against
-     * the DTD unless validation has been turned off (see {@link #setValidateFiles})
-     * creating an array of in-memory DOM documents of all input files. 
-     * The method adds an attribute to each tag that points to another bean such as
-     * &lt;ref/&gt; tags.  This attribute contains the file name of the input file that
-     * contains the bean definition and can be used to link bean definitions for example
-     * in HTML documentation.
-     * <p> 
-     * The array of Document objects is passed to each <code>Decorator</code>
-     * configured for use which can incrementally modify the attributes in the DOM trees.
+     * Handles each input file in turn, parsing the XML (which must validate
+     * against the DTD unless validation has been turned off (see
+     * {@link #setValidateFiles}) creating an array of in-memory DOM documents
+     * of all input files. The method adds an attribute to each tag that points
+     * to another bean such as &lt;ref/&gt; tags. This attribute contains the
+     * file name of the input file that contains the bean definition and can be
+     * used to link bean definitions for example in HTML documentation.
      * <p>
-     * The process method is threadsafe, synchronizing on a private lock during 
-     * the execution of documentation output.  A configured DefaultContextProcessor
-     * is therefore re-usable from client code, and the configuration properties can be 
-     * modified between calls to the process method.
+     * The array of Document objects is passed to each <code>Decorator</code>
+     * configured for use which can incrementally modify the attributes in the
+     * DOM trees.
+     * <p>
+     * The process method is threadsafe, synchronizing on a private lock during
+     * the execution of documentation output. A configured
+     * DefaultContextProcessor is therefore re-usable from client code, and the
+     * configuration properties can be modified between calls to the process
+     * method.
      * 
-     * @throws IOException if the input files cannot be read, if the output 
-     *      directory does not exist or is not writable, or if media files cannot
-     *      be copied from the classpath to the output directory.
+     * @throws IOException if the input files cannot be read, if the output
+     *         directory does not exist or is not writable, or if media files
+     *         cannot be copied from the classpath to the output directory.
      * @throws BeanDocException of the input files do not validate against the
-     *      DTD, if a problem occurs attempting to create graphs from the .dot
-     *      files (such as the GraphViz program being unavailable) or other
-     *      unknown problem occurs.
+     *         DTD, if a problem occurs attempting to create graphs from the
+     *         .dot files (such as the GraphViz program being unavailable) or
+     *         other unknown problem occurs.
      * @see org.springframework.beandoc.ContextProcessor#process()
      */
     public void process() throws IOException, BeanDocException {
@@ -250,7 +258,8 @@ public class DefaultContextProcessor implements ContextProcessor {
             root.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, normalisedFileNames[i]);
             logger.debug("Attribute [" + Tags.ATTRIBUTE_BD_FILENAME + "] set to [" + normalisedFileNames[i] + "]");
             
-            handleIncludes(root, builder); 
+            logger.debug("Checking for imports in [" + normalisedFileNames[i] + "]");
+            handleImports(root, builder); 
             
             // set a root attribute denoting the path relative to the output root
             String relativePath = BeanDocUtils.getRelativePath(normalisedFileNames[i]);
@@ -269,43 +278,50 @@ public class DefaultContextProcessor implements ContextProcessor {
     }
     
     /**
-     * Handles a single level (non-recursive) list of import tags from the Document
-     * currently being processed.  Adds all beans from the imported resource as 
-     * children of the rootElement.
+     * Handles a list of import tags from the Document currently being
+     * processed. Adds all beans from the imported resource as children of the
+     * rootElement.
+     * <p>
+     * This method is recursive, repeatedly searching deeper levels of imports
+     * with no maximum depth.
      * 
      * @param rootElement the root Element to add imported beans to
      * @param builder a pre-initialized builder to build the Document
      * @throws IOException if the resource cannot be read
      */
-    private void handleIncludes(Element rootElement, SAXBuilder builder) throws IOException {
-        List importedBeans = new ArrayList();
-        ResourceLoader loader = new DefaultResourceLoader();
+    private void handleImports(Element rootElement, SAXBuilder builder) throws IOException {
         Iterator importIter = rootElement.getDescendants(
             new ElementFilter(Tags.TAGNAME_IMPORT));
-
-        while (importIter.hasNext()) {
-            Element includedImport = (Element) importIter.next();
-            String importfile = includedImport.getAttributeValue("resource");
-            Resource res = loader.getResource(importfile);
-            try {
-                Document importDocument = builder.build(res.getInputStream());
-                Iterator beanIter = importDocument.getRootElement().getDescendants(beanFilter);
-                
-                // can't directly add to the root element - must save temporarily
-                while (beanIter.hasNext()) 
-                    importedBeans.add(beanIter.next());
-                
-
-            } catch (JDOMException e) {
-                throw new BeanDocException(
-                    "Unable to parse or validate input resource [" + res + "]", e);
+        if (importIter.hasNext()) {
+            List importedBeans = new ArrayList();
+            ResourceLoader loader = new DefaultResourceLoader();
+            
+            while (importIter.hasNext()) {
+                Element includedImport = (Element) importIter.next();
+                String importfile = includedImport.getAttributeValue(Tags.ATTRIBUTE_RESOURCE);
+                logger.debug("Found import reference [" + importfile + "]");
+                Resource res = loader.getResource(importfile);
+                try {
+                    Document importDocument = builder.build(res.getInputStream());
+                    handleImports(importDocument.getRootElement(), builder);
+                    Iterator beanIter = importDocument.getRootElement().getDescendants(beanFilter);
+                    
+                    // can't directly add to the root element - must save temporarily
+                    while (beanIter.hasNext()) 
+                        importedBeans.add(beanIter.next());
+                    
+    
+                } catch (JDOMException e) {
+                    throw new BeanDocException(
+                        "Unable to parse or validate imported resource [" + res + "]", e);
+                }
+    
             }
-
+            
+            // now safe to add beans to root element
+            for (Iterator i = importedBeans.iterator(); i.hasNext();)
+                rootElement.addContent(((Element) i.next()).detach());     
         }
-        
-        // now safe to add beans to root element
-        for (Iterator i = importedBeans.iterator(); i.hasNext();)
-            rootElement.addContent(((Element) i.next()).detach());     
     } 
 
     /**

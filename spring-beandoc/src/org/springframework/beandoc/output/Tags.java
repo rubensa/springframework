@@ -51,6 +51,8 @@ public class Tags {
     
     public static final String ATTRIBUTE_CLASSNAME = "class";
 
+    public static final String ATTRIBUTE_RESOURCE = "resource";
+
     public static final String ATTRIBUTE_BD_FILENAME = "beandocFileName";
 
     public static final String ATTRIBUTE_BD_PATHRELATIVE = "beandocPathRelative";

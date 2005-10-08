@@ -85,6 +85,7 @@ public class DocumentCompilerImpl implements DocumentCompiler {
         if (dotExe != null && new File(dotExe).isFile())
             for (int i = 0; i < dotFileList.size(); i++) {
                 File dotFile = (File) dotFileList.get(i);
+                logger.debug("Running dot on [" + dotFile.getAbsolutePath() + "]");
                 runDot(dotFile, graphOutputType, graphOutputType);
                 File mapFile = runDot(dotFile, dotFileMapFormat, "map");
                 
@@ -113,14 +114,23 @@ public class DocumentCompilerImpl implements DocumentCompiler {
     private File runDot(File dotFile, String outputType, String fileExt) {
         String dotFileName = dotFile.getAbsolutePath();
         File outputFile = new File(StringUtils.replace(dotFileName, dotFileExtension, "." + fileExt));
-        String dotArgs = 
-            " -T" + outputType +
-            " -o" + outputFile.getAbsolutePath() +
-            " " + dotFile.getAbsolutePath();
+        
+        // build command line
+        String[] cmd = new String[4];
+        cmd[0] = dotExe;
+        cmd[1] = "-T" + outputType;
+        cmd[2] = "-o" + outputFile.getAbsolutePath();
+        cmd[3] = dotFile.getAbsolutePath();
        
         try {
             logger.info("Generating [" + outputFile.getAbsolutePath() + "] from [" + dotFileName + "]");
-            Process dot = Runtime.getRuntime().exec(dotExe + dotArgs);
+            if (logger.isDebugEnabled()) {
+                String dbug = "   ... using command line: [" + dotExe + " ";
+                for (int i = 0; i < cmd.length; i++) dbug += cmd[i] + " ";
+                logger.debug(dbug + "]");
+            }
+            
+            Process dot = Runtime.getRuntime().exec(cmd);
             dot.waitFor();
             logger.debug("Process exited with value [" + dot.exitValue() + "]");
                 

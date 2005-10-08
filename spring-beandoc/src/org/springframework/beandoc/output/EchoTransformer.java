@@ -39,8 +39,6 @@ public class EchoTransformer implements Transformer {
     
     private Writer writer = new OutputStreamWriter(System.out);
     
-    private boolean prettyPrint = false;
-    
     private Format format = Format.getRawFormat();
 
     /**
@@ -77,7 +75,6 @@ public class EchoTransformer implements Transformer {
      * @param prettyPrint
      */
     public void setPrettyPrint(boolean prettyPrint) {
-        this.prettyPrint = prettyPrint;
         this.format = prettyPrint ? Format.getPrettyFormat() : Format.getRawFormat();
     }
 

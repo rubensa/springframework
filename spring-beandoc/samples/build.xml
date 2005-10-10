@@ -33,7 +33,7 @@
         	filesets to the beandoc task
         -->
         <beandoc  
-            outputDir="/some/other/outputdir/html/"
+            outputDir="../target/sample-output"
             beandocProps="${basedir}/beandoc.properties">
         	<fileset dir="${basedir}/jpetstore">
         		<include name="*.xml"/>

@@ -22,43 +22,46 @@
 
     <!-- clean the output dir and regen beandocs based on props file -->
     <target name="beandoc" depends="init">
+    	
         <delete>
             <fileset dir="${output.dir}" includes="**/*" />
         </delete>
         
         <!--
+        	example overriding any input and output locations that may be defined in the
+        	beandoc.properties file.  Input files are specified as on or more nested
+        	filesets to the beandoc task
+        -->
+        <beandoc  
+            outputDir="/some/other/outputdir/html/"
+            beandocProps="${basedir}/beandoc.properties">
+        	<fileset dir="${basedir}/jpetstore">
+        		<include name="*.xml"/>
+        	</fileset>
+        </beandoc>
+        
+        <!--
         	in this example input and output locations must be defined in the
         	beandoc.properties file
         -->
-        <beandoc 
-            beandocProps="${basedir}/beandoc.properties"
-        />
-        
-        <!--
-        	alternative task overriding input and output locations that may be defined in the
-        	beandoc.properties file
-        -->
-        <!--
-        <beandoc 
-            inputFiles="${basedir}/petclinic/*.xml" 
-            outputDir="/some/other/outputdir/html/"
-            beandocProps="${basedir}/beandoc.properties"
-        />
+    	<!--
+        <beandoc beandocProps="${basedir}/beandoc.properties"/>
         -->
         
         <!--
-        	alternative task overriding input and output locations that may be defined in the
-        	beandoc.properties file, and also specifying a new context file for complete control
+        	alternative task specifying a new context file for complete control
         	over the beandoc operation.  If all you want to do is specify different XSLT templates
         	then you can specify them in the beandoc.properties file - see the sample one for
         	information.
         -->
         <!--
         <beandoc 
-            inputFiles="${basedir}/petclinic/*.xml" 
-            outputDir="/some/other/outputdir/html/"
-            beandocContext="${basedir}/alternative-beandoc.xml"
-        />
+            beandocContext="${basedir}/alternative-beandoc.xml" 
+            outputDir="/some/other/outputdir/html/">
+        	<fileset dir="${basedir}/jpetstore">
+        		<include name="*.xml"/>
+        	</fileset>
+        </beandoc>
         -->
     </target>
 

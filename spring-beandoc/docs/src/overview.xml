@@ -10,7 +10,7 @@
     projects. An unmodified beandoc run produces HTML with a JavaDoc-ish look
     and feel to it, and graphs of the context showing dependencies,
     inheritance and other common constructs. However, the tool is highly
-    configurable and extensible to meet the needs of most.</para>
+    configurable and extensible to meet most needs.</para>
 
     <mediaobject>
       <imageobject>

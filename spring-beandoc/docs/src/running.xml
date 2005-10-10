@@ -89,21 +89,23 @@ ml ../target/output/ /projects/my-spring-project/beandoc.properties</programlist
 
       <remark>In order to run the <literal>&lt;beandoc/&gt;</literal> Ant
       task, all of the runtime dependencies must be available to Ant when the
-      task is called. This means either wrapping the call to Ant in a batch or
-      shell script that adds these JAR files onto the classpath, or copying
-      the JAR files into $ANT_HOME/lib. The runtime dependencies are all
-      copied to the <literal>target/dist</literal> directory when you build
+      task is called. The runtime dependencies are all copied to the
+      <literal>target/dist</literal> directory when you build
       BeanDoc.</remark>
 
       <para>Once again, the samples directory contains an example build file
-      showing how to use BeanDoc as an Ant task, and a couple of shell scripts
-      just to setup the classpath and invoke Ant. The task itself is in
-      spring-beandoc.jar and any buildfile you create will just need to setup
-      the task prior to calling it.</para>
+      showing how to use BeanDoc as an Ant task. You can invoke the build by
+      just running '<literal>ant</literal>' from a command prompt in the root
+      of the samples directory.</para>
+
+      <para>The task itself is in spring-beandoc.jar and any buildfile you
+      create yourself will just need to setup the task prior to calling it as
+      shown in the sample build.xml.</para>
 
       <programlisting>&lt;path id="beandoc-classpath"&gt;
-  &lt;fileset dir="${lib.dir}"&gt;
-    &lt;include name="spring-beandoc.jar"/&gt;
+  &lt;!-- needs to include the beandoc runtime dependencies --&gt;
+  &lt;fileset dir="${beandoc.dist.dir}"&gt;
+    &lt;include name="*.jar"/&gt;
   &lt;/fileset&gt;
 &lt;/path&gt;
         
@@ -115,20 +117,20 @@ ml ../target/output/ /projects/my-spring-project/beandoc.properties</programlist
       following definitions</para>
 
       <programlisting>&lt;!--
+specifies input and output locations only (the required values)
+--&gt;
+&lt;beandoc outputDir="${reports.dir}/beandoc"&gt;
+  &lt;!-- one or more filesets denote the inputs --&gt;
+  &lt;fileset dir="${config.dir}"&gt;
+    &lt;include name="**/*Context.xml"/&gt;
+  &lt;/fileset&gt;
+&lt;/beandoc&gt;
+
+&lt;!--
 this works if your input.files and output.dir are specified
 in the properties file
 --&gt;
-&lt;beandoc beandocProps="/path/to/beandoc.properties"/&gt;
-        
-&lt;!--
-alternative task overriding input and output locations that may be defined in the
-beandoc.properties file
---&gt;
-&lt;beandoc 
-  inputFiles="/projects/my-spring-project/*.xml" 
-  outputDir="/some/other/outputdir/html/"
-  beandocProps="/path/to/beandoc.properties"
-/&gt;</programlisting>
+&lt;beandoc beandocProps="/path/to/beandoc.properties"/&gt;</programlisting>
     </sect2>
   </sect1>
 
@@ -136,10 +138,9 @@ beandoc.properties file
     <title>Further configuration</title>
 
     <para>When using either the <literal>BeanDocClient</literal> class or the
-    <literal>AntTask</literal>, you can also specify input and output
-    locations as system properties. If you do, they must be qualified with a
-    prefix of "springbeandoc." to prevent potential namespace
-    collisions.</para>
+    <literal>AntTask</literal>, you can also specify any beandoc properties as
+    System properties. If you do, they must be qualified with a prefix of
+    "springbeandoc." to prevent potential namespace collisions.</para>
 
     <programlisting>ant -Dspringbeandoc.input.files=/path/to/input.xml</programlisting>
 
@@ -148,12 +149,13 @@ beandoc.properties file
     <programlisting>set springframework.output.dir=C:\my\output\dir\
 runbeandoc-cli.bat</programlisting>
 
-    <para>System properties are lowest in the hierarchy of places to define
-    input and output locations and will be ignored if the values are specified
-    in a beandoc.properties file. In turn, locations specified in
-    beandoc.properties files will be overridden by any listed as arguments to
-    the <literal>BeanDocClient</literal> class' main method, or those defined
-    as attributes to the <literal>AntTask</literal> class.</para>
+    <para>System properties are lowest in the hierarchy of places to beandoc
+    properties and will be ignored if the values are specified in a
+    <literal>beandoc.properties</literal> file. In turn, locations specified
+    in <literal>beandoc.properties</literal> files will be overridden by any
+    listed as arguments to the <literal>BeanDocClient</literal> class' main
+    method, or those defined as attributes to the <literal>AntTask</literal>
+    class.</para>
 
     <sect2>
       <title>HTML and JavaDoc</title>

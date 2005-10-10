@@ -22,7 +22,6 @@ import java.io.FileWriter;
 import junit.framework.TestCase;
 
 import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.BeanFactory;
 
 
 
@@ -34,37 +33,29 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public class SpringLoaderTests extends TestCase {
     
-    public void testGoodLoaderNullProps() {
+    public void testGoodLoaderNullProps() throws Exception {
         SpringLoaderCommand c = new SpringLoaderCommand("classpath:org/springframework/beandoc/beandoc.xml", System.getProperty("java.io.tmpdir"), "Test", null);
         assertNotNull(c.toString());
-        try {
-            BeanFactory bf = SpringLoader.getBeanFactory(c);
-        } catch (Exception e) {
-            fail();
-        }
+        SpringLoader.getBeanFactory(c);
     }
     
-    public void testGoodLoaderWithProps() {
+    public void testGoodLoaderWithProps() throws Exception {
         File tmp = new File(System.getProperty("java.io.tmpdir"));
         File props = new File(tmp, "beandoc.junit.properties");
         
         SpringLoaderCommand c = new SpringLoaderCommand(null, System.getProperty("java.io.tmpdir"), "Test", props.getAbsolutePath());
-        try {
-            if (!props.isFile())
-                props.createNewFile();
-            FileWriter fw = new FileWriter(props);
-            fw.write("input.files=classpath:org/springframework/beandoc/beandoc.xml");
-            fw.close();
-            BeanFactory bf = SpringLoader.getBeanFactory(c);
-        } catch (Exception e) {
-            fail();
-        }
+        if (!props.isFile())
+            props.createNewFile();
+        FileWriter fw = new FileWriter(props);
+        fw.write("input.files=classpath:org/springframework/beandoc/beandoc.xml");
+        fw.close();
+        SpringLoader.getBeanFactory(c);
     }
     
     public void testNulls() {
         SpringLoaderCommand c = new SpringLoaderCommand(null, null, null, null);
         try {
-            BeanFactory bf = SpringLoader.getBeanFactory(c);
+            SpringLoader.getBeanFactory(c);
             fail();
         } catch (Exception e) {
             assertTrue(e instanceof BeanDefinitionStoreException);

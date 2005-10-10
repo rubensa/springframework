@@ -19,11 +19,12 @@ package org.springframework.beandoc.client;
 
 /**
  * Composite class for configuration required to bootstrap a bean factory via
- * SpringLoader.  Simply aggregates a few parameters to pass to the <code>SpringLoader</code>'s
- * static <code>getBeanFactory</code> method.
+ * SpringLoader. Simply aggregates a few parameters to pass to the
+ * <code>SpringLoader</code>'s static <code>getBeanFactory</code> method.
  * <p>
- * For ultimate flexibility you can specify a context definition file for beandoc.  It must contain a fully
- * configured <code>ContextProcessor</code> with an id of "processor".
+ * For ultimate flexibility you can specify a context definition file for
+ * beandoc. It must contain a fully configured <code>ContextProcessor</code>
+ * with an id of "processor".
  * 
  * @author Darren Davison
  * @since 1.0
@@ -44,16 +45,20 @@ class SpringLoaderCommand {
     private String beandocContextLocation;
     
     /**
-     * @param inputFiles one or more resource resolveable Strings for input locations
+     * @param inputFiles one or more resource resolveable Strings for input
+     *        locations
      * @param outputDir a writeable location for beandoc output
-     * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
-     *      mandatory properties are specified as parmeters to this method or as System properties 
-     *      using a "springbeandoc." prefix (ie <code>springbeandoc.input.files=...</code> in 
-     *      place of <code>input.files=...</code>)
-     * @param beandocPropsPrefix the prefix to expect all beandoc properties to have.  May be
-     * 		used to make beandoc more accessible to other client types, in particular, Maven.
-     * @param private beandocContextLocation the location of a custom Context file that defines a 
-     *      ContextProcessor named "processor"    
+     * @param beandocPropsLocation the absolute path to the beandoc.properties
+     *        file. Can be null if mandatory properties are specified as
+     *        parmeters to this method or as System properties using a
+     *        "springbeandoc." prefix (ie
+     *        <code>springbeandoc.input.files=...</code> in place of
+     *        <code>input.files=...</code>)
+     * @param beandocPropsPrefix the prefix to expect all beandoc properties to
+     *        have. May be used to make beandoc more accessible to other client
+     *        types, in particular, Maven.
+     * @param private beandocContextLocation the location of a custom Context
+     *        file that defines a ContextProcessor named "processor"
      */
     public SpringLoaderCommand(
         String inputFiles, 
@@ -72,12 +77,15 @@ class SpringLoaderCommand {
     }
     
     /**
-     * @param inputFiles one or more resource resolveable Strings for input locations
+     * @param inputFiles one or more resource resolveable Strings for input
+     *        locations
      * @param outputDir a writeable location for beandoc output
-     * @param beandocPropsLocation the absolute path to the beandoc.properties file.  Can be null if
-     *      mandatory properties are specified as parmeters to this method or as System properties 
-     *      using a "springbeandoc." prefix (ie <code>springbeandoc.input.files=...</code> in 
-     *      place of <code>input.files=...</code>)
+     * @param beandocPropsLocation the absolute path to the beandoc.properties
+     *        file. Can be null if mandatory properties are specified as
+     *        parmeters to this method or as System properties using a
+     *        "springbeandoc." prefix (ie
+     *        <code>springbeandoc.input.files=...</code> in place of
+     *        <code>input.files=...</code>)
      */
     public SpringLoaderCommand(String inputFiles, String outputDir, String title, String beandocPropsLocation) {
         this(inputFiles, outputDir, title, beandocPropsLocation, null, null);

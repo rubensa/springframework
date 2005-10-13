@@ -166,7 +166,6 @@ public class JbpmTemplate implements JbpmOperations {
 		return (List)execute(new JbpmCallback() {
 
 			public Object doInJbpm(JbpmSession session) {
-				session.getSchedulerSession()
 				return session.getTaskMgmtSession().findTaskInstancesByToken(tokenId);
 			}
 		});

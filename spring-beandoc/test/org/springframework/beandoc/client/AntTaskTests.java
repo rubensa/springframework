@@ -18,9 +18,11 @@ package org.springframework.beandoc.client;
 
 import java.io.File;
 
-import org.apache.tools.ant.BuildException;
-
 import junit.framework.TestCase;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.types.FileSet;
 
 
 
@@ -32,25 +34,40 @@ import junit.framework.TestCase;
  */
 public class AntTaskTests extends TestCase {
 
+    private static final String TMP = System.getProperty("java.io.tmpdir");
+    
     AntTask task;
     
     public void setUp() {
        task = new AntTask();
+       task.setProject(new Project());
+    }
+    
+    public void testFileSets() {
+        FileSet fs = new FileSet();
+        fs.setDir(new File(TMP + "/beandoc-test"));
+        fs.setIncludes("**/*.xml");
+        task.setOutputDir(new File(TMP));
+        task.addFileset(fs);
+        
+        try {
+            task.execute();
+            fail();
+            
+        } catch (BuildException be) {
+            // ok
+        }
     }
     
     public void testExecute() {
         task.setInputFiles("classpath:org/springframework/beandoc/context1.xml");
-        task.setOutputDir(new File(System.getProperty("java.io.tmpdir")));
+        task.setOutputDir(new File(TMP));
         task.setTitle("BeandocTest");
         
         // provide a context with a processor that does nothing
         task.setBeandocContext("org/springframework/beandoc/client/dummyContext.xml");
         
-        try {
-            task.execute();
-        } catch (Exception e) {
-            fail();
-        }
+        task.execute();
     }
     
     public void testNullProps() {

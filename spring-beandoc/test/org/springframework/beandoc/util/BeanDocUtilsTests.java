@@ -16,13 +16,16 @@
 
 package org.springframework.beandoc.util;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-
-import junit.framework.TestCase;
 
 /**
  * @author Darren Davison
@@ -93,6 +96,40 @@ public class BeanDocUtilsTests extends TestCase {
     public void testGetRelativePath() {
         String p = BeanDocUtils.getRelativePath("foo/bar/baz.html");
         assertEquals("../../", p);
+    }
+    
+    public void testFileList() throws Exception {
+        File tmpDir = new File(System.getProperty("java.io.tmpdir"));
+        if (tmpDir.exists() && tmpDir.canWrite()) {
+            // create some files and dirs
+            File root = new File(tmpDir, "beandoc-test");
+            root.mkdir();
+            File f;
+            f = new File(root, "1.java");
+            f.createNewFile();
+            f = new File(root, "2.java");
+            f.createNewFile();
+            f = new File(root, "3.java");
+            f.createNewFile();
+            f = new File(root, "1.cpp");
+            f.createNewFile();
+            File sub = new File(root, "subdir");
+            sub.mkdir();
+            f = new File(sub, "1.cpp");
+            f.createNewFile();
+            f = new File(sub, "2.java");
+            f.createNewFile();
+            
+            // read 'em
+            List l = BeanDocUtils.listFilesRecursively(root, 
+                new FileFilter() {
+                    public boolean accept(File pathname) {
+                        return pathname.getName().endsWith(".java");
+                    }                
+            });
+            
+            assertEquals(4, l.size());
+        }
     }
 
 }

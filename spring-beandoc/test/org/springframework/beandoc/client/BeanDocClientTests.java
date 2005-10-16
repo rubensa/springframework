@@ -16,6 +16,9 @@
 
 package org.springframework.beandoc.client;
 
+import java.io.File;
+import java.io.IOException;
+
 import junit.framework.TestCase;
 
 
@@ -28,21 +31,31 @@ import junit.framework.TestCase;
  */
 public class BeanDocClientTests extends TestCase {
 
-    String[] args = {
-        "--output", System.getProperty("java.io.tmpdir"),
+    static final String TMP = System.getProperty("java.io.tmpdir");
+    
+    String[] args1 = {
+        "--output", TMP,
         "--prefix", "anything.",
         "--context", "org/springframework/beandoc/client/dummyContext.xml",
         "--title", "BeanDocTest",
         "classpath:org/springframework/beandoc/context1.xml"
     };
     
-    public void testMain() {        
-        try {
-            BeanDocClient.main(args);
-            
-        } catch (Exception e) {
-            fail();
-        }
+    String[] args2 = {
+        "--output", TMP,
+        "--prefix", "anything.",
+        "--properties", TMP + "/beandoc.properties",
+        "--context", "org/springframework/beandoc/client/dummyContext.xml",
+        "--title", "BeanDocTest",
+        "classpath:org/springframework/beandoc/context1.xml"
+    };
+    
+    public void testMain() throws IOException {        
+        BeanDocClient.main(args1);     
+        File tmp = new File(TMP);
+        File p = new File(tmp, "beandoc.properties");
+        p.createNewFile();
+        BeanDocClient.main(args2);
     }
     
 }

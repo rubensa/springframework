@@ -122,4 +122,11 @@ public class HtmlDecoratorTests extends TestCase {
         hd.decorateElement(ref);
         assertEquals("anotherFile.xml.html", ref.getAttributeValue("beandocHtmlFileName"));        
     }
+    
+    public void testFilenameStrategy() {
+        hd.setFilenameStrategy(new FilenameAppenderStrategy(".junit"));Element ref = root.getChild("bean").getChild("property").getChild("ref");
+        ref.setAttribute(Tags.ATTRIBUTE_BD_FILENAME, "anotherFile.xml");
+        hd.decorateElement(ref);
+        assertEquals("anotherFile.xml.junit", ref.getAttributeValue("beandocHtmlFileName"));     
+    }
 }

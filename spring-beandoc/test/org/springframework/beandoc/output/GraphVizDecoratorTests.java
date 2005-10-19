@@ -162,10 +162,10 @@ public class GraphVizDecoratorTests extends TestCase {
     }
     
     public void testDefaults() {
-        assertEquals(10, gvd.getFontSize());
-        assertEquals("helvetica", gvd.getFontName());
+        assertEquals(9, gvd.getFontSize());
+        assertEquals("sans", gvd.getFontName());
         assertEquals("auto", gvd.getRatio());
-        assertEquals("box", gvd.getBeanShape());
+        assertEquals("ellipse", gvd.getBeanShape());
         assertEquals("png", gvd.getOutputType());
         assertEquals(2, gvd.getRankBeans().size());   
         assertEquals(-1f, gvd.getGraphXSize(), 0);    

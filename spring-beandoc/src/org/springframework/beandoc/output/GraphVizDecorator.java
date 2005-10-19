@@ -57,9 +57,9 @@ public class GraphVizDecorator extends SimpleDecorator {
 	
     protected static final String ATTRIBUTE_COLOUR = "beandocFillColour";
     
-    private String fontName = "helvetica";
+    private String fontName = "sans";
     
-    private int fontSize = 10;
+    private int fontSize = 9;
     
     private String ratio = "auto";
     
@@ -67,7 +67,7 @@ public class GraphVizDecorator extends SimpleDecorator {
     
     private float graphYSize = -1f;
     
-    private String beanShape = "box";
+    private String beanShape = "ellipse";
     
     private char labelLocation = 't';
     

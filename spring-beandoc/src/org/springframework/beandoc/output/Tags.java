@@ -62,5 +62,7 @@ public class Tags {
     public static final String ATTRIBUTE_REF_LOCAL = "local";
 
     public static final String ATTRIBUTE_REF_REPLACER = "replacer";
+    
+    public static final String ATTRIBUTE_PROXY_FOR = "beandocProxyFor";
 
 }

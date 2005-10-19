@@ -394,6 +394,7 @@ public class DefaultContextProcessor implements ContextProcessor {
             Element proxy = (Element) i.next();
             Element targetRef = (Element) proxy2target.get(proxy);
             String refId = getRefIdentifier(targetRef);
+            proxy.setAttribute(Tags.ATTRIBUTE_PROXY_FOR, refId);
             
             logger.info("Merging proxy bean [" + getBeanIdentifier(proxy) + 
                 "] and its target bean [" + refId + "]");

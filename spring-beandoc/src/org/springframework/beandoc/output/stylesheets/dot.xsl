@@ -117,6 +117,7 @@
 		</xsl:if>
 		
 		"<xsl:value-of select="$beandocId"/>" [
+			<xsl:if test="@beandocProxyFor">label="<xsl:value-of select="$beandocId"/>\n(proxies <xsl:value-of select="@beandocProxyFor"/>)"</xsl:if>
         	peripheries=<xsl:value-of select="$beandocPeripheries"/>, 
 	        style=filled, 
 	        URL="<xsl:value-of select="@beandocHtmlFileName"/>#<xsl:value-of select="$beandocId"/>",

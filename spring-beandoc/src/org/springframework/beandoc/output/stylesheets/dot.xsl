@@ -121,6 +121,7 @@
         	peripheries=<xsl:value-of select="$beandocPeripheries"/>, 
 	        style=filled, 
 	        URL="<xsl:value-of select="@beandocHtmlFileName"/>#<xsl:value-of select="$beandocId"/>",
+			tooltip="<xsl:value-of select="@class"/>",
 	        <xsl:if test="@abstract = 'true'">
 	        /* abstract bean */
 	        shape=polygon, 

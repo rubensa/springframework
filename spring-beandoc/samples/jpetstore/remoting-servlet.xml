@@ -6,6 +6,8 @@
     - HTTP invoker (see remoting-servlet.xml for the controllers).
     -->
 <beans>
+	<description>Dispatcher servlet for HTTP remoting via Hessian, Burlap, and Spring's
+     HTTP invoker (see remoting-servlet.xml for the controllers).</description>
 
     <!-- Hessian exporter for the JPetStore OrderService -->
     <!-- Hessian is a slim binary HTTP remoting protocol -->

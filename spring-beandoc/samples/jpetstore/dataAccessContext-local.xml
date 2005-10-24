@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
-<!--
-  - Application context definition for JPetStore's data access layer.
-    - Accessed by business layer objects defined in "applicationContext.xml"
-    - (see web.xml's "contextConfigLocation").
-    -
-    - This version of the data access layer works on a combined database,
-    - using a local DataSource with DataSourceTransactionManager. It does not
-    - need any JTA support in the container: It will run as-is in plain Tomcat.
-    -->
 <beans>
+	<description>Application context definition for JPetStore's data access layer.
+     Accessed by business layer objects defined in "applicationContext.xml"
+     (see web.xml's "contextConfigLocation").
+    
+     This version of the data access layer works on a combined database,
+     using a local DataSource with DataSourceTransactionManager. It does not
+     need any JTA support in the container: It will run as-is in plain Tomcat.
+    </description>
 
     <!-- ========================= RESOURCE DEFINITIONS ========================= -->
 

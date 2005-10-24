@@ -24,42 +24,13 @@
     
     
     <target name="usage">
-        <echo>
-        ${project.title} build file
+        <echo>        ${project.title} (${project.version}) build file
         ------------------------------------------------------
         
-        Available targets are:
-        
-        build         --> compile classes and place in 
-                          ${target.classes.dir}
-                          
-        dist          --> create JAR files and dependencies and place in 
-                          ${target.dist.dir}
-                          
-        tests         --> run tests and place reports in 
-                          ${target.junit.reports.dir}
-                          
-        testsummary   --> Run test suite and generate test summary in 
-                          ${target.junit.reports.dir}
-                          
-        docapi        --> builds API documentation in 
-                          ${target.javadocs.dir}
-                          
-        docpdf        --> builds reference documentation as PDF in 
-                          ${target.refdocs.pdf.dir}
-                          
-        dochtml       --> builds reference documentation as chunked HTML in 
-                          ${target.refdocs.html.dir}
-                          
-        dochtmlsingle --> builds reference documentation as single HTML file in 
-                          ${target.refdocs.html.dir}
-                          
-        docall        --> builds all documentation (HTML, PDF and JavaDoc) to locations above
-                          
-        docclean      --> remove all documentation and intermediate documentation artifacts
-        
-        clean         --> remove all build artifacts, reports etc.
-        </echo>
+        To build, you probably want "ant dist"
+            
+        Try "ant -projecthelp" to get a list of all available
+        targets.</echo>
     </target>
 
 
@@ -100,6 +71,7 @@
                 <include name="**/*.xsl"/>
                 <include name="**/*.gif"/>
                 <include name="**/*.css"/>
+                <include name="**/*.properties"/>
             </fileset>
         </copy>
     </target>
@@ -256,6 +228,7 @@
                 <include name="**/*.xsl"/>
                 <include name="**/*.gif"/>
                 <include name="**/*.css"/>
+                <include name="**/*.properties"/>
 			</fileset>
 		</copy>
 

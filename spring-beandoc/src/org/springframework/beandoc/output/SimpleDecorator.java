@@ -103,13 +103,10 @@ public abstract class SimpleDecorator implements Decorator {
         Assert.notEmpty(tagNames, "Cannot have null or empty array of names for Element filter");
         
         this.elementFilter = new ElementFilter(tagNames[0]);
-        if (tagNames.length == 1)
-            return;
-                
-        else {
+        if (tagNames.length > 1)
             for (int i = 1; i < tagNames.length; i++)
                 elementFilter = (AbstractFilter) elementFilter.or(new ElementFilter(tagNames[i]));
-        }                            
+             
         
     }
 

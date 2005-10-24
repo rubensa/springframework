@@ -24,6 +24,8 @@
  * @author Darren Davison
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<xsl:import href="./i18n.xsl"/>
                 
     <xsl:output 
         method="xml" 
@@ -31,7 +33,6 @@
         doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
         />
-
 		
 	<xsl:variable name="pathRel"><xsl:value-of select="/beans/@beandocPathRelative"/></xsl:variable>
 	
@@ -63,12 +64,12 @@
 		                    </a>
 	                    </xsl:if>
 	                    
-	                    <strong>Description:</strong><br/>
+	                    <strong><xsl:value-of select="$i18n-description"/>:</strong><br/>
 	                    <xsl:value-of select="beans/description"/>
 	                </p>
 	                        
 	                <p class="beanAttributeSummary">
-	                    <strong>Attributes</strong>
+	                    <strong><xsl:value-of select="$i18n-attributes"/></strong>
 	                    <table class="invisibleTable" summary="Attribute list for this context file">
 	                    	<tbody>
 		                        <xsl:apply-templates select="beans/@*"/>
@@ -79,14 +80,14 @@
 	                <br style="clear:both"/>
 	
 	                <a name="summary"><xsl:comment>::</xsl:comment></a>
-	                <h2>Summary of beans</h2>
+	                <h2><xsl:value-of select="$i18n-summaryTitle"/></h2>
 	                <table class="invisibleTable" summary="Summary list and description of beans defined in this file">
 	                    <xsl:for-each select="beans/bean">
 	                        <xsl:variable name="beandocId">
 	                            <xsl:choose>
 	                                <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
 	                                <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
-	                                <xsl:otherwise>anonymous-inner-bean</xsl:otherwise>
+	                                <xsl:otherwise><xsl:value-of select="$i18n-innerbean"/></xsl:otherwise>
 	                            </xsl:choose>
 	                        </xsl:variable>
 	                        <tr>
@@ -97,7 +98,7 @@
 	                </table>
 	                
 	                <a name="detail"><xsl:comment>::</xsl:comment></a>
-	                <h2>Detail of beans</h2>
+	                <h2><xsl:value-of select="$i18n-detailTitle"/></h2>
 	                <xsl:apply-templates select="beans/bean"/>
                 </div>
                 <p id="pageFooter">
@@ -152,9 +153,9 @@
     -->
     <xsl:template name="menuBar">
         <div id="menuBar">
-          <a class="menuItem" href="{$pathRel}main.html">home</a> ::
-          <a class="menuItem" href="#summary">summary</a> ::
-          <a class="menuItem" href="#detail">detail</a>
+          <a class="menuItem" href="{$pathRel}main.html"><xsl:value-of select="$i18n-home"/></a> ::
+          <a class="menuItem" href="#summary"><xsl:value-of select="$i18n-summary"/></a> ::
+          <a class="menuItem" href="#detail"><xsl:value-of select="$i18n-detail"/></a>
         </div>
     </xsl:template>
     
@@ -169,7 +170,7 @@
             <xsl:choose>
                 <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
                 <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
-                <xsl:otherwise>anonymous-inner-bean</xsl:otherwise>
+                <xsl:otherwise><xsl:value-of select="$i18n-innerbean"/></xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
         
@@ -184,20 +185,20 @@
             </xsl:choose>
         </xsl:variable>
         <span class="{$titleClass}">
-            <xsl:value-of select="$beandocId"/> <xsl:if test="$titleClass='abstractTitle'"> (abstract bean)</xsl:if>
+            <xsl:value-of select="$beandocId"/> <xsl:if test="$titleClass='abstractTitle'"> (<xsl:value-of select="$i18n-abstractbean"/>)</xsl:if>
         </span>
       
         
         <!-- bean description if available -->
         <xsl:if test="description">
         <p class="descriptionBlock">
-            <strong>Description:</strong><br/>
+            <strong><xsl:value-of select="$i18n-description"/>:</strong><br/>
             <xsl:value-of select="./description"/>
         </p>
         </xsl:if>       
         
         <p class="beanAttributeSummary">
-            <strong>Attributes</strong>
+            <strong><xsl:value-of select="$i18n-attributes"/>:</strong>
             <table class="invisibleTable" summary="Attribute list for this bean">
                 <xsl:apply-templates select="./@*"/>
             </table>
@@ -205,7 +206,7 @@
         
         <!-- ctor args / dependencies / properties -->
         <xsl:if test="count(./constructor-arg)>0">
-        <p><strong>Constructor arguments:</strong></p>
+        <p><strong><xsl:value-of select="$i18n-constructorargs"/>:</strong></p>
         <table class="invisibleTable" summary="List of constructor arguments">
             <tbody>
                 <!-- ctor args -->
@@ -215,7 +216,7 @@
         </xsl:if>
         
         <xsl:if test="count(./property)>0 or count(./lookup-method)>0 or count(./replaced-method)>0">
-        <p><strong>Dependencies, properties and method injection:</strong></p>
+        <p><strong><xsl:value-of select="$i18n-deps"/>:</strong></p>
         <table class="invisibleTable" summary="List of dependencies and public properties">
             <tbody>
                 <!-- properties -->
@@ -227,7 +228,7 @@
         </xsl:if>
         
         <xsl:if test="parent::*[name()='beans']">
-	        <div class="beanFooter"><a href="#top">back to top</a></div>
+	        <div class="beanFooter"><a href="#top"><xsl:value-of select="$i18n-backtotop"/></a></div>
 	        <hr/>
 	    </xsl:if>
     </xsl:template>
@@ -283,8 +284,8 @@
                 lookup-method
             </td>
             <td>
-                name: <xsl:value-of select="@name"/><br/>
-                bean: 
+                <xsl:value-of select="$i18n-name"/> <xsl:value-of select="@name"/><br/>
+                <xsl:value-of select="$i18n-bean"/> 
                 <a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{@bean}">
                     <img align="middle" src="{$pathRel}bean_local.gif" alt="bean"/> <xsl:value-of select="@bean"/>
                 </a>
@@ -299,13 +300,13 @@
                 replaced-method
             </td>
             <td>
-                name: <xsl:value-of select="@name"/><br/>
-                replacer: 
+                <xsl:value-of select="$i18n-name"/> <xsl:value-of select="@name"/><br/>
+                <xsl:value-of select="$i18n-replacer"/> 
                 <a class="classValue mono" style="font-size:100%" href="{@beandocHtmlFileName}#{@replacer}">
                     <img align="middle" src="{$pathRel}bean_local.gif" alt="bean"/> <xsl:value-of select="@replacer"/>
                 </a>
                 <xsl:if test="count(./arg-type)>0">
-                    <br/><br/><strong>arg-types:</strong><br/>
+                    <br/><br/><strong><xsl:value-of select="$i18n-argtypes"/>:</strong><br/>
                     <xsl:apply-templates/>
                 </xsl:if>
             </td>   
@@ -375,7 +376,7 @@
     
     
     <xsl:template match="key">
-            <xsl:apply-templates/> --&gt;
+        <xsl:apply-templates/> --&gt;
     </xsl:template>
     
     

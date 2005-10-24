@@ -24,6 +24,8 @@
  * @author Darren Davison
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    
+	<xsl:import href="./i18n.xsl"/>	
 
     <xsl:output 
     	method="xml" 
@@ -31,7 +33,7 @@
     	doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
     	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     	/>
-    	
+		
     <xsl:param name="beandocGenerated">unknown</xsl:param> 
 
     <!--
@@ -49,7 +51,7 @@
             </head>
   
             <body>
-      			<div id="bannerBar">beandoc generated: <xsl:value-of select="$beandocGenerated"/></div>
+      			<div id="bannerBar"><xsl:value-of select="$i18n-generated"/>: <xsl:value-of select="$beandocGenerated"/></div>
       			<div id="contentWell">
 	                <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
 	
@@ -61,7 +63,7 @@
 	                </p>
 	                </xsl:if>
 	
-					<h2>files making up this application context</h2>
+					<h2><xsl:value-of select="$i18n-filelist"/></h2>
 	                <table id="fileListTable" summary="List of individual context files and their descriptions that 
 	                    made up this application context">
 	                    <tbody>

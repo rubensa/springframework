@@ -216,6 +216,28 @@ javadoc.locations[com.foo.bar.web]=http://your.local.server/apidoc/</programlist
 
       <programlisting>javadoc.locations[com.foo.bar]=http://www.foo.bar/apidoc/
 javadoc.locations[com.foo.bar.web]=</programlisting>
+
+      <sect3>
+        <title>Localisation</title>
+
+        <para>The majority of the BeanDoc output is entirely dependent upon
+        the names and descriptions found within your context definition files.
+        There are a few static labels however and these will be shown either
+        in the language of the system default locale, or the base language
+        (English) if no translation file exists for the default locale. You
+        can override this behaviour in beandoc.properties by specifying the
+        language or locale you want to see in the output.</para>
+
+        <programlisting># example of overriding the system locale to get Spanish output
+i18n.locale=es_ES</programlisting>
+
+        <para>Of course, if no translation exists for the specified override,
+        you will get system default values if available or English if
+        not.</para>
+
+        <para>If you are able to assist in translating language files for
+        BeanDoc, please contact us via the Spring forums.</para>
+      </sect3>
     </sect2>
 
     <sect2>

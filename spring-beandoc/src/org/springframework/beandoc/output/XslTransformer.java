@@ -16,11 +16,21 @@
 
 package org.springframework.beandoc.output;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -53,11 +63,16 @@ import org.w3c.dom.Node;
  */
 public class XslTransformer implements Transformer {
 
+    private static final String LABELS_BASENAME = 
+        "org.springframework.beandoc.output.i18n.labels";
+
     protected final Log logger = LogFactory.getLog(getClass());
 
     protected FilenameStrategy filenameStrategy = new FilenameAppenderStrategy(".html");
     
     protected Map staticParameters;
+    
+    private ResourceBundle labels;
     
     private String templateName;
     
@@ -71,7 +86,7 @@ public class XslTransformer implements Transformer {
      * default constructor
      */
     public XslTransformer() {
-        
+        setLocale(Locale.getDefault());
     }
     
     /**
@@ -170,15 +185,19 @@ public class XslTransformer implements Transformer {
             
             // apply any subclass supplied parameters to the transformer
             Map parameters = getParameters(doc);
-            if (parameters != null) {
-                for (Iterator iter = parameters.entrySet().iterator(); iter.hasNext();) {
-                    Map.Entry entry = (Map.Entry) iter.next();
-                    trans.setParameter(entry.getKey().toString(), entry.getValue());
-                }
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Added parameters [" + parameters + "] to transformer object");
-                }
+            if (parameters == null) parameters = new HashMap();
+            
+            // add in i18n text labels
+            localizeLabels(parameters);
+            
+            for (Iterator iter = parameters.entrySet().iterator(); iter.hasNext();) {
+                Map.Entry entry = (Map.Entry) iter.next();
+                trans.setParameter(entry.getKey().toString(), entry.getValue());
             }
+            if (logger.isDebugEnabled()) {
+                logger.debug("Added parameters [" + parameters + "] to transformer object");
+            }
+            
 
             // trans.setOutputProperty(OutputKeys.ENCODING, encoding);
             trans.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -243,6 +262,20 @@ public class XslTransformer implements Transformer {
             );
         }
     }
+
+    /**
+     * add i18n labels from the supplied ResourceBundles
+     * 
+     * @param parameters the Map to add label params to
+     */
+    private void localizeLabels(Map parameters) {
+        if (labels != null && parameters != null)
+            for (Enumeration e = labels.getKeys(); e.hasMoreElements();) {
+                String key = (String) e.nextElement();
+                parameters.put(key, labels.getString(key));
+            }       
+    }
+    
     
     // ---------------------------------------------------------------------
     // bean props
@@ -271,8 +304,11 @@ public class XslTransformer implements Transformer {
         this.templateName = templateName;
         Resource res = resourceLoader.getResource(templateName);
         try {
+            URL url = res.getURL(); 
+            String urlPath = url.toString(); 
+            String systemId = urlPath.substring(0, urlPath.lastIndexOf('/') + 1); 
             this.templates = this.transformerFactory.newTemplates(
-                new StreamSource(res.getInputStream())
+                new StreamSource(res.getInputStream(), systemId)
             );
         }
         catch (Exception ex) {
@@ -307,6 +343,16 @@ public class XslTransformer implements Transformer {
      */
     public void setFilenameStrategy(FilenameStrategy filenameStrategy) {
         this.filenameStrategy = filenameStrategy;
+    }
+
+    /**
+     * Override the system default locale and specify which locale output should
+     * be generated for.
+     * 
+     * @param locale
+     */
+    public void setLocale(Locale locale) {
+        this.labels = ResourceBundle.getBundle(LABELS_BASENAME, locale);
     }
 
 }

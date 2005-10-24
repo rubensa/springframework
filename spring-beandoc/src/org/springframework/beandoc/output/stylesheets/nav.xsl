@@ -24,6 +24,8 @@
  * @author Darren Davison
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+		
+	<xsl:import href="./i18n.xsl"/>
 
     <xsl:output 
         method="xml" 
@@ -37,13 +39,13 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title>All Beans</title>
+                <title><xsl:value-of select="$i18n-allTitle"/></title>
                 <link rel="stylesheet" href="{consolidated/beans[1]/@beandocCssLocation}" type="text/css"/>
             </head>
   
             <body>
       			<div id="contentWell">      
-	                <h1>All Beans</h1>
+	                <h1><xsl:value-of select="$i18n-allTitle"/></h1>
 	                <p>
 	                <xsl:for-each select=".//bean">                    
 	                    <xsl:sort select="@id | @name"/>

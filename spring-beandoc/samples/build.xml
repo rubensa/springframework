@@ -11,6 +11,7 @@
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
+        <dirset dir="${basedir}"/>
     </path>
 
     <target name="init">

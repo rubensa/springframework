@@ -42,6 +42,8 @@
 	<bean id="graphs" class="org.springframework.beandoc.output.GraphVizDecorator" init-method="init"/>			    
 			    
 	<bean id="html" class="org.springframework.beandoc.output.HtmlDecorator"/>
+	
+	<bean id="i18n" abstract="true"/>
     
     <bean id="htmlIndexTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
 	    <description>
@@ -52,19 +54,25 @@
     	<property name="filenameRoot" value="index"/>
     </bean>
     
-    <bean id="htmlNavigationTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+    <bean id="htmlNavigationTransformer" parent="i18n" class="org.springframework.beandoc.output.ConsolidatedTransformer">
     	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/nav.xsl"/>
     	<property name="filenameRoot" value="nav"/>
     </bean>
     
-    <bean id="htmlMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
+    <bean id="htmlMainTransformer" parent="i18n" class="org.springframework.beandoc.output.ConsolidatedTransformer">
 	    <description>
 	    	Another consolidated transformer generating the main summary page.  Passes an XSL parameter to the
 	    	stylesheet consisting of the current system time (documentation generation time)
 	    </description>
     	<property name="templateName" value="/org/springframework/beandoc/output/stylesheets/main.xsl"/>
     	<property name="filenameRoot" value="main"/>
-    	<property name="staticParameters"><map><entry key="beandocGenerated"><bean class="java.util.Date"/></entry></map></property>
+    	<property name="staticParameters">
+			<map>
+				<entry key="beandocGenerated">
+					<bean parent="i18n" class="org.springframework.beandoc.util.LocalizedDateFactoryBean"/>
+				</entry>
+			</map>
+		</property>
     </bean>
     
     <bean id="htmlImageMapMainTransformer" class="org.springframework.beandoc.output.ConsolidatedTransformer">
@@ -80,7 +88,7 @@
         </property>
     </bean>
     
-    <bean id="htmlDocTransformer" class="org.springframework.beandoc.output.XslTransformer">
+    <bean id="htmlDocTransformer" parent="i18n" class="org.springframework.beandoc.output.XslTransformer">
     	<description>
 	    	Transformer generating an HTML document for each input DOM.  A summary of beans followed by
 	    	the detailed configuration of each follows.

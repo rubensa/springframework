@@ -72,15 +72,15 @@ public class AntTask extends MatchingTask {
      * @see org.apache.tools.ant.Task#execute()
      */
     public void execute() throws BuildException {  	        
-
         ClassLoader sysClassLoader = Thread.currentThread().getContextClassLoader();
-        AntClassLoader newClassLoader = 
-            new AntClassLoader(getClass().getClassLoader(), true);
-        Thread.currentThread().setContextClassLoader(newClassLoader);
         
-        String resolvedInputFiles = resolveInputFiles();
-        
-		try {            
+        try {   
+            AntClassLoader newClassLoader = 
+                new AntClassLoader(getClass().getClassLoader(), true);
+            Thread.currentThread().setContextClassLoader(newClassLoader);
+            
+            String resolvedInputFiles = resolveInputFiles();        
+		         
             BeanFactory factory = 
                 SpringLoader.getBeanFactory(
                     new SpringLoaderCommand(

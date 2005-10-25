@@ -20,9 +20,9 @@
 	<dependency org="springframework" name="spring-core" rev="1.2.5" conf="default, ioc->default"/>
 	<dependency org="springframework" name="spring-beans" rev="1.2.5" conf="default, ioc->default"/>
 	<dependency org="springframework" name="spring-context" rev="1.2.5" conf="default, ioc->default"/>
+	<dependency org="springframework" name="spring-aop" rev="1.2.5" conf="default, aop->default"/>
 	<dependency org="springframework" name="spring-dao" rev="1.2.5" conf="default, dao->default"/>
 	<dependency org="springframework" name="spring-jdbc" rev="1.2.5" conf="default, dao->default"/>
-	<dependency org="springframework" name="spring-aop" rev="1.2.5" conf="default, aop->default"/>
 	<dependency org="springframework" name="spring-orm" rev="1.2.5" conf="default, jee->default"/>
 	<dependency org="springframework" name="spring-hibernate" rev="1.2.5" conf="default, jee->default"/>
 	<dependency org="springframework" name="spring-support" rev="1.2.5" conf="default, jee->default"/>

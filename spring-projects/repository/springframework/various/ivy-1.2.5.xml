@@ -25,7 +25,7 @@
 	<dependency org="springframework" name="spring-orm" rev="1.2.5" conf="default, jee->default"/>
 	<dependency org="springframework" name="spring-hibernate" rev="1.2.5" conf="default, jee->default"/>
 	<dependency org="springframework" name="spring-support" rev="1.2.5" conf="default, jee->default"/>
-	<dependency org="springframework" name="spring-remoting" rev="1.2.5" conf="default, jee, web->default"/>
+	<dependency org="springframework" name="spring-remoting" rev="1.2.5" conf="default, jee->default, web->default"/>
 	<dependency org="springframework" name="spring-web" rev="1.2.5" conf="default, web->default"/>
 	<dependency org="springframework" name="spring-webmvc" rev="1.2.5" conf="default, web->default"/>
 	<dependency org="springframework" name="spring-webflow" rev="pr5" conf="default, web->default"/>

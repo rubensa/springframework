@@ -41,8 +41,8 @@
         <!-- 
             don't remove ide-classes
         -->
-        <delete dir="${target.javadocs.dir}"/>
-
+        <delete failonerror="no" dir="${target.javadocs.dir}"/>
+        <delete failonerror="no" dir="${target.dist.dir}"/>
         <delete failonerror="no" dir="${target.classes.dir}"/>
         <delete failonerror="no" dir="${target.testclasses.dir}"/>
         <delete failonerror="no" dir="${target.junit.reports.dir}"/>

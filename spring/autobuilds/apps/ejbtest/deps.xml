@@ -20,10 +20,9 @@
       <pathelement location="${DOM4J_JAR}"/>
       <pathelement location="${EHCACHE_JAR}"/>
       <pathelement location="${EJB_JAR}"/>
-      <pathelement location="${HIBERNATE2_JAR}"/>
+      <pathelement location="${HIBERNATE3_JAR}"/>
       <pathelement location="${JUNIT_JAR}"/>
       <pathelement location="${JUNIT_ADDONS_JAR}"/>
-      <pathelement location="${ODMG_JAR}"/>
       <pathelement location="${SPRING_JAR}"/>
     </path>
 

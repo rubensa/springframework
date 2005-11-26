@@ -189,9 +189,9 @@
     <loadproperties srcFile="properties.tmp"/>
     <delete file="properties.tmp"/>
 
-    <!--fileset id="classes.for.web.inf.classes.fileset" dir="${target.classes.dir}">
+    <fileset id="classes.for.web.inf.classes.fileset" dir="${target.classes.dir}">
       <include name="**/*" />
-    </fileset-->
+    </fileset>
 
   </target>
 

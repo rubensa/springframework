@@ -13,17 +13,18 @@
     <path id="integration.deps.normal">
       <pathelement location="${AOPALLIANCE_JAR}"/>
       <pathelement location="${CGLIB2_JAR}"/>
+      <pathelement location="${COMMONS_CODEC_JAR}"/>
       <pathelement location="${COMMONS_COLLECTIONS_JAR}"/>
       <pathelement location="${COMMONS_DBCP_JAR}"/>
       <pathelement location="${COMMONS_LOGGING_JAR}"/>
       <pathelement location="${COMMONS_POOL_JAR}"/>
       <pathelement location="${DOM4J_JAR}"/>
       <pathelement location="${EHCACHE_JAR}"/>
-      <pathelement location="${HIBERNATE2_JAR}"/>
+      <pathelement location="${HIBERNATE3_JAR}"/>
       <pathelement location="${JUNIT_JAR}"/>
       <pathelement location="${JUNIT_ADDONS_JAR}"/>
-      <pathelement location="${ODMG_JAR}"/>
       <pathelement location="${SPRING_JAR}"/>
+      <pathelement location="${SPRING_HIBERNATE_JAR}"/>
     </path>
 
 	<path id="integration.deps.compileonly">

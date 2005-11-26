@@ -10,7 +10,7 @@
   	    class="org.springframework.context.support.ClassPathXmlApplicationContext">
     <constructor-arg>
       <list>
-        <value>/servicelayer-applicationContext.xml</value>
+        <value>conf/services-applicationContext.xml</value>
       </list>
    	</constructor-arg>
   </bean>

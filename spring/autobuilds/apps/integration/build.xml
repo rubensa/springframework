@@ -57,6 +57,7 @@
     <path id="cactus.runtime.classpath">
         <pathelement location="${ASPECTJRT_JAR}"/>
         <pathelement location="${CACTUS_JAR}"/>
+        <pathelement location="${CARGO_JAR}"/>
         <pathelement location="${COMMONS_HTTPCLIENT_JAR}"/>
         <pathelement location="${COMMONS_LOGGING_JAR}"/>
         <pathelement location="${JUNIT_JAR}"/>

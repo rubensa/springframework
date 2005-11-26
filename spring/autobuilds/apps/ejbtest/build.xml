@@ -72,6 +72,14 @@
       <classpath refid="cactus.build.classpath"/>
     </taskdef>
   </target>
+
+  <!-- we override normal build so that classes don't go into WEB-INF/classes, since
+       the EAR file is going to include a jar with them anyway -->
+  <target name="init_pre" depends="common-targets.init_pre">
+    <fileset id="classes.for.web.inf.classes.fileset" dir="${target.classes.dir}">
+      <include name="*!!!empty!!!" />
+    </fileset>
+  </target>
   
   <!-- hook into statics for cactus artifacts -->
   <target name="statics-reg" depends="common-targets.statics-reg">

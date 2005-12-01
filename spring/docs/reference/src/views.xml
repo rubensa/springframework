@@ -532,10 +532,10 @@ recommend sticking to 'spring' --&gt;
                 falling back to the value of the default parameter)</entry>
 
                 <entry><literal>#springMessageText($code
-                $default)</literal></entry>
+                $text)</literal></entry>
 
                 <entry><literal>&lt;@spring.messageText code,
-                default/&gt;</literal></entry>
+                text/&gt;</literal></entry>
               </row>
 
               <row>

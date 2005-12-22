@@ -1,5 +1,0 @@
-version 20051127-2
-
-Changelog:
-2005-11-27: Update Spring version in templates
-2005-11-20: Arjen: add gen java source dir functionality for test sources too

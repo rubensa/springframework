@@ -159,6 +159,28 @@
         "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="."/>" [ ]
     </xsl:template>
 	
+    <xsl:template match="@depends-on">
+        <xsl:call-template name="split-depends-on">
+            <xsl:with-param name="str" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+
+
+    <xsl:template name="split-depends-on">
+        <xsl:param name="str"/>
+        <xsl:choose>
+            <xsl:when test="contains($str,',')">
+                "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="normalize-space(substring-before($str,','))"/>" [ ]
+                <xsl:call-template name="split-depends-on">
+                    <xsl:with-param name="str" select="substring-after($str,',')"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                "<xsl:value-of select="ancestor::bean/@id"/><xsl:value-of select="ancestor::bean/@name"/>" -&gt; "<xsl:value-of select="normalize-space($str)"/>" [ ]
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+	
 	
 	<!--
 	 * hide other attribs

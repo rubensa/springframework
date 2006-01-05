@@ -27,6 +27,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Properties;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -68,6 +71,10 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 
 	private Map someMap = new HashMap();
 
+	private List someList = new ArrayList();
+
+	private Properties someProperties = new Properties();
+
 	private INestedTestBean doctor = new NestedTestBean();
 
 	private INestedTestBean lawyer = new NestedTestBean();
@@ -82,11 +89,18 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 	public TestBean() {
 	}
 
+	public TestBean(String name) {
+		this.name = name;
+	}
+
+	public TestBean(ITestBean spouse) {
+		this.spouse = spouse;
+	}
+
 	public TestBean(String name, int age) {
 		this.name = name;
 		this.age = age;
 	}
-
 
 	public void setBeanName(String beanName) {
 		this.beanName = beanName;
@@ -196,6 +210,22 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 
 	public void setSomeMap(Map someMap) {
 		this.someMap = someMap;
+	}
+
+	public List getSomeList() {
+		return someList;
+	}
+
+	public void setSomeList(List someList) {
+		this.someList = someList;
+	}
+
+	public Properties getSomeProperties() {
+		return someProperties;
+	}
+
+	public void setSomeProperties(Properties someProperties) {
+		this.someProperties = someProperties;
 	}
 
 	public INestedTestBean getDoctor() {

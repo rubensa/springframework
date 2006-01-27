@@ -16,79 +16,153 @@
 
 package org.springframework.workflow.jbpm;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.HibernateException;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
-import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.Assert;
 
 /**
+ * Helper class featuring methods for jBPM Session handling, allowing for reuse of jBPM Session instances within transactions.
+ * As jBPM 3.0.x actually stands on top of Hibernate, this class will delegate as much as possible work to Spring Hibernate SessionFactoryUtils.
+ * 
  * @author Rob Harrop
  */
 public abstract class JbpmSessionFactoryUtils {
 
-    public static JbpmSession getSession(JbpmSessionFactory sessionFactory) {
-        Assert.notNull(sessionFactory, "No JbpmSessionFactory specified");
+	private static final Log logger = LogFactory.getLog(JbpmSessionFactoryUtils.class);
 
-        JbpmSessionHolder jbpmSessionHolder = (JbpmSessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
+	/**
+	 * Returns a jBPM session. It is aware of and will return the thread-bound session if one is found.
+	 * 
+	 * @param sessionFactory
+	 * @return
+	 */
+	public static JbpmSession getSession(JbpmSessionFactory sessionFactory) {
+		try {
+			return doGetSession(sessionFactory, true);
+		}
+		catch (RuntimeException e) {
+			throw new DataAccessResourceFailureException("Could not open jBPM Session", e);
+		}
+	}
 
-        if (jbpmSessionHolder != null && jbpmSessionHolder.getJbpmSession() != null) {
-            return jbpmSessionHolder.getJbpmSession();
-        }
+	/**
+	 * Returns a jBPM session. It is aware of and will return the thread-bound session if one is found.
+	 * jBPM exceptions will not be translated.
+	 * 
+	 * @param sessionFactory
+	 * @param allowCreate
+	 * @return
+	 */
+	public static JbpmSession doGetSession(JbpmSessionFactory sessionFactory, boolean allowCreate) {
+		Assert.notNull(sessionFactory, "No JbpmSessionFactory specified");
 
-        JbpmSession jbpmSession = sessionFactory.openJbpmSession();
-        jbpmSessionHolder = new JbpmSessionHolder(jbpmSession);
+		JbpmSessionHolder jbpmSessionHolder = (JbpmSessionHolder) TransactionSynchronizationManager.getResource(sessionFactory);
 
-        if (TransactionSynchronizationManager.isSynchronizationActive()) {
-            TransactionSynchronizationManager.registerSynchronization(new SpringJbpmSessionSynchronization(jbpmSessionHolder));
-            TransactionSynchronizationManager.bindResource(sessionFactory, jbpmSessionHolder);
-        }
+		if (jbpmSessionHolder != null && jbpmSessionHolder.getJbpmSession() != null) {
+			return jbpmSessionHolder.getJbpmSession();
+		}
 
-        return jbpmSession;
-    }
+		JbpmSession jbpmSession = sessionFactory.openJbpmSession();
+		jbpmSessionHolder = new JbpmSessionHolder(jbpmSession);
 
-    public static void releaseSession(JbpmSession jbpmSession, JbpmSessionFactory jbpmSessionFactory) {
-        if(!isTransactional(jbpmSession, jbpmSessionFactory)) {
-           doClose(jbpmSession);
-        }
-    }
+		if (TransactionSynchronizationManager.isSynchronizationActive()) {
+			TransactionSynchronizationManager.registerSynchronization(new SpringJbpmSessionSynchronization(
+					jbpmSessionHolder, sessionFactory));
+			TransactionSynchronizationManager.bindResource(sessionFactory, jbpmSessionHolder);
+		}
 
-    private static void doClose(JbpmSession jbpmSession) {
-        jbpmSession.close();
-    }
+		return jbpmSession;
+	}
 
-    private static boolean isTransactional(JbpmSession jbpmSession, JbpmSessionFactory jbpmSessionFactory) {
-        JbpmSessionHolder jbpmSessionHolder = (JbpmSessionHolder)TransactionSynchronizationManager.getResource(jbpmSessionFactory);
-        return (jbpmSessionHolder != null && jbpmSessionHolder.getJbpmSession() == jbpmSession);
-    }
+	/**
+	 * Releases the jBPM session.
+	 * 
+	 * @param jbpmSession
+	 * @param jbpmSessionFactory
+	 */
+	public static void releaseSession(JbpmSession jbpmSession, JbpmSessionFactory jbpmSessionFactory) {
+		if (jbpmSession == null)
+			return;
 
-    private static class SpringJbpmSessionSynchronization implements TransactionSynchronization {
-        private JbpmSessionHolder jbpmSessionHolder;
+		if (!isTransactional(jbpmSession, jbpmSessionFactory)) {
+			logger.debug("Closing jBPM session");
+			jbpmSession.close();
+		}
 
-        public SpringJbpmSessionSynchronization(JbpmSessionHolder jbpmSessionHolder) {
-            this.jbpmSessionHolder = jbpmSessionHolder;
-        }
+	}
 
-        public void suspend() {
+	/**
+	 * Return whether the given jBPM Session is transactional, that is,
+	 * bound to the current thread by Spring's transaction facilities.
+	 * 
+	 * @param jbpmSession
+	 * @param jbpmSessionFactory
+	 * @return
+	 */
+	public static boolean isTransactional(JbpmSession jbpmSession, JbpmSessionFactory jbpmSessionFactory) {
+		if (jbpmSessionFactory == null)
+			return false;
 
-        }
+		JbpmSessionHolder jbpmSessionHolder = (JbpmSessionHolder) TransactionSynchronizationManager.getResource(jbpmSessionFactory);
+		return (jbpmSessionHolder != null && jbpmSessionHolder.getJbpmSession() == jbpmSession);
+	}
 
-        public void resume() {
+	/**
+	 * Converts Jbpm RuntimeExceptions into Spring specific ones (if possible).
+	 * @param ex
+	 * @return
+	 */
+	public static RuntimeException convertJbpmException(RuntimeException ex) {
+		// try to decode and translate HibernateExceptions
+		if (ex instanceof HibernateException) {
+			return SessionFactoryUtils.convertHibernateAccessException((HibernateException) ex);
+		}
 
-        }
+		if (ex.getCause() instanceof HibernateException) {
+			DataAccessException rootCause = SessionFactoryUtils.convertHibernateAccessException((HibernateException) ex.getCause());
+			return new NestedDataAccessException(ex.getMessage(), rootCause);
+		}
 
-        public void beforeCommit(boolean readOnly) {
+		// cannot convert the exception in any meaningful way
+		return ex;
+	}
 
-        }
+	/**
+	 * Callback for resource cleanup at the end of a transaction (e.g.
+	 * when participating in a JtaTransactionManager transaction).
+	 * 
+	 * @see org.springframework.transaction.jta.JtaTransactionManager
+	 */
+	private static class SpringJbpmSessionSynchronization extends TransactionSynchronizationAdapter {
 
-        public void beforeCompletion() {
+		private JbpmSessionHolder jbpmSessionHolder;
+		private JbpmSessionFactory jbpmSessionFactory;
 
-        }
+		public SpringJbpmSessionSynchronization(JbpmSessionHolder jbpmSessionHolder,
+				JbpmSessionFactory jbpmSessionFactory) {
+			this.jbpmSessionHolder = jbpmSessionHolder;
+			this.jbpmSessionFactory = jbpmSessionFactory;
+		}
 
-        public void afterCompletion(int status) {
-            JbpmSession jbpmSession = this.jbpmSessionHolder.getJbpmSession();
-            jbpmSession.getSession().close();
-            this.jbpmSessionHolder.clear();
-        }
-    }
+		public void suspend() {
+			TransactionSynchronizationManager.unbindResource(this.jbpmSessionFactory);
+		}
+
+		public void resume() {
+			TransactionSynchronizationManager.bindResource(jbpmSessionFactory, jbpmSessionHolder);
+		}
+
+		public void beforeCompletion() {
+			TransactionSynchronizationManager.unbindResource(jbpmSessionFactory);
+			this.jbpmSessionHolder.clear();
+		}
+	}
 }

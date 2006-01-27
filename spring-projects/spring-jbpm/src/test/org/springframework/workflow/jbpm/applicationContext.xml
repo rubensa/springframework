@@ -36,5 +36,16 @@
         <property name="hibernateSessionFactory" ref="hibernateSessionFactory"/>
         <property name="hibernateConfiguration" ref="hibernateConfiguration"/>
     </bean>
-
+	
+	<bean id="processDefinition" class="org.springframework.workflow.jbpm.definition.ProcessDefinitionFactoryBean">
+		<property name="jbpmSessionFactory" ref="jbpmSessionFactory"/>
+	    <property name="definitionLocation" value="classpath:org/springframework/workflow/jbpm/simpleWorkflow.xml"/>
+    </bean>
+	
+	<bean id="jbpmTemplate" class="org.springframework.workflow.jbpm.JbpmTemplate">
+		<constructor-arg index="0" ref="jbpmSessionFactory"/>
+		<constructor-arg index="1" ref="processDefinition"/>
+	</bean>
+	
+	<bean id="jbpmAction" class="org.springframework.workflow.jbpm.DummyActionHandler"/>
 </beans>

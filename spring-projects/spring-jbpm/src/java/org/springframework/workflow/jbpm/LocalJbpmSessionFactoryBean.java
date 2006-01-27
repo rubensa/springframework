@@ -16,144 +16,239 @@
 
 package org.springframework.workflow.jbpm;
 
-import org.hibernate.SessionFactory;
+import java.lang.reflect.Field;
+import java.sql.Connection;
+
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.jbpm.db.JbpmSession;
 import org.jbpm.db.JbpmSessionFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
-import java.sql.Connection;
-
 /**
+ * FactoryBean that creates a local jBPM SessionFactory instance. Behaves like a SessionFactory instance when used as bean reference, 
+ * e.g. for JbpmTemplate's "sessionFactory" property. Note that switching to JndiObjectFactoryBean is just a matter of configuration!
+ * <p/>
+ * Due to the nature of jbpm 3.0.x architecture and the lack of interfaces for core components, this factoryBean will create subclasses of jbpmSessionFactory
+ * and jbpmSession in order to allow Spring transaction and session management. 
+ * 
  * @author Rob Harrop
+ * @author Costin Leau
  */
-public class LocalJbpmSessionFactoryBean implements FactoryBean, InitializingBean {
+public class LocalJbpmSessionFactoryBean implements FactoryBean, InitializingBean, BeanFactoryAware,
+		BeanNameAware {
 
-    private JbpmSessionFactory sessionFactory;
+	// internal factory locator
+	private JbpmFactoryLocator factoryLocator = new JbpmFactoryLocator();
 
-    private SessionFactory hibernateSessionFactory;
+	private JbpmSessionFactory sessionFactory;
 
-    private Configuration hibernateConfiguration;
+	private SessionFactory hibernateSessionFactory;
 
-    public void setHibernateSessionFactory(SessionFactory hibernateSessionFactory) {
-        this.hibernateSessionFactory = hibernateSessionFactory;
-    }
+	private Configuration hibernateConfiguration;
 
-    public void setHibernateConfiguration(Configuration hibernateConfiguration) {
-        this.hibernateConfiguration = hibernateConfiguration;
-    }
+	public void setHibernateSessionFactory(SessionFactory hibernateSessionFactory) {
+		this.hibernateSessionFactory = hibernateSessionFactory;
+	}
 
-    public void afterPropertiesSet() throws Exception {
-        if (this.hibernateConfiguration == null) {
-            throw new FatalBeanException("Property [hibernateConfiguration] of [" + LocalJbpmSessionFactoryBean.class + "] is required.");
-        }
+	public void setHibernateConfiguration(Configuration hibernateConfiguration) {
+		this.hibernateConfiguration = hibernateConfiguration;
+	}
 
-        if (this.hibernateSessionFactory == null) {
-            throw new FatalBeanException("Property [hibernateSessionFactory] of [" + LocalJbpmSessionFactoryBean.class + "] is required.");
-        }
+	public void afterPropertiesSet() throws Exception {
+		if (this.hibernateConfiguration == null) {
+			throw new FatalBeanException("Property [hibernateConfiguration] of ["
+					+ LocalJbpmSessionFactoryBean.class
+					+ "] is required.");
+		}
 
-        this.sessionFactory = new SpringJbpmSessionFactory(this.hibernateConfiguration, this.hibernateSessionFactory);
-    }
+		if (this.hibernateSessionFactory == null) {
+			throw new FatalBeanException("Property [hibernateSessionFactory] of ["
+					+ LocalJbpmSessionFactoryBean.class
+					+ "] is required.");
+		}
 
-    public Object getObject() throws Exception {
-        return this.sessionFactory;
-    }
+		this.sessionFactory = new SpringJbpmSessionFactory(this.hibernateConfiguration,
+				this.hibernateSessionFactory);
+	}
 
-    public Class getObjectType() {
-        return (this.sessionFactory == null) ? JbpmSessionFactory.class : this.sessionFactory.getClass();
-    }
+	public Object getObject() throws Exception {
+		return this.sessionFactory;
+	}
 
-    public boolean isSingleton() {
-        return true;
-    }
+	public Class getObjectType() {
+		return (this.sessionFactory == null) ? JbpmSessionFactory.class : this.sessionFactory.getClass();
+	}
 
-    private static final class SpringJbpmSessionFactory extends JbpmSessionFactory {
-        private SessionFactory sessionFactory;
+	public boolean isSingleton() {
+		return true;
+	}
 
-        public SpringJbpmSessionFactory(Configuration configuration, SessionFactory sessionFactory) {
-            super(configuration, sessionFactory);
-            this.sessionFactory = sessionFactory;
-        }
+	/**
+	 * @see org.springframework.beans.factory.BeanFactoryAware#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+	 */
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		factoryLocator.setBeanFactory(beanFactory);
+	}
 
-        public JbpmSession openJbpmSession(Connection jdbcConnection) {
-            if (jdbcConnection != null) {
-                throw new UnsupportedOperationException("Cannot start a new Hibernate Session using supplied JDBC connection");
-            }
+	/**
+	 * @see org.springframework.beans.factory.BeanNameAware#setBeanName(java.lang.String)
+	 */
+	public void setBeanName(String name) {
+		factoryLocator.setBeanName(name);
+	}
 
-            Session session = SessionFactoryUtils.getSession(this.sessionFactory, true);
-            return new SpringJbpmSession(this, session, this.sessionFactory);
-        }
-    }
+	/**
+	 * Subclass for JbpmSessionFactory that hooks the Spring jbpm session factory.
+	 *
+	 */
+	private static class SpringJbpmSessionFactory extends JbpmSessionFactory {
+		private SessionFactory sessionFactory;
 
-    private static final class SpringJbpmSession extends JbpmSession {
+		public SpringJbpmSessionFactory(Configuration configuration, SessionFactory sessionFactory) {
+			super(configuration, sessionFactory);
+			this.sessionFactory = sessionFactory;
+		}
 
-        private SessionFactory sessionFactory;
+		public JbpmSession openJbpmSession(Connection jdbcConnection) {
+			if (jdbcConnection != null) {
+				throw new UnsupportedOperationException(
+						"Cannot start a new Hibernate Session using supplied JDBC connection");
+			}
 
-        public SpringJbpmSession(JbpmSessionFactory jbpmSessionFactory, Session session, SessionFactory sessionFactory) {
-            super(jbpmSessionFactory, session);
-            this.sessionFactory = sessionFactory;
-        }
+			// TODO: should this always be on?
+			Session session = SessionFactoryUtils.getSession(this.sessionFactory, true);
+			return new SpringJbpmSession(this, session, this.sessionFactory);
+		}
 
-			
+	}
 
-				public void beginTransaction() {
-            if(isSpringManagedTransaction()) {
-                return;
-            }
+	/**
+	 * Extension of JbpmSession factory that hooks in Spring resource (transaction/session) management. 
+	 *
+	 */
+	private static class SpringJbpmSession extends JbpmSession {
 
-            super.beginTransaction();
-        }
+		private SessionFactory sessionFactory;
+		// determine the field at start time.
+		private static final Field sessionField;
+		private static final String SESSION_FIELD_NAME = "session";
+		private static final Field transactionField;
+		private static final String TRANSACTION_FIELD_NAME = "transaction";
 
+		static {
+			try {
+				// do the 'reflection' magic only once to avoid security checks
+				// on each close check
+				sessionField = JbpmSession.class.getDeclaredField(SESSION_FIELD_NAME);
+				sessionField.setAccessible(true);
+				transactionField = JbpmSession.class.getDeclaredField(TRANSACTION_FIELD_NAME);
+				transactionField.setAccessible(true);
 
-        public void commitTransaction() {
-            if(isSpringManagedTransaction()) {
-                return;
-            }
+			}
+			catch (NoSuchFieldException e) {
+				throw new RuntimeException("can't find field "
+						+ SESSION_FIELD_NAME
+						+ "/"
+						+ TRANSACTION_FIELD_NAME
+						+ " for introspection on class "
+						+ JbpmSession.class, e);
+			}
+		}
 
-            super.commitTransaction();
-        }
+		public SpringJbpmSession(JbpmSessionFactory jbpmSessionFactory, Session session,
+				SessionFactory sessionFactory) {
+			super(jbpmSessionFactory, session);
+			this.sessionFactory = sessionFactory;
 
-        public void rollbackTransaction() {
-            if(isSpringManagedTransaction()) {
-                return;
-            }
+		}
 
-            super.rollbackTransaction();
-        }
+		public void beginTransaction() {
+			if (isSpringManagedTransaction()) {
+				return;
+			}
 
-        // todo: thoroughly test these
-        // todo: consider the effect of deferred close of these methods
+			super.beginTransaction();
+		}
 
-        public void commitTransactionAndClose() {
-            if(isSpringManagedTransaction()) {
-                return;
-            }
+		public void commitTransaction() {
+			if (isSpringManagedTransaction()) {
+				return;
+			}
 
-            super.commitTransactionAndClose();
-        }
+			super.commitTransaction();
+		}
 
-        public void rollbackTransactionAndClose() {
-            if(isSpringManagedTransaction()) {
-                return;
-            }
+		public void rollbackTransaction() {
+			if (isSpringManagedTransaction()) {
+				return;
+			}
 
-            super.rollbackTransactionAndClose();
-        }
+			super.rollbackTransaction();
+		}
 
-        public void close() {
-            if(isSpringManagedTransaction()) {
-                return;
-            }
+		// TODO: thoroughly test these
+		// TODO: consider the effect of deferred close of these methods
+		// TODO: check out transaction management
 
-            super.close();
-        }
+		public void commitTransactionAndClose() {
+			if (isSpringManagedTransaction()) {
+				nullifySuperField(transactionField);
+				close();
+			}
 
-        private boolean isSpringManagedTransaction() {
-            return SessionFactoryUtils.isSessionTransactional(getSession(), this.sessionFactory);
-        }
-    }
+			super.commitTransactionAndClose();
+		}
+
+		public void rollbackTransactionAndClose() {
+			if (isSpringManagedTransaction()) {
+				nullifySuperField(transactionField);
+				close();
+			}
+
+			super.rollbackTransactionAndClose();
+		}
+
+		public void close() {
+			// should remove the session reference in a nice way (let spring do the handling)
+
+			// a. first set through introspection the session to null to prevent any trouble or
+			// closing
+			if (isSpringManagedTransaction()) {
+				nullifySuperField(sessionField);
+			}
+
+			// no matter what let jbpm release it's resources
+			super.close();
+		}
+
+		/**
+		 * Utility method for nullified a super field.
+		 * @param field
+		 */
+		protected void nullifySuperField(Field field) {
+			try {
+				field.set(this, null);
+			}
+			catch (IllegalAccessException e) {
+				throw new UnsupportedOperationException("can not set private field=" + field, e);
+			}
+		}
+		/**
+		 * Check if the session is transaction (was binded to thread).
+		 * @return
+		 */
+		private boolean isSpringManagedTransaction() {
+			return SessionFactoryUtils.isSessionTransactional(getSession(), this.sessionFactory);
+		}
+	}
+
 }

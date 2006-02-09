@@ -16,15 +16,15 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/test/commons-lang-2.0.jar">
+	<classpathentry kind="lib" path="lib/test/commons-lang.jar">
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/test/commons-logging-1.0.4.jar">
+	<classpathentry kind="lib" path="lib/test/commons-logging.jar">
 		<attributes>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/test/junit-3.8.1.jar">
+	<classpathentry kind="lib" path="lib/test/junit.jar">
 		<attributes>
 		</attributes>
 	</classpathentry>

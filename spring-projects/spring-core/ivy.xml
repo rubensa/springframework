@@ -39,7 +39,8 @@
 
   <dependencies defaultconf="global->default">
 
-      <dependency org="junit" name="junit" rev="3.8.1"
+	<dependency	org="apache" name="commons-logging"	rev="1.0.4"/>
+    <dependency org="junit" name="junit" rev="3.8.1"
 	            conf="test->default"/>
 	            
   </dependencies>

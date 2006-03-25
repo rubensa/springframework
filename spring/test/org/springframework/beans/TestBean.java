@@ -91,6 +91,16 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 
 	private Number someNumber;
 
+	private Colour favouriteColour;
+
+	public Colour getFavouriteColour() {
+		return favouriteColour;
+	}
+
+	public void setFavouriteColour(Colour favouriteColour) {
+		this.favouriteColour = favouriteColour;
+	}
+
 
 	public TestBean() {
 	}

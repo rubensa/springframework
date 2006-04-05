@@ -67,6 +67,8 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 
 	private String[] stringArray;
 
+	private Integer[] someIntegerArray;
+
 	private Date date = new Date();
 
 	private Float myFloat = new Float(0.0);
@@ -116,6 +118,11 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 	public TestBean(String name, int age) {
 		this.name = name;
 		this.age = age;
+	}
+
+	public TestBean(ITestBean spouse, Properties someProperties) {
+		this.spouse = spouse;
+		this.someProperties = someProperties;
 	}
 
 	public void setBeanName(String beanName) {
@@ -367,4 +374,11 @@ public class TestBean implements BeanNameAware, BeanFactoryAware, ITestBean, IOt
 		return s;
 	}
 
+	public Integer[] getSomeIntegerArray() {
+		return someIntegerArray;
+	}
+
+	public void setSomeIntegerArray(Integer[] someIntegerArray) {
+		this.someIntegerArray = someIntegerArray;
+	}
 }

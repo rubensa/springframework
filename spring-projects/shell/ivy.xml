@@ -20,9 +20,9 @@
 		<!-- global (compile, test, runtime) dependencies -->
 		<dependency org="apache" name="commons-logging" rev="1.0.4" />
 		<dependency org="apache" name="log4j" rev="1.2.9" />
-		<dependency	org="springframework" name="spring-beans" rev="2.0-m2"/>
-		<dependency	org="springframework" name="spring-core" rev="2.0-m2"/>
-		<dependency	org="springframework" name="spring-context"	rev="2.0-m2"/>
+		<dependency	org="springframework" name="spring-beans" rev="2.0-m4"/>
+		<dependency	org="springframework" name="spring-core" rev="2.0-m4"/>
+		<dependency	org="springframework" name="spring-context"	rev="2.0-m4"/>
 
 		<!-- build time only dependencies -->
 

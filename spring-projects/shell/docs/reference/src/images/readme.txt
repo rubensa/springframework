@@ -1,1 +1,0 @@
-Reference documentation image files go here.

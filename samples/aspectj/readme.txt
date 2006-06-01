@@ -1,1 +1,0 @@
-Spring/AspectJ integration samples

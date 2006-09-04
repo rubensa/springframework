@@ -8,7 +8,7 @@
 	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
 	<classpathentry sourcepath="/spring/src" kind="lib" path="lib/spring-core.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.9.jar"/>
 	<classpathentry sourcepath="/spring/src" kind="lib" path="lib/spring-beans.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.13.jar"/>
 	<classpathentry kind="output" path="target/ide-classes"/>
 </classpath>

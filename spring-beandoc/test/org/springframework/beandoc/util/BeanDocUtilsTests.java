@@ -88,9 +88,9 @@ public class BeanDocUtilsTests extends TestCase {
         };
         String[] outputs = BeanDocUtils.normaliseFileNames(inputs);
         assertEquals(inputs.length, outputs.length);
-        assertEquals("module2/file1.xml", outputs[1]);
+        assertEquals("module2" + File.separator + "file1.xml", outputs[1]);
         assertEquals("file1.xml", outputs[0]);
-        assertEquals("module1/file1.xml", outputs[2]);        
+        assertEquals("module1" + File.separator + "file1.xml", outputs[2]);        
     }
     
     public void testGetRelativePath() {

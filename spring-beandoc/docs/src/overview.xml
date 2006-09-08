@@ -41,8 +41,8 @@
       <para>Spring BeanDoc is part of the SpringFramework CVS repository,
       existing as a separate module from the main Spring sources. You can
       <ulink
-      url="http://cvs.sourceforge.net/viewcvs.py/springframework/spring-beandoc/">view
-      the module</ulink> via ViewCVS or check it out anonymously using CVS.
+      url="http://fisheye1.cenqua.com/browse/springframework/spring-beandoc">view
+      the module</ulink> via Fisheye or check it out anonymously using CVS.
       Shown below are the commands required from the CVS command-line, see
       your preferred tool's documentation if you wish to use that
       instead.</para>

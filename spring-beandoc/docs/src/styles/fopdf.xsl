@@ -2,21 +2,18 @@
 
 <!-- 
 
-    This is the XSL FO configuration file for the Hibernate
-    Reference Documentation. It defines a custom titlepage and
-    the parameters for the A4 sized PDF printable output.
+    This is the XSL FO (PDF) stylesheet for the Spring reference
+    documentation.
     
-    It took me days to figure out this stuff and fix most of
-    the obvious bugs in the DocBook XSL distribution, so if you
-    use this stylesheet, give some credit back to the Hibernate
-    project.
-    
-    christian.bauer@bluemars.de
+    Thanks are due to Christian Bauer of the Hibernate project
+    team for writing the original stylesheet upon which this one
+    is based.
 -->
 
 <!DOCTYPE xsl:stylesheet [
     <!ENTITY db_xsl_path        "../../DocBook/lib/docbook-xsl/">
     <!ENTITY admon_gfx_path     "../images/admons/">
+    <!ENTITY copyright "&#xA9;">
 ]>
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -25,7 +22,7 @@
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 exclude-result-prefixes="#default">
                 
-<xsl:import href="&db_xsl_path;/fo/docbook.xsl"/>
+<xsl:import href="&db_xsl_path;fo/docbook.xsl"/>
 
 <!--###################################################
                    Custom Title Page
@@ -38,9 +35,6 @@
                 <fo:table-body>
                     <fo:table-row>
                         <fo:table-cell text-align="center">
-                            <fo:block font-family="Helvetica" font-size="28pt" padding-before="10mm">
-                                <xsl:value-of select="bookinfo/title"/> 
-                            </fo:block>
                             <fo:block>
                                 <fo:external-graphic src="file:images/logo.jpg"/>
                             </fo:block>
@@ -62,7 +56,7 @@
                     <fo:table-row>
                         <fo:table-cell text-align="center">
                             <fo:block font-family="Helvetica" font-size="12pt" padding="10mm">
-                                <xsl:text>Copyright (c) 2004  -  </xsl:text>
+                                <xsl:text>Copyright &copyright; 2004-2006 </xsl:text>
                                 <xsl:for-each select="bookinfo/authorgroup/author">
                                     <xsl:if test="position() > 1">
                                         <xsl:text>, </xsl:text>
@@ -106,75 +100,49 @@
 <!--###################################################
                       Custom Footer
     ################################################### -->     
-
-    <!-- This footer prints the Spring Framework version number on the left side -->
-    <xsl:template name="footer.content">
-        <xsl:param name="pageclass" select="''"/>
-        <xsl:param name="sequence" select="''"/>
-        <xsl:param name="position" select="''"/>
-        <xsl:param name="gentext-key" select="''"/>
-
-        <xsl:variable name="Version">
-            <xsl:choose>
-                <xsl:when test="//releaseinfo">
-                        <xsl:value-of select="//title"/> <xsl:value-of select="//releaseinfo"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!-- nop -->
-                </xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-
-        <xsl:choose>
-            <xsl:when test="$sequence='blank'">
-            <xsl:choose>
-                <xsl:when test="$double.sided != 0 and $position = 'left'">
-                <xsl:value-of select="$Version"/>
-                </xsl:when>
-
-                <xsl:when test="$double.sided = 0 and $position = 'center'">
-                <!-- nop -->
-                </xsl:when>
-
-                <xsl:otherwise>
-                <fo:page-number/>
-                </xsl:otherwise>
-            </xsl:choose>
-            </xsl:when>
-
-            <xsl:when test="$pageclass='titlepage'">
-            <!-- nop: other titlepage sequences have no footer -->
-            </xsl:when>
-
-            <xsl:when test="$double.sided != 0 and $sequence = 'even' and $position='left'">
-            <fo:page-number/>
-            </xsl:when>
-
-            <xsl:when test="$double.sided != 0 and $sequence = 'odd' and $position='right'">
-            <fo:page-number/>
-            </xsl:when>
-
-            <xsl:when test="$double.sided = 0 and $position='right'">
-            <fo:page-number/>
-            </xsl:when>
-
-            <xsl:when test="$double.sided != 0 and $sequence = 'odd' and $position='left'">
-            <xsl:value-of select="$Version"/>
-            </xsl:when>
-
-            <xsl:when test="$double.sided != 0 and $sequence = 'even' and $position='right'">
-            <xsl:value-of select="$Version"/>
-            </xsl:when>
-
-            <xsl:when test="$double.sided = 0 and $position='left'">
-            <xsl:value-of select="$Version"/>
-            </xsl:when>
-
-            <xsl:otherwise>
-            <!-- nop -->
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>    
+	<xsl:template name="footer.content">
+		<xsl:param name="pageclass" select="''" />
+		<xsl:param name="sequence" select="''" />
+		<xsl:param name="position" select="''" />
+		<xsl:param name="gentext-key" select="''" />
+		<xsl:variable name="Version">
+			<xsl:if test="//releaseinfo">
+				<xsl:text>Spring Framework (</xsl:text><xsl:value-of select="//releaseinfo" /><xsl:text>)</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="$sequence='blank'">
+				<xsl:if test="$position = 'center'">
+					<xsl:value-of select="$Version" />
+				</xsl:if>
+			</xsl:when>
+			<!-- for double sided printing, print page numbers on alternating sides (of the page) -->
+			<xsl:when test="$double.sided != 0">
+				<xsl:choose>
+					<xsl:when test="$sequence = 'even' and $position='left'">
+						<fo:page-number />
+					</xsl:when>
+					<xsl:when test="$sequence = 'odd' and $position='right'">
+						<fo:page-number />
+					</xsl:when>
+					<xsl:when test="$position='center'">
+						<xsl:value-of select="$Version" />
+					</xsl:when>
+				</xsl:choose>
+			</xsl:when>
+			<!-- for single sided printing, print all page numbers on the right (of the page) -->
+			<xsl:when test="$double.sided = 0">
+				<xsl:choose>
+					<xsl:when test="$position='center'">
+						<xsl:value-of select="$Version" />
+					</xsl:when>
+					<xsl:when test="$position='right'">
+						<fo:page-number />
+					</xsl:when>
+				</xsl:choose>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>   
     
 <!--###################################################
                    Custom Toc Line
@@ -194,6 +162,7 @@
         <fo:block  end-indent="{$toc.indent.width}pt"
                    last-line-end-indent="-{$toc.indent.width}pt"
                    white-space-treatment="preserve"
+                   text-align="left"
                    white-space-collapse="false">
             <fo:inline keep-with-next.within-line="always">
                 <!-- print Chapters in bold style -->
@@ -284,7 +253,7 @@
     ################################################### -->      
 
     <!-- Left aligned text and no hyphenation -->
-    <xsl:param name="alignment">left</xsl:param>
+    <xsl:param name="alignment">justify</xsl:param>
     <xsl:param name="hyphenate">false</xsl:param>
 
     <!-- Default Font size -->
@@ -422,10 +391,6 @@
         <xsl:attribute name="space-before.minimum">1em</xsl:attribute>
         <xsl:attribute name="space-before.optimum">1em</xsl:attribute>
         <xsl:attribute name="space-before.maximum">1em</xsl:attribute>
-        <!-- alef: commented out because footnotes were screwed because of it -->
-        <!--<xsl:attribute name="space-after.minimum">0.1em</xsl:attribute>
-        <xsl:attribute name="space-after.optimum">0.1em</xsl:attribute>
-        <xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>-->
         <xsl:attribute name="border-color">#444444</xsl:attribute>
         <xsl:attribute name="border-style">solid</xsl:attribute>
         <xsl:attribute name="border-width">0.1pt</xsl:attribute>      
@@ -487,5 +452,24 @@
         <xsl:attribute name="space-after.minimum">0.1em</xsl:attribute>
         <xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>
     </xsl:attribute-set>
+    
+<!--###################################################
+              colored and hyphenated links 
+    ################################################### --> 
+	<xsl:template match="ulink"> 
+	<fo:basic-link external-destination="{@url}" 
+			xsl:use-attribute-sets="xref.properties" 
+			text-decoration="underline" 
+			color="blue"> 
+			<xsl:choose> 
+			<xsl:when test="count(child::node())=0"> 
+			<xsl:value-of select="@url"/> 
+			</xsl:when> 
+			<xsl:otherwise> 
+			<xsl:apply-templates/> 
+			</xsl:otherwise> 
+			</xsl:choose> 
+			</fo:basic-link> 
+	</xsl:template> 
     
 </xsl:stylesheet>

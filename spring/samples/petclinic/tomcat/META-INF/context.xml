@@ -1,3 +1,0 @@
-<Context path="/petclinic" reloadable="false">
-   <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
-</Context>

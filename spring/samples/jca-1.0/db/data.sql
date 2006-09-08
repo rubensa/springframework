@@ -1,1 +1,0 @@
-insert into PERSON (PERSON_ID,PERSON_LAST_NAME,PERSON_FIRST_NAME) values(1,'Lastname','Firstname');

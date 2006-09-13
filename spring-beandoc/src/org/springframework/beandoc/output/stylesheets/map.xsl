@@ -46,12 +46,12 @@
                 <!-- hack using an MS extension to ensure the next stylesheet is *only* loaded by IE5 browsers -->
                 <xsl:comment>[if IE 5]>
                     &lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
-                    &lt;![endif]</xsl:comment>              
+                    &lt;![endif]</xsl:comment>
+                         
             </head>
   
             <body>        
                 <img src="{$pathRel}{beans/@beandocFileName}.{beans/@beandocGraphType}" alt="Graph" usemap ="#G"/>   
-                <base href="{$pathRel}.."/>             
                 <xsl:comment> ## imagemap ## </xsl:comment>                
             </body>
         </html>

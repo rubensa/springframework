@@ -1,126 +1,205 @@
-A {
+body {
+   text-align: justify;
+   margin-right: 2em;
+   margin-left: 2em;
+}
+
+a,
+a[accesskey^="h"],
+a[accesskey^="n"],
+a[accesskey^="u"],
+a[accesskey^="p"] {
+    font-family: Verdana, Arial, helvetica, sans-serif;
+    font-size: 12px;
+	color: #003399;
+}
+
+a:active {
     color: #003399;
 }
 
-A:active {
-    color: #003399;
-}
-
-A:visited {
+a:visited {
     color: #888888;
 }
 
-P, DL, DT, DD, BLOCKQUOTE {
+p {
+	font-family: Verdana, Arial, sans-serif;
+}
+
+dt {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 12px;
+}
+
+p, dl, dt, dd, blockquote {
     color: #000000;
     margin-bottom: 3px;
     margin-top: 3px;
     padding-top: 0px;
-    /*border: 1px solid black;*/
 }
 
-OL, UL, P {
+ol, ul, p {
     margin-top: 6px;
     margin-bottom: 6px;
 }
 
-P, BLOCKQUOTE {
+p, blockquote {
     font-size: 90%;
 }
 
-P.releaseinfo {
-    font-size: 120%; font-weight: bold; 
-    font-family: Arial, helvetica, sans-serif;
+p.releaseinfo {
+    font-size: 100%;
+    font-weight: bold;
+    font-family: Verdana, Arial, helvetica, sans-serif;
     padding-top: 10px;
 }
 
-P.pubdate {
-    font-size: 120%; font-weight: bold; 
-    font-family: Arial, helvetica, sans-serif;
+p.pubdate {
+    font-size: 120%;
+    font-weight: bold; 
+    font-family: Verdana, Arial, helvetica, sans-serif;
 }
 
 td {
     font-size: 80%;
 }
 
-
-TD, TH, SPAN {
+td, th, span {
     color: #000000;
 }
 
-BLOCKQUOTE {
+td[width^="40%"] {
+    font-family: Verdana, Arial, helvetica, sans-serif;
+    font-size: 12px;
+	color: #003399;
+}
+
+table[summary^="Navigation header"] tbody tr th[colspan^="3"] {
+    font-family: Verdana, Arial, helvetica, sans-serif;
+}
+
+blockquote {
     margin-right: 0px;
 }
 
-H1, H2, H3, H4, H5, H6    {
+h1, h2, h3, h4, h6, H6    {
     color: #000000;
-    font-weight:500;
-    margin-top:0px;
-    padding-top:14px;
-    font-family: Arial, helvetica, sans-serif;
+    font-weight: 500;
+    margin-top: 0px;
+    padding-top: 14px;
+    font-family: Verdana, Arial, helvetica, sans-serif;
     margin-bottom: 0px;
 }
 
-H2.title {
-    font-weight:800;
+h2.title {
+    font-weight: 800;
     margin-bottom: 8px;
 }
 
-H2.subtitle {
-    font-weight:800;
+h2.subtitle {
+    font-weight: 800;
     margin-bottom: 20px;
 }
 
-H3.author {
-    color: #000000;
-    font-weight:500;
-    margin-top:0px;
-    padding-top:0px;
-    font-family: Arial, helvetica, sans-serif;
-    margin-bottom: 0px;
+.firstname, .surname {
+	font-size: 12px;
+    font-family: Verdana, Arial, helvetica, sans-serif;
 }
 
-TABLE  {
+table {
     border-collapse: collapse;
-    border-spacing:0;
-    border: 1px thin black;
+    border-spacing: 0;
+    border: 1px black;
     empty-cells: hide;
+    margin: 10px 0px 30px 50px;
+    width: 90%;
 }
 
-TD  {
+div.table {
+	margin: 30px 0px 30px 0px;
+	border: 1px dashed gray;
+	padding: 10px;
+}
+
+div .table-contents table {
+	border: 1px solid black;
+}
+
+div.table > p.title {
+	padding-left: 10px;
+}
+
+table[summary^="Navigation footer"] {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px black;
+    empty-cells: hide;    
+    margin: 0px;
+    width: 100%;
+}
+
+table[summary^="Note"],
+table[summary^="Warning"],
+table[summary^="Tip"] {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px black;
+    empty-cells: hide;    
+    margin: 10px 0px 10px -20px;
+    width: 100%;
+}
+
+td {
     padding: 4pt;
+    font-family: Verdana, Arial, helvetica, sans-serif;
 }
 
-H1 { 
+div.warning TD {
+	text-align: justify;
+}
+
+h1 { 
     font-size: 150%; 
 }
-H2 { 
+
+h2 { 
     font-size: 110%; 
 }
-H3 {
+
+h3 {
     font-size: 100%; font-weight: bold; 
 }
-H4 { 
+
+h4 { 
     font-size: 90%; font-weight: bold;
 }
-H5 {
+
+h5 {
     font-size: 90%; font-style: italic; 
 }
-H6 { 
+
+h6 { 
     font-size: 100%; font-style: italic; 
 }
 
-TT {
-    font-size: 90%;
+tt {
+    font-size: 110%;
     font-family: "Courier New", Courier, monospace;
     color: #000000;
 }
 
-.navheader, .navfooter {    
-    background-color: #e4eff3;
+.navheader, .navfooter {
+	border: none;
 }
 
-PRE {
-    font-size: 90%;
+div.navfooter table {
+	border: dashed gray;
+	border-width: 1px 1px 1px 1px;
+	background-color: #cde48d;
+}
+
+pre {
+    font-size: 110%;
     padding: 5px;
     border-style: solid;
     border-width: 1px;
@@ -128,30 +207,23 @@ PRE {
     background-color: #F4F4F4;
 }
 
-UL, OL, LI {
+ul, ol, li {
     list-style: disc;
 }
 
-HR  {
+hr {
     width: 100%;
     height: 1px;
     background-color: #CCCCCC;
     border-width: 0px;
     padding: 0px;
-    color: #CCCCCC;
 }
 
 .variablelist { 
-    padding-top: 10; 
-    padding-bottom:10; 
-    margin:0;
+    padding-top: 10px; 
+    padding-bottom: 10px; 
+    margin: 0;
 }
-
-/*(.itemizedlist, UL { 
-    padding-top: 0; 
-    padding-bottom:0; 
-    margin:0; 
-}*/
 
 .term { 
     font-weight:bold;
@@ -163,6 +235,50 @@ HR  {
 }
 
 .legalnotice {
-    font-size: 70%;
+    font-family: Verdana, Arial, helvetica, sans-serif;
+    font-size: 12px;
+    font-style: italic;
 }
-    
+
+.sidebar {
+    float: right;
+    margin: 10px 0px 10px 30px;
+    padding: 10px 20px 20px 20px;
+    width: 33%;
+    border: 1px solid black;
+    background-color: #F4F4F4;
+    font-size: 14px;
+}
+
+.property {
+	font-family: "Courier New", Courier, monospace;
+}
+
+a code {
+	font-family: Verdana, Arial, monospace;
+	font-size: 12px;
+}
+
+td code {
+    font-size: 110%;
+}
+
+div.note * td,
+div.tip * td,
+div.warning * td,
+div.calloutlist * td {
+	text-align: justify;
+	font-size: 100%;
+}
+
+.programlisting .interfacename,
+.programlisting .literal,
+.programlisting .classname {
+    font-size: 95%;
+}
+
+/* everything in a <lineannotation/> is displayed in a coloured, comment-like font */
+.programlisting * .lineannotation,
+.programlisting * .lineannotation * {
+	color: green;
+}

@@ -17,6 +17,7 @@
 package org.springframework.beandoc;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -314,6 +315,9 @@ public class DefaultContextProcessor implements ContextProcessor {
                 } catch (JDOMException e) {
                     throw new BeanDocException(
                         "Unable to parse or validate imported resource [" + res + "]", e);
+                    
+                } catch (FileNotFoundException fnfe) {
+                    logger.warn("Unable to load imported resource [" + res + "].  Ignoring it.");
                 }
     
             }

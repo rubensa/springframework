@@ -10,7 +10,8 @@ and optional graphing of Spring context files (bean definition files).  The
 tool reads and parses input files (XML) and generates different types of
 output from them in order to help visualize dependencies between defined
 services and beans for a Spring based application.  The tool can be used
-programmatically, from the command line or as an ANT task.
+programmatically, from the command line, as a maven2 report or as an ANT 
+task.
 
 
 2. RELEASE INFO
@@ -24,8 +25,10 @@ implementation of GraphViz (http://www.graphviz.org) is required too.
 
 3. BUILDING BEANDOC
 
-in order to build the jar file simply run ANT by calling "ant dist".
-Try "ant" to get a list of other targets.
+Spring BeanDoc uses maven2 as the build system.  You will need to have this
+installed in order to build from source.  From the root of the project tree,
+just execute 'mvn package' (without the quotes) in order to get the
+beandoc jar file.
 
 
 4. DISTRIBUTION JAR FILES
@@ -34,6 +37,3 @@ All runtime dependencies are copied to the distribution directory when the
 beandoc JAR file is built and contains all files required to run the beandoc
 tool programmatically or from the command line.  In order to use the ANT
 task, you will obviously also need to have ANT available.
-
-
-Darren Davison, Apr 2005.

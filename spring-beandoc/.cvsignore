@@ -6,3 +6,5 @@ spring-beandoc.ipr
 .nbintdb
 nbproject
 .byecycle
+.wtpmodules
+DocBook

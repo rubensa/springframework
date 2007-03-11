@@ -2,7 +2,7 @@
 
 <project name="spring-beandoc-sample" basedir="." default="beandoc">
 
-    <property name="lib.dir" value="../target/dist" />
+    <property name="lib.dir" value="${basedir}/../lib/" />
     
     <!-- load the beandoc props just to get the output dir so we can clean it -->
     <property file="${basedir}/beandoc.properties" />
@@ -13,16 +13,15 @@
         </fileset>
         <dirset dir="${basedir}"/>
     </path>
-
-    <target name="init">
-        <taskdef name="beandoc" classname="org.springframework.beandoc.client.AntTask">
-            <classpath refid="main-classpath"/>
-        </taskdef>
-        <mkdir dir="${output.dir}" />
-    </target>
+  
+    <taskdef 
+        name="beandoc"
+        classname="org.springframework.beandoc.client.AntTask"
+        classpathref="main-classpath"/>
 
     <!-- clean the output dir and regen beandocs based on props file -->
-    <target name="beandoc" depends="init">
+    <target name="beandoc">
+      <mkdir dir="${output.dir}" />
     	
         <delete>
             <fileset dir="${output.dir}" includes="**/*" />
@@ -34,7 +33,7 @@
         	filesets to the beandoc task
         -->
         <beandoc  
-            outputDir="../target/sample-output"
+            outputDir="../sample-output"
             beandocProps="${basedir}/beandoc.properties">
         	<fileset dir="${basedir}/jpetstore">
         		<include name="*.xml"/>

@@ -1,0 +1,49 @@
+Spring BeanDoc
+
+  BeanDoc is the tool that facilitates documentation and graphing of Spring 
+  bean factories and application context files. Whilst very easy to use, it 
+  is designed to be flexible and extensible to meet most needs.
+
+[images/beandoc-sample.jpg] Spring BeanDoc
+
+
+  BeanDoc can help you visualize better the layers of your application and 
+  how your objects interact. It can be added to your normal project build 
+  processes so that your documentation and object graphs are always up to 
+  date with your releases and snapshots!
+  
+  For a full sample of BeanDoc's output, see the following documentation from
+  two of Spring's sample applications:
+
+    * {{{jpetstore/}JPetStore sample output (with default skin)}}
+    
+    * {{{petclinic/}PetClinic sample output (with 'wheat' skin and French localization)}}
+
+  There is a Maven2 plugin for beandoc available from {{{http://jira.codehaus.org/browse/MOJO-212}codehaus}}
+
+
+Download
+
+  The latest version can be obtained using the links below:
+  
+    * {{{spring-beandoc.tar.gz}tar.gz file}}
+    
+    * {{{spring-beandoc.zip}zip file}}
+    
+
+Current status
+
+  BeanDoc is unable to document context files using schema namespace support 
+  available in Spring 2.x. I'm trying to rectify this as quickly as possible.
+
+  There are a couple of very minor deficiencies in the API and the 
+  implementation that may need to change in non backward-compatible ways prior
+  to a final release, but this will only affect users accessing the tool 
+  programmatically instead of via Ant or the CLI.
+
+
+Documentation
+
+  Project documentation is normally regenerated on a per-release basis. Links are
+  shown on the left to the available reports and reference docs.
+  

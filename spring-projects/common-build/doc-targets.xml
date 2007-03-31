@@ -97,6 +97,7 @@
 				<include name="**/*.jpg" />
 			</fileset>
 		</copy>
+		<copy todir="${docs.ref.target.dir}/html/" file="${docs.ref.dir}/styles/html.css" failonerror="false"/>
 
 		<java classname="com.icl.saxon.StyleSheet" fork="true" dir="${docs.ref.target.dir}/html">
 			<classpath>
@@ -126,6 +127,7 @@
 				<include name="**/*.jpg" />
 			</fileset>
 		</copy>
+		<copy todir="${docs.ref.target.dir}/html_single/" file="${docs.ref.dir}/styles/html.css" failonerror="false"/>
 
 		<java classname="com.icl.saxon.StyleSheet" fork="true" dir="${docs.ref.target.dir}/html_single">
 			<classpath>

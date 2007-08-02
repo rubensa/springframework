@@ -22,26 +22,24 @@ import junit.framework.JUnit4TestAdapter;
 import org.springframework.test.annotation.ContextConfiguration;
 
 /**
- * Subclass of {@link SpringJUnit4ClassRunnerApplicationContextTests} which
- * verifies that configuration of the application context and dependency
- * injection of the test instance function as expected within a class hierarchy
- * since {@link ContextConfiguration} is defined as {@link Inherited}.
+ * Extension of {@link SpringJUnit4ClassRunnerAppCtxTests} which verifies that
+ * the configuration of an application context and dependency injection of a
+ * test instance function as expected within a class hierarchy, since
+ * {@link ContextConfiguration configuration} is {@link Inherited inherited}.
  *
- * @see SpringJUnit4ClassRunnerApplicationContextTests
- * @see DuplicateSpringJUnit4ClassRunnerApplicationContextTests
+ * @see SpringJUnit4ClassRunnerAppCtxTests
  * @author Sam Brannen
  * @version $Revision$
  * @since 2.2
  */
-public class SubclassedSpringJUnit4ClassRunnerApplicationContextTests extends
-		SpringJUnit4ClassRunnerApplicationContextTests {
+public class InheritedConfigSpringJUnit4ClassRunnerAppCtxTests extends SpringJUnit4ClassRunnerAppCtxTests {
 
 	/* all tests are in the parent class. */
 
 	// XXX Remove suite() once we've migrated to Ant 1.7 with JUnit 4 support.
 	public static junit.framework.Test suite() {
 
-		return new JUnit4TestAdapter(SubclassedSpringJUnit4ClassRunnerApplicationContextTests.class);
+		return new JUnit4TestAdapter(InheritedConfigSpringJUnit4ClassRunnerAppCtxTests.class);
 	}
 
 }

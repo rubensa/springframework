@@ -31,14 +31,14 @@ import org.springframework.test.annotation.ContextConfiguration;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(generateDefaultLocations = false)
-public class StandardJUnit4FeaturesWithSpringRunnerTests extends StandardJUnit4FeaturesTests {
+public class StandardJUnit4FeaturesSpringRunnerTests extends StandardJUnit4FeaturesTests {
 
 	/* all tests are in the parent class. */
 
 	// XXX Remove suite() once we've migrated to Ant 1.7 with JUnit 4 support.
 	public static junit.framework.Test suite() {
 
-		return new JUnit4TestAdapter(StandardJUnit4FeaturesWithSpringRunnerTests.class);
+		return new JUnit4TestAdapter(StandardJUnit4FeaturesSpringRunnerTests.class);
 	}
 
 }

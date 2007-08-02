@@ -47,13 +47,15 @@ import org.junit.runners.Suite.SuiteClasses;
 
 StandardJUnit4FeaturesTests.class,
 
-StandardJUnit4FeaturesWithSpringRunnerTests.class,
+StandardJUnit4FeaturesSpringRunnerTests.class,
 
-SpringJUnit4ClassRunnerApplicationContextTests.class,
+SpringJUnit4ClassRunnerAppCtxTests.class,
 
-DuplicateSpringJUnit4ClassRunnerApplicationContextTests.class,
+AbsolutePathSpringJUnit4ClassRunnerAppCtxTests.class,
 
-SubclassedSpringJUnit4ClassRunnerApplicationContextTests.class
+RelativePathSpringJUnit4ClassRunnerAppCtxTests.class,
+
+InheritedConfigSpringJUnit4ClassRunnerAppCtxTests.class,
 
 })
 public class SpringJUnit4SuiteTests {

@@ -19,28 +19,45 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import junit.framework.JUnit4TestAdapter;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.Employee;
 import org.springframework.beans.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.annotation.ContextConfiguration;
 
 /**
- * Duplicate of {@link SpringJUnit4ClassRunnerApplicationContextTests}, which
- * verifies that we can specify an explicit location for our application context
- * while maintaining the same functionality (without extending
- * {@link SpringJUnit4ClassRunnerApplicationContextTests}).
+ * <p>
+ * SpringJUnit4ClassRunnerAppCtxTests serves as a <em>proof of concept</em>
+ * JUnit 4 based test class, which verifies the expected functionality of
+ * {@link SpringJUnit4ClassRunner} in conjunction with
+ * {@link ContextConfiguration} and Spring's {@link Autowired} annotation.
+ * </p>
+ * <p>
+ * Since no {@link ContextConfiguration#locations() locations} are explicitly
+ * defined and
+ * {@link ContextConfiguration#generateDefaultLocations() generateDefaultLocations}
+ * is left set to its default value of <code>true</code>, this test class's
+ * dependencies will be injected via
+ * {@link Autowired annotation-based autowiring} from beans defined in the
+ * {@link ApplicationContext} loaded from the default classpath resource:
+ * &quot;<code>/org/springframework/test/junit/SpringJUnit4ClassRunnerAppCtxTests-context.xml</code>&quot;.
+ * </p>
  *
- * @see SpringJUnit4ClassRunnerApplicationContextTests
- * @see SubclassedSpringJUnit4ClassRunnerApplicationContextTests
+ * @see AbsolutePathSpringJUnit4ClassRunnerAppCtxTests
+ * @see RelativePathSpringJUnit4ClassRunnerAppCtxTests
+ * @see InheritedConfigSpringJUnit4ClassRunnerAppCtxTests
  * @author Sam Brannen
  * @version $Revision$
  * @since 2.2
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "org/springframework/test/junit/SpringJUnit4ClassRunnerApplicationContextTests-context.xml" })
-public class DuplicateSpringJUnit4ClassRunnerApplicationContextTests {
+@ContextConfiguration()
+public class SpringJUnit4ClassRunnerAppCtxTests implements ApplicationContextAware {
 
 	// ------------------------------------------------------------------------|
 	// --- CLASS VARIABLES ----------------------------------------------------|
@@ -53,12 +70,14 @@ public class DuplicateSpringJUnit4ClassRunnerApplicationContextTests {
 	// XXX Remove suite() once we've migrated to Ant 1.7 with JUnit 4 support.
 	public static junit.framework.Test suite() {
 
-		return new JUnit4TestAdapter(DuplicateSpringJUnit4ClassRunnerApplicationContextTests.class);
+		return new JUnit4TestAdapter(SpringJUnit4ClassRunnerAppCtxTests.class);
 	}
 
 	// ------------------------------------------------------------------------|
 	// --- INSTANCE VARIABLES -------------------------------------------------|
 	// ------------------------------------------------------------------------|
+
+	private ApplicationContext applicationContext;
 
 	private Employee employee;
 
@@ -67,6 +86,16 @@ public class DuplicateSpringJUnit4ClassRunnerApplicationContextTests {
 
 	// ------------------------------------------------------------------------|
 	// --- INSTANCE METHODS ---------------------------------------------------|
+	// ------------------------------------------------------------------------|
+
+	/**
+	 * @return Returns the applicationContext.
+	 */
+	protected ApplicationContext getApplicationContext() {
+
+		return this.applicationContext;
+	}
+
 	// ------------------------------------------------------------------------|
 
 	protected Employee getEmployee() {
@@ -84,12 +113,36 @@ public class DuplicateSpringJUnit4ClassRunnerApplicationContextTests {
 	// ------------------------------------------------------------------------|
 
 	/**
+	 * @see org.springframework.context.ApplicationContextAware#setApplicationContext(org.springframework.context.ApplicationContext)
+	 */
+	@Override
+	public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+
+		this.applicationContext = applicationContext;
+	}
+
+	// ------------------------------------------------------------------------|
+
+	/**
 	 * @param employee The employee to set.
 	 */
 	@Autowired
 	protected void setEmployee(final Employee employee) {
 
 		this.employee = employee;
+	}
+
+	// ------------------------------------------------------------------------|
+
+	@Ignore
+	@Test
+	public void verifyApplicationContext() {
+
+		// TODO Determine if we want to support ApplicationContextAware and
+		// other bean lifecycle methods out-of-the-box for test classes.
+
+		assertNotNull("The application context should have been set due to ApplicationContextAware.",
+				getApplicationContext());
 	}
 
 	// ------------------------------------------------------------------------|

@@ -49,6 +49,13 @@ public interface ContextLoader {
 	 * {@link ContextConfigurationAttributes configuration attributes} provided
 	 * to this ContextLoader.
 	 * </p>
+	 * <p>
+	 * Any ApplicationContext loaded by this method <strong>must</strong> be
+	 * asked to register a JVM shutdown hook for itself. Unless the context gets
+	 * closed early, all context instances will be automatically closed on JVM
+	 * shutdown. This allows for freeing external resources held by beans within
+	 * the context, e.g. temporary files.
+	 * </p>
 	 *
 	 * @return a new application context
 	 */

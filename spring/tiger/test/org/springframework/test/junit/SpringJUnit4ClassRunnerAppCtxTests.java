@@ -47,6 +47,9 @@ import org.springframework.test.annotation.ContextConfiguration;
  * {@link Autowired annotation-based autowiring} from beans defined in the
  * {@link ApplicationContext} loaded from the default classpath resource: &quot;<code>/org/springframework/test/junit/SpringJUnit4ClassRunnerAppCtxTests-context.xml</code>&quot;.
  * </p>
+ * <p>
+ * TODO Unit test application context caching.
+ * </p>
  *
  * @see AbsolutePathSpringJUnit4ClassRunnerAppCtxTests
  * @see RelativePathSpringJUnit4ClassRunnerAppCtxTests

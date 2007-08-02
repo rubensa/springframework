@@ -54,6 +54,9 @@ public class DefaultContextConfigurationAttributes implements ContextConfigurati
 	// --- CONSTANTS ----------------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
+	/** serialVersionUID. */
+	private static final long serialVersionUID = -1748862298523840362L;
+
 	/** Class Logger. */
 	private static final Log LOG = LogFactory.getLog(DefaultContextConfigurationAttributes.class);
 

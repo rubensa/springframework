@@ -64,6 +64,15 @@ public class MapBackedContextCache<KEY extends Serializable, CONTEXT extends Con
 
 	// ------------------------------------------------------------------------|
 
+	@Override
+	public void clearStatistics() {
+
+		this.hitCount = 0;
+		this.missCount = 0;
+	}
+
+	// ------------------------------------------------------------------------|
+
 	public final boolean contains(final KEY key) {
 
 		Assert.notNull(key, "Key must not be null.");

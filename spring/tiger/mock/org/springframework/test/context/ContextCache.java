@@ -51,6 +51,12 @@ public interface ContextCache<KEY extends Serializable, CONTEXT extends Configur
 	public abstract void clear();
 
 	/**
+	 * Clears hit and miss count statistics for the cache (i.e., resets counters
+	 * to zero).
+	 */
+	public abstract void clearStatistics();
+
+	/**
 	 * <p>
 	 * Return whether there is a cached context for the given key.
 	 * </p>

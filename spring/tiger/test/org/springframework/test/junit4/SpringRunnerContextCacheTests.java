@@ -76,6 +76,8 @@ public class SpringRunnerContextCacheTests {
 	public static void verifyInitialCacheState() {
 
 		final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext> contextCache = TestableSpringJUnit4ClassRunner.testableTestContextManager.getVisibleContextCache();
+		contextCache.clear();
+		contextCache.clearStatistics();
 		assertContextCacheStatistics(contextCache, "BeforeClass", 0, 0, 0);
 	}
 

@@ -140,11 +140,6 @@ public class SpringRunnerContextCacheTests {
 			TestableSpringJUnit4ClassRunner.testableTestContextManager = testableTestContextManager;
 			return testableTestContextManager;
 		}
-
-		TestableTestContextManager<T> getTestableTestContextManager() {
-
-			return (TestableTestContextManager<T>) super.getTestContextManager();
-		}
 	}
 
 	// ------------------------------------------------------------------------|

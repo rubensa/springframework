@@ -167,7 +167,6 @@ public class SpringJUnit4ClassRunner<T> extends JUnit4ClassRunner {
 			LOG.debug("Invoking test method [" + method.toGenericString() + "].");
 		}
 
-		// TODO Add test support for @DirtiesContext
 		// TODO Add test support for @Transactional and @NotTransactional
 
 		// XXX Optional: add test support for @IfProfileValue & @Repeat

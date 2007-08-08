@@ -54,7 +54,7 @@ public class SpringRunnerContextCacheTests {
 	// XXX Remove suite() once we've migrated to Ant 1.7 with JUnit 4 support.
 	public static junit.framework.Test suite() {
 
-		return new JUnit4TestAdapter(SpringJUnit4SuiteTests.class);
+		return new JUnit4TestAdapter(SpringRunnerContextCacheTests.class);
 	}
 
 	// ------------------------------------------------------------------------|
@@ -108,7 +108,7 @@ public class SpringRunnerContextCacheTests {
 	public void dirtyContext() {
 
 		final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext> contextCache = TestableSpringJUnit4ClassRunner.testableTestContextManager.getVisibleContextCache();
-		assertContextCacheStatistics(contextCache, "alwaysPassesButDirtiesContext()", 1, 0, 1);
+		assertContextCacheStatistics(contextCache, "dirtyContext()", 1, 0, 1);
 	}
 
 	// ------------------------------------------------------------------------|

@@ -57,6 +57,8 @@ public class SpringRunnerContextCacheTests {
 		return new JUnit4TestAdapter(SpringJUnit4SuiteTests.class);
 	}
 
+	// ------------------------------------------------------------------------|
+
 	/**
 	 * Asserts the statistics of the supplied context cache.
 	 *
@@ -94,7 +96,7 @@ public class SpringRunnerContextCacheTests {
 	public static void verifyFinalCacheState() {
 
 		final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext> contextCache = TestableSpringJUnit4ClassRunner.testableTestContextManager.getVisibleContextCache();
-		assertContextCacheStatistics(contextCache, "AfterClass", 1, 1, 1);
+		assertContextCacheStatistics(contextCache, "AfterClass", 1, 0, 2);
 	}
 
 	// ------------------------------------------------------------------------|
@@ -115,10 +117,7 @@ public class SpringRunnerContextCacheTests {
 	public void verifyDirtiesContext() {
 
 		final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext> contextCache = TestableSpringJUnit4ClassRunner.testableTestContextManager.getVisibleContextCache();
-
-		// TODO verify @DirtiesContext functionality.
-		// In other words, change the following assertion accordingly...
-		assertContextCacheStatistics(contextCache, "verifyDirtiesContext()", 1, 1, 1);
+		assertContextCacheStatistics(contextCache, "verifyDirtiesContext()", 1, 0, 2);
 	}
 
 	// ------------------------------------------------------------------------|

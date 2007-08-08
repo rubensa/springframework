@@ -57,7 +57,9 @@ RelativePathSpringJUnit4ClassRunnerAppCtxTests.class,
 
 InheritedConfigSpringJUnit4ClassRunnerAppCtxTests.class,
 
-PropertiesBasedSpringJUnit4ClassRunnerAppCtxTests.class
+PropertiesBasedSpringJUnit4ClassRunnerAppCtxTests.class,
+
+SpringRunnerContextCacheTests.class
 
 })
 public class SpringJUnit4SuiteTests {

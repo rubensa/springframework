@@ -35,8 +35,8 @@ import org.springframework.util.Assert;
  * TestContextManager is the central entry point into the Spring testing support
  * API, which serves as a facade and encapsulates support for loading and
  * accessing {@link ConfigurableApplicationContext application contexts},
- * dependency injection of test classes, and {@link Transactional transactional}
- * execution of test methods.
+ * dependency injection of test instances, and
+ * {@link Transactional transactional} execution of test methods.
  * </p>
  * <p>
  * Specifically, a TestContextManager is responsible for managing a single

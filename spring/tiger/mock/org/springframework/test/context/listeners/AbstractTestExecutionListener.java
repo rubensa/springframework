@@ -26,7 +26,7 @@ import org.springframework.test.context.TestContext;
  * @version $Revision$
  * @since 2.1
  */
-public class AbstractTestExecutionListener implements TestExecutionListener {
+public abstract class AbstractTestExecutionListener implements TestExecutionListener {
 
 	// ------------------------------------------------------------------------|
 	// --- INSTANCE METHODS ---------------------------------------------------|

@@ -28,7 +28,7 @@ import org.springframework.beans.Pet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.annotation.ContextConfiguration;
-import org.springframework.test.context.GenericPropertiesContextLoader;
+import org.springframework.test.context.support.GenericPropertiesContextLoader;
 
 /**
  * <p>

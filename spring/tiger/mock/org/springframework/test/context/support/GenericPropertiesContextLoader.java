@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.test.context;
+package org.springframework.test.context.support;
 
 import java.util.Properties;
 
@@ -21,6 +21,7 @@ import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.support.PropertiesBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.test.context.ContextConfigurationAttributes;
 
 /**
  * <p>
@@ -60,7 +61,7 @@ public class GenericPropertiesContextLoader extends AbstractGenericContextLoader
 	 * Creates a new {@link PropertiesBeanDefinitionReader}.
 	 * </p>
 	 *
-	 * @see org.springframework.test.context.AbstractGenericContextLoader#createBeanDefinitionReader(org.springframework.context.support.GenericApplicationContext)
+	 * @see org.springframework.test.context.support.AbstractGenericContextLoader#createBeanDefinitionReader(org.springframework.context.support.GenericApplicationContext)
 	 * @see PropertiesBeanDefinitionReader
 	 * @return a new PropertiesBeanDefinitionReader.
 	 */

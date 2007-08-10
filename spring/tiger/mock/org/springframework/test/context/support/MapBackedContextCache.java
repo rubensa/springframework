@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.test.context;
+package org.springframework.test.context.support;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextCache;
 import org.springframework.util.Assert;
 
 /**

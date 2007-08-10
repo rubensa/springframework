@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextLoader;
-import org.springframework.test.context.GenericXmlContextLoader;
+import org.springframework.test.context.support.GenericXmlContextLoader;
 
 /**
  * ContextConfiguration defines class-level metadata which can be used to

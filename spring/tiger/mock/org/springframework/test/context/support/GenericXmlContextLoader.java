@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.test.context;
+package org.springframework.test.context.support;
 
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.test.context.ContextConfigurationAttributes;
 
 /**
  * <p>
@@ -58,7 +59,7 @@ public class GenericXmlContextLoader extends AbstractGenericContextLoader {
 	 * Creates a new {@link XmlBeanDefinitionReader}.
 	 * </p>
 	 *
-	 * @see org.springframework.test.context.AbstractGenericContextLoader#createBeanDefinitionReader(org.springframework.context.support.GenericApplicationContext)
+	 * @see org.springframework.test.context.support.AbstractGenericContextLoader#createBeanDefinitionReader(org.springframework.context.support.GenericApplicationContext)
 	 * @see XmlBeanDefinitionReader
 	 * @return a new XmlBeanDefinitionReader.
 	 */

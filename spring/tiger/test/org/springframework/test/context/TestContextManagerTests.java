@@ -15,6 +15,7 @@
  */
 package org.springframework.test.context;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
@@ -177,6 +178,9 @@ public class TestContextManagerTests {
 		this.testContextManager = new TestContextManager<ExampleTest>(ExampleTest.class);
 		this.testContextManager.registerTestExecutionListeners(new NamedTestExecutionListener(FIRST),
 				new NamedTestExecutionListener(SECOND), new NamedTestExecutionListener(THIRD));
+
+		assertEquals("Verifying the number of registered TestExecutionListeners.", 5,
+				this.testContextManager.getTestExecutionListeners().size());
 
 		this.testContextManager.beforeTestMethod(new ExampleTest(), testMethod);
 	}

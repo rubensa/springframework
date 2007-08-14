@@ -27,6 +27,11 @@ import org.springframework.test.context.TestContextManager;
  * listener is registered.
  * </p>
  * <p>
+ * Concrete implementations must provide a <code>public</code> no-args
+ * constructor, so that listeners can be instantiated transparently by tools and
+ * configuration mechanisms.
+ * </p>
+ * <p>
  * Spring provides the following out-of-the-box implementations:
  * </p>
  * <ul>

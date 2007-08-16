@@ -61,7 +61,9 @@ PropertiesBasedSpringJUnit4ClassRunnerAppCtxTests.class,
 
 SpringRunnerContextCacheTests.class,
 
-InheritedDirtiesContextSpringRunnerContextCacheTests.class
+InheritedDirtiesContextSpringRunnerContextCacheTests.class,
+
+TransactionalSpringRunnerTests.class
 
 })
 public class SpringJUnit4SuiteTests {

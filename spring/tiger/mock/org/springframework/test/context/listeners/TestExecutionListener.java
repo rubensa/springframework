@@ -92,10 +92,8 @@ public interface TestExecutionListener {
 	 *
 	 * @param testContext The test context in which the test method was
 	 *        executed, not <code>null</code>.
-	 * @param exception The exception that was thrown during execution of the
-	 *        test method, or <code>null</code> if none was thrown.
 	 */
-	public abstract void afterTestMethod(final TestContext<?> testContext, final Throwable exception);
+	public abstract void afterTestMethod(final TestContext<?> testContext);
 
 	// ------------------------------------------------------------------------|
 

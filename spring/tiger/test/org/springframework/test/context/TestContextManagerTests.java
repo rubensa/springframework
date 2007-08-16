@@ -73,7 +73,7 @@ public class TestContextManagerTests {
 	// --- STATIC VARIABLES ---------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
-	private TestContextManager<?> testContextManager = null;
+	private TestContextManager<ExampleTest> testContextManager = null;
 
 	// ------------------------------------------------------------------------|
 	// --- STATIC INITIALIZATION ----------------------------------------------|
@@ -229,7 +229,7 @@ public class TestContextManagerTests {
 		}
 
 		@Override
-		public void afterTestMethod(final TestContext<?> testContext, final Throwable t) {
+		public void afterTestMethod(final TestContext<?> testContext) {
 
 			afterTestMethodCalls.add(this.name);
 		}

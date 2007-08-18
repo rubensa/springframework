@@ -38,10 +38,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
- * JUnit 4 based unit test, which verifies support of Spring's
- * {@link Transactional}, {@link NotTransactional}, and
- * {@link ContextConfiguration} annotations in conjunction with
- * {@link SpringJUnit4ClassRunner}.
+ * JUnit 4 based unit test which verifies support of Spring's
+ * {@link Transactional}, {@link NotTransactional},
+ * {@link TestExecutionListeners}, and {@link ContextConfiguration} annotations
+ * in conjunction with {@link SpringJUnit4ClassRunner}.
  * </p>
  *
  * @author Sam Brannen
@@ -87,7 +87,7 @@ public class TransactionalSpringRunnerTests {
 	@AfterClass
 	public static void verifyFinalTestData() {
 
-		assertEquals("Verifying the final number of rows in the person table.", 4, numRowsInPersonTable);
+		assertEquals("Verifying the final number of rows in the person table after all tests.", 4, numRowsInPersonTable);
 	}
 
 	// ------------------------------------------------------------------------|
@@ -116,7 +116,7 @@ public class TransactionalSpringRunnerTests {
 		addPerson("sue", 24);
 
 		final int numRows = countRowsInPersonTable();
-		assertEquals("Verifying the number of rows in the person table.", 3, numRows);
+		assertEquals("Verifying the number of rows in the person table within a transaction.", 3, numRows);
 
 		this.noTestsRun = false;
 		TransactionalSpringRunnerTests.numRowsInPersonTable = numRows;
@@ -131,7 +131,7 @@ public class TransactionalSpringRunnerTests {
 		addPerson("yoda", 900);
 
 		final int numRows = countRowsInPersonTable();
-		assertEquals("Verifying the number of rows in the person table.", 4, numRows);
+		assertEquals("Verifying the number of rows in the person table without a transaction.", 4, numRows);
 
 		this.noTestsRun = false;
 		TransactionalSpringRunnerTests.numRowsInPersonTable = numRows;

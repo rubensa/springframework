@@ -56,7 +56,7 @@
 		<property name="password" value="" />
 	</bean>
 
-	<bean id="databaseSetup" class="org.springframework.test.junit4.TransactionalSpringRunnerTests$DatabaseSetup" />
+	<bean id="databaseSetup" class="org.springframework.test.junit4.ClassLevelTransactionalSpringRunnerTests$DatabaseSetup" />
 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:data-source-ref="dataSource" />

@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.test.annotation.ContextConfiguration;
 import org.springframework.test.annotation.NotTransactional;
@@ -48,7 +47,12 @@ import org.springframework.transaction.annotation.Transactional;
  * {@link DirtiesContextTestExecutionListener}, and
  * {@link TransactionalTestExecutionListener}.
  * </p>
+ * <p>
+ * This class specifically tests usage of &#064;Transactional defined at the
+ * <strong>class level</strong>.
+ * </p>
  *
+ * @see MethodLevelTransactionalSpringRunnerTests
  * @see Transactional
  * @see NotTransactional
  * @see TestExecutionListeners
@@ -62,23 +66,7 @@ import org.springframework.transaction.annotation.Transactional;
 @TestExecutionListeners( { DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class,
 		TransactionalTestExecutionListener.class })
 @Transactional
-public class TransactionalSpringRunnerTests {
-
-	// ------------------------------------------------------------------------|
-	// --- CONSTANTS ----------------------------------------------------------|
-	// ------------------------------------------------------------------------|
-
-	protected static final String		BOB			= "bob";
-
-	protected static final String		JANE		= "jane";
-
-	protected static final String		SUE			= "sue";
-
-	protected static final String		LUKE		= "luke";
-
-	protected static final String		LEIA		= "leia";
-
-	protected static final String		YODA		= "yoda";
+public class ClassLevelTransactionalSpringRunnerTests extends AbstractTransactionalSpringRunnerTests {
 
 	// ------------------------------------------------------------------------|
 	// --- STATIC VARIABLES ---------------------------------------------------|
@@ -89,39 +77,13 @@ public class TransactionalSpringRunnerTests {
 	protected static SimpleJdbcTemplate	simpleJdbcTemplate;
 
 	// ------------------------------------------------------------------------|
-	// --- INSTANCE VARIABLES -------------------------------------------------|
-	// ------------------------------------------------------------------------|
-
-	protected boolean					noTestsRun	= true;
-
-	// ------------------------------------------------------------------------|
 	// --- STATIC METHODS -----------------------------------------------------|
 	// ------------------------------------------------------------------------|
-
-	protected static void createPersonTable() {
-
-		simpleJdbcTemplate.update("CREATE TABLE person (name VARCHAR(20) NOT NULL, age INTEGER NOT NULL, PRIMARY KEY(name))");
-	}
-
-	protected static int countRowsInPersonTable() {
-
-		return simpleJdbcTemplate.queryForInt("SELECT COUNT(0) FROM person");
-	}
-
-	protected static int addPerson(final String name, final int age) {
-
-		return simpleJdbcTemplate.update("INSERT INTO person VALUES(?,?)", name, age);
-	}
-
-	protected static int deletePerson(final String name) {
-
-		return simpleJdbcTemplate.update("DELETE FROM person WHERE name=?", name);
-	}
 
 	// XXX Remove suite() once we've migrated to Ant 1.7 with JUnit 4 support.
 	public static junit.framework.Test suite() {
 
-		return new JUnit4TestAdapter(TransactionalSpringRunnerTests.class);
+		return new JUnit4TestAdapter(ClassLevelTransactionalSpringRunnerTests.class);
 	}
 
 	@AfterClass
@@ -140,37 +102,42 @@ public class TransactionalSpringRunnerTests {
 		if (this.noTestsRun) {
 			simpleJdbcTemplate.update("DELETE FROM person");
 		}
-		assertEquals("Adding bob", 1, addPerson(BOB, 35));
-		assertEquals("Verifying the initial number of rows in the person table.", 1, countRowsInPersonTable());
+		assertEquals("Adding bob", 1, addPerson(simpleJdbcTemplate, BOB));
+		assertEquals("Verifying the initial number of rows in the person table.", 1,
+				countRowsInPersonTable(simpleJdbcTemplate));
 	}
 
 	@Test
 	public void modifyTestDataWithinTransaction() {
 
-		assertEquals("Deleting bob", 1, deletePerson(BOB));
-		assertEquals("Adding jane", 1, addPerson(JANE, 25));
-		assertEquals("Adding sue", 1, addPerson(SUE, 24));
+		// TODO How can we verify this method IS executing in a transaction?
 
-		final int numRows = countRowsInPersonTable();
+		assertEquals("Deleting bob", 1, deletePerson(simpleJdbcTemplate, BOB));
+		assertEquals("Adding jane", 1, addPerson(simpleJdbcTemplate, JANE));
+		assertEquals("Adding sue", 1, addPerson(simpleJdbcTemplate, SUE));
+
+		final int numRows = countRowsInPersonTable(simpleJdbcTemplate);
 		assertEquals("Verifying the number of rows in the person table within a transaction.", 2, numRows);
 
 		this.noTestsRun = false;
-		TransactionalSpringRunnerTests.numRowsInPersonTable = numRows;
+		ClassLevelTransactionalSpringRunnerTests.numRowsInPersonTable = numRows;
 	}
 
 	@Test
 	@NotTransactional
 	public void modifyTestDataWithoutTransaction() {
 
-		assertEquals("Adding luke", 1, addPerson(LUKE, 25));
-		assertEquals("Adding leia", 1, addPerson(LEIA, 25));
-		assertEquals("Adding yoda", 1, addPerson(YODA, 900));
+		// TODO How can we verify this method is NOT executing in a transaction?
 
-		final int numRows = countRowsInPersonTable();
+		assertEquals("Adding luke", 1, addPerson(simpleJdbcTemplate, LUKE));
+		assertEquals("Adding leia", 1, addPerson(simpleJdbcTemplate, LEIA));
+		assertEquals("Adding yoda", 1, addPerson(simpleJdbcTemplate, YODA));
+
+		final int numRows = countRowsInPersonTable(simpleJdbcTemplate);
 		assertEquals("Verifying the number of rows in the person table without a transaction.", 4, numRows);
 
 		this.noTestsRun = false;
-		TransactionalSpringRunnerTests.numRowsInPersonTable = numRows;
+		ClassLevelTransactionalSpringRunnerTests.numRowsInPersonTable = numRows;
 	}
 
 	// ------------------------------------------------------------------------|
@@ -183,12 +150,7 @@ public class TransactionalSpringRunnerTests {
 		void setDataSource(final DataSource dataSource) {
 
 			simpleJdbcTemplate = new SimpleJdbcTemplate(dataSource);
-			try {
-				createPersonTable();
-			}
-			catch (final BadSqlGrammarException bsge) {
-				/* ignore */
-			}
+			createPersonTable(simpleJdbcTemplate);
 		}
 	}
 

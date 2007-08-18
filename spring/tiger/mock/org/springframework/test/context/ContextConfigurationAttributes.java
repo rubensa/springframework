@@ -20,6 +20,7 @@ import java.io.Serializable;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.annotation.ContextConfiguration;
+import org.springframework.test.context.support.DefaultContextConfigurationAttributes;
 
 /**
  * <p>
@@ -35,6 +36,7 @@ import org.springframework.test.annotation.ContextConfiguration;
  * </p>
  *
  * @see ContextConfiguration
+ * @see DefaultContextConfigurationAttributes
  * @author Sam Brannen
  * @version $Revision$
  * @since 2.1

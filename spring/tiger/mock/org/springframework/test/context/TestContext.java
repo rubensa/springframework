@@ -56,7 +56,7 @@ public class TestContext<T> {
 	// ------------------------------------------------------------------------|
 
 	/** Class Logger. */
-	private static final Log LOG = LogFactory.getLog(TestContext.class);
+	private static final Log																	LOG	= LogFactory.getLog(TestContext.class);
 
 	// ------------------------------------------------------------------------|
 	// --- STATIC VARIABLES ---------------------------------------------------|
@@ -70,17 +70,17 @@ public class TestContext<T> {
 	// --- INSTANCE VARIABLES -------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
-	private final ContextConfigurationAttributes configurationAttributes;
+	private final ContextConfigurationAttributes												configurationAttributes;
 
-	private final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext> contextCache;
+	private final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext>	contextCache;
 
-	private Throwable testException;
+	private Throwable																			testException;
 
-	private final Class<T> testClass;
+	private final Class<T>																		testClass;
 
-	private Object testInstance;
+	private Object																				testInstance;
 
-	private Method testMethod;
+	private Method																				testMethod;
 
 	// ------------------------------------------------------------------------|
 	// --- INSTANCE INITIALIZATION --------------------------------------------|
@@ -207,7 +207,8 @@ public class TestContext<T> {
 		Assert.notNull(clazz, "Can not retrieve context configuration attributes for a NULL class.");
 		final ContextConfigurationAttributes configAttributes = DefaultContextConfigurationAttributes.constructAttributes(clazz);
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Retrieved configuration attributes [" + configAttributes + "].");
+			LOG.debug("Retrieved context configuration attributes [" + configAttributes + "] for class [" + clazz
+					+ "].");
 		}
 		return configAttributes;
 	}

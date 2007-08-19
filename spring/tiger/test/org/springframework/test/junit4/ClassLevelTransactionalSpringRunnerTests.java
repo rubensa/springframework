@@ -107,8 +107,6 @@ public class ClassLevelTransactionalSpringRunnerTests extends AbstractTransactio
 	@Test
 	public void modifyTestDataWithinTransaction() {
 
-		// TODO How can we verify this method IS executing in a transaction?
-
 		assertEquals("Deleting bob", 1, deletePerson(simpleJdbcTemplate, BOB));
 		assertEquals("Adding jane", 1, addPerson(simpleJdbcTemplate, JANE));
 		assertEquals("Adding sue", 1, addPerson(simpleJdbcTemplate, SUE));
@@ -119,8 +117,6 @@ public class ClassLevelTransactionalSpringRunnerTests extends AbstractTransactio
 	@Test
 	@NotTransactional
 	public void modifyTestDataWithoutTransaction() {
-
-		// TODO How can we verify this method is NOT executing in a transaction?
 
 		assertEquals("Adding luke", 1, addPerson(simpleJdbcTemplate, LUKE));
 		assertEquals("Adding leia", 1, addPerson(simpleJdbcTemplate, LEIA));

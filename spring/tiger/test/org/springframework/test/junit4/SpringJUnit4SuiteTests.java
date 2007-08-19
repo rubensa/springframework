@@ -73,7 +73,9 @@ DefaultRollbackFalseTransactionalSpringRunnerTests.class,
 
 RollbackOverrideDefaultRollbackTrueTransactionalSpringRunnerTests.class,
 
-RollbackOverrideDefaultRollbackFalseTransactionalSpringRunnerTests.class
+RollbackOverrideDefaultRollbackFalseTransactionalSpringRunnerTests.class,
+
+BeforeAndAfterTransactionAnnotationTests.class
 
 })
 public class SpringJUnit4SuiteTests {

@@ -40,7 +40,7 @@ import org.springframework.test.context.TestContextManager;
  * @version $Revision$
  * @since 2.1
  */
-public class SpringMethodRoadie<T> {
+class SpringMethodRoadie<T> {
 
 	// ------------------------------------------------------------------------|
 	// --- CONSTANTS ----------------------------------------------------------|

@@ -35,7 +35,7 @@ import org.junit.internal.runners.TestClass;
  * @version $Revision$
  * @since 2.1
  */
-public class SpringTestMethod {
+class SpringTestMethod {
 
 	// ------------------------------------------------------------------------|
 	// --- CONSTANTS ----------------------------------------------------------|

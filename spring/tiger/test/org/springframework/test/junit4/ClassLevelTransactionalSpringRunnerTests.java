@@ -39,24 +39,24 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * <p>
  * JUnit 4 based unit test which verifies support of Spring's
- * &#064;Transactional, &#064;NotTransactional, &#064;TestExecutionListeners,
- * and &#064;ContextConfiguration annotations in conjunction with the
- * {@link SpringJUnit4ClassRunner} and the following
+ * {@link Transactional @Transactional},
+ * {@link NotTransactional @NotTransactional},
+ * {@link TestExecutionListeners @TestExecutionListeners}, and
+ * {@link ContextConfiguration @ContextConfiguration} annotations in conjunction
+ * with the {@link SpringJUnit4ClassRunner} and the following
  * {@link TestExecutionListener TestExecutionListeners}:
- * {@link DependencyInjectionTestExecutionListener},
- * {@link DirtiesContextTestExecutionListener}, and
- * {@link TransactionalTestExecutionListener}.
  * </p>
+ * <ul>
+ * <li>{@link DependencyInjectionTestExecutionListener}</li>
+ * <li>{@link DirtiesContextTestExecutionListener}</li>
+ * <li>{@link TransactionalTestExecutionListener}</li>
+ * </ul>
  * <p>
- * This class specifically tests usage of &#064;Transactional defined at the
- * <strong>class level</strong>.
+ * This class specifically tests usage of <code>&#064;Transactional</code>
+ * defined at the <strong>class level</strong>.
  * </p>
  *
  * @see MethodLevelTransactionalSpringRunnerTests
- * @see Transactional
- * @see NotTransactional
- * @see TestExecutionListeners
- * @see ContextConfiguration
  * @author Sam Brannen
  * @version $Revision$
  * @since 2.1

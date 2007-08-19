@@ -69,7 +69,11 @@ MethodLevelTransactionalSpringRunnerTests.class,
 
 DefaultRollbackTrueTransactionalSpringRunnerTests.class,
 
-DefaultRollbackFalseTransactionalSpringRunnerTests.class
+DefaultRollbackFalseTransactionalSpringRunnerTests.class,
+
+RollbackOverrideDefaultRollbackTrueTransactionalSpringRunnerTests.class,
+
+RollbackOverrideDefaultRollbackFalseTransactionalSpringRunnerTests.class
 
 })
 public class SpringJUnit4SuiteTests {

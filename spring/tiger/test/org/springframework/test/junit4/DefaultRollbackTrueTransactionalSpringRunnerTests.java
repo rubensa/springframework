@@ -58,6 +58,8 @@ public class DefaultRollbackTrueTransactionalSpringRunnerTests extends AbstractT
 	// --- STATIC VARIABLES ---------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
+	protected static int				originalNumRows;
+
 	protected static SimpleJdbcTemplate	simpleJdbcTemplate;
 
 	// ------------------------------------------------------------------------|
@@ -73,12 +75,8 @@ public class DefaultRollbackTrueTransactionalSpringRunnerTests extends AbstractT
 	@AfterClass
 	public static void verifyFinalTestData() {
 
-		// XXX Uncomment once their is a programmatic means for committing or a
-		// way to execute code before a test but outside of a transaction (e.g.,
-		// @BeforeTransaction).
-		// assertEquals("Verifying the final number of rows in the person table
-		// after all tests.", 0,
-		// countRowsInPersonTable(simpleJdbcTemplate));
+		assertEquals("Verifying the final number of rows in the person table after all tests.", originalNumRows,
+				countRowsInPersonTable(simpleJdbcTemplate));
 	}
 
 	// ------------------------------------------------------------------------|
@@ -88,7 +86,7 @@ public class DefaultRollbackTrueTransactionalSpringRunnerTests extends AbstractT
 	@Before
 	public void verifyInitialTestData() {
 
-		clearPersonTable(simpleJdbcTemplate);
+		originalNumRows = clearPersonTable(simpleJdbcTemplate);
 		assertEquals("Adding bob", 1, addPerson(simpleJdbcTemplate, BOB));
 		assertEquals("Verifying the initial number of rows in the person table.", 1,
 				countRowsInPersonTable(simpleJdbcTemplate));

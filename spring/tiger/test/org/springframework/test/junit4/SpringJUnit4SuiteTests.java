@@ -65,7 +65,11 @@ InheritedDirtiesContextSpringRunnerContextCacheTests.class,
 
 ClassLevelTransactionalSpringRunnerTests.class,
 
-MethodLevelTransactionalSpringRunnerTests.class
+MethodLevelTransactionalSpringRunnerTests.class,
+
+DefaultRollbackTrueTransactionalSpringRunnerTests.class,
+
+DefaultRollbackFalseTransactionalSpringRunnerTests.class
 
 })
 public class SpringJUnit4SuiteTests {

@@ -34,8 +34,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * <p>
- * A collection of JDBC related utility functions intended to simplify standard
- * database testing scenarios.
+ * A Java-5-based collection of JDBC related utility functions intended to
+ * simplify standard database testing scenarios.
  * </p>
  *
  * @author Sam Brannen

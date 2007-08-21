@@ -27,7 +27,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.test.annotation.TestExecutionListeners;
 import org.springframework.test.context.listeners.TestExecutionListener;
-import org.springframework.test.context.support.MapBackedContextCache;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -71,7 +70,7 @@ public class TestContextManager<T> {
 	 * may be destroyed and recreated between running individual test methods,
 	 * for example with JUnit.
 	 */
-	private static final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext>	CONTEXT_CACHE			= new MapBackedContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext>();
+	private static final ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext>	CONTEXT_CACHE			= new ContextCache<ContextConfigurationAttributes, ConfigurableApplicationContext>();
 
 	/** Class Logger. */
 	private static final Log																			LOG						= LogFactory.getLog(TestContextManager.class);

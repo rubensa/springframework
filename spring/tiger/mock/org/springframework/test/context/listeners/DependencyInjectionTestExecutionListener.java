@@ -71,7 +71,8 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
 			LOG.debug("Performing dependency injection for test context [" + testContext + "].");
 		}
 
-		final ConfigurableApplicationContext context = testContext.getApplicationContext();
+		// TODO Can remove the cast to ConfigurableApplicationContext?
+		final ConfigurableApplicationContext context = (ConfigurableApplicationContext) testContext.getApplicationContext();
 		final Object bean = testContext.getTestInstance();
 
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();

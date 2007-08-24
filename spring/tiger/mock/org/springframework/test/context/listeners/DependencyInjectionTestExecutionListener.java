@@ -18,8 +18,6 @@ package org.springframework.test.context.listeners;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.TestContext;
 
 /**
@@ -71,13 +69,10 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
 			LOG.debug("Performing dependency injection for test context [" + testContext + "].");
 		}
 
-		// TODO Can remove the cast to ConfigurableApplicationContext?
-		final ConfigurableApplicationContext context = (ConfigurableApplicationContext) testContext.getApplicationContext();
 		final Object bean = testContext.getTestInstance();
-
-		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+		final AutowireCapableBeanFactory beanFactory = testContext.getApplicationContext().getAutowireCapableBeanFactory();
 		beanFactory.autowireBeanProperties(bean, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
-		beanFactory.initializeBean(bean, null);
+		beanFactory.initializeBean(bean, testContext.getTestClass().getName());
 	}
 	// ------------------------------------------------------------------------|
 

@@ -183,9 +183,8 @@ public class ConcreteTransactionalJUnit38SpringContextTests extends AbstractTran
 	@NotTransactional
 	public final void verifyBeanNameSet() {
 
-		assertNull("The bean name of this test instance should have been set to NULL "
-				+ "due to BeanNameAware semantics, since the testing support classes "
-				+ "currently do not provide a bean name for dependency injected test instances.", this.beanName);
+		assertEquals("The bean name of this test instance should have been set to the fully qualified class name "
+				+ "due to BeanNameAware semantics.", getClass().getName(), this.beanName);
 	}
 
 	@Test

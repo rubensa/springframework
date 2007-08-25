@@ -42,6 +42,19 @@ public interface ContextLoader {
 	 * <em>refreshed</em>.
 	 * </p>
 	 * <p>
+	 * {@link ContextConfigurationAttributes#getLocations() Configuration locations}
+	 * should be considered to be classpath resources by default.
+	 * </p>
+	 * <p>
+	 * Concrete implementations should register annotation configuration
+	 * processors with bean factories of
+	 * {@link ApplicationContext application contexts} loaded by this test
+	 * ContextLoader. Beans will therefore automatically be candidates for
+	 * annotation-based dependency injection using
+	 * {@link org.springframework.beans.factory.annotation.Autowired Autowired}
+	 * and {@link javax.annotation.Resource Resource}.
+	 * </p>
+	 * <p>
 	 * Any ApplicationContext loaded by this method <strong>must</strong>
 	 * register a JVM shutdown hook for itself. Unless the context gets closed
 	 * early, all context instances will be automatically closed on JVM

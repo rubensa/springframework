@@ -29,7 +29,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.test.jdbc.SimpleJdbcTestUtils;
+import org.springframework.test.utils.SimpleJdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

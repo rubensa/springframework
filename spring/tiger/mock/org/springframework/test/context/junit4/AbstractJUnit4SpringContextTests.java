@@ -29,12 +29,13 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 /**
  * <p>
- * Abstract base test class which integrates Spring's annotation-based
+ * Abstract base test class which integrates the
+ * <em>Spring Test Context Framework</em> with explicit
  * {@link ApplicationContext} testing support in a JUnit 4.4 environment.
  * </p>
  * <p>
  * This class serves only as a convenience for extension. If you do not wish for
- * your test classes to be tied to a Spring specific class hierarchy, you may
+ * your test classes to be tied to a Spring-specific class hierarchy, you may
  * configure your own custom test classes by using
  * {@link SpringJUnit4ClassRunner},
  * {@link ContextConfiguration @ContextConfiguration},

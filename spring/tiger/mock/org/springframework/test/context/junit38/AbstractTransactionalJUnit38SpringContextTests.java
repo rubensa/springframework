@@ -45,8 +45,14 @@ import org.springframework.transaction.annotation.Transactional;
  * </p>
  *
  * @see AbstractJUnit38SpringContextTests
- * @see TestExecutionListeners
- * @see Transactional
+ * @see org.springframework.test.context.ContextConfiguration
+ * @see org.springframework.test.context.TestExecutionListeners
+ * @see org.springframework.test.context.transaction.TransactionalTestExecutionListener
+ * @see org.springframework.test.context.transaction.TransactionConfiguration
+ * @see org.springframework.transaction.annotation.Transactional
+ * @see org.springframework.test.annotation.NotTransactional
+ * @see org.springframework.test.annotation.Rollback
+ * @see org.springframework.test.utils.SimpleJdbcTestUtils
  * @author Sam Brannen
  * @version $Revision$
  * @since 2.1

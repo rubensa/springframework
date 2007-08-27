@@ -156,8 +156,7 @@ public class TestContextManager {
 			if (LOG.isInfoEnabled()) {
 				LOG.info("@TestExecutionListeners is not present for class [" + clazz + "]: using defaults.");
 			}
-			classes = (Class<? extends TestExecutionListener>[]) AnnotationUtils.getDefaultValue(
-					TestExecutionListeners.class, "value");
+			classes = (Class<? extends TestExecutionListener>[]) AnnotationUtils.getDefaultValue(TestExecutionListeners.class);
 		}
 
 		final TestExecutionListener[] listeners = new TestExecutionListener[classes.length];

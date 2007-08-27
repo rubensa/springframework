@@ -75,7 +75,7 @@ public class ConcreteTransactionalJUnit4SpringContextTests extends AbstractTrans
 
 	private boolean					beanInitialized	= false;
 
-	private String					beanName		= "replace me with null";
+	private String					beanName		= "replace me with [" + getClass().getName() + "]";
 
 	private Employee				employee;
 

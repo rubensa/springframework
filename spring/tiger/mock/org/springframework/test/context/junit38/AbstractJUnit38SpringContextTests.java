@@ -177,6 +177,9 @@ public class AbstractJUnit38SpringContextTests extends TestCase implements Appli
 		final Repeat repeat = testMethod.getAnnotation(Repeat.class);
 		final long runs = ((repeat != null) && (repeat.value() > 1)) ? repeat.value() : 1;
 		for (int i = 0; i < runs; i++) {
+			if (this.logger.isInfoEnabled()) {
+				this.logger.info("Repetition " + (i + 1) + " of test " + testMethod.getName());
+			}
 			runManaged(testMethod);
 		}
 	}

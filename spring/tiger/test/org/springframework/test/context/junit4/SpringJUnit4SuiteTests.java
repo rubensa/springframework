@@ -59,6 +59,8 @@ AbsolutePathSpringJUnit4ClassRunnerAppCtxTests.class,
 
 RelativePathSpringJUnit4ClassRunnerAppCtxTests.class,
 
+MultipleResourcesSpringJUnit4ClassRunnerAppCtxTests.class,
+
 InheritedConfigSpringJUnit4ClassRunnerAppCtxTests.class,
 
 PropertiesBasedSpringJUnit4ClassRunnerAppCtxTests.class,

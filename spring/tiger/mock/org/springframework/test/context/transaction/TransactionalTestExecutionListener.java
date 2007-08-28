@@ -272,7 +272,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 		final TransactionConfiguration config = clazz.getAnnotation(annotationType);
 
 		if (LOG.isDebugEnabled()) {
-			LOG.debug("Retrieved TransactionConfiguration [" + config + "] for test class [" + clazz + "].");
+			LOG.debug("Retrieved @TransactionConfiguration [" + config + "] for test class [" + clazz + "].");
 		}
 
 		String transactionManagerName;
@@ -339,8 +339,8 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 		final TransactionDefinition explicitTransactionDefinition = this.transactionAttributeSource.getTransactionAttribute(
 				testMethod, testContext.getTestClass());
 		if (explicitTransactionDefinition != null) {
-			if (LOG.isInfoEnabled()) {
-				LOG.info("Explicit transaction definition [" + explicitTransactionDefinition
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Explicit transaction definition [" + explicitTransactionDefinition
 						+ "] found for test context [" + testContext + "].");
 			}
 			this.transactionDefinition = explicitTransactionDefinition;
@@ -576,8 +576,8 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 					transactionManagerName, PlatformTransactionManager.class);
 		}
 		catch (final Exception e) {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("Caught exception while retrieving transaction manager with bean name ["
+			if (LOG.isInfoEnabled()) {
+				LOG.info("Caught exception while retrieving transaction manager with bean name ["
 						+ transactionManagerName + "] for test context [" + testContext + "].", e);
 			}
 			throw e;

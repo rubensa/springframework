@@ -56,4 +56,20 @@ public class GenericXmlContextLoader extends AbstractGenericContextLoader {
 
 	// ------------------------------------------------------------------------|
 
+	/**
+	 * TODO Comments: Overrides getResourceSuffix().
+	 * <p>
+	 * Defaults to &quot;<code>-context.xml</code>&quot;.
+	 * </p>
+	 *
+	 * @see org.springframework.test.context.support.AbstractContextLoader#getResourceSuffix()
+	 */
+	@Override
+	public final String getResourceSuffix() {
+
+		return "-context.xml";
+	}
+
+	// ------------------------------------------------------------------------|
+
 }

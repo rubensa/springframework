@@ -18,7 +18,7 @@ package org.springframework.test.context.junit38;
 import junit.framework.TestCase;
 
 import org.springframework.test.annotation.Repeat;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 
 /**
  * Unit test for {@link AbstractJUnit38SpringContextTests} which focuses on
@@ -68,8 +68,13 @@ public class RepeatedJUnit38SpringContextTests extends TestCase {
 	// --- TYPES --------------------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
-	@ContextConfiguration(generateDefaultLocations = false)
-	public static class RepeatedTestCase extends AbstractJUnit38SpringContextTests {
+	/**
+	 * Note that {@link TestExecutionListeners @TestExecutionListeners} is
+	 * explicitly configured with an empty list, thus disabling all default
+	 * listeners.
+	 */
+	@TestExecutionListeners( {})
+	protected static class RepeatedTestCase extends AbstractJUnit38SpringContextTests {
 
 		int	invocationCount	= 0;
 

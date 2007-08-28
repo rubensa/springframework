@@ -58,4 +58,17 @@ public class GenericPropertiesContextLoader extends AbstractGenericContextLoader
 
 	// ------------------------------------------------------------------------|
 
+	/**
+	 * TODO Comments: Overrides getResourceSuffix().
+	 *
+	 * @see org.springframework.test.context.support.AbstractContextLoader#getResourceSuffix()
+	 */
+	@Override
+	public final String getResourceSuffix() {
+
+		return "-context.properties";
+	}
+
+	// ------------------------------------------------------------------------|
+
 }

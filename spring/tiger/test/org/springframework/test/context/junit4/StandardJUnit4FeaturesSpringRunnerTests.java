@@ -18,12 +18,18 @@ package org.springframework.test.context.junit4;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.TestExecutionListeners;
 
 /**
- * Simple unit test to verify that the {@link SpringJUnit4ClassRunner} does not
+ * <p>
+ * Simple unit test to verify that {@link SpringJUnit4ClassRunner} does not
  * hinder correct functionality of standard JUnit 4.4+ testing features.
+ * </p>
+ * <p>
+ * Note that {@link TestExecutionListeners @TestExecutionListeners} is
+ * explicitly configured with an empty list, thus disabling all default
+ * listeners.
+ * </p>
  *
  * @see StandardJUnit4FeaturesTests
  * @author Sam Brannen
@@ -31,7 +37,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @since 2.1
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(generateDefaultLocations = false)
+@TestExecutionListeners( {})
 public class StandardJUnit4FeaturesSpringRunnerTests extends StandardJUnit4FeaturesTests {
 
 	/* all tests are in the parent class. */

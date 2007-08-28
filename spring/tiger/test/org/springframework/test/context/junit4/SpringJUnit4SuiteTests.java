@@ -22,7 +22,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.springframework.test.context.InheritedDirtiesContextSpringRunnerContextCacheTests;
 import org.springframework.test.context.SpringRunnerContextCacheTests;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * <p>
@@ -53,6 +52,8 @@ StandardJUnit4FeaturesTests.class,
 StandardJUnit4FeaturesSpringRunnerTests.class,
 
 SpringJUnit4ClassRunnerAppCtxTests.class,
+
+ClassPathResourceSpringJUnit4ClassRunnerAppCtxTests.class,
 
 AbsolutePathSpringJUnit4ClassRunnerAppCtxTests.class,
 

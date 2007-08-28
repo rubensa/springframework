@@ -125,7 +125,7 @@ public class TestContext {
 			Assert.state(contextLoaderClass != null,
 					"@ContextConfiguration has not been properly configured: loader is null.");
 			contextLoader = contextLoaderClass.newInstance();
-			locations = contextLoader.processLocations(contextConfiguration.locations(), declaringClass);
+			locations = contextLoader.processLocations(declaringClass, contextConfiguration.locations());
 		}
 
 		this.testClass = testClass;

@@ -32,10 +32,6 @@ import org.springframework.context.support.GenericApplicationContext;
 public class GenericXmlContextLoader extends AbstractGenericContextLoader {
 
 	// ------------------------------------------------------------------------|
-	// --- CONSTRUCTORS -------------------------------------------------------|
-	// ------------------------------------------------------------------------|
-
-	// ------------------------------------------------------------------------|
 	// --- INSTANCE METHODS ---------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
@@ -57,15 +53,12 @@ public class GenericXmlContextLoader extends AbstractGenericContextLoader {
 	// ------------------------------------------------------------------------|
 
 	/**
-	 * TODO Comments: Overrides getResourceSuffix().
-	 * <p>
-	 * Defaults to &quot;<code>-context.xml</code>&quot;.
-	 * </p>
+	 * Returns &quot;<code>-context.xml</code>&quot;.
 	 *
 	 * @see org.springframework.test.context.support.AbstractContextLoader#getResourceSuffix()
 	 */
 	@Override
-	public final String getResourceSuffix() {
+	public String getResourceSuffix() {
 
 		return "-context.xml";
 	}

@@ -34,10 +34,6 @@ import org.springframework.context.support.GenericApplicationContext;
 public class GenericPropertiesContextLoader extends AbstractGenericContextLoader {
 
 	// ------------------------------------------------------------------------|
-	// --- CONSTRUCTORS -------------------------------------------------------|
-	// ------------------------------------------------------------------------|
-
-	// ------------------------------------------------------------------------|
 	// --- INSTANCE METHODS ---------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
@@ -59,12 +55,12 @@ public class GenericPropertiesContextLoader extends AbstractGenericContextLoader
 	// ------------------------------------------------------------------------|
 
 	/**
-	 * TODO Comments: Overrides getResourceSuffix().
+	 * Returns &quot;<code>-context.properties</code>&quot;.
 	 *
 	 * @see org.springframework.test.context.support.AbstractContextLoader#getResourceSuffix()
 	 */
 	@Override
-	public final String getResourceSuffix() {
+	public String getResourceSuffix() {
 
 		return "-context.properties";
 	}

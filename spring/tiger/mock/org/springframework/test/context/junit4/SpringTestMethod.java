@@ -271,6 +271,8 @@ class SpringTestMethod {
 	 */
 	public boolean isIgnored() {
 
+		// XXX Optional: add support for @IfProfileValue and @IfNotProfileValue.
+
 		return getMethod().getAnnotation(Ignore.class) != null;
 	}
 

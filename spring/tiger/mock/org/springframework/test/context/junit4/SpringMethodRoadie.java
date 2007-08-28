@@ -137,7 +137,7 @@ class SpringMethodRoadie {
 	 */
 	public void run() {
 
-		// XXX Optional: add support for Spring's @IfProfileValue & @Repeat
+		// XXX Optional: add support for @Repeat.
 
 		if (getTestMethod().isIgnored()) {
 			getNotifier().fireTestIgnored(getDescription());

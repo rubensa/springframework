@@ -30,7 +30,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 /**
  * <p>
  * Abstract base test class which integrates the
- * <em>Spring Test Context Framework</em> with explicit
+ * <em>Spring TestContext Framework</em> with explicit
  * {@link ApplicationContext} testing support in a JUnit 4.4 environment.
  * </p>
  * <p>
@@ -63,26 +63,17 @@ public class AbstractJUnit4SpringContextTests implements ApplicationContextAware
 	// --- INSTANCE VARIABLES -------------------------------------------------|
 	// ------------------------------------------------------------------------|
 
-	private ApplicationContext	applicationContext;
+	/**
+	 * The {@link ApplicationContext} that was injected into this test instance
+	 * via {@link #setApplicationContext(ApplicationContext)}.
+	 */
+	protected ApplicationContext	applicationContext;
 
 	/** Logger available to subclasses. */
-	protected final Log			logger	= LogFactory.getLog(getClass());
+	protected final Log				logger	= LogFactory.getLog(getClass());
 
 	// ------------------------------------------------------------------------|
 	// --- INSTANCE METHODS ---------------------------------------------------|
-	// ------------------------------------------------------------------------|
-
-	/**
-	 * Return the {@link ApplicationContext} that was injected into this test
-	 * instance via {@link #setApplicationContext(ApplicationContext)}.
-	 *
-	 * @return The application context.
-	 */
-	public final ApplicationContext getApplicationContext() {
-
-		return this.applicationContext;
-	}
-
 	// ------------------------------------------------------------------------|
 
 	/**

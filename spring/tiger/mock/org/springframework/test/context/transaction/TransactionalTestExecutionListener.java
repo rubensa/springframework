@@ -620,7 +620,7 @@ public class TransactionalTestExecutionListener extends AbstractTestExecutionLis
 	protected final boolean isRollback(final TestContext testContext) throws Exception {
 
 		boolean rollback = isDefaultRollback(testContext);
-		final Rollback rollbackAnnotation = AnnotationUtils.findAnnotation(testContext.getTestMethod(), Rollback.class);
+		final Rollback rollbackAnnotation = testContext.getTestMethod().getAnnotation(Rollback.class);
 		if (rollbackAnnotation != null) {
 
 			final boolean rollbackOverride = rollbackAnnotation.value();

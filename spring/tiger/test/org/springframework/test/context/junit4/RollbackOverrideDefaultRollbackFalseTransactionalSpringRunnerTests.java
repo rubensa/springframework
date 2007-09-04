@@ -89,6 +89,7 @@ public class RollbackOverrideDefaultRollbackFalseTransactionalSpringRunnerTests 
 	@Rollback(true)
 	public void modifyTestDataWithinTransaction() {
 
+		assertInTransaction(true);
 		assertEquals("Deleting bob", 1, deletePerson(simpleJdbcTemplate, BOB));
 		assertEquals("Adding jane", 1, addPerson(simpleJdbcTemplate, JANE));
 		assertEquals("Adding sue", 1, addPerson(simpleJdbcTemplate, SUE));

@@ -80,7 +80,9 @@ RollbackOverrideDefaultRollbackTrueTransactionalSpringRunnerTests.class,
 
 RollbackOverrideDefaultRollbackFalseTransactionalSpringRunnerTests.class,
 
-BeforeAndAfterTransactionAnnotationTests.class
+BeforeAndAfterTransactionAnnotationTests.class,
+
+TimedTransactionalSpringRunnerTests.class
 
 })
 public class SpringJUnit4SuiteTests {

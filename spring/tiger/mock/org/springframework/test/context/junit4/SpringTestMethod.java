@@ -216,10 +216,8 @@ class SpringTestMethod {
 	 * </p>
 	 *
 	 * @return The timeout, or <code>0</code> if none was specified.
-	 * @throws IllegalStateException if both types of configuration are used
-	 *         simultaneously.
 	 */
-	public long getTimeout() throws IllegalStateException {
+	public long getTimeout() {
 
 		final Test testAnnotation = getMethod().getAnnotation(Test.class);
 		final long timeout = ((testAnnotation != null) && (testAnnotation.timeout() > 0)) ? testAnnotation.timeout()

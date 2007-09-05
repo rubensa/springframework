@@ -50,6 +50,8 @@ StandardJUnit4FeaturesTests.class,
 
 StandardJUnit4FeaturesSpringRunnerTests.class,
 
+EnabledAndIgnoredSpringRunnerTests.class,
+
 SpringJUnit4ClassRunnerAppCtxTests.class,
 
 ClassPathResourceSpringJUnit4ClassRunnerAppCtxTests.class,

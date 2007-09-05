@@ -24,8 +24,8 @@ import org.springframework.test.context.SpringRunnerContextCacheTests;
 
 /**
  * <p>
- * JUnit 4 based test suite for tests involving {@link SpringJUnit4ClassRunner}
- * and Spring's annotation-based test support.
+ * JUnit 4 based test suite for tests involving {@link SpringJUnit4ClassRunner},
+ * {@link SpringMethodRoadie}, and Spring's annotation-based test support.
  * </p>
  * <p>
  * This test suite serves a dual purpose of verifying that tests run with
@@ -49,6 +49,8 @@ import org.springframework.test.context.SpringRunnerContextCacheTests;
 StandardJUnit4FeaturesTests.class,
 
 StandardJUnit4FeaturesSpringRunnerTests.class,
+
+RepeatedSpringMethodRoadieTests.class,
 
 EnabledAndIgnoredSpringRunnerTests.class,
 

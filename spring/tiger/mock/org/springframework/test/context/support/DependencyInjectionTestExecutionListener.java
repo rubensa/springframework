@@ -47,17 +47,11 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
 	 * {@link TestContext test context}.
 	 * </p>
 	 * <p>
-	 * The default implementation
-	 * {@link AutowireCapableBeanFactory#autowireBeanProperties(Object, int, boolean) autowires}
+	 * {@link AutowireCapableBeanFactory#autowireBeanProperties(Object, int, boolean) Autowires}
 	 * the test instance via the application context of the supplied
-	 * {@link TestContext},
-	 * {@link AutowireCapableBeanFactory#AUTOWIRE_NO without autowiring} and
-	 * without dependency checking enabled. The resulting bean will also be
+	 * {@link TestContext}, without checking dependencies. The resulting bean
+	 * will also be
 	 * {@link AutowireCapableBeanFactory#initializeBean(Object, String) initialized}.
-	 * </p>
-	 * <p>
-	 * Override this method if you need full control over how dependencies are
-	 * injected into the test instance.
 	 * </p>
 	 *
 	 * @see org.springframework.test.context.support.AbstractTestExecutionListener#prepareTestInstance(java.lang.Object)
@@ -74,6 +68,7 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
 		beanFactory.autowireBeanProperties(bean, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
 		beanFactory.initializeBean(bean, testContext.getTestClass().getName());
 	}
+
 	// ------------------------------------------------------------------------|
 
 }

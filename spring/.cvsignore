@@ -6,7 +6,6 @@ junit-reports
 libold
 release
 target
-test-output
 *.log
 .clover
 build.properties

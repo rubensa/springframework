@@ -13,7 +13,9 @@
   <bean id="a.qualified.name.of.some.sort"
   	    class="org.springframework.context.support.ClassPathXmlApplicationContext">
     <constructor-arg>
-      <value>org/springframework/beans/factory/access/beans1.xml</value>
+      <value>
+        org/springframework/beans/factory/access/beans1.xml
+      </value>
    	</constructor-arg>
   </bean>
   

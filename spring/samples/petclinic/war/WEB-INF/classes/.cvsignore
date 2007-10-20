@@ -4,3 +4,4 @@ petclinic.hbm.xml
 OJB.properties
 OJB-repository.xml
 OJB-repository.dtd
+jdbc.properties

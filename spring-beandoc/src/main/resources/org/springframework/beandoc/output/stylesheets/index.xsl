@@ -22,7 +22,7 @@
  *
  * @author Darren Davison
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:beans="http://www.springframework.org/schema/beans">
 
     <xsl:output 
         method="xml" 
@@ -35,7 +35,7 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></title>
+                <title><xsl:value-of select="beans:consolidated/beans:beans[1]/@beandocContextTitle"/></title>
             </head>
 
             <frameset cols="20%,80%">

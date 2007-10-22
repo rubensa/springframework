@@ -13,20 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */ 
+/*
+ * Copyright 2002-2004 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.springframework.beandoc;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import junit.framework.TestCase;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.output.XMLOutputter;
+import org.jdom.output.Format;
+import org.jdom.xpath.XPath;
 import org.springframework.beandoc.output.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.support.GenericApplicationContext;
 
 
 /**
@@ -125,8 +146,9 @@ public class DefaultContextProcessorTests extends TestCase {
             dcpInvalid.process();
             
         } catch (Exception e) {
-            fail();
-        }
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
     }
     
     public void testStringInputs() {
@@ -162,10 +184,11 @@ public class DefaultContextProcessorTests extends TestCase {
                 try {
                     Element beans = contextDocuments[0].getRootElement();  
                     assertEquals("context1.xml", beans.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME));
-                    Element ref = beans.getChild("bean").getChild("property").getChild("ref");
+                    Element ref = beans.getChild("bean", DefaultContextProcessor.SPRING_2_0_NAMESPACE).getChild("property",DefaultContextProcessor.SPRING_2_0_NAMESPACE).getChild("ref", DefaultContextProcessor.SPRING_2_0_NAMESPACE);
                     assertEquals("context2.xml", ref.getAttributeValue(Tags.ATTRIBUTE_BD_FILENAME));                     
                 } catch (Exception e) {
-                    fail();                    
+                    e.printStackTrace();
+                    fail();
                 }
             }            
         };
@@ -180,9 +203,6 @@ public class DefaultContextProcessorTests extends TestCase {
         }
     }
     
-    /**
-     * @param b
-     */
     protected void called() {
         called++;
     }
@@ -263,13 +283,14 @@ public class DefaultContextProcessorTests extends TestCase {
                          "myProxy".equals(element.getAttributeValue(Tags.ATTRIBUTE_NAME)))) {
                         called();
                         try {
-                            Element target = element.getChild(Tags.TAGNAME_PROPERTY);                        
-                            Element targetBean = target.getChild(Tags.TAGNAME_BEAN);
+                            Element target = element.getChild(Tags.TAGNAME_PROPERTY, DefaultContextProcessor.SPRING_2_0_NAMESPACE);
+                            Element targetBean = target.getChild(Tags.TAGNAME_BEAN, DefaultContextProcessor.SPRING_2_0_NAMESPACE);
                         
                             // ref tag should have been replaced with bean tag
                             assertEquals(Tags.TAGNAME_BEAN, targetBean.getName());
                             assertEquals("myTarget", targetBean.getAttributeValue(Tags.ATTRIBUTE_NAME));
                         } catch (Exception e) {
+                            e.printStackTrace();
                             fail();
                         }
                     }                        
@@ -312,4 +333,137 @@ public class DefaultContextProcessorTests extends TestCase {
         assertEquals(2, called);
     }
 
+	public void testSpringNamespaceTest() {
+		String[] testStringInputs = {
+			"classpath:org/springframework/beandoc/spring-namespace-test.xml"
+		};
+		try {
+			dcp = new DefaultContextProcessor(testStringInputs, testOutputDir);
+			Resource[] inputFiles = dcp.getInputFiles();
+			assertEquals(inputFiles.length, 1);
+
+
+			Decorator d = new Decorator() {
+				public void decorate(Document[] contextDocuments) {
+					try {
+						XPath beansBean = createXPath("b:beans");
+						final Document document = contextDocuments[0];
+
+						List list = beansBean.selectNodes(document);
+						assertTrue(list.size() > 0);
+
+						beansBean = createXPath("b:beans/util:properties");
+						list = beansBean.selectNodes(document);
+						assertTrue("Found spring util namespaced element, should be a normal bean definition",
+						  list.size() <= 0);
+
+						final XMLOutputter xmlOutputter = new XMLOutputter();
+//						final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+						xmlOutputter.setFormat(Format.getPrettyFormat());
+
+						System.out.println(xmlOutputter.outputString(document));
+
+						PipedInputStream inputStream = new PipedInputStream();
+						final PipedOutputStream pipedOutputStream = new PipedOutputStream(inputStream);
+
+						Thread documentWriter = new Thread() {
+							public void run() {
+								try {
+									xmlOutputter.output(document, pipedOutputStream);
+									pipedOutputStream.flush();
+									pipedOutputStream.close();
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+						};
+						documentWriter.start();
+
+						GenericApplicationContext genericApplicationContext = new GenericApplicationContext();
+						XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(genericApplicationContext);
+						xmlBeanDefinitionReader.setValidationMode(XmlBeanDefinitionReader.VALIDATION_NONE);
+						xmlBeanDefinitionReader.loadBeanDefinitions(new InputStreamResource(inputStream));
+
+						Object myMap = genericApplicationContext.getBean("myMap");
+
+						assertNotNull(myMap);
+						assertTrue(myMap instanceof Map);
+
+						Map aMap = (Map) myMap;
+						assertEquals(9, aMap.size());
+
+						Map map = (Map) aMap.get("1");
+						assertMap(map);
+
+						Object Null = aMap.get("2");
+						assertNull(Null);
+
+						String emptyString = (String) aMap.get("3");
+						assertEquals(new String(), emptyString);
+
+						emptyString = (String) aMap.get("4");
+						assertEquals(new String(), emptyString);
+
+						map = (Properties) aMap.get("5");
+						assertMap(map);
+
+						Map testMap = (Map) aMap.get("6");
+						assertEquals("value2", testMap.get("mapKey1"));
+						assertEquals(new Integer(1), testMap.get("mapKey2"));
+						assertEquals("Hello World", testMap.get(org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE));
+
+
+						list = (List)aMap.get("7");
+						assertEquals(4, list.size());
+						for (int i = 0; i < list.size(); i++) {
+							String stringValue = (String) list.get(i);
+							assertEquals("testValue" + String.valueOf(i + 1), stringValue);
+						}
+
+						Set set = (Set) aMap.get("8");
+						assertEquals(4, set.size());
+
+						int counter = 0;
+						for (Iterator iterator = set.iterator(); iterator.hasNext(); counter++) {
+							String stringValue = (String) iterator.next();
+							assertEquals("testSetValue" + String.valueOf(counter + 1), stringValue);
+						}
+
+						map = (Map) genericApplicationContext.getBean("newProperties");
+						assertMap(map);
+
+					} catch (JDOMException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+
+			ArrayList list = new ArrayList();
+			list.add(d);
+			dcp.setDecorators(list);
+			
+
+			dcp.process();
+
+
+		} catch (IOException e) {
+			fail();
+		}
+	}
+
+	private void assertMap(Map map) {
+		assertNotNull(map);
+		assertEquals("newValue", map.get("key"));
+		assertEquals("newValue2", map.get("key2"));
+	}
+
+	private XPath createXPath(String xpath) throws JDOMException {
+		XPath beansBean = XPath.newInstance(xpath);
+		beansBean.addNamespace("b", "http://www.springframework.org/schema/beans");
+		beansBean.addNamespace("util", "http://www.springframework.org/schema/util");
+		return beansBean;
+	}
 }
+

@@ -23,9 +23,9 @@
  *
  * @author Darren Davison
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-                
-    <xsl:output 
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:beans="http://www.springframework.org/schema/beans">
+
+    <xsl:output
         method="xml" 
         indent="no"
         doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -33,7 +33,7 @@
         />
 
 		
-	<xsl:variable name="pathRel"><xsl:value-of select="/beans/@beandocPathRelative"/></xsl:variable>
+	<xsl:variable name="pathRel"><xsl:value-of select="/beans:beans/@beandocPathRelative"/></xsl:variable>
 
     <!--
      * Template structure of HTML output
@@ -41,8 +41,8 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="beans/@beandocFileName"/></title>
-                <link rel="stylesheet" href="{$pathRel}{beans/@beandocCssLocation}" type="text/css"/>
+                <title><xsl:value-of select="beans:beans/@beandocFileName"/></title>
+                <link rel="stylesheet" href="{$pathRel}{beans:beans/@beandocCssLocation}" type="text/css"/>
                 <!-- hack using an MS extension to ensure the next stylesheet is *only* loaded by IE5 browsers -->
                 <xsl:comment>[if IE 5]>
                     &lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
@@ -51,7 +51,7 @@
             </head>
   
             <body>        
-                <img src="{$pathRel}{beans/@beandocFileName}.{beans/@beandocGraphType}" alt="Graph" usemap ="#G"/>   
+                <img src="{$pathRel}{beans:beans/@beandocFileName}.{beans:beans/@beandocGraphType}" alt="Graph" usemap ="#G"/>   
                 <xsl:comment> ## imagemap ## </xsl:comment>                
             </body>
         </html>

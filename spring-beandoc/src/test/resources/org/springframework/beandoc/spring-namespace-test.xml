@@ -1,0 +1,131 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:cm="http://www.coremedia.com/2007/coremedia-spring-authoring"
+	   xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+   http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+   http://www.coremedia.com/2007/coremedia-spring-authoring http://www.coremedia.com/2007/coremedia-spring-authoring.xsd
+   ">
+
+	<bean class="blablub"/>
+	
+	<!-- util:constant static-field="java.lang.Integer.MAX_VALUE" id="integerMaxValue"/>
+
+	<util:properties id="propertyBean">
+		<prop key="key">value</prop>
+		<prop key="key2">value2</prop>
+	</util:properties>
+
+-->
+	<bean name="aBeanReference" class="java.lang.String"/>
+	<bean name="keyValue" class="java.lang.String"/>
+
+
+	
+	<util:map id="newProperties">
+		<entry key="key" value="newValue"/>
+		<entry key="key2" value="newValue2"/>
+	</util:map>
+	
+
+
+	<util:map id="myMap">
+		<entry key="1">
+			<idref local="newProperties"/>
+		</entry>
+
+		<entry key="2">
+			<null></null>
+		</entry>
+
+		<entry key="3">
+			<bean class="java.lang.String"/>
+		</entry>
+
+
+		<entry key="4">
+			<ref bean="aBeanReference"/>
+		</entry>
+
+		<entry key="5">
+			<props>
+				<prop key="key">newValue</prop>
+				<prop key="key2">newValue2</prop>
+			</props>
+		</entry>
+
+		<entry key="6">
+			<map>
+				<entry key="mapKey1" value="value2"/>
+				<entry key="mapKey2">
+					<bean name="integer" class="java.lang.Integer">
+						<constructor-arg value="1"/>
+					</bean>
+				</entry>
+				<entry>
+					<key>
+						<util:constant static-field="org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE"/>
+					</key>
+					<bean class="java.lang.String">
+						<constructor-arg value="Hello World"/>
+					</bean>
+				</entry>
+			</map>
+		</entry>
+		
+		<entry key="7">
+			<list>
+				<value>testValue1</value>
+				<value>testValue2</value>
+				<value>testValue3</value>
+				<value>testValue4</value>
+			</list>
+		</entry>
+
+		<entry key="8">
+			<set>
+				<value>testSetValue1</value>
+				<value>testSetValue2</value>
+				<value>testSetValue3</value>
+				<value>testSetValue4</value>
+			</set>
+		</entry>
+
+		<entry key="9">
+			<value>aSimpleString</value>
+		</entry>
+	</util:map>
+
+
+
+
+
+
+
+	<!-- cm:customizeBeanWithBean bean="propertyBean" mode="replace">
+		<ref bean="newProperties"/>
+	</cm:customizeBeanWithBean>
+
+
+	<cm:customizeBean bean="propertyBean" value-ref="newProperties" mode="replace"/>
+
+	<cm:customizeBeanWithBean bean="propertyBean" mode="replace" order="19">
+		<bean class="blablub"/>
+	</cm:customizeBeanWithBean>
+
+	<cm:customizeBeanWithBean bean="propertyBean" mode="replace">
+		<list>
+			<bean class="blablub"/>
+		</list>
+	</cm:customizeBeanWithBean>
+	<cm:customizeBeanWithBean bean="propertyBean" mode="replace">
+		<ref bean="newProperties"/>
+	</cm:customizeBeanWithBean>
+	<cm:customizeBeanWithBean bean="propertyBean" mode="replace">
+		<ref bean="newProperties"/>
+	</cm:customizeBeanWithBean>
+
+	-->
+</beans>

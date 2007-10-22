@@ -57,8 +57,8 @@ public class BeanDocClient {
     private static final int INPUT_FILE = 5;
     
     private static final int TITLE = 6;
-    
-    
+
+
     /**
      * Default boot strapper for the beandoc client.  Command line parameter should be
      * the location of a properties file, either as a file pointer or as a classpath
@@ -177,7 +177,8 @@ public class BeanDocClient {
             cp.process();
             
         } catch (Exception e) {
-            System.err.println("Unable to run beandoc tool; " + e.getMessage());
+            System.err.println("Unable to run beandoc tool; ");
+            e.printStackTrace();
             System.exit(99);
         }
     }

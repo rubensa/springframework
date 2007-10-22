@@ -23,7 +23,7 @@
  *
  * @author Darren Davison
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:beans="http://www.springframework.org/schema/beans">
 
 	<xsl:import href="./i18n.xsl"/>
                 
@@ -34,7 +34,7 @@
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
         />
 		
-	<xsl:variable name="pathRel"><xsl:value-of select="/beans/@beandocPathRelative"/></xsl:variable>
+	<xsl:variable name="pathRel"><xsl:value-of select="/beans:beans/@beandocPathRelative"/></xsl:variable>
 	
     <!--
      * Template structure of HTML output
@@ -43,8 +43,8 @@
 		
 <html>
     <head>
-        <title><xsl:value-of select="beans/@beandocFileName"/></title>
-        <link rel="stylesheet" href="{$pathRel}{beans/@beandocCssLocation}" type="text/css"/>
+        <title><xsl:value-of select="beans:beans/@beandocFileName"/></title>
+        <link rel="stylesheet" href="{$pathRel}{beans:beans/@beandocCssLocation}" type="text/css"/>
         <!-- hack using an MS extension to ensure the next stylesheet is *only* loaded by IE5 browsers -->
         <xsl:comment>[if IE 5]>
             &lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
@@ -52,27 +52,28 @@
     </head>
 
     <body>
-        <a name="top"><xsl:comment>::</xsl:comment></a>
+
+		<a name="top"><xsl:comment>::</xsl:comment></a>
         <xsl:call-template name="menuBar"/>
         
 	<div id="contentWell">
-         <h1><xsl:value-of select="beans/@beandocFileName"/></h1>
+         <h1><xsl:value-of select="beans:beans/@beandocFileName"/></h1>
          <p>
-         	<xsl:if test="not(beans/@beandocNoGraphs)">
-              <a href="{$pathRel}{beans/@beandocFileName}.graph.html" title="View full size image">
-                  <img src="{$pathRel}{beans/@beandocFileName}.{beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
+         	<xsl:if test="not(beans:beans/@beandocNoGraphs)">
+              <a href="{$pathRel}{beans:beans/@beandocFileName}.graph.html" title="View full size image">
+                  <img src="{$pathRel}{beans:beans/@beandocFileName}.{beans:beans/@beandocGraphType}" alt="Graph" id="inlineContextImage" />
               </a>
              </xsl:if>
              
              <strong><xsl:value-of select="$i18n-description"/>:</strong><br/>
-             <xsl:value-of select="beans/description"/>
+             <xsl:value-of select="beans:beans/description"/>
          </p>
                  
          <p class="beanAttributeSummary">
              <strong><xsl:value-of select="$i18n-attributes"/></strong>
              <table class="invisibleTable" summary="Attribute list for this context file">
              	<tbody>
-                  <xsl:apply-templates select="beans/@*"/>
+                  <xsl:apply-templates select="beans:beans/@*"/>
               </tbody>
              </table>
          </p>    
@@ -82,7 +83,8 @@
          <a name="summary"><xsl:comment>::</xsl:comment></a>
          <h2><xsl:value-of select="$i18n-summaryTitle"/></h2>
          <table class="invisibleTable" summary="Summary list and description of beans defined in this file">
-             <xsl:for-each select="beans/bean">
+             <xsl:for-each select="beans:beans/beans:bean">
+			        <xsl:sort select="@id | @name"/>
                  <xsl:variable name="beandocId">
                      <xsl:choose>
                          <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
@@ -99,10 +101,10 @@
          
          <a name="detail"><xsl:comment>::</xsl:comment></a>
          <h2><xsl:value-of select="$i18n-detailTitle"/></h2>
-         <xsl:apply-templates select="beans/bean"/>
+         <xsl:apply-templates select="beans:beans/beans:bean"/>
         </div>
         <p id="pageFooter">
-            <xsl:value-of select="beans/@beandocPageFooter"/>
+            <xsl:value-of select="beans:beans/@beandocPageFooter"/>
         </p>
     </body>
 </html>
@@ -132,15 +134,21 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:when test="name()='parent'">
-                <a class="classValue mono" href="{$pathRel}{../@beandocHtmlFileName}#{.}">
+		<a class="classValue mono" href="{$pathRel}{../@beandocPFileNameHtml}#{.}">
                     <img align="middle" src="{$pathRel}bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
                 </a> 
             </xsl:when>
             <xsl:when test="name()='depends-on'">
-                <a class="classValue mono" href="{$pathRel}{../@beandocHtmlFileName}#{.}">
+                <a class="classValue mono" href="{$pathRel}{../@beandocDOFileNameHtml}#{.}">
                     <img align="middle" src="{$pathRel}bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
                 </a> 
             </xsl:when>
+            <xsl:when test="name()='factory-bean'">
+                <a class="classValue mono" href="{$pathRel}{../@beandocFBFileNameHtml}#{.}">
+                    <img align="middle" src="{$pathRel}bean_local.gif" alt="bean"/> <xsl:value-of select="."/>
+                </a> 
+            </xsl:when>
+	  <xsl:when test="contains(name(),'FileNameHtml')"/>
             <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
         </xsl:choose>
         </td></tr>
@@ -165,8 +173,9 @@
      * bean in the context file.  A link to a graph showing the individual
      * context file that the bean was originally declared in is included
     -->
-    <xsl:template match="bean">
-        <xsl:variable name="beandocId">
+    <xsl:template match="beans:bean">
+
+		<xsl:variable name="beandocId">
             <xsl:choose>
                 <xsl:when test="@id"><xsl:value-of select="@id"/></xsl:when>
                 <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
@@ -227,7 +236,7 @@
         </table>
         </xsl:if>
         
-        <xsl:if test="parent::*[name()='beans']">
+        <xsl:if test="parent::*[local-name()='beans']">
 	        <div class="beanFooter"><a href="#top"><xsl:value-of select="$i18n-backtotop"/></a></div>
 	        <hr/>
 	    </xsl:if>
@@ -238,7 +247,7 @@
      * property names and values for each bean property.  Delegates to 
      * sub-templates for Maps, Lists, Props etc.
     -->
-    <xsl:template match="property">
+    <xsl:template match="beans:property">
         <tr>
             <td class="keyLabel">
 				<xsl:value-of select="@name"/>
@@ -258,7 +267,7 @@
     
     
     
-    <xsl:template match="constructor-arg">
+    <xsl:template match="beans:constructor-arg">
         <tr>
             <td class="keyLabel">
                 <xsl:if test="@index">index <xsl:value-of select="@index"/></xsl:if>
@@ -268,6 +277,11 @@
             <td>
                 <xsl:value-of select="@value"/>
 				<xsl:if test="@ref">
+				<!-- todo:jti enable to test what's is that change for -->
+		<!-- a class="classValue mono" style="font-size:100%" href="{$pathRel}{@beandocFileNameHtml}#{@ref}">
+		  <img align="middle" src="{$pathRel}bean_local.gif" alt="bean"/> <xsl:value-of select="@ref"/>
+		</a -->
+
 					<xsl:call-template name="anyRef">
 						<xsl:with-param name="refName"><xsl:value-of select="@ref"/></xsl:with-param>
 					</xsl:call-template>
@@ -278,7 +292,7 @@
     </xsl:template>
         
 
-    <xsl:template match="lookup-method">
+    <xsl:template match="beans:lookup-method">
         <tr>
             <td class="keyLabel">
                 lookup-method
@@ -294,7 +308,7 @@
     </xsl:template>
     
     
-    <xsl:template match="replaced-method">
+    <xsl:template match="beans:replaced-method">
         <tr>
             <td class="keyLabel">
                 replaced-method
@@ -314,13 +328,13 @@
     </xsl:template>    
     
     
-    <xsl:template match="value | arg-type" name="value">
+    <xsl:template match="beans:value | beans:arg-type" name="value">
         <xsl:value-of select="."/>
     </xsl:template>   
     
     
     
-    <xsl:template match="props">
+    <xsl:template match="beans:props">
         <xsl:for-each select="./prop">
             <span class="keyLabel"><xsl:value-of select="@key"/></span> = <xsl:value-of select="."/><br/>
         </xsl:for-each>
@@ -328,7 +342,7 @@
     
     
     
-    <xsl:template match="ref">
+    <xsl:template match="beans:ref">
         <xsl:variable name="refName">
             <xsl:choose>
                 <xsl:when test="@bean">
@@ -353,7 +367,7 @@
 	</xsl:template>
     
     
-    <xsl:template match="entry">
+    <xsl:template match="beans:entry">
         <xsl:if test="@key">
 			<xsl:value-of select="@key"/> --&gt; <xsl:value-of select="@value"/>
 		</xsl:if>
@@ -375,17 +389,17 @@
     </xsl:template>
     
     
-    <xsl:template match="key">
+    <xsl:template match="beans:key">
         <xsl:apply-templates/> --&gt;
     </xsl:template>
     
     
-    <xsl:template match="list|map|set">
+    <xsl:template match="beans:list|beans:map|beans:set">
         <xsl:apply-templates/>
     </xsl:template>
 	
 	
-    <xsl:template match="description">
+    <xsl:template match="beans:description">
         <xsl:text></xsl:text>
     </xsl:template>
 

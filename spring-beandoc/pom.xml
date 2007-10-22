@@ -64,9 +64,12 @@
 		<repository>
 			<id>agilejava</id>
 			<name>Agile Java docbook plugin</name>
-			<url>
-				http://agilejava.com/maven/
-			</url>
+			<url>http://agilejava.com/maven/</url>
+		</repository>
+		<repository>
+			<!--  saxon-8.9.0.3 is not on ibiblio -->
+			<id>slono-repo</id>
+			<url>http://maven2.slonopotamus.org</url>
 		</repository>
 	</repositories>
 
@@ -85,8 +88,32 @@
 
 	<contributors>
 		<contributor>
+			<name>Moritz Kleine</name>
+			<email>moritz.kleine at coremedia.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Marat Radchenko</name>
+			<email>slonopotamus at gmail.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</contributor>
+		<contributor>
 			<name>Michael Schuerig</name>
 			<email>michael at schuerig.de</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Jan Tietjens</name>
+			<email>jan.tietjens at coremedia.com</email>
 			<roles>
 				<role>Developer</role>
 			</roles>
@@ -139,7 +166,7 @@
 					</descriptors>
 				</configuration>
 			</plugin>
-			<!-- 
+			<!--
 			<plugin>
 				<groupId>com.agilejava.docbkx</groupId>
 				<artifactId>docbkx-maven-plugin</artifactId>
@@ -183,6 +210,24 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>2.0.7</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>2.0.7</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-support</artifactId>
+			<version>2.0.7</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
 			<groupId>ant</groupId>
 			<artifactId>ant</artifactId>
 			<version>1.6.5</version>
@@ -201,6 +246,12 @@
 			<type>jar</type>
 		</dependency>
 		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>saxon-dom</artifactId>
+			<version>8.9.0.3</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
@@ -214,7 +265,7 @@
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
-		<!--
+		<!-- 
 		<dependency>
 			<groupId>velocity</groupId>
 			<artifactId>velocity</artifactId>
@@ -227,25 +278,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.1</version>
+			<type>jar</type>
+		</dependency>
 		-->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>2.0.2</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>2.0.2</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-support</artifactId>
-			<version>2.0.2</version>
-			<type>jar</type>
-		</dependency>
 	</dependencies>
 
 	<reporting>

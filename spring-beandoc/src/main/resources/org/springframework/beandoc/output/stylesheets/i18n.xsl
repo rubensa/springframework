@@ -24,8 +24,8 @@
  * @author Darren Davison
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    	
-    <xsl:param name="i18n-generated">i18n label not set</xsl:param> 
+
+    <xsl:param name="i18n-generated">i18n label not set</xsl:param>
 	<xsl:param name="i18n-filelist">i18n label not set</xsl:param> 
 	<xsl:param name="i18n-description">i18n label not set</xsl:param> 
 	<xsl:param name="i18n-attributes">i18n label not set</xsl:param> 

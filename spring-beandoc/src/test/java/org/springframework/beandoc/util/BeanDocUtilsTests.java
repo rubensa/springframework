@@ -90,12 +90,27 @@ public class BeanDocUtilsTests extends TestCase {
         assertEquals(inputs.length, outputs.length);
         assertEquals("module2" + File.separator + "file1.xml", outputs[1]);
         assertEquals("file1.xml", outputs[0]);
-        assertEquals("module1" + File.separator + "file1.xml", outputs[2]);        
+        assertEquals("module1" + File.separator + "file1.xml", outputs[2]);
+
+       inputs = new Resource[] {
+            new FileSystemResource("/module2/file1.xml"),
+            new FileSystemResource("/projects/myproject/file1.xml"),
+            new FileSystemResource("/./projects/myproject/module1/file2.xml")
+        };
+      outputs = BeanDocUtils.normaliseFileNames(inputs);
+      assertEquals(inputs.length, outputs.length);
+      assertEquals("module2" + File.separator + "file1.xml", outputs[0]);
+      assertEquals("projects" + File.separator + "myproject" + File.separator + "file1.xml", outputs[1]);
+      assertEquals("projects" + File.separator + "myproject" + File.separator +"module1" + File.separator + "file2.xml", outputs[2]);
     }
     
     public void testGetRelativePath() {
         String p = BeanDocUtils.getRelativePath("foo/bar/baz.html");
         assertEquals("../../", p);
+        assertEquals("",BeanDocUtils.getRelativePath("test.txt"));
+        assertEquals("../../", BeanDocUtils.getRelativePath("foo/bar/../bar/baz.html"));
+        assertEquals("../../", BeanDocUtils.getRelativePath("foo/bar/../bar/././baz.html"));
+	assertEquals("",BeanDocUtils.getRelativePath("./test.txt"));
     }
     
     public void testFileList() throws Exception {
@@ -129,7 +144,7 @@ public class BeanDocUtilsTests extends TestCase {
             });
             
             assertEquals(4, l.size());
-        }
+	}
     }
 
 }

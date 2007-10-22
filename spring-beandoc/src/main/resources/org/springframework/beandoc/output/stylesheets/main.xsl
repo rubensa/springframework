@@ -23,9 +23,9 @@
  *
  * @author Darren Davison
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-    
-	<xsl:import href="./i18n.xsl"/>	
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:beans="http://www.springframework.org/schema/beans">
+
+	<xsl:import href="./i18n.xsl"/>
 
     <xsl:output 
     	method="xml" 
@@ -42,8 +42,8 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></title>
-                <link rel="stylesheet" href="{consolidated/beans[1]/@beandocCssLocation}" type="text/css"/>
+                <title><xsl:value-of select="beans:consolidated/beans:beans[1]/@beandocContextTitle"/></title>
+                <link rel="stylesheet" href="{beans:consolidated/beans:beans[1]/@beandocCssLocation}" type="text/css"/>
                 <!-- hack using an MS extension to ensure the next stylesheet is only loaded by IE5 browsers -->
                 <xsl:comment>[if IE 5]>
 					&lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
@@ -53,12 +53,12 @@
             <body>
       			<div id="bannerBar"><xsl:value-of select="$i18n-generated"/>: <xsl:value-of select="$beandocGenerated"/></div>
       			<div id="contentWell">
-	                <h1><xsl:value-of select="consolidated/beans[1]/@beandocContextTitle"/></h1>
+	                <h1><xsl:value-of select="beans:consolidated/beans:beans[1]/@beandocContextTitle"/></h1>
 	
-	                <xsl:if test="consolidated/beans[1]/@beandocConsolidatedImage and not(consolidated/beans[1]/@beandocNoGraphs)">
+	                <xsl:if test="beans:consolidated/beans:beans[1]/@beandocConsolidatedImage and not(beans:consolidated/beans:beans[1]/@beandocNoGraphs)">
 	                <p>
-	                    <a href="consolidated.xml.graph.html" title="View graph for {consolidated/beans[1]/@beandocContextTitle}">
-	                        <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {consolidated/beans[1]/@beandocContextTitle}"/>
+	                    <a href="consolidated.xml.graph.html" title="View graph for {beans:consolidated/beans:beans[1]/@beandocContextTitle}">
+	                        <img src="{beans:consolidated/beans:beans[1]/@beandocConsolidatedImage}" width="100%" alt="View graph for {beans:consolidated/beans:beans[1]/@beandocContextTitle}"/>
 	                    </a>
 	                </p>
 	                </xsl:if>
@@ -67,7 +67,7 @@
 	                <table id="fileListTable" summary="List of individual context files and their descriptions that 
 	                    made up this application context">
 	                    <tbody>
-	                    <xsl:for-each select="consolidated/beans/description">
+	                    <xsl:for-each select="beans:consolidated/beans:beans/beans:description">
 	                        <tr>
 	                            <td style="width:30%">
 	                                <a href="{@beandocHtmlFileName}"><xsl:value-of select="../@beandocFileName"/></a>
@@ -81,7 +81,7 @@
 	                
 	            </div>            
                 <p id="pageFooter">
-                	<xsl:value-of select="consolidated/beans[1]/@beandocPageFooter"/>
+                	<xsl:value-of select="beans:consolidated/beans:beans[1]/@beandocPageFooter"/>
                 	<br/><br/>                
                 	<a href="http://validator.w3.org/check?uri=referer">
                 		<img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" />

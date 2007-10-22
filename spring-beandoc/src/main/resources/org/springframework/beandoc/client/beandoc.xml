@@ -23,11 +23,12 @@
     		<list>
     			<ref local="htmlIndexTransformer"/>
 				<ref local="htmlNavigationTransformer"/>
-    			<ref local="htmlMainTransformer"/> 
+    			<ref local="htmlMainTransformer"/>
 			    <ref local="htmlDocTransformer"/>    
 			    <ref local="htmlImageMapMainTransformer"/>
-			    <ref local="htmlImageMapTransformer"/>    
-    			<ref local="dotFileTransformer"/>  
+			    <ref local="htmlImageMapTransformer"/>
+    			<ref local="dotFileTransformer"/>
+    			<!-- <ref local="echoTransformer"/> -->
     		</list>
     	</property>    	    	
     	<property name="compilers">
@@ -108,6 +109,8 @@
 	<bean id="dotFileTransformer" class="org.springframework.beandoc.output.DotFileTransformer">
 		<property name="filenameStrategy"><ref local="dotStrategy"/></property>
 	</bean>
+	
+	<bean id="echoTransformer" class="org.springframework.beandoc.output.EchoTransformer"/>
 	
 	<bean id="compiler" class="org.springframework.beandoc.output.DocumentCompilerImpl">
 		<property name="dotFileExtension" value=".dot"/>

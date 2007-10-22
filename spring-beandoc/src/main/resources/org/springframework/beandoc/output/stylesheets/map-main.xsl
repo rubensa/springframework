@@ -23,9 +23,9 @@
  *
  * @author Darren Davison
 -->
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-                
-    <xsl:output 
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:beans="http://www.springframework.org/schema/beans">
+
+	<xsl:output
         method="xml" 
         indent="no"
         doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -38,8 +38,8 @@
     <xsl:template match="/">
         <html>
             <head>
-                <title><xsl:value-of select="consolidated/beans[1]/@beandocFileName"/></title>
-                <link rel="stylesheet" href="{consolidated/beans[1]/@beandocCssLocation}" type="text/css"/>
+                <title><xsl:value-of select="beans:consolidated/beans:beans[1]/@beandocFileName"/></title>
+                <link rel="stylesheet" href="{beans:consolidated/beans:beans[1]/@beandocCssLocation}" type="text/css"/>
                 <!-- hack using an MS extension to ensure the next stylesheet is *only* loaded by IE5 browsers -->
                 <xsl:comment>[if IE 5]>
                     &lt;link rel="stylesheet" type="text/css" href="ie5.css" /&gt;
@@ -48,7 +48,7 @@
   
             <body>
       			<div id="contentWell">
-	                <img src="{consolidated/beans[1]/@beandocConsolidatedImage}" alt="Graph" usemap ="#G"/>
+	                <img src="{beans:consolidated/beans:beans[1]/@beandocConsolidatedImage}" alt="Graph" usemap ="#G"/>
 	                
 	                <xsl:comment> ## imagemap ## </xsl:comment>
 	                

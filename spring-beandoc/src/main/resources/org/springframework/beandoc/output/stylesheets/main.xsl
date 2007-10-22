@@ -67,12 +67,12 @@
 	                <table id="fileListTable" summary="List of individual context files and their descriptions that 
 	                    made up this application context">
 	                    <tbody>
-	                    <xsl:for-each select="beans:consolidated/beans:beans/beans:description">
+	                    <xsl:for-each select=".//beans:beans">
 	                        <tr>
 	                            <td style="width:30%">
-	                                <a href="{@beandocHtmlFileName}"><xsl:value-of select="../@beandocFileName"/></a>
+	                                <a href="{@beandocHtmlFileName}"><xsl:value-of select="./@beandocFileName"/></a>
 	                            </td>
-	                            <td><xsl:value-of select="."/></td>
+	                            <td><xsl:value-of select="./description"/></td>
 	                        </tr>           
 	                    </xsl:for-each>
 	                    </tbody>

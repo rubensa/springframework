@@ -27,10 +27,10 @@
 
     <scm>
         <connection>
-            scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/springframework:spring-beandoc
+            scm:cvs:pserver:anonymous@springframework.cvs.sourceforge.net:/cvsroot/springframework/spring-beandoc
         </connection>
         <developerConnection>
-            scm:cvs:ext:username@cvs.sourceforge.net:/cvsroot/springframework:spring-beandoc
+            scm:cvs:ext:username@springframework.cvs.sourceforge.net:/cvsroot/springframework/spring-beandoc
         </developerConnection>
         <url>
             http://fisheye.cenqua.com/viewrep/springframework/spring-beandoc
@@ -57,9 +57,7 @@
         <repository>
             <id>spring-ext</id>
             <name>Spring External Dependencies Repository</name>
-            <url>
-                https://svn.sourceforge.net/svnroot/springframework/repos/repo-ext/
-            </url>
+            <url>https://springframework.svn.sourceforge.net/svnroot/springframework/repos/repo-ext/</url>
         </repository>
         <repository>
             <id>agilejava</id>
@@ -287,6 +285,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <id>html</id>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
                 <configuration>
                     <aggregate>true</aggregate>
                     <groups>
@@ -316,6 +322,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
+                <configuration>
+                    <jdk>1.4</jdk>
+                    <licenseLocation>${basedir}/lib/clover.license</licenseLocation>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>

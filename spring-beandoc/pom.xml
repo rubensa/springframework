@@ -101,7 +101,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
-            <timezone>+2</timezone>
+            <timezone>+3</timezone>
         </contributor>
         <contributor>
             <name>Michael Schuerig</name>
@@ -125,6 +125,10 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+             </plugin>
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
@@ -140,9 +144,7 @@
                 <artifactId>maven-clover-plugin</artifactId>
                 <configuration>
                     <jdk>1.4</jdk>
-                    <licenseLocation>
-                        ${basedir}/lib/clover.license
-                    </licenseLocation>
+                    <licenseLocation>${basedir}/lib/clover.license</licenseLocation>
                 </configuration>
                 <executions>
                     <execution>

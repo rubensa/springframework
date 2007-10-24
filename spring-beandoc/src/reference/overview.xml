@@ -41,13 +41,13 @@
       <para>Spring BeanDoc is part of the SpringFramework CVS repository,
       existing as a separate module from the main Spring sources. You can
       <ulink
-      url="http://fisheye1.cenqua.com/browse/springframework/spring-beandoc">view
+      url="http://fisheye.cenqua.com/browse/springframework/spring-beandoc">view
       the module</ulink> via Fisheye or check it out anonymously using CVS.
       Shown below are the commands required from the CVS command-line, see
       your preferred tool's documentation if you wish to use that
       instead.</para>
 
-      <programlisting>cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/springframework co spring-beandoc</programlisting>
+      <programlisting>cvs -z3 -d:pserver:anonymous@springframework.cvs.sourceforge.net:/cvsroot/springframework co spring-beandoc</programlisting>
 
       <para>SourceForge has <ulink
       url="http://sourceforge.net/cvs/?group_id=73357">more
@@ -59,7 +59,7 @@
       <title>Releases</title>
 
       <para>If you don't wish to track CVS you can <ulink
-      url="http://opensource.atlassian.com/confluence/spring/display/BDOC/Home">download
+      url="http://springframework.sourceforge.net/beandoc/">download
       release files</ulink> which contain all of the project sources, samples
       and compiled documentation instead.</para>
     </sect2>

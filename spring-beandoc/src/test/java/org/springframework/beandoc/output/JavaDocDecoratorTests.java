@@ -66,7 +66,7 @@ public class JavaDocDecoratorTests extends TestCase {
             e.setAttribute("id", "aBean");
             jdd.decorateElement(e);            
             assertEquals(
-                "http://www.springframework.org/docs/api/org/springframework/SomeClass.html", 
+                "http://static.springframework.org/spring/docs/2.0.x/api/org/springframework/SomeClass.html", 
                 e.getAttributeValue(JavaDocDecorator.ATTRIBUTE_JAVADOC));
                 
             e.setAttribute("class", "java.util.HashMap");

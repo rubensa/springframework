@@ -68,7 +68,7 @@ public class JavaDocDecorator extends SimpleDecorator {
 
 		addLocation("java.", "http://java.sun.com/j2se/" + javaVersion + "/docs/api/");
 		addLocation("javax.", "http://java.sun.com/j2se/" + javaVersion + "/docs/api/");
-		addLocation("org.springframework.", "http://www.springframework.org/docs/api/");
+		addLocation("org.springframework.", "http://static.springframework.org/spring/docs/2.0.x/api/");
 		addLocation("org.springframework.samples.", null);
 
 		for (int i = 0; i < COMMONS_PROJECTS.length; i++)

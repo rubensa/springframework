@@ -72,7 +72,7 @@
 	                            <td style="width:30%">
 	                                <a href="{@beandocHtmlFileName}"><xsl:value-of select="./@beandocFileName"/></a>
 	                            </td>
-	                            <td><xsl:value-of select="./description"/></td>
+	                            <td><xsl:value-of select="./beans:description"/></td>
 	                        </tr>           
 	                    </xsl:for-each>
 	                    </tbody>

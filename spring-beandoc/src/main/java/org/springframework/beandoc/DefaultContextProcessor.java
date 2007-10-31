@@ -348,9 +348,9 @@ public class DefaultContextProcessor implements ContextProcessor, InitializingBe
 			logger.debug("Attribute [" + Tags.ATTRIBUTE_BD_PATHRELATIVE + "] set to [" + normalisedFileNames[i] + "]");
 
 			// force a description even if empty
-			Element desc = root.getChild(Tags.TAGNAME_DESCRIPTION);
+			Element desc = root.getChild(Tags.TAGNAME_DESCRIPTION, SPRING_2_0_NAMESPACE);
 			if (desc == null || desc.getText().equals("")) {
-				desc = new Element(Tags.TAGNAME_DESCRIPTION);
+				desc = new Element(Tags.TAGNAME_DESCRIPTION, SPRING_2_0_NAMESPACE);
 				desc.setText("[Empty Description]");
 				root.addContent(desc);
 			}

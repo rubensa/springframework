@@ -260,7 +260,7 @@ public class DocumentCompilerImpl implements DocumentCompiler {
 
 	/**
 	 * A series of intermediate files (.dot files) are created which is what
-	 * GraphViz uses to actually generate the graphs. Usually these wil not be
+	 * GraphViz uses to actually generate the graphs. Usually these will not be
 	 * needed after the graphs are generated and so by default are discarded. If
 	 * you need to keep them for any reason, set this value to
 	 * <code>false</code>

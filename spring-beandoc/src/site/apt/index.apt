@@ -20,6 +20,9 @@ Spring BeanDoc
     * {{{petclinic/}PetClinic sample output (with 'wheat' skin and French localization)}}
 
   There is a Maven2 plugin for beandoc available from {{{http://mojo.codehaus.org/maven-springbeandoc-plugin/}codehaus}}
+  
+  In order to get the graphs, you will need an installation of {{{http://graphviz.org/}GraphViz}}
+  for your platform (not supplied by this distribution).
 
 
 Download
@@ -33,8 +36,7 @@ Download
 
 Current status
 
-  BeanDoc is unable to document context files using schema namespace support 
-  available in Spring 2.x. I'm trying to rectify this as quickly as possible.
+  BeanDoc cannot correctly figure out contexts which use auto-wiring.
 
   There are a couple of very minor deficiencies in the API and the 
   implementation that may need to change in non backward-compatible ways prior

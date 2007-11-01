@@ -22,16 +22,31 @@ just execute 'mvn package' (without the quotes) in order to get the
 beandoc jar file.
 
 
-3. RUNNING
+3. RUNNING SAMPLES
 
-Call the run.sh or run.bat file in the ./bin directory (you may need to 
+Call the run.sh or run.bat file in the bin directory (you may need to 
 chmod +x bin/run.sh first on proper operating systems) supplying the 
-location of your beandoc.properties file.  One is included, along with
-example context files, in the ./samples directory.
+location of your beandoc.properties file.  Two are included, along with
+example context files for two spring projects, in the ./samples directory.
+There is also an annotated template-beandoc.properties file there for 
+information.
 
-./bin/run.sh samples/beandoc.properties
+Alternatively, you can invoke beandoc via the ant task by going into the
+samples directory and calling 'ant' (which you must have correctly 
+installed).  It should invoke the supplied build.xml file.
+
+cd samples && ../bin/run.sh jpetstore-beandoc.properties
+
  -or-
-bin\run samples\beandoc.properties
+
+cd samples
+..\bin\run samples\petclinic-beandoc.properties
+
+ -or- 
+ 
+cd samples
+ant
+
 
 This should leave you with the output in ./sample-output which you can
 browse to in your favourite web browser.

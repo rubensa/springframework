@@ -1,52 +1,13 @@
 THE SPRING FRAMEWORK BEANDOC TOOL
 ---------------------------------
-http://springframework.sourceforge.net/beandoc
 
+This project has moved!!
 
-1. INTRODUCTION
+The final snapshot of code that used to managed under this CVS repository can be
+found under the tag "SNAPSHOT_PRIOR_TO_RELOCATION".
 
-Spring BeanDoc Tool (beandoc) is a Java based tool used for documentation
-and optional graphing of Spring context files (bean definition files).  The
-tool reads and parses input files (XML) and generates different types of
-output from them in order to help visualize dependencies between defined
-services and beans for a Spring based application.  The tool can be used
-programmatically, from the command line, as a maven2 report or as an ANT 
-task.
+For all future development and release information, please see
+http://spring-beandoc.sourceforge.net
 
-
-2. BUILDING BEANDOC
-
-Spring BeanDoc uses maven2 as the build system.  You will need to have this
-installed in order to build from source.  From the root of the project tree,
-just execute 'mvn package' (without the quotes) in order to get the
-beandoc jar file.
-
-
-3. RUNNING SAMPLES
-
-Call the run.sh or run.bat file in the bin directory (you may need to 
-chmod +x bin/run.sh first on proper operating systems) supplying the 
-location of your beandoc.properties file.  Two are included, along with
-example context files for two spring projects, in the ./samples directory.
-There is also an annotated template-beandoc.properties file there for 
-information.
-
-Alternatively, you can invoke beandoc via the ant task by going into the
-samples directory and calling 'ant' (which you must have correctly 
-installed).  It should invoke the supplied build.xml file.
-
-cd samples && ../bin/run.sh jpetstore-beandoc.properties
-
- -or-
-
-cd samples
-..\bin\run samples\petclinic-beandoc.properties
-
- -or- 
- 
-cd samples
-ant
-
-
-This should leave you with the output in ./sample-output which you can
-browse to in your favourite web browser.
+Thanks,
+Darren Davison, 1/Nov/2007

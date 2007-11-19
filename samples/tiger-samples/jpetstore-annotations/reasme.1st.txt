@@ -1,6 +1,0 @@
-This is a very minimally modified version of the original Spring JPetStore, which uses the 
-JDK 1.5 annotations support for transaction demarcation, instead of definitions in the XML
-application context file.
-
-The best to keep this up to date is to periodically copy over the whole original JPetStore,
-and update the several files which have been added/changed.

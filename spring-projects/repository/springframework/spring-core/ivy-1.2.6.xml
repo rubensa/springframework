@@ -1,9 +1,0 @@
-<ivy-module version="1.2">
-
-  <info organisation="springframework" module="spring-core" revision="1.2.6"/>
-
-  <dependencies>
-    <dependency org="apache" name="commons-logging" rev="1.0.4"/>
-  </dependencies>
-  
-</ivy-module>
